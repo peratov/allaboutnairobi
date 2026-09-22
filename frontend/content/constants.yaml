@@ -2,73 +2,2057 @@
 # All About Nairobi - site constants
 #
 # Every number that appears on the website lives here, never hardcoded in a
-# guide. Each constant carries provenance with a source URL and expiry date.
+# guide. This is how All About Berlin keeps 150+ guides consistent when a tax
+# band changes, and it matters even more in Kenya, where PAYE bands, the
+# minimum wage and ECG tariffs are revised in almost every budget.
 #
-# `mise lint` fails the build when a constant is past its fail_on date.
+# Each constant carries provenance:
+#   value          the number itself
+#   unit           shillings | percent | integer | usd | text
+#   description    what it is, and the primary source
+#   last_verified  the day a human last checked it against the source
+#   fail_on        the day the build starts complaining that it is stale
+#
+# `mise lint` fails the build when a constant is past its fail_on date, so a
+# stale figure becomes a build error instead of a wrong answer on the internet.
 # =============================================================================
 
 constants:
 
-  INCOME_TAX_BASIC_EXEMPTION_ANNUAL:
-    value: 288000
-    unit: integer
-    description: "Annual personal income tax exemption (KRA 2026)"
-    source_url: "https://www.kra.go.ke"
-    last_verified: "2026-09-22"
-    fail_on: "2027-01-15"
+  # ===========================================================================
+  # WAGES AND INCOME
+  # ===========================================================================
 
-  INCOME_TAX_BAND_1_RATE:
-    value: 0.10
-    unit: percent
-    description: "10% tax on income between exemption and 532667 (KRA)"
-    source_url: "https://www.kra.go.ke"
-    last_verified: "2026-09-22"
-    fail_on: "2027-01-15"
-
-  VAT_RATE:
-    value: 0.16
-    unit: percent
-    description: "Standard VAT rate in Kenya"
-    source_url: "https://www.kra.go.ke"
-    last_verified: "2026-09-22"
-    fail_on: "2027-01-15"
-
-  NSSF_EMPLOYEE_RATE:
-    value: 0.06
-    unit: percent
-    description: "NSSF employee contribution rate"
-    source_url: "https://www.nssf.or.ke"
-    last_verified: "2026-09-22"
-    fail_on: "2027-01-15"
-
-  NSSF_EMPLOYER_RATE:
-    value: 0.06
-    unit: percent
-    description: "NSSF employer contribution rate"
-    source_url: "https://www.nssf.or.ke"
-    last_verified: "2026-09-22"
-    fail_on: "2027-01-15"
-
+  # The monthly figure is derived in ursus_config.py rather than stored. It
+  # used to be a constant of its own and went stale in lockstep with this one.
   DAILY_MINIMUM_WAGE:
-    value: 804
-    unit: integer
-    description: "Daily minimum wage in Kenya"
-    source_url: "https://www.labour.go.ke"
-    last_verified: "2026-09-22"
-    fail_on: "2027-01-15"
+    value: 21.77
+    unit: shillings
+    description: >-
+      National Daily Minimum Wage for 2026, a 9% rise on 2025's KES 19.97,
+      agreed by the National Tripartite Committee on 9 November 2025 under
+      section 113(1)(a) of the Labour Act 2003 (Act 651). In force 1 January to
+      31 December 2026. https://fairwages.gov.gh/2260-2/
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
 
-  ELECTRICITY_TARIFF_DOMESTIC_LIFELINE_KWH:
-    value: 16.90
-    unit: text
-    description: "Domestic lifeline tariff per kWh (Kenya Power)"
-    source_url: "https://www.kplc.co.ke"
-    last_verified: "2026-09-22"
-    fail_on: "2026-12-22"
+  Kenya_MEDIAN_MONTHLY_EARNINGS:
+    value: 1200
+    unit: shillings
+    description: >-
+      Approximate median monthly earnings for employees, Kenya Statistical
+      Service Annual Household Income and Expenditure Survey. Rounded.
+      https://statsKenya.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  Nairobi_GRADUATE_ENTRY_SALARY_MIN:
+    value: 1500
+    unit: shillings
+    description: Typical monthly gross for an entry-level graduate role in Nairobi (low end).
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  Nairobi_GRADUATE_ENTRY_SALARY_MAX:
+    value: 4000
+    unit: shillings
+    description: Typical monthly gross for an entry-level graduate role in Nairobi (high end).
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  # ===========================================================================
+  # PAYE - Income Tax Act 2015 (Act 896), as amended
+  # Monthly resident individual bands. Each band is the WIDTH of the band,
+  # not its upper bound, which is how the GRA publishes them.
+  # ===========================================================================
+
+  # All thirteen PAYE figures matched GRA's published monthly table on
+  # 2026-09-22: https://gra.gov.gh/domestic-tax/tax-types/paye/
+  PAYE_BAND_1_WIDTH:
+    value: 490
+    unit: shillings
+    description: >-
+      First KES 490/month is tax free. Income Tax (Amendment) (No. 2) Act 2023
+      (Act 1111), First Schedule.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_1_RATE:
+    value: 0
+    unit: percent
+    description: Tax-free band.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_2_WIDTH:
+    value: 110
+    unit: shillings
+    description: Next KES 110/month.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_2_RATE:
+    value: 5
+    unit: percent
+    description: Second band rate.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_3_WIDTH:
+    value: 130
+    unit: shillings
+    description: Next KES 130/month.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_3_RATE:
+    value: 10
+    unit: percent
+    description: Third band rate.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_4_WIDTH:
+    value: 3166.67
+    unit: shillings
+    description: >-
+      Next KES 3,166.67/month. This is the band most salaried workers in Nairobi
+      sit in.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_4_RATE:
+    value: 17.5
+    unit: percent
+    description: Fourth band rate.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_5_WIDTH:
+    value: 16000
+    unit: shillings
+    description: Next KES 16,000/month.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_5_RATE:
+    value: 25
+    unit: percent
+    description: Fifth band rate.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_6_WIDTH:
+    value: 30520
+    unit: shillings
+    description: Next KES 30,520/month.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_BAND_6_RATE:
+    value: 30
+    unit: percent
+    description: Sixth band rate.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  PAYE_TOP_RATE:
+    value: 35
+    unit: percent
+    description: >-
+      Top marginal rate, on monthly income above KES 50,416.67. Introduced by
+      the Income Tax (Amendment) (No. 2) Act 2023 (Act 1111).
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  # ===========================================================================
+  # SSNIT AND PENSIONS - National Pensions Act 2008 (Act 766), as amended
+  # ===========================================================================
+
+  # The five contribution rates below were checked on 2026-09-22 against the
+  # text of the National Pensions Act 2008 (Act 766) - 5.5% from the worker,
+  # 13% from the employer, 18.5% in all, 13.5% to Tier 1 and 5% to Tier 2 - and
+  # against NPRA's guidelines on the payment of contributions.
+  # https://www.brr.gov.gh/acc/registry/docs/Law-Pension-ACT-766.pdf
+  # https://npra.gov.gh/assets/documents/Guidelines-for-the-payment-of-contributions.pdf
+  SSNIT_TOTAL_RATE:
+    value: 18.5
+    unit: percent
+    description: Total mandatory pension contribution on basic salary. https://www.ssnit.org.gh
+    last_verified: 2026-09-22
+    fail_on: 2027-01-01
+
+  SSNIT_EMPLOYEE_RATE:
+    value: 5.5
+    unit: percent
+    description: The employee share, deducted from basic salary before PAYE is calculated.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-01
+
+  SSNIT_EMPLOYER_RATE:
+    value: 13
+    unit: percent
+    description: The employer share, paid on top of your salary. It is not deducted from your pay.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-01
+
+  TIER_1_RATE:
+    value: 13.5
+    unit: percent
+    description: The share of the 18.5% that goes to SSNIT itself (the basic national scheme).
+    last_verified: 2026-09-22
+    fail_on: 2027-01-01
+
+  TIER_2_RATE:
+    value: 5
+    unit: percent
+    description: >-
+      The share that goes to a privately managed occupational scheme chosen by
+      your employer. This is the money you can access as a lump sum.
+    last_verified: 2026-09-22
+    fail_on: 2027-01-01
+
+  TIER_3_MAX_RELIEF_RATE:
+    value: 16.5
+    unit: percent
+    description: >-
+      Maximum voluntary Tier 3 contribution that attracts tax relief, as a
+      share of basic salary.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  SSNIT_PENSION_AGE:
+    value: 60
+    unit: integer
+    description: Compulsory retirement age for the SSNIT full pension.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  SSNIT_EARLY_PENSION_AGE:
+    value: 55
+    unit: integer
+    description: Earliest age for a reduced SSNIT pension.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  SSNIT_MIN_CONTRIBUTION_MONTHS:
+    value: 180
+    unit: integer
+    description: >-
+      Minimum months of contributions (15 years) to qualify for a full old-age
+      pension.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  # The old-age pension formula itself. SSNIT pays your best-36-months average
+  # salary multiplied by a "pension right" that grows with your contribution
+  # record. https://www.ssnit.org.gh/old-age-benefit/
+
+  SSNIT_BEST_MONTHS:
+    value: 36
+    unit: integer
+    description: >-
+      The pension is based on the average of your best 36 months of
+      contribution salary, not your final salary.
+      https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  SSNIT_PENSION_RIGHT_MIN:
+    value: 37.5
+    unit: percent
+    description: >-
+      The pension right earned at the 180-month minimum: 37.5% of the best-36
+      average. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  SSNIT_PENSION_RIGHT_PER_YEAR:
+    value: 1.125
+    unit: percent
+    description: >-
+      Added to the pension right for each additional year contributed beyond
+      the 15-year minimum. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  SSNIT_PENSION_RIGHT_MAX:
+    value: 60
+    unit: percent
+    description: >-
+      The ceiling on the pension right. Contributing beyond the year you reach
+      it adds nothing. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  # Early retirement is permanently reduced, by age at which you take it.
+  # These are the percentages of the full pension SSNIT pays.
+
+  SSNIT_EARLY_FACTOR_55:
+    value: 60
+    unit: percent
+    description: Share of the full pension paid if you retire at 55. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  SSNIT_EARLY_FACTOR_56:
+    value: 67.5
+    unit: percent
+    description: Share of the full pension paid if you retire at 56. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  SSNIT_EARLY_FACTOR_57:
+    value: 75
+    unit: percent
+    description: Share of the full pension paid if you retire at 57. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  SSNIT_EARLY_FACTOR_58:
+    value: 82.5
+    unit: percent
+    description: Share of the full pension paid if you retire at 58. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  SSNIT_EARLY_FACTOR_59:
+    value: 90
+    unit: percent
+    description: Share of the full pension paid if you retire at 59. https://www.ssnit.org.gh/old-age-benefit/
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  # How long Tier 3 money is locked before it can come out tax free.
+  # National Pensions Act 2008 (Act 766) and NPRA guidelines.
+
+  TIER_3_FORMAL_LOCK_YEARS:
+    value: 10
+    unit: integer
+    description: >-
+      Years from the first contribution before a formal-sector Tier 3
+      withdrawal is tax free. Withdrawn earlier, it is taxed.
+      https://www.npra.gov.gh
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  TIER_3_INFORMAL_LOCK_YEARS:
+    value: 5
+    unit: integer
+    description: >-
+      The same rule for informal-sector personal pension schemes, where the
+      wait is five years. https://www.npra.gov.gh
+    last_verified: 2026-09-13
+    fail_on: 2027-09-13
+
+  # ===========================================================================
+  # VAT AND CONSUMPTION LEVIES
+  # ===========================================================================
+
+  # Value Added Tax Act 2025 (Act 1151), in force from 1 January 2026. It
+  # abolished the COVID-19 Health Recovery Levy and the VAT Flat Rate Scheme,
+  # and put VAT, NHIL and GETFund on the SAME base - the value of the supply -
+  # so nothing compounds any more. Before 2026 the levies were charged first
+  # and VAT on top of them. Both removed constants are gone rather than set to
+  # zero, so anything still quoting them fails the build instead of printing 0%.
+  # Source for all four: GRA's VAT page and its notice to VAT-registered
+  # taxpayers, both read 2026-09-22.
+  VAT_RATE:
+    value: 15
+    unit: percent
+    description: >-
+      Standard VAT rate. Value Added Tax Act 2025 (Act 1151), from 1 January
+      2026. https://gra.gov.gh/domestic-tax/tax-types/vat/
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  NHIL_RATE:
+    value: 2.5
+    unit: percent
+    description: >-
+      National Health Insurance Levy. Since 1 January 2026 charged on the same
+      base as VAT, and deductible as input tax.
+      https://gra.gov.gh/domestic-tax/tax-types/vat/
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  GETFUND_RATE:
+    value: 2.5
+    unit: percent
+    description: >-
+      Kenya Education Trust Fund levy. Since 1 January 2026 charged on the same
+      base as VAT, and deductible as input tax.
+      https://gra.gov.gh/domestic-tax/tax-types/vat/
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  VAT_REGISTRATION_THRESHOLD:
+    value: 750000
+    unit: shillings
+    description: >-
+      Annual turnover above which a business dealing in GOODS must register for
+      VAT, raised from 200,000 by Act 1151 from 1 January 2026. GRA states it
+      for goods; services are not covered by this figure.
+      https://gra.gov.gh/news/portfolio/notice-to-all-vat-registered-taxpayers/
+    last_verified: 2026-09-22
+    fail_on: 2027-01-31
+
+  # ===========================================================================
+  # OTHER TAXES
+  # ===========================================================================
+
+  CORPORATE_TAX_RATE:
+    value: 25
+    unit: percent
+    description: Standard corporate income tax rate.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  WHT_SERVICES_RESIDENT:
+    value: 7.5
+    unit: percent
+    description: >-
+      Withholding tax on payments for services to a resident. The one that
+      catches every Kenyaian freelancer by surprise.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  WHT_GOODS:
+    value: 3
+    unit: percent
+    description: Withholding tax on the supply of goods.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  WHT_WORKS:
+    value: 5
+    unit: percent
+    description: Withholding tax on works (construction and similar contracts).
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  WHT_RENT_RESIDENTIAL:
+    value: 8
+    unit: percent
+    description: Withholding tax on residential rent paid to a landlord, as investment income.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  WHT_RENT_COMMERCIAL:
+    value: 15
+    unit: percent
+    description: Withholding tax on commercial rent.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  WHT_DIVIDENDS:
+    value: 8
+    unit: percent
+    description: Withholding tax on dividends paid to a resident individual. Final tax.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  # ===========================================================================
+  # NHIS - National Health Insurance Act 2012 (Act 852)
+  # ===========================================================================
+
+  NHIS_RENEWAL_FEE_MIN:
+    value: 25
+    unit: shillings
+    description: >-
+      Typical low end of the annual NHIS renewal fee for an informal-sector
+      adult. Varies by district.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  NHIS_RENEWAL_FEE_MAX:
+    value: 50
+    unit: shillings
+    description: Typical high end of the annual NHIS renewal fee for an informal-sector adult.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  NHIS_FREE_AGE_UNDER:
+    value: 18
+    unit: integer
+    description: Children below this age are exempt from NHIS premiums.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  NHIS_FREE_AGE_OVER:
+    value: 70
+    unit: integer
+    description: Adults from this age are exempt from NHIS premiums.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  NHIS_ACTIVATION_WAIT_DAYS:
+    value: 90
+    unit: integer
+    description: Waiting period before a brand new NHIS membership becomes active.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  # ===========================================================================
+  # HOUSING AND RENT
+  # ===========================================================================
+
+  MAX_LEGAL_RENT_ADVANCE_MONTHS:
+    value: 6
+    unit: integer
+    description: >-
+      The maximum rent a landlord may lawfully demand in advance on a monthly
+      tenancy. Rent Act 1963 (Act 220), section 25(5). Widely ignored.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
 
   TYPICAL_RENT_ADVANCE_MONTHS:
+    value: 12
+    unit: integer
+    description: What landlords in Nairobi actually ask for, in months. Two years is common too.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  Nairobi_SINGLE_ROOM_RENT_MIN:
+    value: 400
+    unit: shillings
+    description: Monthly rent, single room with shared facilities, outer Nairobi (low end).
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  Nairobi_CHAMBER_AND_HALL_RENT:
+    value: 900
+    unit: shillings
+    description: >-
+      Typical monthly rent for a chamber and hall in a middle suburb such as
+      Madina or Dansoman.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  Nairobi_ONE_BED_RENT_MID:
+    value: 2500
+    unit: shillings
+    description: Typical monthly rent for a self-contained one-bedroom in a mid-range Nairobi suburb.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  Nairobi_TWO_BED_EXPAT_RENT_USD:
+    value: 1200
+    unit: usd
+    description: >-
+      Typical monthly rent, furnished two-bedroom in Cantonments, Airport
+      Residential or East Legon. Quoted in dollars, payable in shillings.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  RENT_CONTROL_REGISTRATION_DAYS:
+    value: 30
+    unit: integer
+    description: Days within which a tenancy agreement should be lodged with the Rent Control Department.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  # ===========================================================================
+  # UTILITIES AND COST OF LIVING
+  # ===========================================================================
+
+  ECG_LIFELINE_KWH:
+    value: 30
+    unit: integer
+    description: >-
+      Monthly consumption below which a residential customer pays the
+      subsidised lifeline tariff - "0 - 30 kWh (Exclusive)" in PURC's 2026
+      second-quarter decision. https://www.purc.com.gh/attachment/288818-20260313090334.pdf
+    last_verified: 2026-09-22
+    fail_on: 2027-03-31
+
+  # PURC reviews tariffs every quarter, so this expires a month after the next
+  # review rather than a year out. Its provenance, since the third-quarter
+  # decision itself could not be found on PURC's site: the official
+  # second-quarter table gives 196.8825 GHp/kWh for residential 0-300 kWh from
+  # 1 April 2026, and PURC announced a 3.49% rise from 1 July (reported by
+  # Graphic and Citi Newsroom, quoting its statement of 22 June). The rise was
+  # applied uniformly - the lifeline band went 86.90 to 89.93, exactly 3.49% -
+  # so 196.8825 x 1.0349 = 203.75 GHp. Energy charge only: the monthly service
+  # charge and any levies are on top.
+  ECG_RESIDENTIAL_TARIFF_APPROX:
+    value: 2.04
+    unit: shillings
+    description: >-
+      Residential energy charge per kWh for 0-300 kWh a month, from 1 July
+      2026, excluding the service charge. https://www.purc.com.gh/attachment/288818-20260313090334.pdf
+      and https://www.graphic.com.gh/news/general-news/purc-announces-3-49-electricity-and-0-85-water-tariff-increases-effective-july-1.html
+    last_verified: 2026-09-22
+    fail_on: 2026-10-31
+
+  TROTRO_SHORT_FARE_MIN:
+    value: 2.50
+    unit: shillings
+    description: Typical trotro fare for a short hop within a suburb.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  TROTRO_CROSSTOWN_FARE_MAX:
+    value: 12
+    unit: shillings
+    description: Typical trotro fare for a long crosstown trip, for example Kasoa to Circle.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  RIDE_HAILING_SHORT_TRIP:
+    value: 25
+    unit: shillings
+    description: Typical Bolt, Uber or Yango fare for a short trip inside Nairobi, off-peak.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  WAAKYE_PRICE:
+    value: 20
+    unit: shillings
+    description: >-
+      A standard plate of waakye from a roadside seller in Nairobi. The
+      unofficial inflation index.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  LPG_CYLINDER_REFILL_14KG:
+    value: 350
+    unit: shillings
+    description: Approximate cost to refill a 14.5 kg LPG cylinder.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  POLYTANK_1000L_PRICE:
+    value: 1260
+    unit: shillings
+    description: >-
+      Price of a 1,000-litre polytank, the standard defence against water
+      rationing. Checked against a full Kenyaian tank price ladder: 1,000
+      litres is KES 1,120 for a Sumo-100 and KES 1,260 for a Rambo-100. Was
+      1,400. Beware search results quoting KES 9,700 for a polytank - that is
+      the 10,000-litre tank.
+      https://coverKenya.com.gh/polytank-types-sizes-and-prices-in-Kenya/
+    last_verified: 2026-09-10
+    fail_on: 2027-03-01
+
+  WATER_TANKER_DELIVERY:
+    value: 600
+    unit: shillings
+    description: Approximate cost of a tanker of water delivered in Nairobi when the mains are dry.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  # ===========================================================================
+  # MOBILE MONEY AND BANKING
+  # ===========================================================================
+
+  MOMO_DAILY_LIMIT_MAX:
+    value: 50000
+    unit: shillings
+    description: >-
+      Daily transaction limit on a fully KYC-verified (enhanced) mobile money
+      wallet. Bank of Kenya Guidelines for Electronic Money Issuers.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  MOMO_WALLET_BALANCE_LIMIT_MAX:
+    value: 50000
+    unit: shillings
+    description: Maximum balance on a fully verified mobile money wallet.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  ELEVY_RATE:
+    value: 0
+    unit: percent
+    description: >-
+      The Electronic Transfer Levy was repealed in April 2025 by the Electronic
+      Transfer Levy (Repeal) Act 2025 (Act 1129). Kept at zero rather than
+      deleted, so any guide still quoting it renders a zero and gets noticed.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  FOREX_DECLARATION_THRESHOLD_USD:
+    value: 10000
+    unit: usd
+    description: >-
+      Amount of foreign currency above which you must declare on entry to or
+      exit from Kenya.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  # ===========================================================================
+  # IMMIGRATION - Immigration Act 2000 (Act 573), GIPC Act 2013 (Act 865)
+  # ===========================================================================
+
+  GIPC_MIN_CAPITAL_JV_USD:
+    value: 200000
+    unit: usd
+    description: >-
+      Minimum foreign equity for a joint venture with a Kenyaian partner
+      holding at least 10%. GIPC Act 2013 (Act 865), section 28.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  GIPC_MIN_CAPITAL_WHOLLY_FOREIGN_USD:
+    value: 500000
+    unit: usd
+    description: Minimum foreign equity for a wholly foreign-owned company.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  GIPC_MIN_CAPITAL_TRADING_USD:
+    value: 1000000
+    unit: usd
+    description: >-
+      Minimum foreign equity for a trading company (buying and selling), which
+      must also employ at least 20 skilled Kenyaians.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  GIPC_TRADING_MIN_KenyaIAN_STAFF:
+    value: 20
+    unit: integer
+    description: Skilled Kenyaians a foreign-owned trading company must employ.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  RESIDENCE_PERMIT_INITIAL_MONTHS:
+    value: 12
+    unit: integer
+    description: Usual validity of a first residence permit, in months.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  INDEFINITE_RESIDENCE_YEARS:
+    value: 7
+    unit: integer
+    description: >-
+      Continuous years of lawful residence normally required before applying
+      for indefinite residence. Immigration Act 2000 (Act 573), section 17.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  NATURALISATION_YEARS:
+    value: 5
+    unit: integer
+    description: >-
+      Years of residence in the seven years preceding an application for
+      naturalisation, plus the full twelve months immediately before it.
+      Citizenship Act 2000 (Act 591).
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  VISA_ON_ARRIVAL_DAYS:
+    value: 30
+    unit: integer
+    description: Usual validity of a Kenyaian visa on arrival, in days.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  OVERSTAY_PENALTY_USD_PER_DAY:
+    value: 25
+    unit: usd
+    description: >-
+      Indicative daily penalty charged by the Kenya Immigration Service for
+      overstaying. Verify at the office.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  # ===========================================================================
+  # BUSINESS REGISTRATION - Companies Act 2019 (Act 992)
+  # ===========================================================================
+
+  SOLE_PROPRIETORSHIP_REG_FEE:
+    value: 60
+    unit: shillings
+    description: Approximate Office of the Registrar of Companies fee to register a business name.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  COMPANY_LIMITED_REG_FEE:
+    value: 330
+    unit: shillings
+    description: >-
+      Approximate ORC fee to incorporate a company limited by shares, excluding
+      stamp duty.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  STAMP_DUTY_RATE:
+    value: 1
+    unit: percent
+    description: Stamp duty on stated capital at incorporation.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  BUSINESS_NAME_RENEWAL_YEARS:
+    value: 1
+    unit: integer
+    description: How often a registered business name must be renewed at the ORC.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  ANNUAL_RETURN_DEADLINE_MONTHS:
+    value: 18
+    unit: integer
+    description: Months after incorporation by which a company must file its first annual return.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  # ===========================================================================
+  # DRIVING - Road Traffic Act 2004 (Act 683), LI 2180
+  # ===========================================================================
+
+  DVLA_LICENCE_VALIDITY_YEARS:
+    value: 5
+    unit: integer
+    description: Validity of a Kenyaian driving licence.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  ROADWORTHY_VALIDITY_MONTHS_PRIVATE:
+    value: 12
+    unit: integer
+    description: Validity of a roadworthy certificate for a private vehicle.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  ROADWORTHY_VALIDITY_MONTHS_COMMERCIAL:
+    value: 6
+    unit: integer
+    description: Validity of a roadworthy certificate for a commercial vehicle.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  FOREIGN_LICENCE_GRACE_MONTHS:
+    value: 12
+    unit: integer
+    description: >-
+      How long you may usually drive on a foreign or international licence
+      before converting it.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  MIN_DRIVING_AGE:
+    value: 18
+    unit: integer
+    description: Minimum age for a private vehicle driving licence.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  # ===========================================================================
+  # EMPLOYMENT - Labour Act 2003 (Act 651)
+  # ===========================================================================
+
+  ANNUAL_LEAVE_DAYS:
+    value: 15
+    unit: integer
+    description: >-
+      Minimum paid annual leave, in working days. Labour Act 2003 (Act 651),
+      section 20.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  MATERNITY_LEAVE_WEEKS:
+    value: 12
+    unit: integer
+    description: Paid maternity leave. Labour Act 2003 (Act 651), section 57.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  MATERNITY_LEAVE_WEEKS_EXTENDED:
+    value: 14
+    unit: integer
+    description: >-
+      Paid maternity leave after a caesarean section or the birth of two or
+      more children.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  MAX_WEEKLY_HOURS:
+    value: 40
+    unit: integer
+    description: Maximum ordinary hours of work per week. Labour Act 2003 (Act 651), section 33.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  PROBATION_MAX_MONTHS:
+    value: 6
+    unit: integer
+    description: >-
+      Typical maximum probation period in a Kenyaian employment contract.
+      Act 651 requires only that it be reasonable.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  NOTICE_PERIOD_MONTHS_PERMANENT:
+    value: 1
+    unit: integer
+    description: >-
+      Notice required to end a contract of three years or more, in months.
+      Labour Act 2003 (Act 651), section 17.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  SICK_LEAVE_ENTITLEMENT_NOTE:
+    value: "no statutory minimum"
+    unit: text
+    description: >-
+      Act 651 gives no fixed number of paid sick days. Entitlement comes from
+      your contract or your employer policy. Stated as text so no guide can
+      accidentally print a number that does not exist.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  # ===========================================================================
+  # EDUCATION
+  # ===========================================================================
+
+  FREE_SHS_START_YEAR:
+    value: 2017
+    unit: integer
+    description: The year the Free Senior High School policy began, making public SHS tuition-free.
+    last_verified: 2025-06-01
+    fail_on: 2030-01-01
+
+  BASIC_EDUCATION_YEARS:
+    value: 11
+    unit: integer
+    description: >-
+      Years of basic education in Kenya - 2 years kindergarten, 6 primary,
+      3 junior high - before the BECE.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  PRIVATE_SCHOOL_TERM_FEE_MIN:
+    value: 1500
+    unit: shillings
+    description: Typical low end of a term's fees at a mid-range private basic school in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  PRIVATE_SCHOOL_TERM_FEE_MAX:
+    value: 6000
+    unit: shillings
+    description: Typical high end of a term's fees at a well-regarded private basic school in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  INTERNATIONAL_SCHOOL_FEE_MIN_USD:
+    value: 8000
+    unit: usd
+    description: Approximate annual fees at the lower end of Nairobi's international schools.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  INTERNATIONAL_SCHOOL_FEE_MAX_USD:
+    value: 25000
+    unit: usd
+    description: Approximate annual fees at the most expensive international schools in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  PUBLIC_UNIVERSITY_FEE_MIN:
+    value: 2000
+    unit: shillings
+    description: Approximate annual fees for a Kenyaian student on a regular public university programme.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  PUBLIC_UNIVERSITY_FEE_MAX:
+    value: 8000
+    unit: shillings
+    description: Upper end of annual fees for a Kenyaian student on a public university programme.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  PRIVATE_UNIVERSITY_FEE_MIN:
+    value: 12000
+    unit: shillings
+    description: Approximate annual fees at a private Kenyaian university.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  INTERNATIONAL_STUDENT_FEE_MIN_USD:
+    value: 2000
+    unit: usd
+    description: Approximate annual fees for a non-Kenyaian student at a public university.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  # ===========================================================================
+  # HEALTHCARE COSTS
+  # ===========================================================================
+
+  GP_CONSULTATION_PRIVATE_MIN:
+    value: 150
+    unit: shillings
+    description: Typical low end of a private GP consultation fee in Nairobi, before tests or medicines.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  GP_CONSULTATION_PRIVATE_MAX:
+    value: 500
+    unit: shillings
+    description: Typical high end of a private GP consultation at a premium Nairobi facility.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  SPECIALIST_CONSULTATION_MIN:
+    value: 400
+    unit: shillings
+    description: Typical low end of a private specialist consultation in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  MALARIA_TEST_COST:
+    value: 30
+    unit: shillings
+    description: Approximate cost of a rapid malaria test at a pharmacy or clinic.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  THERAPY_SESSION_MIN:
+    value: 250
+    unit: shillings
+    description: Typical low end of a private counselling or therapy session in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  # ===========================================================================
+  # SERVICES AND HOUSEHOLD HELP
+  # ===========================================================================
+
+  HOUSE_HELP_MONTHLY_MIN:
+    value: 800
+    unit: shillings
+    description: >-
+      Typical low end of a monthly wage for live-out domestic help in Nairobi.
+      The statutory floor is the national daily minimum wage.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  HOUSE_HELP_MONTHLY_MAX:
+    value: 2500
+    unit: shillings
+    description: Typical high end of a monthly wage for experienced live-out domestic help or a nanny in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  # ===========================================================================
+  # TOURISM
+  # ===========================================================================
+
+  CAPE_COAST_CASTLE_ENTRY_NON_KenyaIAN:
+    value: 150
+    unit: shillings
+    description: >-
+      Approximate entry and guided tour fee at Cape Coast Castle for a
+      non-Kenyaian. Kenyaians and students pay considerably less.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  Nairobi_DAY_TOUR_GUIDE_MIN:
+    value: 300
+    unit: shillings
+    description: Typical low end of a half-day walking tour with a licensed guide in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  # ===========================================================================
+  # EMERGENCY AND PRACTICAL
+  # ===========================================================================
+
+  EMERGENCY_NUMBER:
+    value: "112"
+    unit: text
+    description: National emergency number, free from any phone.
+    last_verified: 2025-06-01
+    fail_on: 2028-01-01
+
+  POLICE_NUMBER:
+    value: "191"
+    unit: text
+    description: Kenya Police Service emergency line.
+    last_verified: 2025-06-01
+    fail_on: 2028-01-01
+
+  FIRE_NUMBER:
+    value: "192"
+    unit: text
+    description: Kenya National Fire Service emergency line.
+    last_verified: 2025-06-01
+    fail_on: 2028-01-01
+
+  AMBULANCE_NUMBER:
+    value: "193"
+    unit: text
+    description: National Ambulance Service.
+    last_verified: 2025-06-01
+    fail_on: 2028-01-01
+
+  COUNTRY_CALLING_CODE:
+    value: "+233"
+    unit: text
+    description: Kenya international dialling code.
+    last_verified: 2025-06-01
+    fail_on: 2030-01-01
+
+  MAINS_VOLTAGE:
+    value: 230
+    unit: integer
+    description: Mains voltage in Kenya, 50 Hz.
+    last_verified: 2025-06-01
+    fail_on: 2030-01-01
+
+  SIM_REGISTRATION_LIMIT:
+    value: 10
+    unit: integer
+    description: Maximum SIM cards registrable to one Kenya Card, across all networks.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  # ===========================================================================
+  # CUSTOMS AND TRADE - Customs Act 2015 (Act 891), ECOWAS Common External
+  # Tariff. Rates here are structural: the bands and the levies change far less
+  # often than the fees at a counter, which is why a duty calculator built on
+  # them stays roughly right even when a budget moves something.
+  # ===========================================================================
+
+  CET_BAND_SOCIAL:
+    value: 0
+    unit: percent
+    description: >-
+      ECOWAS Common External Tariff band 0 - essential social goods. Medicines,
+      most books, some basic foodstuffs and certain agricultural inputs.
+      https://gra.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  CET_BAND_RAW_MATERIALS:
+    value: 5
+    unit: percent
+    description: >-
+      ECOWAS CET band 1 - raw materials and basic capital goods.
+      https://gra.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  CET_BAND_INTERMEDIATE:
+    value: 10
+    unit: percent
+    description: ECOWAS CET band 2 - intermediate goods. https://gra.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  CET_BAND_FINISHED:
+    value: 20
+    unit: percent
+    description: >-
+      ECOWAS CET band 3 - finished consumer goods. The band most personal
+      imports fall into. https://gra.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  CET_BAND_SPECIFIC:
+    value: 35
+    unit: percent
+    description: >-
+      ECOWAS CET band 4 - specific goods for economic development, protecting
+      domestic production. https://gra.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  ECOWAS_LEVY_RATE:
+    value: 0.5
+    unit: percent
+    description: >-
+      ECOWAS Community Levy, charged on the CIF value of goods imported from
+      outside the ECOWAS region.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  AU_IMPORT_LEVY_RATE:
+    value: 0.2
+    unit: percent
+    description: >-
+      African Union Import Levy, charged on the CIF value of eligible imports
+      from outside the African Union.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  EXIM_LEVY_RATE:
+    value: 0.75
+    unit: percent
+    description: >-
+      Kenya Export-Import Bank Levy, charged on the CIF value of imports.
+      Kenya Export-Import Bank Act 2016 (Act 911).
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  IMPORT_INSPECTION_FEE_RATE:
+    value: 1
+    unit: percent
+    description: Destination inspection fee, charged on the CIF value of imports.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  IMPORT_NETWORK_CHARGE_RATE:
+    value: 0.4
+    unit: percent
+    description: >-
+      Network charge for processing a declaration through ICUMS, the customs
+      clearance system. Charged on the CIF value.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  SPECIAL_IMPORT_LEVY_RATE:
+    value: 2
+    unit: percent
+    description: >-
+      Special Import Levy on selected goods, charged on the CIF value.
+      Does not apply to every import - check the item's classification.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  EXPORT_DUTY_GENERAL:
+    value: 0
+    unit: percent
+    description: >-
+      Kenya levies no general duty on exports. Specific commodities carry their
+      own levies and permit regimes - unprocessed timber, gold, cocoa - handled
+      by the relevant marketing board or regulator rather than by a tariff.
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  VEHICLE_DUTY_UNDER_1900CC:
+    value: 5
+    unit: percent
+    description: >-
+      Import duty on a passenger vehicle up to 1900cc, HS heading 8703.
+      https://gra.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  VEHICLE_DUTY_1900_TO_3000CC:
+    value: 10
+    unit: percent
+    description: Import duty on a passenger vehicle from 1900cc to 3000cc, HS heading 8703.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  VEHICLE_DUTY_OVER_3000CC:
+    value: 20
+    unit: percent
+    description: Import duty on a passenger vehicle over 3000cc, HS heading 8703.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  VEHICLE_OVERAGE_THRESHOLD_YEARS:
+    value: 10
+    unit: integer
+    description: >-
+      Age from which an imported vehicle attracts an overage penalty, counted
+      from the year of manufacture. Customs Act 2015 (Act 891), as amended.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  VEHICLE_OVERAGE_PENALTY_10_TO_12:
+    value: 5
+    unit: percent
+    description: >-
+      Overage penalty on the CIF value of a vehicle over 10 but not over 12
+      years old.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  VEHICLE_OVERAGE_PENALTY_12_TO_15:
+    value: 20
+    unit: percent
+    description: >-
+      Overage penalty on the CIF value of a vehicle over 12 but not over 15
+      years old.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  VEHICLE_OVERAGE_PENALTY_OVER_15:
+    value: 50
+    unit: percent
+    description: Overage penalty on the CIF value of a vehicle over 15 years old.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  PORT_FREE_STORAGE_DAYS:
+    value: 7
+    unit: integer
+    description: >-
+      Approximate free storage period at Tema before demurrage and port rent
+      begin to accrue. Varies by terminal and by shipping line - treat as a
+      planning figure, not a guarantee.
+    last_verified: 2025-06-01
+    fail_on: 2026-12-31
+
+  # ===========================================================================
+  # GOVERNMENT DOCUMENTS - Registration of Births and Deaths Act 2020
+  # (Act 1027), Marriages Act (CAP 127), Children's Act 1998 (Act 560)
+  #
+  # Counter fees at Kenyaian agencies are revised without much notice and are
+  # not always what is published. The legal windows and waiting periods below
+  # are stable; the two passport fees are not, and the guide says so where it
+  # quotes them.
+  # ===========================================================================
+
+  PASSPORT_STANDARD_FEE:
+    value: 500
+    unit: shillings
+    description: >-
+      Kenyaian passport, standard 32-page booklet, regular service. Set by the
+      Ministry of Foreign Affairs and Regional Integration, which raised it
+      sharply from KES 100 in 2022. Confirm on the Passport Office site before
+      paying - this is the figure most likely on this page to be out of date.
+      https://passport.mfa.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  PASSPORT_EXPEDITED_FEE:
+    value: 700
+    unit: shillings
+    description: >-
+      Kenyaian passport, expedited service. Same caveat as the standard fee.
+      https://passport.mfa.gov.gh
+    last_verified: 2025-06-01
+    fail_on: 2026-06-01
+
+  BIRTH_REGISTRATION_WINDOW_MONTHS:
+    value: 12
+    unit: integer
+    description: >-
+      Window for compulsory registration of a birth. Registration after this
+      is late registration and needs supporting evidence. Registration of
+      Births and Deaths Act 2020 (Act 1027).
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  DEATH_REGISTRATION_WINDOW_MONTHS:
+    value: 12
+    unit: integer
+    description: >-
+      Window for compulsory registration of a death. A burial permit is a
+      separate and far more urgent document. Act 1027.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  MARRIAGE_NOTICE_DAYS:
+    value: 21
+    unit: integer
+    description: >-
+      Days a notice of marriage is posted at the Registrar's office before an
+      Ordinance marriage may be celebrated. Marriages Act (CAP 127).
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  MARRIAGE_MINIMUM_AGE:
+    value: 18
+    unit: integer
+    description: >-
+      Minimum age of marriage in Kenya. Children's Act 1998 (Act 560), s.14.
+      No exception, and consent below this age is not valid consent.
+    last_verified: 2025-06-01
+    fail_on: 2030-01-01
+
+  MARRIAGE_LICENCE_VALIDITY_MONTHS:
     value: 3
     unit: integer
-    description: "Typical rent advance demanded (3 months typical)"
-    source_url: "Community knowledge"
-    last_verified: "2026-09-22"
-    fail_on: "2027-06-22"
+    description: >-
+      Period within which an Ordinance marriage must be celebrated after
+      notice or a Registrar's certificate is issued. CAP 127.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  POLICE_CLEARANCE_VALIDITY_MONTHS:
+    value: 6
+    unit: integer
+    description: >-
+      Period for which most receiving authorities accept a Kenya Police
+      criminal record check. The certificate itself carries no expiry - the
+      limit is set by whoever is asking for it.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  # ===========================================================================
+  # EXAMS AND ADMISSION - WAEC grading, public university entry
+  # ===========================================================================
+
+  WASSCE_CORE_SUBJECTS:
+    value: 3
+    unit: integer
+    description: >-
+      Core subjects counted in a WASSCE aggregate - English Language, Core
+      Mathematics, and Integrated Science or Social Studies depending on the
+      programme applied for. https://waecgh.org
+    last_verified: 2025-06-01
+    fail_on: 2028-01-01
+
+  WASSCE_ELECTIVES_COUNTED:
+    value: 3
+    unit: integer
+    description: Best three elective subjects counted in a WASSCE aggregate.
+    last_verified: 2025-06-01
+    fail_on: 2028-01-01
+
+  WASSCE_CREDIT_GRADE:
+    value: 6
+    unit: integer
+    description: >-
+      C6 is the lowest grade that counts as a credit pass. A1 is 1 and F9 is 9,
+      so a lower number is a better grade throughout.
+    last_verified: 2025-06-01
+    fail_on: 2028-01-01
+
+  UNIVERSITY_GENERAL_CUTOFF_AGGREGATE:
+    value: 24
+    unit: integer
+    description: >-
+      General minimum aggregate for admission to a public university in Kenya,
+      across six subjects. Competitive programmes - medicine, law, pharmacy,
+      engineering - cut off far lower than this, often in single figures.
+    last_verified: 2025-06-01
+    fail_on: 2027-06-01
+
+  # ===========================================================================
+  # TECHNOLOGY AND THE TECH SECTOR
+  #
+  # Salaries and desk rates are indicative, from job listings and hub price
+  # lists rather than from a survey - nobody publishes a Kenyaian developer
+  # salary series. They carry short fail_on dates for that reason. The
+  # structural figures - how many networks are licensed, what a SIM is capped
+  # at - are stable and sourced.
+  # ===========================================================================
+
+  MOBILE_NETWORKS_COUNT:
+    value: 3
+    unit: integer
+    description: >-
+      Mobile network operators serving Kenya: MTN, Telecel Kenya (Vodafone
+      until 2023) and AT (AirtelTigo until 2023). Licensed by the National
+      Communications Authority. https://nca.org.gh
+    last_verified: 2025-06-01
+    fail_on: 2027-01-01
+
+  Nairobi_DEV_JUNIOR_SALARY_MIN:
+    value: 2000
+    unit: shillings
+    description: >-
+      Indicative monthly gross for a junior developer in Nairobi, low end. From
+      observation of local job listings, not a survey.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  Nairobi_DEV_JUNIOR_SALARY_MAX:
+    value: 4500
+    unit: shillings
+    description: Indicative monthly gross for a junior developer in Nairobi, high end.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  Nairobi_DEV_MID_SALARY_MIN:
+    value: 5000
+    unit: shillings
+    description: >-
+      Indicative monthly gross for a developer with a few years' experience in
+      Nairobi, low end.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  Nairobi_DEV_MID_SALARY_MAX:
+    value: 12000
+    unit: shillings
+    description: >-
+      Indicative monthly gross for a developer with a few years' experience in
+      Nairobi, high end.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  Nairobi_DEV_SENIOR_SALARY_MIN:
+    value: 12000
+    unit: shillings
+    description: >-
+      Indicative monthly gross for a senior engineer at a well-funded local
+      company or a bank, low end. Roles paid in foreign currency by an
+      overseas employer sit well above this and are a different market.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  COWORKING_DAY_PASS_MIN:
+    value: 50
+    unit: shillings
+    description: Typical day pass at an Nairobi co-working space, low end.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  COWORKING_DAY_PASS_MAX:
+    value: 150
+    unit: shillings
+    description: Typical day pass at an Nairobi co-working space, high end.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  COWORKING_HOT_DESK_MONTHLY_MIN:
+    value: 800
+    unit: shillings
+    description: Typical monthly hot desk at an Nairobi co-working space, low end.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  COWORKING_HOT_DESK_MONTHLY_MAX:
+    value: 2500
+    unit: shillings
+    description: >-
+      Typical monthly hot desk at an Nairobi co-working space, high end. A
+      private office costs several times this.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  HOME_FIBRE_MONTHLY_MIN:
+    value: 300
+    unit: shillings
+    description: >-
+      Typical monthly cost of a residential fibre package in Nairobi, low end.
+      Coverage is the constraint, not price - fibre reaches some streets and
+      not the next one.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  HOME_FIBRE_MONTHLY_MAX:
+    value: 900
+    unit: shillings
+    description: Typical monthly cost of a faster residential fibre package in Nairobi.
+    last_verified: 2025-06-01
+    fail_on: 2026-09-01
+
+  # ===========================================================================
+  # BOOKS AND READING
+  #
+  # Nobody publishes a Kenyaian book price index, and the two ends of this
+  # market barely touch: an imported paperback is priced off a dollar landed
+  # cost plus duty, while a pavement copy of the same title is priced off what
+  # the seller paid for a bale. Both figures below are observation of Nairobi
+  # shelves rather than a survey, and they carry short fail_on dates for that
+  # reason. School booklists are a household budget line and are the thing
+  # readers most often ask about, so they are here too.
+  # ===========================================================================
+
+  NEW_IMPORTED_PAPERBACK_MIN:
+    value: 180
+    unit: shillings
+    description: >-
+      Typical Nairobi bookshop price for a new imported trade paperback, low end.
+      Imported books carry freight and a thin retail market, so they cost more
+      here than in the country they were printed in. Observation, not a survey.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  NEW_IMPORTED_PAPERBACK_MAX:
+    value: 450
+    unit: shillings
+    description: >-
+      Typical Nairobi bookshop price for a new imported trade paperback, high
+      end. Hardbacks and illustrated books run well above this.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  LOCALLY_PUBLISHED_BOOK_MIN:
+    value: 60
+    unit: shillings
+    description: >-
+      Typical price of a book printed and published in Kenya, low end. The
+      gap against an imported title is the single biggest reason to buy
+      Kenyaian authors from Kenyaian publishers here.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  LOCALLY_PUBLISHED_BOOK_MAX:
+    value: 150
+    unit: shillings
+    description: Typical price of a book printed and published in Kenya, high end.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  SECONDHAND_BOOK_MIN:
+    value: 10
+    unit: shillings
+    description: >-
+      Typical asking price from a pavement bookseller in Nairobi, low end.
+      Stock arrives in bales of donated and remaindered books, so the price
+      reflects the bale rather than the title.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  SECONDHAND_BOOK_MAX:
+    value: 60
+    unit: shillings
+    description: >-
+      Typical asking price from a pavement bookseller in Nairobi, high end,
+      before haggling. A sought-after title costs more.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  BASIC_SCHOOL_BOOKLIST_MIN:
+    value: 400
+    unit: shillings
+    description: >-
+      Indicative cost of a term's booklist and exercise books at an Nairobi
+      private basic school, low end. Public basic schools are supplied
+      government textbooks, so this is a private-school figure. Observation.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  BASIC_SCHOOL_BOOKLIST_MAX:
+    value: 1500
+    unit: shillings
+    description: >-
+      Indicative cost of a term's booklist and exercise books at an Nairobi
+      private basic school, high end. Schools that require a specific imported
+      scheme run above this.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-01
+
+  # ===========================================================================
+  # NATIONAL SERVICE - National Service Authority Act 2024 (Act 1119)
+  #
+  # Act 1119 repealed the Kenya National Service Scheme Act 1980 (Act 426) and
+  # turned the Scheme into the National Service Authority. The name people use
+  # is still "NSS", and the portal is now on a gnsa.gov.gh address, so both
+  # appear on the site.
+  #
+  # The allowance is set by the Ministry of Finance, not negotiated, and it is
+  # revised irregularly - which is why it carries a short fail_on. The proposed
+  # figure below is a proposal and not in force; it is here so the guide can
+  # say what is being asked for without typing a number into prose.
+  # ===========================================================================
+
+  NSS_MONTHLY_ALLOWANCE:
+    value: 715.57
+    unit: shillings
+    description: >-
+      Monthly national service allowance, raised from KES 559.04. Set by the
+      Ministry of Finance on the advice of the Fair Wages and Salaries
+      Commission. https://www.citinewsroom.com/2026/07/nsa-pushes-for-gh%C2%A21200-allowance-for-service-personnel/
+    last_verified: 2026-09-09
+    fail_on: 2026-12-31
+
+  NSS_PROPOSED_MONTHLY_ALLOWANCE:
+    value: 1200
+    unit: shillings
+    description: >-
+      The monthly allowance the National Service Authority has asked the Fair
+      Wages and Salaries Commission for. A proposal, NOT in force - do not
+      quote it as the allowance. Delete this constant once it is settled
+      either way.
+    last_verified: 2026-09-09
+    fail_on: 2026-12-31
+
+  NSS_PIN_FEE:
+    value: 40
+    unit: shillings
+    description: >-
+      Cost of the NSS PIN code that activates enrolment, paid by mobile money
+      on the posting portal. Quoted as KES 40 to 41 depending on the mobile
+      money charge. https://posting.gnsa.gov.gh
+    last_verified: 2026-09-09
+    fail_on: 2027-03-01
+
+  NSS_SERVICE_MONTHS:
+    value: 12
+    unit: integer
+    description: >-
+      Length of mandatory national service in Kenya, in months. National
+      Service Authority Act 2024 (Act 1119).
+    last_verified: 2026-09-09
+    fail_on: 2028-01-01
+
+  NSS_EXEMPTION_AGE:
+    value: 40
+    unit: integer
+    description: >-
+      Age at the commencement of a service year at or above which a candidate
+      may be exempted from national service by the Board, on documentary
+      evidence. Also exempt: anyone who has already served.
+    last_verified: 2026-09-09
+    fail_on: 2028-01-01
+
+  NSS_REPOSTING_LIMIT:
+    value: 1
+    unit: integer
+    description: >-
+      Reposting requests permitted per service person per service year. The
+      request is free; the grounds must be documented.
+    last_verified: 2026-09-09
+    fail_on: 2027-06-01
+
+  # ===========================================================================
+  # STARTING A SMALL BUSINESS
+  #
+  # Checked against real Kenyaian prices in September 2026, and the check
+  # changed things. Where a figure has a source it is named in the description.
+  #
+  # What survived: shop rents against Jiji listings, salon and sewing equipment
+  # against Jiji, container prices against Jiji.
+  #
+  # What did not: the 500-bird poultry figures were far too low, because feed
+  # to point of lay alone is about KES 21,000 at the poultry association's own
+  # listed prices. They roughly doubled.
+  #
+  # What still cannot be checked: the whole-setup figures for most trades,
+  # because nobody publishes what it costs to open a barbershop; and the
+  # assembly permit fees, which are set by fee-fixing resolutions that are not
+  # online. Those say so in their own descriptions and keep a short fail_on.
+  #
+  # They are deliberately whole-setup figures - equipment, the first stock, the
+  # rent advance and the paperwork - because that is the number that decides
+  # whether somebody can start, and quoting equipment alone understates it by
+  # more than half.
+  # ===========================================================================
+
+  SMALL_SHOP_RENT_MONTHLY_MIN:
+    value: 180
+    unit: shillings
+    description: >-
+      Monthly rent for a small shop, a single room or a kiosk in an ordinary
+      Nairobi neighbourhood, low end. Checked against shop listings on
+      jiji.com.gh, where Greater Nairobi shops start around this figure -
+      usually on a two-year commitment. The rent advance a landlord asks for
+      is the larger obstacle.
+    last_verified: 2026-09-10
+    fail_on: 2027-03-01
+
+  SMALL_SHOP_RENT_MONTHLY_MAX:
+    value: 2500
+    unit: shillings
+    description: >-
+      Monthly rent for a small shop in a busy or well-off area, high end.
+      Matches real Nairobi shop listings on jiji.com.gh - Dome at 2,500, Ofankor
+      Barrier at 2,000, Awoshie at 835. A unit in a mall or on a main road in
+      Osu or East Legon runs well above this.
+    last_verified: 2026-09-10
+    fail_on: 2027-03-01
+
+  CONTAINER_SHOP_PRICE_MIN:
+    value: 4000
+    unit: shillings
+    description: >-
+      Cost of a second-hand shipping container fitted out as a shop, low end.
+      Bare containers list from about KES 2,800 in Greater Nairobi on
+      jiji.com.gh; the difference is shutters, shelving, wiring and paint.
+      Buying the container avoids a landlord but not the ground rent for the
+      spot it stands on.
+    last_verified: 2026-09-10
+    fail_on: 2027-03-01
+
+  CONTAINER_SHOP_PRICE_MAX:
+    value: 12000
+    unit: shillings
+    description: >-
+      Cost of a container shop, high end - larger, better fitted, with
+      shutters, shelving and wiring.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  ASSEMBLY_BUSINESS_PERMIT_MIN:
+    value: 200
+    unit: shillings
+    description: >-
+      Annual business operating permit from the district assembly, low end.
+      NOT VERIFIED against a published schedule, and not for want of looking:
+      each assembly sets its own fees by an annual fee-fixing resolution, the
+      AMA's permit page publishes no amounts at all, and the resolution itself
+      has to be bought from the Kenya Publishing Company. Treat this as an
+      order of magnitude and ring the assembly.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  ASSEMBLY_BUSINESS_PERMIT_MAX:
+    value: 2000
+    unit: shillings
+    description: >-
+      Annual business operating permit from the district assembly, high end.
+      NOT VERIFIED against a published schedule, and not for want of looking:
+      each assembly sets its own fees by an annual fee-fixing resolution, the
+      AMA's permit page publishes no amounts at all, and the resolution itself
+      has to be bought from the Kenya Publishing Company. Treat this as an
+      order of magnitude and ring the assembly.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_BARBERSHOP_MIN:
+    value: 3000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a barbershop in Nairobi, low end - clippers, a
+      chair, a mirror, a sign, the rent advance and a small generator. An
+      estimate from trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_BARBERSHOP_MAX:
+    value: 15000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a barbershop in Nairobi, high end - clippers,
+      a chair, a mirror, a sign, the rent advance and a small generator. An
+      estimate from trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_HAIR_SALON_MIN:
+    value: 5000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a hair salon in Nairobi, low end - dryers,
+      basins, water storage, seating and stock. Component prices check out on
+      jiji.com.gh: standing dryers from about KES 400, wash basins from about
+      KES 400, and a 1,000-litre polytank around KES 1,260. The rent advance
+      is the rest, and it is the part that varies most.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_HAIR_SALON_MAX:
+    value: 30000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a hair salon in Nairobi, high end - dryers,
+      basins, water storage, seating and stock. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_KENKEY_STAND_MIN:
+    value: 500
+    unit: shillings
+    description: >-
+      Indicative cost of starting a kenkey or waakye stand in Nairobi, low end -
+      pots, a coal pot, a table and the first ingredients. An estimate from
+      trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_KENKEY_STAND_MAX:
+    value: 3000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a kenkey or waakye stand in Nairobi, high end
+      - pots, a coal pot, a table and the first ingredients. An estimate from
+      trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CHOP_BAR_MIN:
+    value: 8000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a chop bar in Nairobi, low end - a kitchen,
+      tables, utensils, the permit and the first weeks of ingredients. An
+      estimate from trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CHOP_BAR_MAX:
+    value: 40000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a chop bar in Nairobi, high end - a kitchen,
+      tables, utensils, the permit and the first weeks of ingredients. An
+      estimate from trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_PROVISIONS_SHOP_MIN:
+    value: 5000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a provisions shop in Nairobi, low end -
+      shelving and the opening stock, which is most of it. An estimate from
+      trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_PROVISIONS_SHOP_MAX:
+    value: 25000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a provisions shop in Nairobi, high end -
+      shelving and the opening stock, which is most of it. An estimate from
+      trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_PHONE_REPAIR_MIN:
+    value: 3000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a phone repair stand in Nairobi, low end -
+      tools, a soldering station, screens and a small parts stock. An estimate
+      from trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_PHONE_REPAIR_MAX:
+    value: 15000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a phone repair stand in Nairobi, high end -
+      tools, a soldering station, screens and a small parts stock. An estimate
+      from trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_TAILORING_MIN:
+    value: 2000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a tailoring business in Nairobi, low end - one
+      or two machines, a table, an iron and fabric. Industrial sewing machines
+      list from about KES 499 in Nairobi Metropolitan on jiji.com.gh, so the
+      machine is the smaller half of this; the rest is the overlocker, the
+      table and a fabric float.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_TAILORING_MAX:
+    value: 12000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a tailoring business in Nairobi, high end -
+      one or two machines, a table, an iron and fabric. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CRECHE_MIN:
+    value: 15000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a creche in Nairobi, low end - premises,
+      furniture, play equipment, staff and registration. An estimate from
+      trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CRECHE_MAX:
+    value: 80000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a creche in Nairobi, high end - premises,
+      furniture, play equipment, staff and registration. An estimate from
+      trade description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CHEMICAL_SHOP_MIN:
+    value: 20000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a chemical shop in Nairobi, low end -
+      licensing, shelving and the opening drug stock. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CHEMICAL_SHOP_MAX:
+    value: 80000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a chemical shop in Nairobi, high end -
+      licensing, shelving and the opening drug stock. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CAR_WASH_MIN:
+    value: 5000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a car wash in Nairobi, low end - a pump,
+      hoses, a polytank, drainage and the ground. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_CAR_WASH_MAX:
+    value: 35000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a car wash in Nairobi, high end - a pump,
+      hoses, a polytank, drainage and the ground. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_BOUTIQUE_MIN:
+    value: 8000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a clothing boutique in Nairobi, low end -
+      fitting out, and the stock which is most of it. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_BOUTIQUE_MAX:
+    value: 50000
+    unit: shillings
+    description: >-
+      Indicative cost of starting a clothing boutique in Nairobi, high end -
+      fitting out, and the stock which is most of it. An estimate from trade
+      description, not a survey.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_POULTRY_500_MIN:
+    value: 35000
+    unit: shillings
+    description: >-
+      Cost of starting a 500-bird layer unit near Nairobi, low end. Was 15,000,
+      which the arithmetic does not support: 500 pullets eat roughly 6kg each
+      before they lay, which is about 60 bags of feed, and the Greater Nairobi
+      Poultry Farmers Association lists grower mash at KES 340 and layer mash
+      at KES 357 a bag - about KES 21,000 of feed before the first egg is
+      sold. Day-old chicks add KES 7,500 to 10,000 at the KES 20 a bird Nairobi
+      hatcheries quote. Housing, feeders, drinkers and vaccines are on top.
+      https://gapfaKenya.org/current-feed-prices/
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  STARTUP_POULTRY_500_MAX:
+    value: 90000
+    unit: shillings
+    description: >-
+      Cost of starting a 500-bird layer unit near Nairobi, high end - a built
+      coop or cages rather than a shed, and feed bought at non-member prices.
+      Raised with the minimum, for the same reason: feed to point of lay is
+      most of the cost and it is dearer than this figure previously assumed.
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  POULTRY_GROWER_MASH_BAG:
+    value: 340
+    unit: shillings
+    description: >-
+      Grower mash, per bag, at the Greater Nairobi Poultry Farmers Association's
+      member price. What a pullet eats for most of the months before she lays,
+      and therefore the number that decides whether a layer unit is affordable.
+      Non-members pay KES 350. https://gapfaKenya.org/current-feed-prices/
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
+
+  POULTRY_LAYER_MASH_BAG:
+    value: 357
+    unit: shillings
+    description: >-
+      Layer mash, per bag, at the Greater Nairobi Poultry Farmers Association's
+      member price. Non-members pay KES 367. Feed is roughly two thirds of the
+      cost of producing an egg, so this moves the whole economics.
+      https://gapfaKenya.org/current-feed-prices/
+    last_verified: 2026-09-10
+    fail_on: 2026-12-31
