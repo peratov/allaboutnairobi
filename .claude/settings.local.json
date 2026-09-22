@@ -48,7 +48,12 @@
       "Bash(mise site *)",
       "Bash(/c/Users/kenra/allaboutnairobi/.venv/Scripts/python.exe -m http.server 8000)",
       "Bash(xargs basename -a)",
-      "Bash(grep \"\\\\.html\\\\.jinja$\")"
+      "Bash(grep \"\\\\.html\\\\.jinja$\")",
+      "Bash(git commit -m 'Add real Kenya financial data and Nairobi landmarks *)",
+      "Bash(python ursus_config.py)",
+      "Bash(wsl --list --verbose)",
+      "Bash(wsl --install Ubuntu-24.04)",
+      "Bash(wsl --install Ubuntu)"
     ]
   }
 }

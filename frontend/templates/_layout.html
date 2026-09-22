@@ -24,7 +24,7 @@
 {%- endif -%}
 {%- set canonical_url = (CANONICAL_ORIGIN ~ page_path) if page_path else none -%}
 <!DOCTYPE html>
-<html lang="en-GH">
+<html lang="en-KE">
 <head>
 	<meta charset="utf-8">
 
@@ -66,7 +66,7 @@
 		#}
 		<link rel="apple-touch-icon" href="/staticimages/apple-touch-icon.png">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-title" content="AllAboutAccra">
+		<meta name="apple-mobile-web-app-title" content="AllAboutNairobi">
 		<meta name="apple-mobile-web-app-status-bar-style" content="default">
 		<meta name="mobile-web-app-capable" content="yes">
 		<link rel="author" href="{{ SITE_URL }}/about">
@@ -192,14 +192,14 @@
 					aria-expanded="false">Guides</button>
 				<a href="{{ SITE_URL }}/tools" title="Calculators and document templates"
 					{% if section in ('/tools', '/docs') %}aria-current="page"{% endif %}>Tools</a>
-				<a href="{{ SITE_URL }}/events" title="What is on in Accra"
+				<a href="{{ SITE_URL }}/events" title="What is on in Nairobi"
 					{% if section == '/events' %}aria-current="page"{% endif %}>Events</a>
-				<a href="{{ SITE_URL }}/map" title="Districts, constituencies and landmarks of Greater Accra"
+				<a href="{{ SITE_URL }}/map" title="Districts, constituencies and landmarks of Nairobi"
 					{% if section == '/map' %}aria-current="page"{% endif %}>Map</a>
 				{# Dropped below 400px, where six items no longer fit. It is the one
 				   that survives being dropped: every glossary term is linked inline
 				   from the guides, and the footer carries it too. #}
-				<a class="no-small" href="{{ SITE_URL }}/glossary" title="Ghanaian words, acronyms and bureaucracy explained"
+				<a class="no-small" href="{{ SITE_URL }}/glossary" title="Kenyan words, acronyms and bureaucracy explained"
 					{% if section == '/glossary' %}aria-current="page"{% endif %}>Glossary</a>
 				<a class="no-mobile" href="{{ SITE_URL }}/about"
 					{% if section == '/about' %}aria-current="page"{% endif %}>About</a>
@@ -237,14 +237,14 @@
 		<nav aria-label="Guides menu" class="submenu" id="menu-guides" hidden>
 			<ul>
 				<li>
-					<a href="{{ SITE_URL }}/guides/moving-to-accra">
+					<a href="{{ SITE_URL }}/guides/moving-to-nairobi">
 						<span class="adinkra-stamp">{% include "_icons/moving.svg" %}</span>
-						<h4>Move to Accra</h4>
-						<p>Visas, the Ghana Card, and your first month</p>
+						<h4>Move to Nairobi</h4>
+						<p>Visas, residence permits, and your first month</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/find-a-place-in-accra">
+					<a href="{{ SITE_URL }}/guides/find-a-place-in-nairobi">
 						<span class="adinkra-stamp">{% include "_icons/housing.svg" %}</span>
 						<h4>Find a place to live</h4>
 						<p>Agents, rent advance and tenancy agreements</p>
@@ -341,7 +341,7 @@
 					<a href="{{ SUPPORT_URL }}" target="_blank" rel="noopener">Buy me a coffee</a>
 				</nav>
 				<p class="footer-meta">
-					Built in Accra. Last generated {{ now.strftime('%d %B %Y') }}.
+					Built in Nairobi. Last generated {{ now.strftime('%d %B %Y') }}.
 				</p>
 			</div>
 		</footer>
@@ -352,89 +352,60 @@
 	<script>
 		// Constants travel from constants.yaml to the browser through here, so the
 		// calculators cannot drift away from the guides that explain them.
-		window.accraConstants = {
+		window.nairobiConstants = {
 			PAYE_BANDS: {{ PAYE_BANDS_JSON|safe }},
 			PAYE_TOP_RATE: {{ PAYE_TOP_RATE }},
-			SSNIT_EMPLOYEE_RATE: {{ SSNIT_EMPLOYEE_RATE }},
-			SSNIT_EMPLOYER_RATE: {{ SSNIT_EMPLOYER_RATE }},
-			SSNIT_TOTAL_RATE: {{ SSNIT_TOTAL_RATE }},
+			NSSF_EMPLOYEE_CONTRIBUTION: {{ NSSF_EMPLOYEE_CONTRIBUTION }},
+			NSSF_EMPLOYER_CONTRIBUTION: {{ NSSF_EMPLOYER_CONTRIBUTION }},
+			NSSF_TOTAL_RATE: {{ NSSF_TOTAL_RATE }},
 			TIER_1_RATE: {{ TIER_1_RATE }},
 			TIER_2_RATE: {{ TIER_2_RATE }},
 			TIER_3_MAX_RELIEF_RATE: {{ TIER_3_MAX_RELIEF_RATE }},
-			SSNIT_BEST_MONTHS: {{ SSNIT_BEST_MONTHS }},
-			SSNIT_PENSION_RIGHT_MIN: {{ SSNIT_PENSION_RIGHT_MIN }},
-			SSNIT_PENSION_RIGHT_PER_YEAR: {{ SSNIT_PENSION_RIGHT_PER_YEAR }},
-			SSNIT_PENSION_RIGHT_MAX: {{ SSNIT_PENSION_RIGHT_MAX }},
-			SSNIT_MIN_CONTRIBUTION_MONTHS: {{ SSNIT_MIN_CONTRIBUTION_MONTHS }},
-			SSNIT_MIN_CONTRIBUTION_YEARS: {{ SSNIT_MIN_CONTRIBUTION_YEARS }},
-			SSNIT_MAX_CONTRIBUTION_YEARS: {{ SSNIT_MAX_CONTRIBUTION_YEARS }},
-			SSNIT_PENSION_AGE: {{ SSNIT_PENSION_AGE }},
-			SSNIT_EARLY_PENSION_AGE: {{ SSNIT_EARLY_PENSION_AGE }},
-			SSNIT_EARLY_FACTORS: {{ SSNIT_EARLY_FACTORS_JSON|safe }},
+			NSSF_BEST_MONTHS: {{ NSSF_BEST_MONTHS }},
+			NSSF_PENSION_RIGHT_MIN: {{ NSSF_PENSION_RIGHT_MIN }},
+			NSSF_PENSION_RIGHT_PER_YEAR: {{ NSSF_PENSION_RIGHT_PER_YEAR }},
+			NSSF_PENSION_RIGHT_MAX: {{ NSSF_PENSION_RIGHT_MAX }},
+			NSSF_MIN_CONTRIBUTION_MONTHS: {{ NSSF_MIN_CONTRIBUTION_MONTHS }},
+			NSSF_MIN_CONTRIBUTION_YEARS: {{ NSSF_MIN_CONTRIBUTION_YEARS }},
+			NSSF_MAX_CONTRIBUTION_YEARS: {{ NSSF_MAX_CONTRIBUTION_YEARS }},
+			NSSF_PENSION_AGE: {{ NSSF_PENSION_AGE }},
+			NSSF_EARLY_PENSION_AGE: {{ NSSF_EARLY_PENSION_AGE }},
+			NSSF_EARLY_FACTORS: {{ NSSF_EARLY_FACTORS_JSON|safe }},
 			VAT_RATE: {{ VAT_RATE }},
-			NHIL_RATE: {{ NHIL_RATE }},
-			GETFUND_RATE: {{ GETFUND_RATE }},
 			VAT_EFFECTIVE_RATE: {{ VAT_EFFECTIVE_RATE }},
 			DAILY_MINIMUM_WAGE: {{ DAILY_MINIMUM_WAGE }},
 			MONTHLY_MINIMUM_WAGE_APPROX: {{ MONTHLY_MINIMUM_WAGE_APPROX }},
 			MAX_LEGAL_RENT_ADVANCE_MONTHS: {{ MAX_LEGAL_RENT_ADVANCE_MONTHS }},
 			TYPICAL_RENT_ADVANCE_MONTHS: {{ TYPICAL_RENT_ADVANCE_MONTHS }},
-			ACCRA_ONE_BED_RENT_MID: {{ ACCRA_ONE_BED_RENT_MID }},
-			WHT_SERVICES_RESIDENT: {{ WHT_SERVICES_RESIDENT }},
-			WHT_GOODS: {{ WHT_GOODS }},
-			WHT_WORKS: {{ WHT_WORKS }},
-			WHT_RENT_RESIDENTIAL: {{ WHT_RENT_RESIDENTIAL }},
-			WHT_RENT_COMMERCIAL: {{ WHT_RENT_COMMERCIAL }},
-			WHT_DIVIDENDS: {{ WHT_DIVIDENDS }},
-			CET_BAND_SOCIAL: {{ CET_BAND_SOCIAL }},
-			CET_BAND_RAW_MATERIALS: {{ CET_BAND_RAW_MATERIALS }},
-			CET_BAND_INTERMEDIATE: {{ CET_BAND_INTERMEDIATE }},
-			CET_BAND_FINISHED: {{ CET_BAND_FINISHED }},
-			CET_BAND_SPECIFIC: {{ CET_BAND_SPECIFIC }},
-			ECOWAS_LEVY_RATE: {{ ECOWAS_LEVY_RATE }},
-			AU_IMPORT_LEVY_RATE: {{ AU_IMPORT_LEVY_RATE }},
-			EXIM_LEVY_RATE: {{ EXIM_LEVY_RATE }},
-			SPECIAL_IMPORT_LEVY_RATE: {{ SPECIAL_IMPORT_LEVY_RATE }},
-			IMPORT_INSPECTION_FEE_RATE: {{ IMPORT_INSPECTION_FEE_RATE }},
-			IMPORT_NETWORK_CHARGE_RATE: {{ IMPORT_NETWORK_CHARGE_RATE }},
-			VEHICLE_DUTY_UNDER_1900CC: {{ VEHICLE_DUTY_UNDER_1900CC }},
-			VEHICLE_DUTY_1900_TO_3000CC: {{ VEHICLE_DUTY_1900_TO_3000CC }},
-			VEHICLE_DUTY_OVER_3000CC: {{ VEHICLE_DUTY_OVER_3000CC }},
-			VEHICLE_OVERAGE_THRESHOLD_YEARS: {{ VEHICLE_OVERAGE_THRESHOLD_YEARS }},
-			VEHICLE_OVERAGE_PENALTY_10_TO_12: {{ VEHICLE_OVERAGE_PENALTY_10_TO_12 }},
-			VEHICLE_OVERAGE_PENALTY_12_TO_15: {{ VEHICLE_OVERAGE_PENALTY_12_TO_15 }},
-			VEHICLE_OVERAGE_PENALTY_OVER_15: {{ VEHICLE_OVERAGE_PENALTY_OVER_15 }},
-			WASSCE_CREDIT_GRADE: {{ WASSCE_CREDIT_GRADE }},
-			UNIVERSITY_GENERAL_CUTOFF_AGGREGATE: {{ UNIVERSITY_GENERAL_CUTOFF_AGGREGATE }},
+			NAIROBI_ONE_BED_RENT_MID: {{ NAIROBI_ONE_BED_RENT_MID }},
+			ANNUAL_LEAVE_DAYS: {{ ANNUAL_LEAVE_DAYS }},
+			CORPORATE_TAX_RATE: {{ CORPORATE_TAX_RATE }},
+			ANNUAL_RETURN_DEADLINE_MONTHS: {{ ANNUAL_RETURN_DEADLINE_MONTHS }},
 			PUBLIC_HOLIDAYS: {{ PUBLIC_HOLIDAYS_JSON|safe }},
 			SITE_URL: {{ SITE_URL|tojson }}
 		};
 	</script>
 
 	<script type="module">
-		{% queueJs %}
-			import initializeMenu from '/js/components/menu.mjs';
-			import initializeTableOfContents from '/js/components/table-of-contents.mjs';
-			import initializeGlossaryTooltips from '/js/components/glossary-tooltip.mjs';
-			import initializeCurrency from '/js/components/currency.mjs';
-			import initializeChecklists from '/js/components/checklist.mjs';
-			import initializeSupportButton from '/js/components/support.mjs';
-			import initializeThemeToggle from '/js/components/theme-toggle.mjs';
-			import initializeInstallPrompt from '/js/components/install-prompt.mjs';
-			import initializeHeroMapGlow from '/js/components/hero-map-glow.mjs';
+		import initializeMenu from '/js/components/menu.mjs';
+		import initializeTableOfContents from '/js/components/table-of-contents.mjs';
+		import initializeGlossaryTooltips from '/js/components/glossary-tooltip.mjs';
+		import initializeCurrency from '/js/components/currency.mjs';
+		import initializeChecklists from '/js/components/checklist.mjs';
+		import initializeSupportButton from '/js/components/support.mjs';
+		import initializeThemeToggle from '/js/components/theme-toggle.mjs';
+		import initializeInstallPrompt from '/js/components/install-prompt.mjs';
+		import initializeHeroMapGlow from '/js/components/hero-map-glow.mjs';
 
-			initializeMenu();
-			initializeTableOfContents();
-			initializeGlossaryTooltips();
-			initializeCurrency();
-			initializeChecklists();
-			initializeSupportButton();
-			initializeThemeToggle();
-			initializeInstallPrompt();
-			initializeHeroMapGlow();
-		{% endqueueJs %}
-
-		{% alljs %}
+		initializeMenu();
+		initializeTableOfContents();
+		initializeGlossaryTooltips();
+		initializeCurrency();
+		initializeChecklists();
+		initializeSupportButton();
+		initializeThemeToggle();
+		initializeInstallPrompt();
+		initializeHeroMapGlow();
 	</script>
 
 	<script type="module">

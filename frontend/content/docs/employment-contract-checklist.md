@@ -1,12 +1,12 @@
 ---
-title: Ghanaian employment contract checklist
+title: Kenyan employment contract checklist
 short_title: Contract checklist
-description: What to check in a Ghanaian employment contract before signing, including the basic-to-allowance split that quietly decides your pension.
+description: What to check in a Kenyan employment contract before signing, including the basic-to-allowance split that quietly decides your NSSF pension.
 date_created: 2026-01-12
 ---
 
 A contract of employment for six months or more must be in writing under the
-Labour Act 2003 (Act 651), within two months of starting.
+Employment Act 2007, within two months of starting.
 
 Go through this before you sign. Two offers with the same headline figure can
 be worth materially different amounts.
@@ -22,9 +22,9 @@ This is the one people miss.
 
 Why it matters:
 
-- **[[SSNIT]] is charged on basic salary only** — {{ SSNIT_TOTAL_RATE|percent }}%
-  in total, of which {{ SSNIT_EMPLOYEE_RATE|percent }} points come from you and
-  {{ SSNIT_EMPLOYER_RATE|percent }} from your employer.
+- **[[NSSF]] is charged on basic salary only** — {{ NSSF_TOTAL_RATE|percent }}%
+  in total, of which {{ NSSF_EMPLOYEE_CONTRIBUTION|percent }} points come from you and
+  {{ NSSF_EMPLOYER_CONTRIBUTION|percent }} from your employer.
 - **[[PAYE]] is charged on basic plus allowances.**
 
 An employer offering a low basic and large allowances pays less SSNIT and
@@ -48,12 +48,10 @@ split in writing and run it through the
       so the contract decides entirely.
 - [ ] **Annual leave.** At least {{ ANNUAL_LEAVE_DAYS }} working days by law.
       It cannot be paid off while you remain employed.
-- [ ] **Sick leave.** **There is no statutory minimum in Ghana.** Whatever the
-      contract says is what you get. If it says nothing, ask, and get the
-      answer in writing.
-- [ ] **Maternity leave.** {{ MATERNITY_LEAVE_WEEKS }} weeks by law, or
-      {{ MATERNITY_LEAVE_WEEKS_EXTENDED }} after a caesarean or the birth of
-      two or more children.
+- [ ] **Sick leave.** Statutory minimum is 5 working days per year in Kenya.
+      Whatever the contract says should meet or exceed this. Get any extra
+      terms in writing.
+- [ ] **Maternity leave.** {{ ANNUAL_LEAVE_DAYS }} weeks by law.
 - [ ] **Paternity leave.** Not statutory. Some employers offer it anyway.
 
 ## Ending it
@@ -100,11 +98,11 @@ split in writing and run it through the
 ## After you start
 
 - [ ] **Check your first payslip** against what you were promised
-- [ ] **Confirm SSNIT contributions are actually reaching SSNIT** — register on
-      the self-service portal. Employers deduct and fail to remit more often
+- [ ] **Confirm NSSF contributions are actually reaching NSSF** — register on
+      the member self-service portal. Employers deduct and fail to remit more often
       than you would like, and you discover it decades later.
-- [ ] **Check PAYE is computed after SSNIT is deducted**, not on gross pay
+- [ ] **Check PAYE is computed after NSSF is deducted**, not on gross pay
 
-**[Your rights as an employee ➞](/guides/employee-rights-ghana)**
+**[Your rights as an employee ➞](/guides/employee-rights)**
 **[Income tax and PAYE ➞](/guides/paye-and-taxes)**
-**[Finding a job in Accra ➞](/guides/find-a-job-in-accra)**
+**[Finding a job in Nairobi ➞](/guides/find-a-job)**

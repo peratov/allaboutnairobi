@@ -9,7 +9,10 @@ import yaml
 from ursus.config import config
 from extensions.functions import (
     load_constants_from_file, to_shillings, to_usd, to_percent, to_number,
-    to_count, to_compact, patched_slugify,
+    to_count, to_compact, patched_slugify, glossary_groups, random_id,
+)
+from extensions.renderers.jinja import (
+    TableOfContentsExtension, GlossaryExtension, ToolExtension, PortableScssExtension
 )
 
 def env_str(name, default=""):
@@ -78,6 +81,14 @@ placeholders = {
     "RADIO_GB_PER_MONTH": 0,
     "RADIO_MB_PER_HOUR": 0,
     "RADIO_TYPICAL_KBPS": 0,
+    # Employment & labor constants
+    "MAX_WEEKLY_HOURS": 0,
+    "NOTICE_PERIOD_MONTHS_PERMANENT": 0,
+    "PROBATION_MAX_MONTHS": 0,
+    "MATERNITY_LEAVE_WEEKS": 0,
+    "MATERNITY_LEAVE_WEEKS_EXTENDED": 0,
+    "SSNIT_EMPLOYEE_RATE": 0,
+    "SSNIT_EMPLOYER_RATE": 0,
 }
 
 for key, value in placeholders.items():
@@ -150,6 +161,10 @@ try:
 except:
     ctx["commit_id"] = "dev"
 
+# Add Jinja2 global functions
+ctx["glossary_groups"] = glossary_groups
+ctx["random_id"] = random_id
+
 # Ursus configuration
 config.site_url = ctx["SITE_URL"]
 config.context_globals = ctx
@@ -163,6 +178,10 @@ config.jinja_filters = {
     "compact": to_compact,
     "slug": patched_slugify,
 }
+config.jinja_extensions = [
+    GlossaryExtension,
+    PortableScssExtension,
+]
 config.minify_js = False
 config.minify_css = False
 config.output_path = Path(__file__).parent / "output"
