@@ -1,0 +1,15 @@
+{
+  "buildCommand": "cd frontend && source ../.venv/Scripts/activate && ursus build",
+  "outputDirectory": "frontend/output",
+  "framework": "other",
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/:path*.html"
+    },
+    {
+      "source": "/:path*/",
+      "destination": "/:path*/index.html"
+    }
+  ]
+}
