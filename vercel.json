@@ -1,7 +1,6 @@
 {
-  "buildCommand": "cd frontend && source ../.venv/Scripts/activate && ursus build",
+  "buildCommand": "cd frontend && python -m pip install -q -r requirements.txt && ursus build",
   "outputDirectory": "frontend/output",
-  "framework": "python",
   "rewrites": [
     {
       "source": "/:path*",
