@@ -31,6 +31,7 @@ Use them to shortlist, not to budget to the shilling.
 
 | Where | What | Rough rent (KES) |
 | --- | --- | --- |
+| Kibera, Mathare, Kawangware | Single room | under 10,000 |
 | Kasarani, Roysambu, Umoja, Kayole | Bedsitter | 8,000 - 15,000 |
 | South B, South C, Madaraka, Ngara | One bedroom | 20,000 - 40,000 |
 | Kilimani, Kileleshwa | One bedroom | 40,000 - 80,000 |

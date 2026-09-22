@@ -14,11 +14,22 @@ const EASE_MS = 450;
 const DRAG_SLOP_PX = 4;
 const MAX_ZOOM = 40;
 
+// Every way the map can be coloured. `geo` says which set of shapes carries it:
+// the 17 constituencies, or the census's 11 sub-counties, which follow
+// different lines and are the only units the census counted people in.
 const SHADES = [
-	{ id: 'plain', label: 'Constituencies' },
-	{ id: 'density', label: 'People per km² (estimate)', field: 'density' },
-	{ id: 'population', label: 'Population (estimate)', field: 'population' },
-	{ id: 'area', label: 'Area, km²', field: 'areaKm2' },
+	{ id: 'plain', group: 'Constituencies', label: 'Constituencies', geo: 'constituencies' },
+	{ id: 'density', group: 'Constituencies', label: 'People per km² (estimate)', geo: 'constituencies', field: 'density' },
+	{ id: 'population', group: 'Constituencies', label: 'Population (estimate)', geo: 'constituencies', field: 'population' },
+	{ id: 'wealth', group: 'Constituencies', label: 'Relative wealth (modelled)', geo: 'constituencies', field: 'rwi', kind: 'rank' },
+	{ id: 'area', group: 'Constituencies', label: 'Area, km²', geo: 'constituencies', field: 'areaKm2' },
+	{ id: 'census-density', group: 'Census 2019, by sub-county', label: 'People per km²', geo: 'subcounties', field: 'density' },
+	{ id: 'census-population', group: 'Census 2019, by sub-county', label: 'Population', geo: 'subcounties', field: 'population' },
+	{ id: 'census-women', group: 'Census 2019, by sub-county', label: 'Women, %', geo: 'subcounties', field: 'femalePct', pct: true },
+	{ id: 'census-children', group: 'Census 2019, by sub-county', label: 'Children under 15, %', geo: 'subcounties', field: 'under15Pct', pct: true },
+	{ id: 'census-young', group: 'Census 2019, by sub-county', label: 'Aged 20 to 34, %', geo: 'subcounties', field: 'age20to34Pct', pct: true },
+	{ id: 'census-older', group: 'Census 2019, by sub-county', label: 'Aged 65 and over, %', geo: 'subcounties', field: 'over64Pct', pct: true },
+	{ id: 'rent', group: 'Housing', label: 'Typical rent, by neighbourhood', geo: 'constituencies', kind: 'rent' },
 ];
 
 // Place-name labels by rank, and the zoom at which each rank appears.
@@ -48,6 +59,8 @@ function svg(tag, attributes = {}) {
 	}
 	return node;
 }
+
+const slugify = (text) => text.toLowerCase().replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const normalise = (text) => text.toLowerCase().normalize('NFD').replace(/[̀-ͯ']/g, '');
 
@@ -85,8 +98,11 @@ class NairobiMap extends HTMLElement {
 			'aria-controls': 'map-suggestions', 'aria-expanded': 'false',
 		});
 		this.suggestions = el('ul', { class: 'map-suggestions', id: 'map-suggestions', hidden: true });
-		this.shadeSelect = el('select', { 'aria-label': 'Shade the constituencies by' },
-			SHADES.map((shade) => el('option', { value: shade.id, text: shade.label })));
+		const groups = [...new Set(SHADES.map((shade) => shade.group))];
+		this.shadeSelect = el('select', { 'aria-label': 'Choose a map layer' },
+			groups.map((group) => el('optgroup', { label: group },
+				SHADES.filter((shade) => shade.group === group)
+					.map((shade) => el('option', { value: shade.id, text: shade.label })))));
 
 		const zoomButton = (label, text, handler) =>
 			el('button', { type: 'button', class: 'map-zoom', 'aria-label': label, title: label, text, onclick: handler });
@@ -111,7 +127,7 @@ class NairobiMap extends HTMLElement {
 			el('div', { class: 'map-controls' }, [
 				el('div', { class: 'map-search' }, [this.searchInput, this.suggestions]),
 				el('div', { class: 'map-toggles' }, [
-					el('label', { class: 'map-shade' }, [el('span', { text: 'Shade by' }), this.shadeSelect]),
+					el('label', { class: 'map-shade' }, [el('span', { text: 'Layer' }), this.shadeSelect]),
 					el('div', { class: 'map-zooms' }, [
 						zoomButton('Zoom in', '+', () => this.zoomBy(1.8)),
 						zoomButton('Zoom out', '−', () => this.zoomBy(1 / 1.8)),
@@ -153,7 +169,7 @@ class NairobiMap extends HTMLElement {
 		document.addEventListener('click', (event) => {
 			if (!this.contains(event.target) || !event.target.closest('.map-search')) this.closeSuggestions();
 		});
-		this.shadeSelect.addEventListener('change', () => this.shade(this.shadeSelect.value));
+		this.shadeSelect.addEventListener('change', () => { this.shade(this.shadeSelect.value); this.applyVisibility(); });
 	}
 
 	// ------------------------------------------------------------------ data
@@ -168,9 +184,14 @@ class NairobiMap extends HTMLElement {
 
 		data.constituencies.forEach((c) => this.byId.set(`constituency/${c.id}`, { kind: 'constituency', item: c }));
 		data.landmarks.forEach((l) => this.byId.set(`place/${l.id}`, { kind: 'landmark', item: l }));
+		data.subcounties.forEach((c) => this.byId.set(`subcounty/${c.id}`, { kind: 'subcounty', item: c }));
+		data.neighbourhoods.filter((n) => n.rent).forEach((n) =>
+			this.byId.set(`rent/${slugify(n.name)}`, { kind: 'rent', item: n }));
 
-		this.densityRank = new Map(
-			[...data.constituencies].sort((a, b) => b.density - a.density).map((c, i) => [c.id, i + 1]));
+		const rank = (list, field) => new Map([...list].sort((a, b) => b[field] - a[field]).map((c, i) => [c.id, i + 1]));
+		this.densityRank = rank(data.constituencies, 'density');
+		this.wealthRank = rank(data.constituencies, 'rwi');
+		this.censusDensityRank = rank(data.subcounties, 'density');
 
 		this.draw();
 		this.buildChips();
@@ -212,12 +233,40 @@ class NairobiMap extends HTMLElement {
 			return { node, width: this.shapes.get(c.id).getBBox().width, chars: c.name.length };
 		});
 
+		const subShapes = layer('subcounties');
+		this.subShapes = new Map();
+		for (const c of data.subcounties) {
+			const path = svg('path', { class: 'shape subcounty-shape', d: c.path, 'data-id': c.id });
+			path.addEventListener('pointerenter', () => this.hover(`${c.name} sub-county`));
+			path.addEventListener('pointerleave', () => this.hover(null));
+			subShapes.appendChild(path);
+			this.subShapes.set(c.id, path);
+		}
+		const subLabels = layer('subcounty-labels');
+		this.subLabels = data.subcounties.map((c) => {
+			const node = svg('text', { class: 'map-label constituency-label', x: c.label[0], y: c.label[1], text: c.name });
+			subLabels.appendChild(node);
+			return { node, width: this.subShapes.get(c.id).getBBox().width, chars: c.name.length };
+		});
+
 		const places = layer('places');
 		this.placeLabels = data.neighbourhoods.map((n) => {
 			const text = svg('text', { class: `map-label place-label rank-${n.rank}`, x: n.x, y: n.y, text: n.name });
 			places.appendChild(text);
 			return { node: text, rank: n.rank };
 		});
+
+		const rent = layer('rent');
+		this.rentDots = new Map();
+		for (const n of data.neighbourhoods.filter((item) => item.rent)) {
+			const id = slugify(n.name);
+			const group = svg('g', { class: `rent-dot rent-${n.rent}`, transform: `translate(${n.x} ${n.y})`, 'data-id': id });
+			group.append(svg('circle', { class: 'rent-circle', r: '1' }));
+			group.addEventListener('pointerenter', () => this.hover(`${n.name}: ${data.rentBands[n.rent].label}`));
+			group.addEventListener('pointerleave', () => this.hover(null));
+			rent.appendChild(group);
+			this.rentDots.set(id, group);
+		}
 
 		const pins = layer('landmarks');
 		this.pins = new Map();
@@ -290,6 +339,7 @@ class NairobiMap extends HTMLElement {
 		const r = 5.5 * unit;
 		for (const circle of this.canvas.querySelectorAll('.pin')) circle.setAttribute('r', r);
 		for (const circle of this.canvas.querySelectorAll('.pin-halo')) circle.setAttribute('r', r * 2.4);
+		for (const circle of this.canvas.querySelectorAll('.rent-circle')) circle.setAttribute('r', 8 * unit);
 		this.you.querySelector('.you-dot').setAttribute('r', 6 * unit);
 		this.you.querySelector('.you-halo').setAttribute('r', 16 * unit);
 		this.zoom = this.full.w / w;
@@ -299,7 +349,7 @@ class NairobiMap extends HTMLElement {
 
 	applyVisibility() {
 		const unit = this.scale();
-		for (const label of this.areaLabels) {
+		for (const label of [...this.areaLabels, ...this.subLabels]) {
 			label.node.classList.toggle('is-hidden', label.width / unit < label.chars * 7.5);
 		}
 
@@ -445,6 +495,10 @@ class NairobiMap extends HTMLElement {
 	}
 
 	clickAt(target) {
+		const dot = target.closest?.('.rent-dot');
+		if (dot) return this.select(`rent/${dot.dataset.id}`, { fly: false });
+		const sub = target.closest?.('.subcounty-shape');
+		if (sub) return this.select(`subcounty/${sub.dataset.id}`, { fly: false });
 		const pin = target.closest?.('.landmark');
 		if (pin) return this.select(`place/${pin.dataset.id}`, { fly: false });
 		const shape = target.closest?.('.constituency-shape');
@@ -473,7 +527,19 @@ class NairobiMap extends HTMLElement {
 		this.clearMarks();
 		this.selected = key;
 
-		if (found.kind === 'constituency') {
+		if (found.kind === 'subcounty') {
+			const c = found.item;
+			if (this.currentShade.geo !== 'subcounties') this.shade('census-density');
+			this.subShapes.get(c.id).classList.add('is-selected');
+			if (fly) this.flyTo(this.boundsOf(this.subShapes.get(c.id), 0.12));
+			this.showSubcounty(c);
+		} else if (found.kind === 'rent') {
+			const n = found.item;
+			if (this.currentShade.kind !== 'rent') this.shade('rent');
+			this.rentDots.get(slugify(n.name)).classList.add('is-selected');
+			if (fly) this.flyTo(this.around(n.x, n.y, this.full.w / 7));
+			this.showRent(n);
+		} else if (found.kind === 'constituency') {
 			const c = found.item;
 			this.shapes.get(c.id).classList.add('is-selected');
 			if (fly) this.flyTo(this.boundsOf(this.shapes.get(c.id), 0.12));
@@ -581,9 +647,12 @@ class NairobiMap extends HTMLElement {
 				['People per km²', `about ${c.density.toLocaleString('en-KE')}`],
 				['Area', `${c.areaKm2.toLocaleString('en-KE')} km²`],
 				['Crowding', rank === 1 ? `The most densely populated of ${total}` : `${ordinal(rank)} most densely populated of ${total}`],
+				['Relative wealth', `${ordinal(this.wealthRank.get(c.id))} of ${total}, wealthiest first`],
 			]),
 			el('p', { class: 'map-note' }, [
-				'Estimated: the 2019 census total for Nairobi, shared out using WorldPop\'s population model. ',
+				"Population is estimated: the 2019 census total for Nairobi, shared out using WorldPop's model. ",
+				`Relative wealth is Meta's modelled index, from ${c.rwiTiles || 'the nearest'} ${c.rwiTiles === 1 ? 'tile' : 'tiles'} of about 2.4 km, `,
+				c.rwiTiles <= 2 ? 'so treat it as rough here. ' : 'for comparison, not an income. ',
 				el('a', { href: '#map-method', text: 'How and why' }),
 			]),
 			places.length ? el('h3', { text: 'Neighbourhoods' }) : null,
@@ -593,6 +662,46 @@ class NairobiMap extends HTMLElement {
 				type: 'button', class: `constituency landmark-link cat-${l.category}`, text: l.name,
 				onclick: () => this.select(`place/${l.id}`),
 			}))) : null,
+		]);
+	}
+
+	showSubcounty(c) {
+		const total = this.data.subcounties.length;
+		const rank = this.censusDensityRank.get(c.id);
+		this.fillPanel([
+			this.closeButton(),
+			el('p', { class: 'map-eyebrow', text: 'Census sub-county, 2019' }),
+			el('h2', { text: c.name }),
+			this.facts([
+				['People', c.population.toLocaleString('en-KE')],
+				['People per km²', c.density.toLocaleString('en-KE')],
+				['Area', `${c.areaKm2.toLocaleString('en-KE')} km²`],
+				['Crowding', rank === 1 ? `The most densely populated of ${total}` : `${ordinal(rank)} most densely populated of ${total}`],
+				['Women', `${c.femalePct}%`],
+				['Children under 15', `${c.under15Pct}%`],
+				['Aged 20 to 34', `${c.age20to34Pct}%`],
+				['Aged 65 and over', `${c.over64Pct}%`],
+			]),
+			el('p', { class: 'map-note' }, [
+				'Counted by the 2019 Kenya Population and Housing Census. Sub-counties are administrative areas and do not follow constituency lines. ',
+				el('a', { href: '#census', text: 'All sub-counties' }),
+			]),
+		]);
+	}
+
+	showRent(n) {
+		const band = this.data.rentBands[n.rent];
+		const home = this.data.constituencies.find((c) => c.id === n.constituency);
+		this.fillPanel([
+			this.closeButton(),
+			el('p', { class: 'map-eyebrow', text: `Rent: ${band.label}` }),
+			el('h2', { text: n.name }),
+			el('p', { text: band.note }),
+			home ? el('p', { class: 'map-in' }, ['In ', this.constituencyButton(home), ' constituency']) : null,
+			el('p', { class: 'map-note' }, [
+				'Indicative only: our reading of 2026 rental listings, not a measured index. Rents vary a lot within a neighbourhood. ',
+				el('a', { href: '/guides/finding-housing#rough-asking-rents', text: 'Rents in the housing guide' }),
+			]),
 		]);
 	}
 
@@ -622,38 +731,63 @@ class NairobiMap extends HTMLElement {
 
 	shade(id) {
 		const shade = SHADES.find((s) => s.id === id) || SHADES[0];
+		const geoChanged = this.currentShade && this.currentShade.geo !== shade.geo;
+		this.currentShade = shade;
 		this.shadeSelect.value = shade.id;
+		this.classList.toggle('geo-subcounties', shade.geo === 'subcounties');
+		this.classList.toggle('shade-rent', shade.kind === 'rent');
 		this.classList.toggle('shade-plain', !shade.field);
 		this.classList.toggle('shade-quantile', Boolean(shade.field));
 
+		if (geoChanged && this.selected && !this.selected.startsWith('place/')) this.clearSelection();
+
+		const list = shade.geo === 'subcounties' ? this.data.subcounties : this.data.constituencies;
+		const paths = shade.geo === 'subcounties' ? this.subShapes : this.shapes;
+		this.shapes.forEach((path) => path.removeAttribute('data-bucket'));
+		this.subShapes.forEach((path) => path.removeAttribute('data-bucket'));
+
+		const swatchRow = (className, text) => el('p', { class: 'map-legend-row' }, [
+			el('span', { class: `swatch ${className}`, 'aria-hidden': 'true' }), document.createTextNode(text)]);
+
+		if (shade.kind === 'rent') {
+			this.legend.replaceChildren(
+				el('p', { class: 'map-legend-title', text: 'Typical rent (indicative)' }),
+				...Object.entries(this.data.rentBands).map(([band, info]) => swatchRow(`rent-swatch rent-${band}`, info.label)),
+			);
+			this.legend.hidden = false;
+			return;
+		}
+
 		if (!shade.field) {
-			this.shapes.forEach((path) => path.removeAttribute('data-bucket'));
 			this.legend.hidden = true;
 			return;
 		}
 
-		const values = this.data.constituencies.map((c) => c[shade.field]).sort((a, b) => a - b);
-		const cut = (q) => values[Math.min(values.length - 1, Math.floor(q * values.length))];
-		const edges = [cut(0.2), cut(0.4), cut(0.6), cut(0.8)];
+		const values = list.map((c) => c[shade.field]).sort((a, b) => a - b);
+		const buckets = list.length < 15 ? 4 : 5;
+		const edges = Array.from({ length: buckets - 1 }, (_, i) =>
+			values[Math.min(values.length - 1, Math.floor(((i + 1) / buckets) * values.length))]);
 		const bucket = (v) => 1 + edges.filter((edge) => v >= edge).length;
+		const step = (b) => (buckets === 4 ? [1, 2, 4, 5][b - 1] : b);
+		for (const c of list) paths.get(c.id).setAttribute('data-bucket', step(bucket(c[shade.field])));
 
-		for (const c of this.data.constituencies) this.shapes.get(c.id).setAttribute('data-bucket', bucket(c[shade.field]));
-
-		const n = (v) => v.toLocaleString('en-KE');
-		const ranges = [
-			`under ${n(edges[0])}`,
-			`${n(edges[0])} to ${n(edges[1])}`,
-			`${n(edges[1])} to ${n(edges[2])}`,
-			`${n(edges[2])} to ${n(edges[3])}`,
-			`${n(edges[3])} and over`,
-		];
-		this.legend.replaceChildren(
-			el('p', { class: 'map-legend-title', text: shade.label }),
-			...ranges.map((text, i) => el('p', { class: 'map-legend-row' }, [
-				el('span', { class: `swatch swatch-${i + 1}`, 'aria-hidden': 'true' }),
-				document.createTextNode(text),
-			])),
-		);
+		let rows;
+		if (shade.kind === 'rank') {
+			const names = buckets === 5
+				? ['Least wealthy fifth', 'Second fifth', 'Middle fifth', 'Fourth fifth', 'Wealthiest fifth']
+				: ['Least wealthy quarter', 'Second quarter', 'Third quarter', 'Wealthiest quarter'];
+			rows = names.map((text, i) => swatchRow(`swatch-${step(i + 1)}`, text));
+		} else {
+			const n = (v) => (shade.pct ? `${v}%` : v.toLocaleString('en-KE'));
+			const bounds = [...edges];
+			rows = Array.from({ length: buckets }, (_, i) => {
+				const text = i === 0 ? `under ${n(bounds[0])}`
+					: i === buckets - 1 ? `${n(bounds[i - 1])} and over`
+						: `${n(bounds[i - 1])} to ${n(bounds[i])}`;
+				return swatchRow(`swatch-${step(i + 1)}`, text);
+			});
+		}
+		this.legend.replaceChildren(el('p', { class: 'map-legend-title', text: shade.label }), ...rows);
 		this.legend.hidden = false;
 	}
 

@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import json
 import math
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 import zipfile
@@ -257,20 +258,39 @@ def read_census() -> dict[str, dict]:
             "femalePct": round(100 * n("F_TL") / total, 1),
             "under15Pct": round(100 * sum(n(f"T_{b}") for b in ("00_04", "05_09", "10_14")) / total, 1),
             "over64Pct": round(100 * sum(n(k) for k in set(older)) / total, 1),
+            "age20to34Pct": round(100 * sum(n(f"T_{b}") for b in ("20_24", "25_29", "30_34")) / total, 1),
         }
     return out
 
 
-def worldpop_shares(features: list[dict], county: dict) -> dict[str, float]:
-    """Modelled population inside each constituency, from a regular sample of the WorldPop grid."""
-    image = Image.open(fetch(WORLDPOP_URL, "ken_ppp_2020_1km_Aggregated_UNadj.tif"))
-    scale_x, scale_y, _ = image.tag_v2[33550]
-    origin_lon, origin_lat = image.tag_v2[33922][3], image.tag_v2[33922][4]
-    width, height = image.size
-    pixels = image.load()
-    weight = (SAMPLE_DEG / scale_x) * (SAMPLE_DEG / scale_y)
+RWI_URL = ("https://data.humdata.org/dataset/76f2a2ea-ba50-40f5-b79c-db95d668b843/resource/"
+           "15d09fc4-8d0e-46f4-8a6b-c7580f9387b8/download/ken_relative_wealth_index.csv")
 
-    # Cheap membership test on simplified rings in degrees, with a bbox reject.
+
+# The census's 11 administrative sub-counties, as OpenStreetMap relations. Their
+# areas match KNBS's published sub-county areas to within a few per cent, which
+# is how they were checked.
+SUBCOUNTY_RELATIONS = {
+    "Dagoretti": 16362605, "Embakasi": 16248854, "Kamukunji": 16248850, "Kasarani": 16247557,
+    "Kibra": 16246699, "Lang'ata": 16246698, "Makadara": 16248853, "Mathare": 16248851,
+    "Njiru": 16248849, "Starehe": 16248852, "Westlands": 16246696,
+}
+
+
+def fetch_subcounties() -> dict[str, dict]:
+    path = CACHE / "osm-subcounty-boundaries.json"
+    if not path.exists():
+        ids = ",".join(f"R{i}" for i in SUBCOUNTY_RELATIONS.values())
+        url = "https://nominatim.openstreetmap.org/lookup?" + urllib.parse.urlencode(
+            {"osm_ids": ids, "format": "json", "polygon_geojson": 1})
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        path.write_text(urllib.request.urlopen(request, timeout=120).read().decode("utf-8"), encoding="utf-8")
+    by_id = {row["osm_id"]: row["geojson"] for row in json.loads(path.read_text(encoding="utf-8"))}
+    return {name: by_id[osm_id] for name, osm_id in SUBCOUNTY_RELATIONS.items()}
+
+
+def membership_tests(features: list[dict]) -> list[tuple[str, list]]:
+    """Cheap point-in-constituency tests on simplified rings in degrees, with a bbox reject."""
     tests = []
     for feature in features:
         rings = []
@@ -279,26 +299,105 @@ def worldpop_shares(features: list[dict], county: dict) -> dict[str, float]:
             xs, ys = [p[0] for p in outer], [p[1] for p in outer]
             rings.append((min(xs), max(xs), min(ys), max(ys), outer))
         tests.append((feature["name"], rings))
+    return tests
 
-    totals = {name: 0.0 for name, _ in tests}
+
+def which(tests, lon: float, lat: float) -> str | None:
+    for name, rings in tests:
+        if any(x0 <= lon <= x1 and y0 <= lat <= y1 and point_in_ring(lon, lat, ring)
+               for x0, x1, y0, y1, ring in rings):
+            return name
+    return None
+
+
+class Grid:
+    """One WorldPop GeoTIFF, read with Pillow, looked up by longitude and latitude."""
+
+    def __init__(self, path: Path):
+        image = Image.open(path)
+        self.sx, self.sy, _ = image.tag_v2[33550]
+        self.lon0, self.lat0 = image.tag_v2[33922][3], image.tag_v2[33922][4]
+        self.w, self.h = image.size
+        self.pixels = image.load()
+
+    def cell(self, lon: float, lat: float) -> tuple[int, int]:
+        return int((lon - self.lon0) / self.sx), int((self.lat0 - lat) / self.sy)
+
+    def at(self, lon: float, lat: float) -> float:
+        col, row = self.cell(lon, lat)
+        if 0 <= col < self.w and 0 <= row < self.h:
+            value = self.pixels[col, row]
+            return value if value > 0 else 0.0
+        return 0.0
+
+
+def sample_points(features: list[dict], county: dict) -> list[tuple[str, float, float]]:
+    """A regular grid of points over the county, each tagged with its constituency."""
+    tests = membership_tests(features)
     lons = [p[0] for polygon in polygons(county["geometry"]) for p in polygon[0]]
     lats = [p[1] for polygon in polygons(county["geometry"]) for p in polygon[0]]
+    points = []
     lat = min(lats) + SAMPLE_DEG / 2
     while lat < max(lats):
         lon = min(lons) + SAMPLE_DEG / 2
-        row = int((origin_lat - lat) / scale_y)
         while lon < max(lons):
-            col = int((lon - origin_lon) / scale_x)
-            value = pixels[col, row] if 0 <= col < width and 0 <= row < height else 0
-            if value > 0:
-                for name, rings in tests:
-                    if any(x0 <= lon <= x1 and y0 <= lat <= y1 and point_in_ring(lon, lat, ring)
-                           for x0, x1, y0, y1, ring in rings):
-                        totals[name] += value * weight
-                        break
+            name = which(tests, lon, lat)
+            if name:
+                points.append((name, lon, lat))
             lon += SAMPLE_DEG
         lat += SAMPLE_DEG
+    return points
+
+
+def sum_grid(grid: Grid, points) -> dict[str, float]:
+    """The grid's people inside each constituency. Each sample stands for its share of a cell."""
+    weight = (SAMPLE_DEG / grid.sx) * (SAMPLE_DEG / grid.sy)
+    totals: dict[str, float] = {}
+    for name, lon, lat in points:
+        totals[name] = totals.get(name, 0.0) + grid.at(lon, lat) * weight
     return totals
+
+
+def relative_wealth(features: list[dict], people: Grid, shapes_by_name: dict) -> dict[str, dict]:
+    """
+    Meta's Relative Wealth Index, averaged over each constituency and weighted
+    by where people live, so an empty forest tile does not count as much as a
+    crowded estate. Tiles are about 2.4 km across, so a very small constituency
+    may contain none; it then takes the tile nearest its label point.
+    """
+    tests = membership_tests(features)
+    tiles = []
+    with open(fetch(RWI_URL, "ken_rwi.csv"), encoding="utf-8") as handle:
+        next(handle)
+        for line in handle:
+            lat, lon, rwi, _ = line.strip().split(",")
+            lat, lon = float(lat), float(lon)
+            if 36.5 < lon < 37.2 and -1.5 < lat < -1.1:
+                tiles.append((lon, lat, float(rwi)))
+
+    sums: dict[str, list[float]] = {}
+    for lon, lat, rwi in tiles:
+        name = which(tests, lon, lat)
+        if name:
+            weight = max(people.at(lon, lat), 1.0)
+            acc = sums.setdefault(name, [0.0, 0.0, 0])
+            acc[0] += rwi * weight
+            acc[1] += weight
+            acc[2] += 1
+
+    out = {}
+    for feature in features:
+        name = feature["name"]
+        if name in sums:
+            total, weight, count = sums[name]
+            out[name] = {"rwi": round(total / weight, 2), "rwiTiles": count}
+        else:
+            lx, ly = shapes_by_name[name]["label"]
+            lon = LON0 + lx * METRES_PER_UNIT / M_PER_DEG_LON
+            lat = LAT0 - ly * METRES_PER_UNIT / M_PER_DEG_LAT
+            nearest = min(tiles, key=lambda t: (t[0] - lon) ** 2 + (t[1] - lat) ** 2)
+            out[name] = {"rwi": round(nearest[2], 2), "rwiTiles": 0}
+    return out
 
 
 def main() -> None:
@@ -325,8 +424,11 @@ def main() -> None:
 
     census = read_census()
     census_total = sum(c["population"] for c in census.values())
-    modelled = worldpop_shares(features, county)
+    points = sample_points(features, county)
+    people = Grid(fetch(WORLDPOP_URL, "ken_ppp_2020_1km_Aggregated_UNadj.tif"))
+    modelled = sum_grid(people, points)
     modelled_total = sum(modelled.values())
+
 
     shapes = []
     for feature in features:
@@ -346,7 +448,26 @@ def main() -> None:
             "density": int(round(density, 1 - len(str(int(density))))),
         })
 
+    wealth = relative_wealth(features, people, {s["name"]: s for s in shapes})
+    for shape in shapes:
+        shape.update(wealth[shape["name"]])
+
     county_shape = shape_of(county["geometry"])
+
+    subcounties = []
+    for name, geometry in fetch_subcounties().items():
+        shape = shape_of(geometry)
+        record = census[name]
+        subcounties.append({
+            "id": slug(name),
+            "name": name,
+            "path": shape["path"],
+            "label": shape["label"],
+            "areaKm2": round(shape["areaKm2"], 1),
+            "density": int(round(record["population"] / shape["areaKm2"], -1)),
+            **{k: record[k] for k in ("population", "femalePct", "under15Pct", "age20to34Pct", "over64Pct")},
+        })
+    subcounties.sort(key=lambda c: c["name"])
 
     catalogue = yaml.safe_load(LANDMARKS.read_text(encoding="utf-8"))
     landmarks, outside = [], []
@@ -373,7 +494,8 @@ def main() -> None:
             outside.append(item["name"])
             continue
         neighbourhoods.append({"name": item["name"], "x": round(x), "y": round(y), "rank": item["rank"],
-                               "constituency": home["id"]})
+                               "constituency": home["id"],
+                               **({"rent": item["rent"]} if item.get("rent") else {})})
 
     points = [project(lon, lat) for polygon in polygons(county["geometry"]) for lon, lat in polygon[0]]
     points += [(lm["x"], lm["y"]) for lm in landmarks]
@@ -391,6 +513,12 @@ def main() -> None:
          "licence": "CC BY-IGO", "url": "https://data.humdata.org/dataset/cod-ps-ken"},
         {"what": "How the population is spread within the county", "who": "WorldPop, 2020, 1 km, UN-adjusted",
          "licence": "CC BY 4.0", "url": "https://www.worldpop.org"},
+        {"what": "Census sub-county boundaries", "who": "OpenStreetMap contributors",
+         "licence": "ODbL", "url": "https://www.openstreetmap.org/copyright"},
+        {"what": "Relative wealth", "who": "Meta Data for Good, Relative Wealth Index (Chi et al. 2022), via HDX",
+         "licence": "CC BY-NC 4.0", "url": "https://data.humdata.org/dataset/relative-wealth-index"},
+        {"what": "Rent bands", "who": "All About Nairobi, from 2026 rental listings - a judgement, not a measurement",
+         "licence": "", "url": "/guides/finding-housing#rough-asking-rents"},
         {"what": "Landmark and neighbourhood positions", "who": "Wikidata and OpenStreetMap contributors",
          "licence": "CC0 and ODbL", "url": "https://www.openstreetmap.org/copyright"},
     ]
@@ -409,7 +537,9 @@ def main() -> None:
         },
         "outline": county_shape["path"],
         "categories": catalogue["categories"],
+        "rentBands": catalogue["rent_bands"],
         "constituencies": shapes,
+        "subcounties": subcounties,
         "landmarks": landmarks,
         "neighbourhoods": neighbourhoods,
     }
@@ -421,8 +551,12 @@ def main() -> None:
         "population": census_total,
         "sources": sources,
         "categories": catalogue["categories"],
-        "census": sorted(census.values(), key=lambda c: -c["population"]),
-        "constituencies": [{k: s[k] for k in ("id", "name", "areaKm2", "population", "density")} for s in shapes],
+        "census": sorted(({**c, "areaKm2": sc["areaKm2"], "density": sc["density"]}
+                          for c in census.values() for sc in subcounties if sc["name"] == c["name"]),
+                         key=lambda c: -c["population"]),
+        "constituencies": [{k: s[k] for k in ("id", "name", "areaKm2", "population", "density", "rwi")} for s in shapes],
+        "rent_bands": catalogue["rent_bands"],
+        "rent": [n for n in neighbourhoods if n.get("rent")],
         "landmarks": [{k: lm[k] for k in ("id", "name", "category", "description", "constituency")}
                       for lm in landmarks],
         "hero": {"viewBox": view, "outline": county_shape["path"],
@@ -436,7 +570,10 @@ def main() -> None:
     print(f"  census total {census_total:,}; WorldPop 2020 inside the county {modelled_total:,.0f}")
     print(f"  county {county_shape['areaKm2']:.1f} km2, constituencies sum {sum(s['areaKm2'] for s in shapes):.1f}")
     for s in sorted(shapes, key=lambda s: -s["density"]):
-        print(f"    {s['name']:18s} {s['areaKm2']:6.1f} km2  est {s['population']:>9,}  {s['density']:>7,}/km2")
+        print(f"    {s['name']:18s} {s['areaKm2']:6.1f} km2  est {s['population']:>9,}  {s['density']:>7,}/km2"
+              f"  rwi {s['rwi']} ({s['rwiTiles']} tiles)")
+    for c in subcounties:
+        print(f"    [{c['name']:10s}] {c['areaKm2']:6.1f} km2  {c['population']:>9,}  {c['density']:>7,}/km2")
     if outside:
         print(f"  outside every constituency (dropped labels / kept landmarks): {outside}")
     print(f"  wrote {OUT_JSON.relative_to(ROOT)} ({OUT_JSON.stat().st_size / 1024:.0f} KB) and "

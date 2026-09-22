@@ -329,45 +329,56 @@ landmarks:
     description: >-
       Nairobi's horse-racing course, on Ngong Road.
 
+# Indicative rent bands for the rent layer. A judgement from 2026 rental
+# listings, matching the table in guides/finding-housing.md - not a measured
+# index. Neighbourhoods without a `rent` are left off that layer rather than
+# guessed at.
+rent_bands:
+  1: { label: "Rooms", note: "Single rooms in informal settlements, mostly under KES 10,000 a month" }
+  2: { label: "Budget", note: "Bedsitters around KES 8,000 to 15,000; one-bedrooms from about KES 15,000" }
+  3: { label: "Mid-range", note: "One-bedrooms roughly KES 20,000 to 40,000" }
+  4: { label: "Upper", note: "One-bedrooms roughly KES 40,000 to 90,000; two-bedrooms KES 60,000 and up" }
+  5: { label: "Top end", note: "Mostly houses and large apartments, KES 150,000 a month and up" }
+
 # Place names drawn as labels. Nominatim, checked 22 September 2026, except
 # Westlands, which Nominatim returns as the centre of the whole sub-county; the
 # point here is the commercial centre by the Westlands roundabout.
 neighbourhoods:
   - { name: CBD, lat: -1.28636, lon: 36.8217, rank: 1 }
-  - { name: Westlands, lat: -1.2665, lon: 36.8065, rank: 1 }
-  - { name: Kilimani, lat: -1.29601, lon: 36.78178, rank: 1 }
-  - { name: Karen, lat: -1.32837, lon: 36.70497, rank: 1 }
-  - { name: Eastleigh, lat: -1.27434, lon: 36.84896, rank: 1 }
-  - { name: Kasarani, lat: -1.21246, lon: 36.88297, rank: 1 }
-  - { name: Embakasi, lat: -1.30761, lon: 36.93416, rank: 1 }
-  - { name: Kileleshwa, lat: -1.27673, lon: 36.7879, rank: 2 }
-  - { name: Lavington, lat: -1.27407, lon: 36.77623, rank: 2 }
-  - { name: Lang'ata, lat: -1.31636, lon: 36.78944, rank: 2 }
-  - { name: Parklands, lat: -1.26306, lon: 36.81063, rank: 2 }
-  - { name: Gigiri, lat: -1.2325, lon: 36.8073, rank: 2 }
-  - { name: Runda, lat: -1.21821, lon: 36.80899, rank: 2 }
-  - { name: Muthaiga, lat: -1.25309, lon: 36.8301, rank: 2 }
-  - { name: Upper Hill, lat: -1.29412, lon: 36.81291, rank: 2 }
-  - { name: South B, lat: -1.31417, lon: 36.83767, rank: 2 }
-  - { name: South C, lat: -1.31884, lon: 36.82782, rank: 2 }
-  - { name: Kibera, lat: -1.31133, lon: 36.789, rank: 2 }
-  - { name: Mathare, lat: -1.25842, lon: 36.87127, rank: 2 }
-  - { name: Roysambu, lat: -1.21884, lon: 36.88674, rank: 2 }
-  - { name: Utawala, lat: -1.28438, lon: 36.96807, rank: 2 }
-  - { name: Donholm, lat: -1.29923, lon: 36.88869, rank: 2 }
-  - { name: Buruburu, lat: -1.28619, lon: 36.87743, rank: 2 }
-  - { name: Kawangware, lat: -1.27846, lon: 36.75164, rank: 2 }
-  - { name: Hurlingham, lat: -1.29141, lon: 36.79531, rank: 3 }
+  - { name: Westlands, lat: -1.2665, lon: 36.8065, rank: 1, rent: 4 }
+  - { name: Kilimani, lat: -1.29601, lon: 36.78178, rank: 1, rent: 4 }
+  - { name: Karen, lat: -1.32837, lon: 36.70497, rank: 1, rent: 5 }
+  - { name: Eastleigh, lat: -1.27434, lon: 36.84896, rank: 1, rent: 2 }
+  - { name: Kasarani, lat: -1.21246, lon: 36.88297, rank: 1, rent: 2 }
+  - { name: Embakasi, lat: -1.30761, lon: 36.93416, rank: 1, rent: 2 }
+  - { name: Kileleshwa, lat: -1.27673, lon: 36.7879, rank: 2, rent: 4 }
+  - { name: Lavington, lat: -1.27407, lon: 36.77623, rank: 2, rent: 4 }
+  - { name: Lang'ata, lat: -1.31636, lon: 36.78944, rank: 2, rent: 3 }
+  - { name: Parklands, lat: -1.26306, lon: 36.81063, rank: 2, rent: 4 }
+  - { name: Gigiri, lat: -1.2325, lon: 36.8073, rank: 2, rent: 5 }
+  - { name: Runda, lat: -1.21821, lon: 36.80899, rank: 2, rent: 5 }
+  - { name: Muthaiga, lat: -1.25309, lon: 36.8301, rank: 2, rent: 5 }
+  - { name: Upper Hill, lat: -1.29412, lon: 36.81291, rank: 2, rent: 4 }
+  - { name: South B, lat: -1.31417, lon: 36.83767, rank: 2, rent: 3 }
+  - { name: South C, lat: -1.31884, lon: 36.82782, rank: 2, rent: 3 }
+  - { name: Kibera, lat: -1.31133, lon: 36.789, rank: 2, rent: 1 }
+  - { name: Mathare, lat: -1.25842, lon: 36.87127, rank: 2, rent: 1 }
+  - { name: Roysambu, lat: -1.21884, lon: 36.88674, rank: 2, rent: 2 }
+  - { name: Utawala, lat: -1.28438, lon: 36.96807, rank: 2, rent: 2 }
+  - { name: Donholm, lat: -1.29923, lon: 36.88869, rank: 2, rent: 2 }
+  - { name: Buruburu, lat: -1.28619, lon: 36.87743, rank: 2, rent: 2 }
+  - { name: Kawangware, lat: -1.27846, lon: 36.75164, rank: 2, rent: 1 }
+  - { name: Hurlingham, lat: -1.29141, lon: 36.79531, rank: 3, rent: 4 }
   - { name: Industrial Area, lat: -1.30454, lon: 36.84419, rank: 2 }
-  - { name: Ngara, lat: -1.27352, lon: 36.82862, rank: 3 }
+  - { name: Ngara, lat: -1.27352, lon: 36.82862, rank: 3, rent: 3 }
   - { name: Pangani, lat: -1.2649, lon: 36.83727, rank: 3 }
   - { name: Ruai, lat: -1.269, lon: 36.99155, rank: 2 }
   - { name: Kahawa West, lat: -1.18631, lon: 36.90681, rank: 3 }
   - { name: Dagoretti, lat: -1.28359, lon: 36.72467, rank: 2 }
-  - { name: Umoja, lat: -1.28344, lon: 36.89284, rank: 3 }
-  - { name: Kayole, lat: -1.26675, lon: 36.91936, rank: 3 }
+  - { name: Umoja, lat: -1.28344, lon: 36.89284, rank: 3, rent: 2 }
+  - { name: Kayole, lat: -1.26675, lon: 36.91936, rank: 3, rent: 2 }
   - { name: Githurai, lat: -1.20284, lon: 36.91686, rank: 3 }
   - { name: Loresho, lat: -1.25682, lon: 36.75211, rank: 3 }
   - { name: Spring Valley, lat: -1.25334, lon: 36.79294, rank: 3 }
-  - { name: Nairobi West, lat: -1.3087, lon: 36.8231, rank: 3 }
-  - { name: Madaraka, lat: -1.3074, lon: 36.81534, rank: 3 }
+  - { name: Nairobi West, lat: -1.3087, lon: 36.8231, rank: 3, rent: 3 }
+  - { name: Madaraka, lat: -1.3074, lon: 36.81534, rank: 3, rent: 3 }

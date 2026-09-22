@@ -304,7 +304,8 @@
 	stroke-linejoin: round;
 }
 
-.constituency-shape {
+.constituency-shape,
+.subcounty-shape {
 	fill: color-mix(in srgb, var(--c-laterite) 10%, var(--c-bg-page));
 	stroke: var(--c-border-strong);
 	stroke-width: calc(var(--map-unit) * 1);
@@ -320,9 +321,10 @@
 	}
 }
 
-.shade-plain .constituency-shape.is-selected { fill: color-mix(in srgb, var(--c-laterite) 32%, var(--c-bg-page)); }
+.shade-plain .constituency-shape.is-selected,
+.shade-plain .subcounty-shape.is-selected { fill: color-mix(in srgb, var(--c-laterite) 32%, var(--c-bg-page)); }
 
-.shade-quantile .constituency-shape {
+.shade-quantile :is(.constituency-shape, .subcounty-shape) {
 	&[data-bucket="1"] { fill: color-mix(in srgb, var(--c-laterite) 10%, var(--c-bg-page)); }
 	&[data-bucket="2"] { fill: color-mix(in srgb, var(--c-laterite) 26%, var(--c-bg-page)); }
 	&[data-bucket="3"] { fill: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
@@ -529,3 +531,54 @@
 // ------------------------------------------------------------------ fallback
 
 .map-fallback .table-wrapper { margin-bottom: var(--l); }
+
+// ------------------------------------------------------------------ layers
+
+// Two sets of shapes share the canvas: constituencies by default, and the
+// census sub-counties while a census layer is chosen.
+.layer-subcounties,
+.layer-subcounty-labels,
+.layer-rent { display: none; }
+
+.geo-subcounties {
+	.layer-subcounties,
+	.layer-subcounty-labels { display: inline; }
+
+	.layer-constituencies,
+	.layer-constituency-labels { display: none; }
+}
+
+.shade-rent {
+	.layer-rent { display: inline; }
+	.constituency-shape { fill: color-mix(in srgb, var(--c-text-light) 8%, var(--c-bg-page)); }
+	.landmark { opacity: 0.35; }
+}
+
+.nairobi-map {
+	--c-rent-1: #3f8f63;
+	--c-rent-2: #8fb04a;
+	--c-rent-3: #d9a93a;
+	--c-rent-4: #d9752b;
+	--c-rent-5: #b3372b;
+}
+
+.rent-dot {
+	cursor: pointer;
+
+	.rent-circle {
+		stroke: var(--c-bg-page);
+		stroke-width: calc(var(--map-unit) * 2);
+	}
+
+	&.is-selected .rent-circle { stroke: var(--c-text-heading); stroke-width: calc(var(--map-unit) * 2.5); }
+}
+
+@each $band in 1, 2, 3, 4, 5 {
+	.rent-dot.rent-#{$band} .rent-circle { fill: var(--c-rent-#{$band}); }
+	.swatch.rent-#{$band} { background: var(--c-rent-#{$band}); border-radius: 50%; }
+}
+
+// Place names step below their rent dot so the dot does not cover the name.
+.shade-rent .place-label {
+	transform: translateY(calc(var(--map-unit) * 15px));
+}
