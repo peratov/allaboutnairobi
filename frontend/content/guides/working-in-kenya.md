@@ -54,6 +54,8 @@ housing allowance of 15% of basic pay on top.
 
 ## Redundancy and dismissal
 
+Add up what you are owed with the [final dues calculator](/tools/final-dues-calculator).
+
 - **Redundancy** must be notified to you and the local labour officer at least
   a month in advance. Severance is at least **15 days' pay for each completed
   year** of service.

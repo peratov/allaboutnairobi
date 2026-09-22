@@ -54,6 +54,10 @@ utility or the landlord without checking.
 - **Fake officials** - anyone demanding cash for a permit or a fine without an
   official receipt.
 
+## If something happens
+
+See [Reporting a crime and lost documents](/guides/reporting-a-crime-and-lost-documents) for the OB number, police abstracts and replacing documents.
+
 ## Protests
 
 Demonstrations happen, often in the CBD and sometimes at short notice. They can

@@ -30,6 +30,8 @@ For a single person, in KES:
 Add health insurance, school fees, household staff and travel home if they
 apply to you.
 
+Plan your own with the [budget planner](/tools/budget-planner).
+
 ## Rent
 
 The biggest line, by far. See

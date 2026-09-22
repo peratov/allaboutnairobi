@@ -310,3 +310,69 @@ constants:
       it does not provide housing. Regulation of Wages (General) Order.
     last_verified: 2026-09-23
     fail_on: 2027-05-01
+
+  MRI_RATE:
+    value: 7.5
+    unit: percent
+    description: >-
+      Monthly residential rental income tax for resident landlords, on gross
+      rent, final tax. KRA gives 7.5% from 1 January 2024. The Finance Bill 2026
+      proposed 10%; check KRA before filing.
+    last_verified: 2026-09-23
+    fail_on: 2027-01-01
+
+  MRI_LOWER_LIMIT:
+    value: 280000
+    unit: shillings
+    description: Annual gross residential rent above which the monthly rental income regime applies, per KRA.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  MRI_UPPER_LIMIT:
+    value: 15000000
+    unit: shillings
+    description: Annual gross residential rent above which landlords file under the ordinary income tax rules instead.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  NONRESIDENT_RENT_TAX_RATE:
+    value: 30
+    unit: percent
+    description: Non-resident rental income tax on gross rent, introduced by the Finance Act 2026 from 1 July 2026.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  CAR_IMPORT_DUTY_RATE:
+    value: 25
+    unit: percent
+    description: Import duty on passenger cars, on the customs value. Calculators and KRA disagree at the margins; KRA's assessment decides.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  CAR_IDF_RATE:
+    value: 3.5
+    unit: percent
+    description: Import Declaration Fee, on the customs value.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  CAR_RDL_RATE:
+    value: 2
+    unit: percent
+    description: Railway Development Levy, on the customs value.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  SEVERANCE_DAYS_PER_YEAR:
+    value: 15
+    unit: integer
+    description: Minimum severance on redundancy, in days' pay per completed year of service. Employment Act s.40.
+    last_verified: 2026-09-23
+    fail_on: 2028-01-01
+
+  MARRIAGE_NOTICE_DAYS:
+    value: 21
+    unit: integer
+    description: Days a notice of intended civil marriage is published before the marriage can take place. Marriage Act 2014.
+    last_verified: 2026-09-23
+    fail_on: 2028-01-01

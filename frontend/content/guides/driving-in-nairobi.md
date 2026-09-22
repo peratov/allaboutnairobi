@@ -47,6 +47,8 @@ somewhere guarded.
 
 ## Buying a car
 
+Importing one yourself is covered in [Importing a car to Kenya](/guides/importing-a-car-to-kenya).
+
 Most cars on Kenyan roads are imported used from Japan and the UK. When buying
 second-hand:
 

@@ -13,6 +13,8 @@
     - uri: guides/ecitizen-kra-pin-and-ids.md
     - uri: guides/weather-in-nairobi.md
     - uri: guides/swahili-for-daily-life.md
+    - uri: guides/phones-and-sim-cards.md
+    - uri: guides/leaving-kenya.md
 
 - id: housing
   type: guides
@@ -25,6 +27,7 @@
     - uri: guides/finding-housing.md
     - uri: guides/utilities-in-nairobi.md
     - uri: guides/buying-property-in-kenya.md
+    - uri: guides/being-a-landlord-in-kenya.md
 
 - id: money-and-work
   type: guides
@@ -59,6 +62,7 @@
   entries:
     - uri: guides/getting-around-nairobi.md
     - uri: guides/driving-in-nairobi.md
+    - uri: guides/importing-a-car-to-kenya.md
 
 - id: health-and-safety
   type: guides
@@ -69,6 +73,7 @@
   entries:
     - uri: guides/healthcare-in-nairobi.md
     - uri: guides/safety-in-nairobi.md
+    - uri: guides/reporting-a-crime-and-lost-documents.md
 
 - id: family-and-daily-life
   type: guides
@@ -80,6 +85,7 @@
     - uri: guides/schools-in-nairobi.md
     - uri: guides/shopping-in-nairobi.md
     - uri: guides/public-holidays-in-kenya.md
+    - uri: guides/getting-married-in-kenya.md
 
 - id: exploring
   type: guides
@@ -99,8 +105,12 @@
   description: Worked out with the same figures the guides use, entirely in your browser.
   entries:
     - uri: tools/salary-calculator.md
+    - uri: tools/final-dues-calculator.md
     - uri: tools/household-staff-calculator.md
     - uri: tools/move-in-cost-calculator.md
+    - uri: tools/budget-planner.md
+    - uri: tools/rental-income-tax-calculator.md
     - uri: tools/loan-repayment-calculator.md
     - uri: tools/stamp-duty-calculator.md
+    - uri: tools/car-import-duty-calculator.md
     - uri: tools/vat-calculator.md
