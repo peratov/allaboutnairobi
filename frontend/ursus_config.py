@@ -49,6 +49,7 @@ placeholders = {
     "SSNIT_MAX_CONTRIBUTION_YEARS": 0,
     "SSNIT_PENSION_AGE": 0,
     "SSNIT_EARLY_PENSION_AGE": 0,
+    "SSNIT_BEST_MONTHS": 0,
     # Housing constants
     "ACCRA_ONE_BED_RENT_MID": 0,
     "MAX_LEGAL_RENT_ADVANCE_MONTHS": 0,

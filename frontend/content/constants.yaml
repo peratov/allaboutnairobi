@@ -251,6 +251,30 @@ constants:
     last_verified: 2026-09-22
     fail_on: 2027-12-31
 
+  TIER_1_RATE:
+    value: 5
+    unit: percent
+    description: >-
+      NSSF Tier I contribution rate (mandatory, private sector benefit).
+    last_verified: 2026-09-22
+    fail_on: 2027-12-31
+
+  TIER_2_RATE:
+    value: 1
+    unit: percent
+    description: >-
+      NSSF Tier II contribution rate (voluntary, investment account).
+    last_verified: 2026-09-22
+    fail_on: 2027-12-31
+
+  TIER_3_MAX_RELIEF_RATE:
+    value: 0
+    unit: percent
+    description: >-
+      Tax relief on voluntary contributions (varies by employer scheme).
+    last_verified: 2026-09-22
+    fail_on: 2027-12-31
+
   NSSF_MIN_CONTRIBUTION_MONTHS:
     value: 180
     unit: integer
