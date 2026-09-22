@@ -11,6 +11,8 @@
   entries:
     - uri: guides/moving-to-nairobi.md
     - uri: guides/ecitizen-kra-pin-and-ids.md
+    - uri: guides/weather-in-nairobi.md
+    - uri: guides/swahili-for-daily-life.md
 
 - id: housing
   type: guides
@@ -22,19 +24,31 @@
     - uri: guides/neighbourhoods-of-nairobi.md
     - uri: guides/finding-housing.md
     - uri: guides/utilities-in-nairobi.md
+    - uri: guides/buying-property-in-kenya.md
 
 - id: money-and-work
   type: guides
   title: Money and work
   short_title: Money and work
   symbol: money
-  description: M-Pesa, banks, payroll deductions, your rights at work, and what things cost.
+  description: M-Pesa, banks, payroll deductions and what things cost.
   entries:
     - uri: guides/mpesa-and-mobile-money.md
     - uri: guides/opening-a-bank-account.md
     - uri: guides/paye-and-taxes.md
-    - uri: guides/working-in-kenya.md
     - uri: guides/cost-of-living-in-nairobi.md
+
+- id: work-and-business
+  type: guides
+  title: Work and business
+  short_title: Work and business
+  symbol: rights
+  description: Finding a job, your rights at work, employing people at home, and starting a business.
+  entries:
+    - uri: guides/finding-a-job-in-nairobi.md
+    - uri: guides/working-in-kenya.md
+    - uri: guides/hiring-household-staff.md
+    - uri: guides/registering-a-business-in-kenya.md
 
 - id: getting-around
   type: guides
@@ -76,3 +90,17 @@
   entries:
     - uri: guides/things-to-do-in-nairobi.md
     - uri: guides/day-trips-from-nairobi.md
+
+- id: calculators
+  type: tools
+  title: Calculators
+  short_title: Calculators
+  symbol: tools
+  description: Worked out with the same figures the guides use, entirely in your browser.
+  entries:
+    - uri: tools/salary-calculator.md
+    - uri: tools/household-staff-calculator.md
+    - uri: tools/move-in-cost-calculator.md
+    - uri: tools/loan-repayment-calculator.md
+    - uri: tools/stamp-duty-calculator.md
+    - uri: tools/vat-calculator.md

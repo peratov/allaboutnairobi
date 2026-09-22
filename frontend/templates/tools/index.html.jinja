@@ -1,22 +1,38 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/tools" %}
-{% set metatitle = "Templates and checklists" %}
-{% set metadescription = "Free templates and checklists for Kenya: tenancy agreements, rent receipts, resignation letters and employment contracts." %}
+{% set metatitle = "Calculators and templates" %}
+{% set metadescription = "Free Kenyan calculators - take-home pay, household staff, move-in costs, loans, stamp duty and VAT - plus tenancy, receipt and resignation templates." %}
 {% set docs = get_entries('docs', sort_by='title') %}
+{% set calculators = (get_entries('collections')|selectattr('id', 'equalto', 'calculators')|first).entries %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
 				<span class="icon-stamp">{% include "_icons/tools.svg" %}</span>
-				<h1>Templates and checklists</h1>
+				<h1>Calculators and templates</h1>
 			</div>
 			<p class="page-intro">
-				Documents you can copy and adapt, written for Kenyan law and the way
-				things are actually done in Nairobi. Checklists remember what you
-				ticked, in this browser only.
+				Calculators that use the same figures as the guides, and documents you
+				can copy and adapt. Nothing you type is sent anywhere &mdash; every sum
+				happens on your own device.
 			</p>
 
+			<h2 id="calculators">Calculators</h2>
+			<ul class="card-grid">
+				{% for item in calculators %}
+					{% set tool = entries[item.uri] %}
+					<li>
+						<a class="card" href="{{ tool.url }}">
+							<span class="icon-stamp">{% include "_icons/money.svg" %}</span>
+							<h3>{{ tool.short_title|default(tool.title) }}</h3>
+							<p>{{ tool.description }}</p>
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+
+			<h2 id="templates">Templates and checklists</h2>
 			<ul class="card-grid">
 				{% for doc in docs %}
 					<li>
@@ -30,7 +46,6 @@
 			</ul>
 
 			<p>
-				&mdash; <a href="{{ SITE_URL }}/guides/paye-and-taxes">Work out your take-home pay, step by step &#8658;</a><br>
 				&mdash; <a href="{{ SITE_URL }}/map">The interactive map of Nairobi &#8658;</a>
 			</p>
 		</article>

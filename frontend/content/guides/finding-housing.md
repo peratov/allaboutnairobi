@@ -51,6 +51,8 @@ Use them to shortlist, not to budget to the shilling.
 
 ## What you pay up front
 
+Add it all up with the [move-in cost calculator](/tools/move-in-cost-calculator).
+
 The usual arrangement:
 
 - **The first month's rent**, in advance.

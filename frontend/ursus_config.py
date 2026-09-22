@@ -65,6 +65,19 @@ ctx["PAYE_BANDS"] = [
     {"from": ctx["PAYE_BAND_4_LIMIT"] + 1, "to": None, "rate": ctx["PAYE_TOP_RATE"]},
 ]
 
+# The figures the calculators need, handed to the browser as JSON by the tool
+# pages, so a calculator can never disagree with the guide that explains it.
+ctx["TOOL_CONSTANTS"] = {
+    name: float(ctx[name]) for name in (
+        "PAYE_BAND_1_LIMIT", "PAYE_BAND_2_LIMIT", "PAYE_BAND_3_LIMIT", "PAYE_BAND_4_LIMIT",
+        "PAYE_RATE_1", "PAYE_RATE_2", "PAYE_RATE_3", "PAYE_RATE_4", "PAYE_TOP_RATE",
+        "PERSONAL_RELIEF_MONTHLY", "NSSF_RATE", "NSSF_LOWER_EARNINGS_LIMIT", "NSSF_UPPER_EARNINGS_LIMIT",
+        "SHIF_RATE", "SHIF_MINIMUM", "HOUSING_LEVY_RATE", "VAT_RATE",
+        "NAIROBI_MIN_WAGE_GENERAL_LABOURER", "HOUSING_ALLOWANCE_RATE",
+        "STAMP_DUTY_URBAN", "STAMP_DUTY_RURAL",
+    )
+}
+
 # Site essentials
 ctx["SITE_NAME"] = "All About Nairobi"
 ctx["SITE_TAGLINE"] = "Free guides and tools for living in Nairobi"
@@ -163,6 +176,7 @@ config.jinja_extensions[
 config.jinja_extensions.extend([
     "extensions.renderers.jinja.TableOfContentsExtension",
     "extensions.renderers.jinja.GlossaryExtension",
+    "extensions.renderers.jinja.ToolExtension",
 ])
 
 # Must run before anything reads an entry URI. See the module docstring.
@@ -203,6 +217,7 @@ config.lunr_indexes = {
     "indexed_fields": ("title", "short_title", "description", "local_term", "english_term", "language"),
     "indexes": [
         {"uri_pattern": "guides/*.md", "returned_fields": ("title", "short_title", "url"), "boost": 2},
+        {"uri_pattern": "tools/*.md", "returned_fields": ("title", "short_title", "url"), "boost": 2},
         {"uri_pattern": "glossary/*.md", "returned_fields": ("title", "local_term", "english_term", "url"), "boost": 1},
         {"uri_pattern": "newsletter/*.md", "returned_fields": ("title", "short_title", "url"), "boost": 1},
         {"uri_pattern": "docs/*.md", "returned_fields": ("title", "short_title", "url"), "boost": 1},

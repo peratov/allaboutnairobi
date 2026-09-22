@@ -63,6 +63,8 @@ housing allowance of 15% of basic pay on top.
 
 ## Employing someone at home
 
+See [Hiring household staff](/guides/hiring-household-staff) and the [household staff calculator](/tools/household-staff-calculator).
+
 Many households employ a house manager, nanny, gardener or [[askari]]. You are
 their employer:
 

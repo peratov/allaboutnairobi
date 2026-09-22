@@ -58,7 +58,7 @@ Someone earning **KES 100,000 a month** gross:
 <tr><th scope="row">Take-home pay</th><th class="numeric">70,441.65</th></tr>
 </tbody></table></div>
 
-Payroll software rounds slightly differently, so expect your payslip to be
+Try your own figures in the [salary calculator](/tools/salary-calculator). Payroll software rounds slightly differently, so expect your payslip to be
 within a few shillings of this, not identical.
 
 ## NSSF in more detail

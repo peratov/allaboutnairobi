@@ -4,3 +4,9 @@
 	{{ super() }}
 	<link rel="index" href="{{ SITE_URL }}/tools">
 {% endblock %}
+
+{% block postFooter %}
+	{{ super() }}
+	<script type="application/json" id="site-constants">{{ TOOL_CONSTANTS|tojson }}</script>
+	{% if entry.tool|default %}<script type="module" src="/js/tools/{{ entry.tool }}.mjs"></script>{% endif %}
+{% endblock %}
