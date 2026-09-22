@@ -1,3 +1,12 @@
+meta:
+  generated: '2026-09-22'
+  last_verified: '2026-09-22'
+  sources:
+  - what: Nonstop routes from JKIA
+    who: Kenya Airways and partner airlines
+    url: https://www.kenyaairways.com
+    licence: Travel industry data
+
 origin:
   name: Jomo Kenyatta International Airport
   iata: NBO

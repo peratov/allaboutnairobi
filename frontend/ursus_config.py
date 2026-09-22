@@ -26,6 +26,8 @@ ctx.update(load_constants_from_file(config.content_path / "constants.yaml"))
 # Fill in placeholder values for all constants referenced in templates but not in constants.yaml
 # These will be populated with real Kenya data in Phase 2
 placeholders = {
+    # Hero map
+    "HERO_MAP": None,
     # Events
     "EVENTS": {
         "categories": [],
@@ -167,6 +169,7 @@ config.site_url = ctx["SITE_URL"]
 config.context_globals = ctx
 config.jinja_filters = {
     "shillings": to_shillings,
+    "cedis": to_shillings,  # Kenya uses shillings, not cedis
     "usd": to_usd,
     "percent": to_percent,
     "number": to_number,
