@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && python -m pip install -q --break-system-packages -r requirements.txt && python -m ursus build",
+  "buildCommand": "cd frontend && python -m pip install -q --break-system-packages -r requirements.txt && /uv/python/bin/ursus build",
   "outputDirectory": "frontend/output",
   "rewrites": [
     {
