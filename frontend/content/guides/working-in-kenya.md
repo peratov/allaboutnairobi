@@ -18,6 +18,8 @@ sign, check what counts as basic pay and what as allowances, because
 
 ## Leave
 
+Check your balance with the [leave calculator](/tools/leave-calculator).
+
 | Leave | Minimum |
 | --- | --- |
 | Annual leave | {{ ANNUAL_LEAVE_DAYS }} working days a year, after twelve months |
@@ -38,6 +40,8 @@ Public holidays are paid days off. If you work on one, you are owed more; see
   in lieu of notice.
 
 ## Hours and overtime
+
+Work out your own with the [overtime calculator](/tools/overtime-calculator).
 
 The general wage regulations set a normal week of 52 hours, or 60 for night
 workers. Overtime is paid at one and a half times the normal rate on ordinary

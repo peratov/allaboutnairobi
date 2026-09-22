@@ -68,6 +68,10 @@ improving. Crossing the big roads is the hard part: use footbridges and
 signalled crossings. Cycling is growing, but traffic and potholes make it best
 for confident riders or for Karura Forest's trails.
 
+## What it costs
+
+Compare a month of matatus, ride-hailing and driving with the [commute cost calculator](/tools/commute-cost-calculator).
+
 ## Driving
 
 See [Driving in Nairobi](/guides/driving-in-nairobi).

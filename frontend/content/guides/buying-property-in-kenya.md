@@ -74,6 +74,8 @@ sectional titles. Agricultural land is restricted further.
 
 ## Mortgages
 
+See roughly what you can borrow with the [mortgage affordability calculator](/tools/mortgage-affordability-calculator).
+
 Kenyan banks and some SACCOs lend for home purchases. Compare offers on the
 total cost, not only the rate; see the
 [loan repayment calculator](/tools/loan-repayment-calculator).

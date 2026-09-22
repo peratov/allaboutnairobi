@@ -376,3 +376,41 @@ constants:
     description: Days a notice of intended civil marriage is published before the marriage can take place. Marriage Act 2014.
     last_verified: 2026-09-23
     fail_on: 2028-01-01
+
+  INTEREST_WHT_RATE:
+    value: 15
+    unit: percent
+    description: >-
+      Withholding tax on interest paid to resident individuals from money market
+      funds, bank deposits, Treasury bills and most bonds. Final tax.
+      Infrastructure bonds are exempt.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  NORMAL_WEEKLY_HOURS:
+    value: 52
+    unit: integer
+    description: Normal working week under the Regulation of Wages (General) Order, 60 for night workers.
+    last_verified: 2026-09-23
+    fail_on: 2028-01-01
+
+  OVERTIME_RATE_NORMAL:
+    value: 1.5
+    unit: decimal
+    description: Overtime multiple on ordinary working days, general wage regulations.
+    last_verified: 2026-09-23
+    fail_on: 2028-01-01
+
+  OVERTIME_RATE_REST_DAY:
+    value: 2
+    unit: decimal
+    description: Overtime multiple on rest days and public holidays, general wage regulations.
+    last_verified: 2026-09-23
+    fail_on: 2028-01-01
+
+  DIGITAL_NOMAD_MIN_INCOME_USD:
+    value: 24000
+    unit: integer
+    description: Minimum annual income from outside Kenya for a Class N digital nomad permit, as reported in 2026.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01

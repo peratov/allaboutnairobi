@@ -74,6 +74,10 @@ branches.
 Compare the total cost, meaning the fee plus the exchange rate against the
 mid-market rate, rather than the headline fee.
 
+## Saving
+
+For money market funds, Treasury bills and SACCOs, see [Saving and investing in Kenya](/guides/saving-and-investing-in-kenya).
+
 ## Cards
 
 Visa and Mastercard debit cards work in malls, supermarkets and online. Use

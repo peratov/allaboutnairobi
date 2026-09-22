@@ -14,6 +14,7 @@
     - uri: guides/weather-in-nairobi.md
     - uri: guides/swahili-for-daily-life.md
     - uri: guides/phones-and-sim-cards.md
+    - uri: guides/working-remotely-from-nairobi.md
     - uri: guides/leaving-kenya.md
 
 - id: housing
@@ -40,6 +41,7 @@
     - uri: guides/opening-a-bank-account.md
     - uri: guides/paye-and-taxes.md
     - uri: guides/cost-of-living-in-nairobi.md
+    - uri: guides/saving-and-investing-in-kenya.md
 
 - id: work-and-business
   type: guides
@@ -83,6 +85,9 @@
   description: Schools, shopping and the public holiday calendar.
   entries:
     - uri: guides/schools-in-nairobi.md
+    - uri: guides/nairobi-with-kids.md
+    - uri: guides/studying-in-nairobi.md
+    - uri: guides/pets-in-nairobi.md
     - uri: guides/shopping-in-nairobi.md
     - uri: guides/public-holidays-in-kenya.md
     - uri: guides/getting-married-in-kenya.md
@@ -96,6 +101,7 @@
   entries:
     - uri: guides/things-to-do-in-nairobi.md
     - uri: guides/day-trips-from-nairobi.md
+    - uri: guides/sport-and-fitness-in-nairobi.md
 
 - id: calculators
   type: tools
@@ -106,11 +112,16 @@
   entries:
     - uri: tools/salary-calculator.md
     - uri: tools/final-dues-calculator.md
+    - uri: tools/leave-calculator.md
+    - uri: tools/overtime-calculator.md
     - uri: tools/household-staff-calculator.md
     - uri: tools/move-in-cost-calculator.md
     - uri: tools/budget-planner.md
     - uri: tools/rental-income-tax-calculator.md
+    - uri: tools/commute-cost-calculator.md
+    - uri: tools/savings-calculator.md
     - uri: tools/loan-repayment-calculator.md
+    - uri: tools/mortgage-affordability-calculator.md
     - uri: tools/stamp-duty-calculator.md
     - uri: tools/car-import-duty-calculator.md
     - uri: tools/vat-calculator.md
