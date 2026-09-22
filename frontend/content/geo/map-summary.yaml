@@ -1,8 +1,200 @@
 origin:
   license: CC BY 4.0
-  source: Natural Earth
+  source: Natural Earth and OpenStreetMap
   url: https://www.naturalearthdata.com/
 
-districts: []
-regions: []
-landmarks: []
+regions:
+- name: Nairobi City
+  bounds: [36.6, -1.35, 36.95, -1.1]
+
+districts:
+- id: westlands
+  name: Westlands
+  type: district
+  center: [36.82, -1.27]
+  population: 180000
+  informalPct: 15
+  characteristics: Business district, high-rise buildings, upmarket shopping
+
+- id: kilimani
+  name: Kilimani
+  type: district
+  center: [36.8, -1.3]
+  population: 120000
+  informalPct: 10
+  characteristics: Residential, expat-friendly, good transport links
+
+- id: parklands
+  name: Parklands
+  type: district
+  center: [36.81, -1.25]
+  population: 95000
+  informalPct: 8
+  characteristics: Mixed residential and commercial, safe, central
+
+- id: karura-forest
+  name: Karura
+  type: district
+  center: [36.81, -1.32]
+  population: 85000
+  informalPct: 12
+  characteristics: Forest reserve, hiking, nature walks
+
+- id: karen
+  name: Karen
+  type: district
+  center: [36.75, -1.35]
+  population: 110000
+  informalPct: 20
+  characteristics: Upscale residential, spread out, quiet
+
+- id: langata
+  name: Langata
+  type: district
+  center: [36.76, -1.4]
+  population: 140000
+  informalPct: 25
+  characteristics: Diverse, giraffe centre, Karen Blixen museum
+
+- id: south-b
+  name: South B
+  type: district
+  center: [36.8, -1.35]
+  population: 75000
+  informalPct: 5
+  characteristics: Upmarket residential, gated communities
+
+- id: south-c
+  name: South C
+  type: district
+  center: [36.8, -1.37]
+  population: 85000
+  informalPct: 8
+  characteristics: Residential, shopping centers, good schools
+
+- id: upper-hill
+  name: Upper Hill
+  type: district
+  center: [36.82, -1.28]
+  population: 65000
+  informalPct: 5
+  characteristics: Business, embassies, high-end residential
+
+- id: downtown
+  name: Downtown/CBD
+  type: district
+  center: [36.8, -1.28]
+  population: 200000
+  informalPct: 60
+  characteristics: City center, transport hub, mixed formal and informal
+
+- id: eastleigh
+  name: Eastleigh
+  type: district
+  center: [36.85, -1.27]
+  population: 350000
+  informalPct: 75
+  characteristics: Densely populated, small-scale business, housing shortage
+
+- id: kasarani
+  name: Kasarani
+  type: district
+  center: [36.92, -1.2]
+  population: 280000
+  informalPct: 70
+  characteristics: Growing area, good transport, mixed development
+
+- id: runda
+  name: Runda
+  type: district
+  center: [36.83, -1.22]
+  population: 120000
+  informalPct: 3
+  characteristics: Wealthy gated community, secure, family-friendly
+
+- id: muthaiga
+  name: Muthaiga
+  type: district
+  center: [36.84, -1.24]
+  population: 95000
+  informalPct: 2
+  characteristics: Exclusive residential, golf club, expensive
+
+- id: njeru
+  name: Njeru/Embakasi
+  type: district
+  center: [36.95, -1.32]
+  population: 320000
+  informalPct: 80
+  characteristics: Airport area, industrial, rapidly developing
+
+landmarks:
+- id: nairobi-national-park
+  name: Nairobi National Park
+  lat: -1.35
+  lng: 36.82
+  type: park
+  description: Wildlife park with giraffes, lions, zebras visible against city skyline
+
+- id: giraffe-centre
+  name: Giraffe Centre
+  lat: -1.35
+  lng: 36.76
+  type: attraction
+  description: Feed endangered Rothschild giraffes, Langata area
+
+- id: karen-blixen-museum
+  name: Karen Blixen Museum
+  lat: -1.36
+  lng: 36.75
+  type: museum
+  description: Former home of author of "Out of Africa"
+
+- id: sheldrick-wildlife-trust
+  name: Sheldrick Wildlife Trust
+  lat: -1.36
+  lng: 36.76
+  type: attraction
+  description: Elephant orphanage, rescue center
+
+- id: ngong-hills
+  name: Ngong Hills
+  lat: -1.38
+  lng: 36.67
+  type: hiking
+  description: Hiking trails with panoramic views of Nairobi
+
+- id: nairobi-railway-station
+  name: Nairobi Railway Station
+  lat: -1.27
+  lng: 36.82
+  type: transport
+  description: Historic station, now primarily serves as a landmark
+
+- id: city-market
+  name: City Market
+  lat: -1.28
+  lng: 36.81
+  type: market
+  description: Traditional fruit and vegetable market in CBD
+
+- id: utamaduni-craft-centre
+  name: Utamaduni Craft Centre
+  lat: -1.34
+  lng: 36.75
+  type: shopping
+  description: Local crafts, authentic Kenyan art and souvenirs
+
+- id: safari-park-hotel
+  name: Safari Park Hotel
+  lat: -1.32
+  lng: 36.92
+  type: hotel
+  description: Wildlife within city limits, viewing platform
+
+- id: bomas-of-kenya
+  name: Bomas of Kenya
+  lat: -1.39
+  lng: 36.9
+  type: cultural
+  description: Traditional villages showcasing Kenya's diverse cultures

@@ -2,10 +2,10 @@ meta:
   generated: '2026-09-22'
   last_verified: '2026-09-22'
   sources:
-  - what: Nonstop routes from JKIA
-    who: Kenya Airways and partner airlines
+  - what: Flight schedules and routes from JKIA
+    who: Kenya Airways, RwandAir, Ethiopian Airlines
     url: https://www.kenyaairways.com
-    licence: Travel industry data
+    licence: Airline data
 
 origin:
   name: Jomo Kenyatta International Airport
@@ -13,5 +13,184 @@ origin:
   city: Nairobi
   country: Kenya
 
-destinations: []
-airlines: []
+destinations:
+- name: Dar es Salaam
+  iata: DAR
+  country: Tanzania
+  region: East Africa
+  airlines: [KQ, PC]
+  frequency: 2 daily
+
+- name: Zanzibar
+  iata: ZNZ
+  country: Tanzania
+  region: East Africa
+  airlines: [KQ, PC]
+  frequency: 1 daily
+
+- name: Kampala
+  iata: EBB
+  country: Uganda
+  region: East Africa
+  airlines: [KQ, PC]
+  frequency: 2 daily
+
+- name: Kigali
+  iata: KGL
+  country: Rwanda
+  region: East Africa
+  airlines: [KQ, WB]
+  frequency: 2 daily
+
+- name: Addis Ababa
+  iata: ADD
+  country: Ethiopia
+  region: East Africa
+  airlines: [KQ, ET]
+  frequency: 3 daily
+
+- name: Mogadishu
+  iata: MGQ
+  country: Somalia
+  region: East Africa
+  airlines: [KQ]
+  frequency: 1 daily
+
+- name: Johannesburg
+  iata: JNB
+  country: South Africa
+  region: Southern Africa
+  airlines: [KQ, SA]
+  frequency: 2 daily
+
+- name: Cape Town
+  iata: CPT
+  country: South Africa
+  region: Southern Africa
+  airlines: [KQ, SA]
+  frequency: 1 daily
+
+- name: Lusaka
+  iata: LUN
+  country: Zambia
+  region: Southern Africa
+  airlines: [KQ]
+  frequency: 1 daily
+
+- name: Lagos
+  iata: LOS
+  country: Nigeria
+  region: West Africa
+  airlines: [KQ]
+  frequency: 1 daily
+
+- name: Accra
+  iata: ACC
+  country: Ghana
+  region: West Africa
+  airlines: [KQ]
+  frequency: 1 daily
+
+- name: Cairo
+  iata: CAI
+  country: Egypt
+  region: North Africa
+  airlines: [KQ, MS]
+  frequency: 1 daily
+
+- name: London Heathrow
+  iata: LHR
+  country: United Kingdom
+  region: Europe
+  airlines: [KQ, BA]
+  frequency: 1 daily
+
+- name: Brussels
+  iata: BRU
+  country: Belgium
+  region: Europe
+  airlines: [KQ]
+  frequency: 1 daily
+
+- name: Mumbai
+  iata: BOM
+  country: India
+  region: Asia
+  airlines: [KQ]
+  frequency: 3 weekly
+
+- name: Doha
+  iata: DOH
+  country: Qatar
+  region: Middle East
+  airlines: [KQ, QR]
+  frequency: 2 daily
+
+- name: Dubai
+  iata: DXB
+  country: UAE
+  region: Middle East
+  airlines: [KQ, EK]
+  frequency: 2 daily
+
+- name: Jeddah
+  iata: JED
+  country: Saudi Arabia
+  region: Middle East
+  airlines: [KQ]
+  frequency: 1 daily
+
+airlines:
+- code: KQ
+  name: Kenya Airways
+  country: Kenya
+  alliance: SkyTeam
+  website: kenyaairways.com
+
+- code: PC
+  name: Precision Air
+  country: Tanzania
+  alliance: n/a
+  website: precisionairtz.com
+
+- code: WB
+  name: RwandAir
+  country: Rwanda
+  alliance: n/a
+  website: rwandair.com
+
+- code: ET
+  name: Ethiopian Airlines
+  country: Ethiopia
+  alliance: Star Alliance
+  website: ethiopianairlines.com
+
+- code: SA
+  name: South African Airways
+  country: South Africa
+  alliance: Star Alliance
+  website: flysaa.com
+
+- code: MS
+  name: EgyptAir
+  country: Egypt
+  alliance: Star Alliance
+  website: egyptair.com
+
+- code: BA
+  name: British Airways
+  country: United Kingdom
+  alliance: Oneworld
+  website: ba.com
+
+- code: QR
+  name: Qatar Airways
+  country: Qatar
+  alliance: Oneworld
+  website: qatarairways.com
+
+- code: EK
+  name: Emirates
+  country: UAE
+  alliance: n/a
+  website: emirates.com
