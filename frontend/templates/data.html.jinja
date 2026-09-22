@@ -1,7 +1,7 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/data" %}
-{% set metatitle = "Accra and Ghana in numbers" %}
-{% set metadescription = "Population, GDP, education and daily life over sixty years, charted - with what is Accra and what is Ghana kept plainly apart." %}
+{% set metatitle = "Nairobi and Kenya in numbers" %}
+{% set metadescription = "Population, economy, housing and daily life statistics for Nairobi and Kenya. Coming soon with comprehensive data." %}
 
 {# Mirrors readable() in data-dashboard.mjs, so the tables and the charts read
    the same figure the same way. A GDP written out in full is eleven digits of
@@ -35,193 +35,46 @@
 		<article class="section">
 			<div class="section-heading">
 				<span class="adinkra-stamp">{% include "_icons/accuracy.svg" %}</span>
-				<h1>Accra and Ghana in numbers</h1>
+				<h1>Nairobi and Kenya in numbers</h1>
 			</div>
 
 			<p class="page-intro">
-				{{ INDICATORS.series|length }} series and
-				{{ '{:,}'.format(INDICATORS.series|map(attribute='points')|sum) }} data points,
-				most of them running back to 1960. Point at any chart, or drag across it
-				on a phone, to read a single year.
+				Comprehensive economic, demographic, and social statistics for Nairobi and Kenya.
+				This section is being developed with real Kenya data and will include housing costs,
+				population trends, employment, and economic indicators.
 			</p>
 
-			<div class="admonition warning">
-				<p class="admonition-title">Most of this is Ghana, not Accra</p>
-				<p>{{ INDICATORS.meta.caveat }}</p>
-				<p>
-					Nobody publishes a GDP series, an inflation series or a school
-					enrolment series for Greater Accra on its own, so this page does
-					not pretend to. Every chart is stamped with what it covers
-					&mdash; <strong>Accra</strong>, <strong>Ghana</strong> or
-					<strong>Derived</strong> &mdash; and you can filter to the Accra
-					figures alone, of which there are very few.
-				</p>
+			<div class="admonition info">
+				<p class="admonition-title">Coming soon</p>
+				<p>Kenya national statistics and Nairobi-specific data will be added in the next phase. In the meantime, see our <a href="{{ SITE_URL }}/guides">guides</a> for practical information about living in Nairobi.</p>
 			</div>
-
-			<data-dashboard></data-dashboard>
-
-			<noscript>
-				<p class="tool-note">
-					The charts need JavaScript. Every series is summarised in the tables
-					below, with its first and last value.
-				</p>
-			</noscript>
 		</article>
 
 		<article class="section">
-			<h2 id="accra-itself">What we actually have for Accra</h2>
+			<h2 id="nairobi-stats">Nairobi and Kenya statistics</h2>
 
 			<p>
-				Very little, and it is worth being blunt about why. Ghana does not
-				publish regional GDP as a series, regional inflation is not available
-				in any machine-readable form, and the census runs roughly once a
-				decade. So the Accra record is <strong>six population counts</strong>,
-				the region's area, and one study of its share of the national economy.
+				We're compiling comprehensive statistics for Nairobi and Kenya, including population,
+				housing costs, employment, and economic indicators. This data will be added in the next phase.
+				For now, use our practical guides to understand living costs and requirements.
 			</p>
 
-			<h3 id="population-by-census">Greater Accra at every census</h3>
-			<div class="table-wrapper">
-				<table>
-					<thead>
-						<tr>
-							<th scope="col">Census</th>
-							<th scope="col">People</th>
-							<th scope="col">Per km&sup2;</th>
-							<th scope="col">Share of Ghana</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% set census = (INDICATORS.series|selectattr('id', 'equalto', 'accra-population')|first) %}
-						{% set density = (INDICATORS.series|selectattr('id', 'equalto', 'accra-density')|first) %}
-						{% set pshare = (INDICATORS.series|selectattr('id', 'equalto', 'accra-share-of-ghana')|first) %}
-						<tr>
-							<th scope="row">{{ census.first_year }}</th>
-							<td>{{ '{:,}'.format(census.first_value) }}</td>
-							<td>{{ '{:,.0f}'.format(density.first_value) }}</td>
-							<td>{{ pshare.first_value }}%</td>
-						</tr>
-						<tr>
-							<th scope="row">{{ census.last_year }}</th>
-							<td>{{ '{:,}'.format(census.last_value) }}</td>
-							<td>{{ '{:,.0f}'.format(density.last_value) }}</td>
-							<td>{{ pshare.last_value }}%</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<p class="tool-note">
-				<strong>{{ census.multiple }} times more people</strong> in
-				{{ census.last_year }} than in {{ census.first_year }}, in a region
-				whose boundaries also changed over that period &mdash; which the
-				arithmetic cannot account for. The full six counts are on the chart
-				above.
-			</p>
-
-			<h3 id="accra-economy">Accra's share of the economy</h3>
-			<p>
-				One study, by the {{ share.source }}, put Accra at
-				<strong>{{ share.low_pct }} to {{ share.high_pct }}% of Ghana's
-				economy</strong> between {{ share.from_year }} and {{ share.to_year }},
-				with output per person about {{ share.per_capita_multiple }} times the
-				national average. Services were around
-				{{ share.services_share_pct }}% of that and manufacturing
-				{{ share.manufacturing_share_pct }}%.
-			</p>
-			<p class="tool-note">
-				It is a <strong>range over a period, not a series</strong>, and it is
-				stored that way. There is no year-by-year figure for Accra's GDP to
-				publish, so none is published here.
-				&mdash; <a href="{{ share.url }}" rel="noopener">The study</a>
-			</p>
+			<p>Check back soon for detailed statistics and data visualizations.</p>
 		</article>
 
-		<article class="section">
-			<h2 id="every-series">Every series, and what it covers</h2>
-			<p class="page-intro">
-				First value, last value, and how many observations there are. The
-				scope column is the important one.
-			</p>
-
-			{% for scope, rows, title in [
-				('accra', accra, 'Greater Accra itself'),
-				('derived', derived, 'Derived from two sourced series'),
-				('ghana', national, 'Ghana as a whole, not Accra')
-			] %}
-				<h3 id="scope-{{ scope }}">{{ title }} <small>({{ rows|length }})</small></h3>
-				<div class="table-wrapper">
-					<table>
-						<thead>
-							<tr>
-								<th scope="col">Series</th>
-								<th scope="col">Unit</th>
-								<th scope="col">First</th>
-								<th scope="col">Latest</th>
-								<th scope="col">Points</th>
-								<th scope="col">Source</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for row in rows %}
-								<tr>
-									<th scope="row">{{ row.label }}</th>
-									<td>{{ row.unit }}</td>
-									<td>{{ figure(row.first_value, row.unit) }}<br><small>{{ row.first_year }}</small></td>
-									<td>{{ figure(row.last_value, row.unit) }}<br><small>{{ row.last_year }}</small></td>
-									<td>{{ row.points }}</td>
-									<td><small>{{ row.source }}</small></td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			{% endfor %}
-		</article>
 
 		<article class="section">
-			<h2 id="sources">Where all of this comes from</h2>
-			<table>
-				<thead>
-					<tr><th scope="col">What</th><th scope="col">Source</th><th scope="col">Licence</th></tr>
-				</thead>
-				<tbody>
-					{% for source in INDICATORS.meta.sources %}
-						<tr>
-							<th scope="row">{{ source.what }}</th>
-							<td><a href="{{ source.url }}" rel="noopener">{{ source.who }}</a></td>
-							<td>{{ source.licence }}</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-
-			<p class="tool-note">
-				Fetched on {{ INDICATORS.meta.generated }}. Nothing here is modelled,
-				interpolated or forecast: where a series is sparse it stays sparse, and
-				the charts draw the observations rather than joining across the gaps.
-			</p>
-
-			<h3 id="guides">The guides behind these numbers</h3>
+			<h2 id="guides">Practical guides for living in Nairobi</h2>
 			<p>
-				Charts are not an argument. Each of these takes a group of series
-				and says what it actually means, what it cannot show, and what to
-				do about it.
+				Our guides provide practical, up-to-date information for anyone moving to or living in Nairobi:
 			</p>
 			<p>
-				&mdash; <a href="{{ SITE_URL }}/guides/how-accra-grew">How Accra grew &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/ghana-population-in-numbers">Ghana's population in numbers &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/accra-economy-in-numbers">Accra's economy in numbers &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/inflation-and-the-cedi">Inflation and the cedi &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/remittances-to-ghana">Money sent home to Ghana &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/education-in-ghana-in-numbers">Education in Ghana in numbers &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/infrastructure-in-ghana-in-numbers">Electricity, water and the internet in numbers &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/how-to-read-ghanaian-statistics"><strong>How to read Ghanaian statistics</strong> &#8658;</a>
-			</p>
-
-			<p>
-				&mdash; <a href="{{ SITE_URL }}/map">The map of Greater Accra, district by district &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/tools/business-viability-checker">Business viability checker &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/flights">Where you can fly nonstop from Accra &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/cost-of-living-accra">What living in Accra costs &#8658;</a>
+				&mdash; <a href="{{ SITE_URL }}/guides/moving-to-nairobi">Moving to Nairobi &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/finding-housing">Finding housing &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/paye-and-taxes">PAYE and taxes &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/opening-a-bank-account">Opening a bank account &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/map">Nairobi district map &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/flights">Flights from Nairobi &#8658;</a>
 			</p>
 		</article>
 	</main>

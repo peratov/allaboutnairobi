@@ -1,7 +1,7 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/events" %}
-{% set metatitle = "Events in Accra" %}
-{% set metadescription = "What is on in Accra - festivals, music, public holidays and the annual fixtures. Past dates drop off by themselves." %}
+{% set metatitle = "Events in Nairobi" %}
+{% set metadescription = "What is on in Nairobi - festivals, music, public holidays and the annual fixtures. Past dates drop off by themselves." %}
 
 {% macro event_card(event) %}
 	{#
@@ -58,7 +58,7 @@
 		<article class="section">
 			<div class="section-heading">
 				<span class="adinkra-stamp">{% include "_icons/culture.svg" %}</span>
-				<h1>Events in Accra</h1>
+				<h1>Events in Nairobi</h1>
 			</div>
 
 			<p class="page-intro">
@@ -106,7 +106,7 @@
 
 		{% if EVENTS.annual %}
 			<article class="section">
-				<h2 id="every-year">Every year in Accra</h2>
+				<h2 id="every-year">Every year in Nairobi</h2>
 				<p class="page-intro">
 					Fixtures that come round annually and whose dates for the next
 					edition have not been announced. There is no date on these on
@@ -122,33 +122,30 @@
 		<article class="section">
 			<h2 id="how-this-works">How this page is kept</h2>
 			<p>
-				Ghana's public holidays are <strong>computed</strong>, not typed. They
+				Kenya's public holidays are <strong>computed</strong>, not typed. They
 				are generated from the same corrected list the rest of the site uses,
 				so they roll forward every year and cannot go stale.
 			</p>
 			<p>
 				Everything else is <strong>checked by hand</strong>. There is no public
-				events API with real Accra coverage &mdash; Eventbrite withdrew public
-				event search in 2020, and the global ticketing services have almost no
-				Ghanaian listings &mdash; so anything claiming to pull Accra events
-				automatically is either scraping somebody or showing you nothing. Each
-				listing here carries where it came from and when it was last checked.
+				events API with comprehensive Nairobi coverage, so anything claiming to
+				pull events automatically is either scraping somebody or showing you nothing.
+				Each listing here carries where it came from and when it was last checked.
 			</p>
 			<p>
 				<strong>Know something that should be here?</strong>
-				&mdash; <a href="mailto:{{ CONTACT_EMAIL }}?subject=Event%20for%20the%20Accra%20events%20page">Send it to us</a>,
+				&mdash; <a href="mailto:{{ CONTACT_EMAIL }}?subject=Event%20for%20the%20Nairobi%20events%20page">Send it to us</a>,
 				with a date and a link.
 			</p>
 			<p class="tool-note">
-				Always check the organiser's own page before travelling. Dates in Accra
-				move, and the announcement is often on Instagram and nowhere else.
+				Always check the organiser's own page before travelling. Dates in Nairobi
+				move, and the announcement is often on Instagram and social media.
 			</p>
 
 			<p>
-				&mdash; <a href="{{ SITE_URL }}/guides/festivals-in-ghana">Festivals in Ghana &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/public-holidays-ghana">Public holidays and what closes &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/things-to-do-in-accra">Things to do in Accra &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/accra-nightlife">Accra nightlife &#8658;</a>
+				&mdash; <a href="{{ SITE_URL }}/guides/moving-to-nairobi">Moving to Nairobi &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/finding-housing">Finding housing &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/paye-and-taxes">PAYE and taxes &#8658;</a>
 			</p>
 		</article>
 	</main>
