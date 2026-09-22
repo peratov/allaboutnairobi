@@ -4,8 +4,14 @@ meta:
   fail_on: '2027-09-22'
   caveat: Data for Nairobi is limited. Most series are Kenya-wide.
   sources:
-  - source: Test Source
-    url: https://example.com
+  - what: Population and census counts
+    who: Kenya National Bureau of Statistics
+    url: https://www.knbs.or.ke/
+    licence: Official statistics
+  - what: Economic indicators
+    who: World Bank Open Data
+    url: https://data.worldbank.org/country/kenya
+    licence: CC BY 4.0
   accra_gdp_share:
     from_year: 2015
     to_year: 2020
@@ -30,6 +36,7 @@ series:
   points: 6
   shape: census
   multiple: 11.1
+  source: Ghana Statistical Service
 
 - id: accra-density
   scope: accra
@@ -42,6 +49,7 @@ series:
   unit: people per km²
   points: 6
   shape: census
+  source: Ghana Statistical Service
 
 - id: accra-share-of-ghana
   scope: accra
@@ -54,3 +62,4 @@ series:
   unit: percent
   points: 6
   shape: census
+  source: Ghana Statistical Service

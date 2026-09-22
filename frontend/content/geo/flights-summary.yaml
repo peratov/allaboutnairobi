@@ -1,1 +1,8 @@
-series: []
+origin:
+  name: Jomo Kenyatta International Airport
+  iata: NBO
+  city: Nairobi
+  country: Kenya
+
+destinations: []
+airlines: []

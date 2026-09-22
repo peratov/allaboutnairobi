@@ -26,6 +26,13 @@ ctx.update(load_constants_from_file(config.content_path / "constants.yaml"))
 # Fill in placeholder values for all constants referenced in templates but not in constants.yaml
 # These will be populated with real Kenya data in Phase 2
 placeholders = {
+    # Events
+    "EVENTS": {
+        "categories": [],
+        "months": [],
+        "annual": [],
+        "upcoming": []
+    },
     # Tax constants
     "PAYE_BANDS_JSON": "{}",
     "PAYE_BANDS": [],
@@ -126,8 +133,10 @@ except FileNotFoundError:
 
 try:
     ctx["FLIGHTS"] = yaml.safe_load((config.content_path / "geo" / "flights-summary.yaml").read_text(encoding="utf-8"))
-except FileNotFoundError:
-    ctx["FLIGHTS"] = {"destinations": []}
+except (FileNotFoundError, TypeError):
+    ctx["FLIGHTS"] = {"destinations": [], "airlines": []}
+except:
+    ctx["FLIGHTS"] = {"destinations": [], "airlines": []}
 
 try:
     ctx["NIGHTLIFE"] = yaml.safe_load((config.content_path / "geo" / "nightlife.yaml").read_text(encoding="utf-8"))
