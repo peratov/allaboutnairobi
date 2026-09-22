@@ -14,11 +14,11 @@
 		<section class="hero">
 			<div class="hero-inner">
 			<div class="hero-text">
-			<h1>Everything nobody tells you about living in Accra</h1>
+			<h1>Everything nobody tells you about living in Nairobi</h1>
 			<p>
-				Free, independent guides to Ghanaian bureaucracy, housing, money and daily
-				life. Written for anyone making Accra home &mdash; returnees, new arrivals,
-				and Ghanaians who have simply never had to renew a roadworthy before.
+				Free, independent guides to Kenyan bureaucracy, housing, money and daily
+				life. Written for anyone making Nairobi home &mdash; returnees, new arrivals,
+				and Kenyans who have simply never had to renew a driving license before.
 			</p>
 			{% include "_blocks/searchForm.html" %}
 			</div>
@@ -50,7 +50,7 @@
 			<p class="radio-promo">
 				<a href="{{ SITE_URL }}/radio"><strong>Listen live</strong> to
 				{{ RADIO.stations|map(attribute='name')|list|batch(4)|first|join(', ') }} and
-				{{ RADIO.stations|length - 4 }} more Accra stations &#8658;</a>
+				{{ RADIO.stations|length - 4 }} more Nairobi stations &#8658;</a>
 			</p>
 
 			<h2 id="start-here">Start here</h2>
@@ -148,9 +148,9 @@
 							<td>Everything above it is taxed in bands</td>
 						</tr>
 						<tr>
-							<th scope="row">SSNIT off your payslip</th>
-							<td class="numeric">{{ SSNIT_EMPLOYEE_RATE|percent }}%</td>
-							<td>Your employer adds another {{ SSNIT_EMPLOYER_RATE|percent }}%</td>
+							<th scope="row">NSSF off your payslip</th>
+							<td class="numeric">{{ NSSF_EMPLOYEE_CONTRIBUTION|percent }}%</td>
+							<td>Your employer adds another {{ NSSF_EMPLOYER_CONTRIBUTION|percent }}%</td>
 						</tr>
 						<tr>
 							<th scope="row">VAT you actually pay</th>

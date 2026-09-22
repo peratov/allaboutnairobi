@@ -1,17 +1,18 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/flights" %}
-{% set metatitle = "Where you can fly nonstop from Accra" %}
-{% set metadescription = "Every nonstop destination from Kotoka International Airport, by airline and region, on a map and as a list. " ~ FLIGHTS.destinations|length ~ " destinations." %}
+{% set metatitle = "Where you can fly nonstop from Nairobi" %}
+{% set metadescription = "Every nonstop destination from Jomo Kenyatta International Airport, by airline and region, on a map and as a list. " ~ FLIGHTS.destinations|length ~ " destinations." %}
 
-{% set regions = ['Domestic', 'West Africa', 'Rest of Africa', 'Europe', 'Middle East', 'North America'] %}
-{% set airlines = FLIGHTS.destinations|map(attribute='airlines')|sum(start=[])|map(attribute='name')|unique|list %}
+{% set regions = ['East Africa', 'Southern Africa', 'West Africa', 'North Africa', 'Europe', 'Middle East', 'Asia'] %}
+{% set airline_codes = FLIGHTS.destinations|map(attribute='airlines')|sum(start=[])|unique|list %}
+{% set airlines = FLIGHTS.airlines|selectattr('code', 'in', airline_codes)|list %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
 				<span class="adinkra-stamp">{% include "_icons/exploring.svg" %}</span>
-				<h1>Where you can fly nonstop from Accra</h1>
+				<h1>Where you can fly nonstop from Nairobi</h1>
 			</div>
 
 			<p class="page-intro">
@@ -34,9 +35,8 @@
 		<article class="section">
 			<h2 id="every-destination">Every nonstop destination</h2>
 			<p class="page-intro">
-				Grouped by how far you are going, then by distance. Distances are
-				great-circle kilometres from Accra &mdash; what the aircraft flies, not
-				what a road would.
+				Grouped by region. Every nonstop route from Nairobi is listed here,
+				with the airlines flying it and the frequency.
 			</p>
 
 			{% for region in regions %}
@@ -49,21 +49,22 @@
 								<tr>
 									<th scope="col">Destination</th>
 									<th scope="col">Airport</th>
-									<th scope="col">Distance</th>
 									<th scope="col">Airlines</th>
+									<th scope="col">Frequency</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for destination in in_region|sort(attribute='km') %}
+								{% for destination in in_region %}
 									<tr>
-										<th scope="row">{{ destination.city }}<br><small>{{ destination.country }}</small></th>
+										<th scope="row">{{ destination.name }}<br><small>{{ destination.country }}</small></th>
 										<td>{{ destination.iata }}</td>
-										<td>{{ '{:,}'.format(destination.km) }}&nbsp;km</td>
 										<td>
-											{% for airline in destination.airlines %}
-												{{ airline.name }}{% if airline.get('note') %} <em>({{ airline.note }})</em>{% endif %}{% if not loop.last %}<br>{% endif %}
+											{% for airline_code in destination.airlines %}
+												{% set airline_name = FLIGHTS.airlines|selectattr('code', 'equalto', airline_code)|map(attribute='name')|first %}
+												{{ airline_name }}{% if not loop.last %}<br>{% endif %}
 											{% endfor %}
 										</td>
+										<td>{{ destination.frequency }}</td>
 									</tr>
 								{% endfor %}
 							</tbody>
@@ -74,9 +75,9 @@
 		</article>
 
 		<article class="section">
-			<h2 id="airlines">Airlines serving Accra</h2>
+			<h2 id="airlines">Airlines serving Nairobi</h2>
 			<p>
-				{{ airlines|sort|join(', ') }}.
+				{{ airlines|map(attribute='name')|sort|join(', ') }}.
 			</p>
 
 			<h2 id="where-this-comes-from">Where this comes from, and how fast it rots</h2>

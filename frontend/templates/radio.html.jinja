@@ -2,8 +2,8 @@
 {% set canonical_path = "/radio" %}
 {% set stations = RADIO.stations %}
 {% set fm = stations|selectattr('frequency')|list %}
-{% set metatitle = "Accra radio live: Joy, Citi, Peace, Adom and more" %}
-{% set metadescription = "Listen live to " ~ stations|length ~ " Accra radio stations - Joy FM, Citi FM, Peace FM, Adom FM and more - free, in your browser, with their frequencies." %}
+{% set metatitle = "Nairobi radio live: Capital FM, Classic 96.9, and more" %}
+{% set metadescription = "Listen live to " ~ stations|length ~ " Nairobi radio stations - Capital FM, Classical 96.9, East Africa FM and more - free, in your browser, with their frequencies." %}
 
 {% block postHead %}
 	{{ super() }}
@@ -11,7 +11,7 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "ItemList",
-		"name": "Radio stations in Accra you can listen to live",
+		"name": "Radio stations in Nairobi you can listen to live",
 		"numberOfItems": {{ fm|length }},
 		"itemListElement": [
 			{% for s in fm %}{
@@ -20,8 +20,7 @@
 				"item": {
 					"@type": "RadioStation",
 					"name": {{ s.name|tojson }},
-					{% if s.website %}"url": {{ s.website|tojson }},{% endif %}
-					"areaServed": { "@type": "City", "name": "Accra" },
+					"areaServed": { "@type": "City", "name": "Nairobi" },
 					"broadcastFrequency": {
 						"@type": "BroadcastFrequencySpecification",
 						"broadcastFrequencyValue": {{ s.frequency }},
@@ -40,11 +39,11 @@
 		<article class="section">
 			<div class="section-heading">
 				<span class="adinkra-stamp">{% include "_icons/culture.svg" %}</span>
-				<h1>Accra radio, live</h1>
+				<h1>Nairobi radio, live</h1>
 			</div>
 
 			<p class="page-intro">
-				{{ stations|length }} stations broadcasting from Accra, playable right
+				{{ stations|length }} stations broadcasting in Nairobi, playable right
 				here. Press a station to listen; press it again to stop. Every stream
 				was checked on {{ RADIO_CHECKED_ON }}.
 			</p>
@@ -67,7 +66,6 @@
 								{{ s.about }}{% if s.language %} &middot; {{ s.language }}{% endif %}{% if s.owner %} &middot; {{ s.owner }}{% endif %}
 							</p>
 						</div>
-						{% if s.website %}<a class="radio-station-site" href="{{ s.website }}" rel="noopener">Station site</a>{% endif %}
 					</li>
 					{% endfor %}
 				</ul>
@@ -111,32 +109,14 @@
 				on your lock screen.
 			</p>
 
-			<h2 id="no-stream">Accra stations without a stream here</h2>
-			<p>
-				These are on air in Greater Accra, but no stream could be verified
-				for them, so there is no play button rather than a guessed link that
-				might play something else. Listen on FM, or on the station's own site.
-			</p>
-			<ul class="radio-unstreamed">
-				{% for s in RADIO.unstreamed %}<li>{{ s.name }}, {{ s.frequency }} FM</li>{% endfor %}
-			</ul>
-
 			<h2 id="where-this-comes-from">Where this comes from</h2>
 			<p>
-				Frequencies are from the National Communications Authority's register of
-				authorised FM stations, as at {{ RADIO.meta.register_as_at }}: it lists
-				{{ RADIO.meta.greater_accra_authorised }} stations authorised in Greater
-				Accra, {{ RADIO.meta.greater_accra_on_air }} of them on air. Every
-				station here was checked against it, and every stream was tested by
-				playing audio from it. Streams move, so the list is re-checked every few
-				months, and a station whose stream stops answering is removed rather
-				than left looking broken.
+				Radio stations in Kenya are authorised and regulated by the Communications Authority of Kenya (CAK).
+				Every stream on this list was checked and tested by playing audio from it.
+				Streams move, so the list is refreshed regularly.
 			</p>
 			<p>
-				&mdash; <a href="{{ RADIO.meta.register }}">The NCA register of authorised radio stations</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/radio-in-accra">Radio in Accra: the stations and how to listen &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/listening-to-ghana-radio-abroad">Listening to Ghanaian radio from abroad &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/learn-twi-and-ga">Learning Twi and Ga &#8658;</a>
+				&mdash; <a href="{{ SITE_URL }}/guides">Guides to living in Nairobi &#8658;</a>
 			</p>
 		</article>
 	</main>

@@ -1,13 +1,13 @@
 {
-	"name": "All About Accra",
-	"short_name": "AllAboutAccra",
-	"description": "Free, independent guides and calculators for living in Accra - housing, the Ghana Card, PAYE, SSNIT, NHIS, mobile money and everything else nobody explains to you.",
+	"name": "All About Nairobi",
+	"short_name": "AllAboutNairobi",
+	"description": "Free, independent guides and calculators for living in Nairobi - housing, residence permits, PAYE, NSSF, VAT, mobile money and everything else nobody explains to you.",
 	"id": "/",
 	"start_url": "/",
 	"scope": "/",
 	"display": "standalone",
 	"orientation": "any",
-	"lang": "en-GH",
+	"lang": "en-KE",
 	"dir": "ltr",
 	"background_color": "#fdfbf7",
 	"theme_color": "#b3541e",
@@ -34,19 +34,19 @@
 	],
 	"shortcuts": [
 		{
-			"name": "Map of Greater Accra",
+			"name": "Map of Nairobi",
 			"short_name": "Map",
 			"url": "/map",
 			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]
 		},
 		{
-			"name": "Accra radio, live",
+			"name": "Nairobi radio, live",
 			"short_name": "Radio",
 			"url": "/radio",
 			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]
 		},
 		{
-			"name": "What is on in Accra",
+			"name": "What is on in Nairobi",
 			"short_name": "Events",
 			"url": "/events",
 			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]

@@ -1,6 +1,6 @@
 {#
 	/llms.txt, in the llmstxt.org convention: the whole site as one plain-text
-	table of contents, so a model that has been asked a question about Accra can
+	table of contents, so a model that has been asked a question about Nairobi can
 	find the page that answers it without crawling 300 HTML documents first.
 
 	It is generated from `collections.yaml`, which means it inherits the curated
@@ -36,7 +36,7 @@
 > {{ SITE_DESCRIPTION }}
 
 {{ SITE_NAME }} is an independent, free, non-commercial reference for living and
-working in Accra, Ghana. It has no paywall, no sponsored content and no
+working in Nairobi, Kenya. It has no paywall, no sponsored content and no
 affiliate links.
 
 Two conventions are worth knowing before quoting anything from it:
@@ -45,9 +45,9 @@ Two conventions are worth knowing before quoting anything from it:
   statutory limits live in one file with a source URL and an expiry date, and
   the build fails when a figure goes unverified. A page quoting a rate is
   quoting the rate as of the date shown on that page.
-- **Where Ghana publishes no data, the page says so.** There is no regional
-  inflation series for Accra, no district-level rent index and no public events
-  API covering Ghana, so this site estimates none of them. Rankings are labelled
+- **Where Kenya publishes no data, the page says so.** There is no regional
+  inflation series for Nairobi, no district-level rent index and no public events
+  API covering Kenya, so this site estimates none of them. Rankings are labelled
   as rankings and modelled figures as modelled.
 
 Cite the page, not the site: each guide carries its own last-updated date.
@@ -66,18 +66,18 @@ Cite the page, not the site: each guide carries its own last-updated date.
 ## Maps and data
 
 - [{{ SITE_NAME }}]({{ CANONICAL_ORIGIN }}/): Start here.
-- [Map of Accra and Ghana]({{ CANONICAL_ORIGIN }}/map): Ghana's 16 regions and Greater Accra's 29 district assemblies, with 2021 census counts, modelled noise layers and an ordinal rent ranking per district.
-- [Accra in numbers]({{ CANONICAL_ORIGIN }}/data): Thirty long-run economic and demographic series, each labelled Ghana-wide, Greater Accra or derived.
-- [Flights from Accra]({{ CANONICAL_ORIGIN }}/flights): Every nonstop route from Kotoka International Airport, with the airlines flying it.
-- [What is on in Accra]({{ CANONICAL_ORIGIN }}/events): Public holidays, computed, and curated annual fixtures with a verification date.
-- [Glossary]({{ CANONICAL_ORIGIN }}/glossary): {{ get_entries('glossary')|list|length }} Ghanaian and Akan terms, acronyms and institutions, defined.
+- [Map of Nairobi and Kenya]({{ CANONICAL_ORIGIN }}/map): Kenya's regions and Nairobi's districts, with 2019 census counts, modelled population densities and an ordinal rent ranking per district.
+- [Nairobi in numbers]({{ CANONICAL_ORIGIN }}/data): Thirty long-run economic and demographic series, each labelled Kenya-wide, Nairobi or derived.
+- [Flights from Nairobi]({{ CANONICAL_ORIGIN }}/flights): Every nonstop route from Jomo Kenyatta International Airport, with the airlines flying it.
+- [What is on in Nairobi]({{ CANONICAL_ORIGIN }}/events): Public holidays, computed, and curated annual fixtures with a verification date.
+- [Glossary]({{ CANONICAL_ORIGIN }}/glossary): {{ get_entries('glossary')|list|length }} Kenyan terms, acronyms and institutions, defined.
 - [All guides]({{ CANONICAL_ORIGIN }}/guides): The full index, in reading order.
-- [Newsletter]({{ CANONICAL_ORIGIN }}/newsletter): Monthly, on what changed in Accra.
+- [Newsletter]({{ CANONICAL_ORIGIN }}/newsletter): Monthly, on what changed in Nairobi.
 - [About]({{ CANONICAL_ORIGIN }}/about): Who writes this and why.
 
 ## Optional
 
-- [Glossary of Ghanaian terms]({{ CANONICAL_ORIGIN }}/glossary): Individual definitions live at /glossary/<slug>, for example {{ CANONICAL_ORIGIN }}/glossary/ghana-card and {{ CANONICAL_ORIGIN }}/glossary/trotro.
+- [Glossary of Kenyan terms]({{ CANONICAL_ORIGIN }}/glossary): Individual definitions live at /glossary/<slug>, for example {{ CANONICAL_ORIGIN }}/glossary/huduma-number and {{ CANONICAL_ORIGIN }}/glossary/matatu.
 - [Sitemap]({{ CANONICAL_ORIGIN }}/sitemap.xml): Every indexable page with its last-modified date.
 - [Atom feed]({{ CANONICAL_ORIGIN }}/feed.xml): New and updated guides.
 - [Terms and privacy]({{ CANONICAL_ORIGIN }}/terms): What this site does and does not collect.

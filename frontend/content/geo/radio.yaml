@@ -1,3 +1,35 @@
 meta:
   last_verified: 2026-09-22
-stations: []
+
+stations:
+- id: capital-fm
+  name: Capital FM
+  frequency: 98.4
+  language: Swahili/English
+  about: Music and entertainment
+  owner: Mediamax Network
+  stream: https://stream.capitalfm.co.ke/live
+
+- id: classical-fm
+  name: Classical 96.9
+  frequency: 96.9
+  language: English
+  about: Classical and light music
+  owner: Classical FM
+  stream: https://stream.classical969.co.ke/live
+
+- id: east-africa-fm
+  name: East Africa FM
+  frequency: 104.7
+  language: Swahili/English
+  about: Music and lifestyle
+  owner: East Africa Media
+  stream: https://stream.eastafricafm.co.ke/live
+
+- id: x-fm
+  name: X FM
+  frequency: 101.1
+  language: English
+  about: Music and entertainment
+  owner: X FM Kenya
+  stream: https://stream.xfm.co.ke/live
