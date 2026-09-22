@@ -1,0 +1,63 @@
+.collection { margin-bottom: var(--xl); }
+
+.collection h3 { margin-top: 0; font-size: 1.1rem; }
+.collection h3 a { text-decoration: none; color: var(--c-text-heading); }
+.collection h3 a:hover { color: var(--c-highlight); }
+
+.collection-description {
+	color: var(--c-text-light);
+	font-size: var(--f-s);
+	margin-bottom: var(--s);
+}
+
+.collection ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.collection ol ol {
+	padding-left: var(--m);
+	border-left: 1px solid var(--c-border);
+	margin: var(--xs) 0 var(--s);
+}
+
+.collection li { margin-bottom: var(--xs); }
+
+.collection a[aria-current="page"] {
+	font-weight: 650;
+	color: var(--c-highlight);
+	text-decoration: none;
+}
+
+.collection-heading {
+	color: var(--c-text-light);
+	font-size: var(--f-s);
+	font-weight: 650;
+}
+
+.entry-previews {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--s);
+}
+
+.entry-previews > li > a {
+	display: block;
+	padding: var(--m);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	text-decoration: none;
+	color: inherit;
+	background: var(--c-bg-page);
+}
+
+.entry-previews > li > a:hover {
+	border-color: var(--c-highlight);
+	background: var(--c-highlight-soft);
+}
+
+.entry-previews h3 { margin: 0 0 var(--xs); font-size: 1.02rem; }
+.entry-previews p { margin: 0; font-size: var(--f-s); color: var(--c-text-light); }

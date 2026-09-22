@@ -1,0 +1,7 @@
+# Only for the hand-run generators in scripts/, never for the deploy.
+# vercel-build.sh installs requirements.txt alone, so nothing here reaches
+# the build container.
+
+# Reads the NCA's register of authorised FM stations, which is published as a
+# PDF, in scripts/build_radio_data.py.
+PyMuPDF~=1.28

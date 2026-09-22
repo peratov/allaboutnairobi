@@ -1,0 +1,178 @@
+// The events page.
+//
+// A calendar-page convention: a fixed date block on the left, everything else
+// to the right of it. The date is the thing a reader scans for, so it gets the
+// strongest position and the tabular figures.
+
+.event-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s) var(--m);
+	margin: var(--l) 0 var(--xl);
+	padding-bottom: var(--m);
+	border-bottom: 1px solid var(--c-border);
+}
+
+.event-filters-label {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.event-filter-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+}
+
+.event-chip {
+	padding: var(--xs) var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: transparent;
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+	cursor: pointer;
+}
+
+.event-chip:hover {
+	color: var(--c-text);
+	border-color: var(--c-border-strong);
+}
+
+.event-chip.is-on {
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+}
+
+.event-month-heading {
+	margin: var(--xl) 0 var(--m);
+	padding-bottom: var(--xs);
+	font-size: 1.1rem;
+	color: var(--c-text-light);
+	border-bottom: 1px solid var(--c-border);
+	// The month is a signpost, not a title competing with the h1.
+	font-variant-caps: all-small-caps;
+	letter-spacing: 0.06em;
+}
+
+.event-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--m);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.event {
+	display: flex;
+	gap: var(--m);
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.event-date {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 3.75rem;
+	padding: var(--xs) 0;
+	text-align: center;
+	background: var(--c-highlight-soft);
+	border-radius: var(--b-radius);
+	// Dates line up down the column only if the digits are the same width.
+	font-variant-numeric: tabular-nums;
+}
+
+.event-day {
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.1;
+	color: var(--c-text-heading);
+}
+
+.event-month {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-text-light);
+}
+
+.event-date-annual .event-day {
+	// The infinity glyph sits high and small next to a numeral of the same size.
+	font-size: 1.75rem;
+	line-height: 1;
+}
+
+.event-body { min-width: 0; }
+
+.event-title {
+	margin: 0 0 var(--xs);
+	font-size: 1.05rem;
+}
+
+.event-title a { text-decoration: none; }
+.event-title a:hover { text-decoration: underline; }
+
+.event-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--xs) var(--s);
+	margin: 0 0 var(--xs);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+// Separate the meta items with a dot, but never lead with one.
+.event-meta > * + *::before {
+	content: "·";
+	margin-inline-end: var(--s);
+	color: var(--c-border-strong);
+}
+
+.event-tag {
+	padding: 0.1rem var(--s);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--c-text);
+	background: var(--c-highlight-soft);
+	border-radius: 2rem;
+}
+
+// A public holiday is a different kind of thing from a festival: it tells you
+// what is shut, not what to go to. It gets the quieter treatment.
+.event-tag-civic {
+	background: transparent;
+	border: 1px solid var(--c-border);
+	color: var(--c-text-light);
+}
+
+.event-description {
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	max-width: 62ch;
+}
+
+.event-empty {
+	margin: var(--l) 0;
+	color: var(--c-text-light);
+}
+
+@media (max-width: 30rem) {
+	.event {
+		gap: var(--s);
+		padding: var(--s);
+	}
+
+	.event-date { flex-basis: 3rem; }
+	.event-day { font-size: 1.25rem; }
+}

@@ -1,0 +1,532 @@
+{#-
+	A page's own address, and the date it last changed, decided in one place.
+
+	Entry pages take both from their entry. Standalone templates - the home
+	page, the section indexes - declare `canonical_path` themselves. A page
+	that declares neither gets no canonical, is left out of the sitemap, and
+	the build stops to say so: see extensions/renderers/sitemap.py.
+
+	Built on CANONICAL_ORIGIN rather than SITE_URL on purpose. SITE_URL is
+	empty locally so links stay root-relative, and on a Vercel preview it is
+	the preview host. A canonical must be absolute, and must always name the
+	production domain - a preview that canonicalises to itself is asking
+	Google to index the preview instead of the site.
+-#}
+{%- if entry|default -%}
+	{%- set page_path = entry.url[SITE_URL|length:] -%}
+	{%- set page_updated = entry.date_updated|default(none) or entry.date_created|default(none) -%}
+{%- elif canonical_path|default(none) -%}
+	{%- set page_path = canonical_path -%}
+	{%- set page_updated = none -%}
+{%- else -%}
+	{%- set page_path = none -%}
+	{%- set page_updated = none -%}
+{%- endif -%}
+{%- set canonical_url = (CANONICAL_ORIGIN ~ page_path) if page_path else none -%}
+<!DOCTYPE html>
+<html lang="en-GH">
+<head>
+	<meta charset="utf-8">
+
+	{% if GA_MEASUREMENT_ID and SITE_URL %}
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', '{{ GA_MEASUREMENT_ID }}');
+		</script>
+	{% endif %}
+
+	{% if CLARITY_PROJECT_ID and SITE_URL %}
+		<!-- Microsoft Clarity -->
+		<script type="text/javascript">
+			(function(c,l,a,r,i,t,y){
+				c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+				t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+				y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			})(window, document, "clarity", "script", "{{ CLARITY_PROJECT_ID }}");
+		</script>
+	{% endif %}
+
+	{% block head %}
+		<title>{% if metatitle|default %}{{ metatitle }}{% if metatitle|length < 50 %} - {{ SITE_NAME }}{% endif %}{% else %}{{ SITE_NAME }} - {{ SITE_TAGLINE }}{% endif %}</title>
+		{% if metadescription|default %}<meta name="description" content="{{ metadescription }}">{% endif %}
+
+		<link rel="home" href="{{ SITE_URL }}/">
+		<link rel="icon" type="image/svg+xml" href="/staticimages/favicon.svg">
+		<link rel="manifest" href="{{ SITE_URL }}/manifest.webmanifest">
+
+		{#
+			iOS ignores the manifest for home-screen installs and reads these
+			instead. apple-touch-icon has to be opaque: iOS composites alpha
+			against black rather than filling it.
+		#}
+		<link rel="apple-touch-icon" href="/staticimages/apple-touch-icon.png">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-title" content="AllAboutAccra">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="mobile-web-app-capable" content="yes">
+		<link rel="author" href="{{ SITE_URL }}/about">
+		<link rel="terms-of-service" href="{{ SITE_URL }}/terms">
+		<link rel="search" href="{{ SITE_URL }}/search">
+
+		{#
+			Read the saved theme before anything is painted.
+
+			This has to be inline and blocking. Deferred - or in the module that
+			handles the button - and the browser paints the system theme first
+			and then repaints the chosen one, which is a full-page flash on
+			every single load. It is a few lines so that it stays cheap.
+		#}
+		<script>
+			(function () {
+				// The toggle is useless without scripting, so it is hidden until
+				// this runs. Inline and blocking, so it costs no flash.
+				document.documentElement.classList.add("js");
+				try {
+					var saved = localStorage.getItem("theme");
+					if (saved === "dark" || saved === "light") {
+						document.documentElement.setAttribute("data-theme", saved);
+					}
+				} catch (error) {
+					// Private mode, or storage disabled. The system preference
+					// still applies, so there is nothing to fall back to.
+				}
+			})();
+		</script>
+
+		{# Kept in step with the chosen theme by theme-toggle.mjs. #}
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#b3541e">
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#7d3a14">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		{#
+			max-snippet and max-image-preview are opt-ins, not restrictions.
+			Without them Google shows a short snippet and a thumbnail; with
+			them it may show as much of the answer as it likes. For a site
+			whose whole purpose is answering a question, a longer snippet in
+			the result is the point, not a loss.
+		#}
+		<meta name="robots" content="{{ page_robots|default('index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1') }}">
+		{% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}
+		<meta name="page-updated" content="{{ (page_updated or CONTENT_LAST_UPDATED).strftime('%Y-%m-%d') }}">
+		<link rel="sitemap" type="application/xml" href="{{ CANONICAL_ORIGIN }}/sitemap.xml">
+		<link rel="alternate" type="application/atom+xml" title="{{ SITE_NAME }} - new and updated guides" href="{{ CANONICAL_ORIGIN }}/feed.xml">
+		{% if GOOGLE_SITE_VERIFICATION %}<meta name="google-site-verification" content="{{ GOOGLE_SITE_VERIFICATION }}">{% endif %}
+		{% if BING_SITE_VERIFICATION %}<meta name="msvalidate.01" content="{{ BING_SITE_VERIFICATION }}">{% endif %}
+
+		<meta property="og:site_name" content="{{ SITE_NAME }}">
+		<meta property="og:locale" content="en_GH">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@{{ X_HANDLE }}">
+		<meta name="twitter:creator" content="@{{ X_HANDLE }}">
+	{% endblock %}
+
+	{% block postHead %}
+		{% if entry|default %}
+			<meta property="og:type" content="{{ ogtype|default('article') }}">
+			<meta property="og:title" content="{{ metatitle|default(entry.title) }}">
+			<meta property="og:description" content="{{ entry.description|default('') }}">
+		{% else %}
+			<meta property="og:type" content="website">
+			<meta property="og:title" content="{% if metatitle|default %}{{ metatitle }}{% else %}{{ SITE_NAME }}{% endif %}">
+			<meta property="og:description" content="{{ metadescription|default(SITE_DESCRIPTION) }}">
+		{% endif %}
+		{% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}">{% endif %}
+
+		{#
+			One card image for the whole site rather than one per page. A
+			per-page image would be better and is not free: it needs a render
+			step, and 181 of them is 181 more things that can be stale.
+		#}
+		<meta property="og:image" content="{{ CANONICAL_ORIGIN }}/staticimages/og-image.png">
+		<meta property="og:image:type" content="image/png">
+		<meta property="og:image:width" content="1200">
+		<meta property="og:image:height" content="630">
+		<meta property="og:image:alt" content="{{ SITE_NAME }} - {{ SITE_TAGLINE }}">
+		<meta name="twitter:image" content="{{ CANONICAL_ORIGIN }}/staticimages/og-image.png">
+	{% endblock %}
+
+	<meta name="git-commit-hash" content="{{ commit_id }}">
+	<meta name="page-generated" content="{{ now.isoformat() }}">
+
+	<style>
+		{% scss %}
+			{% include "css/style.scss" %}
+			{% block extraScss %}{% endblock %}
+		{% endscss %}
+	</style>
+</head>
+<body>
+{% block body %}
+	<a class="skip-link" href="#main">Skip to content</a>
+
+	<header aria-label="Main menu" class="site-header no-print">
+		<nav class="site-nav" aria-label="Website sections">
+			<a class="wordmark" href="{{ SITE_URL }}/" rel="home" title="{{ SITE_NAME }}">
+				<span class="wordmark-all">allabout</span><span class="wordmark-city">accra</span><span class="wordmark-tld">.com</span>
+			</a>
+
+			{#
+				Which section you are in, marked. A navigation bar that looks
+				identical on every page is a navigation bar that tells you
+				nothing about where you are, and `aria-current="page"` is what
+				a screen reader announces it with.
+
+				The section is matched on the path prefix, so /guides/rent-advance
+				lights up Guides. The Guides item is a button rather than a link,
+				so it carries the class alone - aria-current on a control that
+				opens a menu would be a claim about the menu, not the page.
+			#}
+			{% set section = ('/' ~ page_path.lstrip('/').split('/')[0]) if page_path and page_path != '/' else '/' %}
+			<div class="site-nav-links">
+				<button
+					{# /collections/housing is a guides topic page, and the
+					   breadcrumbs already file it under Guides. #}
+					class="menu-toggle{% if section in ('/guides', '/collections') %} is-current{% endif %}"
+					aria-label="Show guides menu"
+					aria-controls="menu-guides"
+					aria-expanded="false">Guides</button>
+				<a href="{{ SITE_URL }}/tools" title="Calculators and document templates"
+					{% if section in ('/tools', '/docs') %}aria-current="page"{% endif %}>Tools</a>
+				<a href="{{ SITE_URL }}/events" title="What is on in Accra"
+					{% if section == '/events' %}aria-current="page"{% endif %}>Events</a>
+				<a href="{{ SITE_URL }}/map" title="Districts, constituencies and landmarks of Greater Accra"
+					{% if section == '/map' %}aria-current="page"{% endif %}>Map</a>
+				{# Dropped below 400px, where six items no longer fit. It is the one
+				   that survives being dropped: every glossary term is linked inline
+				   from the guides, and the footer carries it too. #}
+				<a class="no-small" href="{{ SITE_URL }}/glossary" title="Ghanaian words, acronyms and bureaucracy explained"
+					{% if section == '/glossary' %}aria-current="page"{% endif %}>Glossary</a>
+				<a class="no-mobile" href="{{ SITE_URL }}/about"
+					{% if section == '/about' %}aria-current="page"{% endif %}>About</a>
+
+				{#
+					Both icons ship, and CSS shows whichever matches the theme in
+					force. That keeps the button correct before any JavaScript
+					runs and through a system-preference change, with no flash
+					and nothing for the module to initialise.
+
+					The label does not name a direction, because the button's
+					meaning depends on state that CSS can express and an
+					attribute cannot. "Switch between" is true in both.
+				#}
+				<button
+					class="theme-toggle"
+					data-theme-toggle
+					type="button"
+					title="Switch between light and dark"
+					aria-label="Switch between light and dark theme">
+					<svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<circle cx="12" cy="12" r="4.4"/>
+						<g stroke-linecap="round">
+							<path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6"/>
+							<path d="M5.4 5.4l1.9 1.9M16.7 16.7l1.9 1.9M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9"/>
+						</g>
+					</svg>
+					<svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path d="M20 14.2A8.4 8.4 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/>
+					</svg>
+				</button>
+			</div>
+		</nav>
+
+		<nav aria-label="Guides menu" class="submenu" id="menu-guides" hidden>
+			<ul>
+				<li>
+					<a href="{{ SITE_URL }}/guides/moving-to-accra">
+						<span class="adinkra-stamp">{% include "_icons/moving.svg" %}</span>
+						<h4>Move to Accra</h4>
+						<p>Visas, the Ghana Card, and your first month</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/find-a-place-in-accra">
+						<span class="adinkra-stamp">{% include "_icons/housing.svg" %}</span>
+						<h4>Find a place to live</h4>
+						<p>Agents, rent advance and tenancy agreements</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/paye-and-taxes">
+						<span class="adinkra-stamp">{% include "_icons/money.svg" %}</span>
+						<h4>Money and tax</h4>
+						<p>PAYE, SSNIT, mobile money and bank accounts</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/getting-around-accra">
+						<span class="adinkra-stamp">{% include "_icons/transport.svg" %}</span>
+						<h4>Get around</h4>
+						<p>Trotros, ride-hailing, okada and driving</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/nhis-health-insurance">
+						<span class="adinkra-stamp">{% include "_icons/health.svg" %}</span>
+						<h4>Stay healthy</h4>
+						<p>NHIS, doctors, hospitals and malaria</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/schools-in-accra">
+						<span class="adinkra-stamp">{% include "_icons/education.svg" %}</span>
+						<h4>Schools and study</h4>
+						<p>The school system, universities and fees</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/where-to-shop-in-accra">
+						<span class="adinkra-stamp">{% include "_icons/shopping.svg" %}</span>
+						<h4>Shop and eat</h4>
+						<p>Markets, malls, Melcom and online</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/ghana-passport">
+						<span class="adinkra-stamp">{% include "_icons/identity.svg" %}</span>
+						<h4>Government paperwork</h4>
+						<p>Passports, certificates, licences and regulators</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/guides/things-to-do-in-accra">
+						<span class="adinkra-stamp">{% include "_icons/exploring.svg" %}</span>
+						<h4>Explore</h4>
+						<p>Beaches, history, festivals and day trips</p>
+					</a>
+				</li>
+			</ul>
+			{% set guideCount = get_entries('guides')|length %}
+			<a class="next-link" href="{{ SITE_URL }}/guides">See all {{ guideCount }} guides</a>
+		</nav>
+	</header>
+
+	{% block main %}
+		<main id="main" aria-label="Main page">
+			{% block precontent %}{% endblock %}
+			<article class="section">
+				{% block content %}{% endblock %}
+			</article>
+			{% block postcontent %}{% endblock %}
+		</main>
+	{% endblock %}
+
+	{% include "_blocks/supportButton.html" %}
+
+	{% block footer %}
+		{% include "_blocks/installPrompt.html" %}
+
+		<footer class="site-footer no-print" aria-label="Bottom menu">
+			<div class="footer-inner">
+				<p class="footer-blurb">
+					{{ SITE_NAME }} is free and independent. It is not affiliated with the
+					Government of Ghana, the GRA, the NIA or any of the agencies it describes.
+				</p>
+				<nav aria-label="Footer links">
+					<a href="{{ SITE_URL }}/about">About</a>
+					<a href="{{ SITE_URL }}/contact">Contact</a>
+					<a href="{{ SITE_URL }}/events">Events</a>
+					<a href="{{ SITE_URL }}/radio">Live radio</a>
+					<a href="{{ SITE_URL }}/data">Data</a>
+						<a href="{{ SITE_URL }}/glossary">Glossary</a>
+					<a href="{{ SITE_URL }}/terms">Terms</a>
+					<a href="{{ SITE_URL }}/newsletter">Newsletter</a>
+					<a href="{{ SITE_URL }}/search">Search</a>
+					<a href="{{ CANONICAL_ORIGIN }}/feed.xml">Feed</a>
+					<a href="{{ X_URL }}" target="_blank" rel="noopener me">@{{ X_HANDLE }}</a>
+					<a href="{{ SUPPORT_URL }}" target="_blank" rel="noopener">Buy me a coffee</a>
+				</nav>
+				<p class="footer-meta">
+					Built in Accra. Last generated {{ now.strftime('%d %B %Y') }}.
+				</p>
+			</div>
+		</footer>
+	{% endblock %}
+{% endblock %}
+
+{% block postFooter %}
+	<script>
+		// Constants travel from constants.yaml to the browser through here, so the
+		// calculators cannot drift away from the guides that explain them.
+		window.accraConstants = {
+			PAYE_BANDS: {{ PAYE_BANDS_JSON|safe }},
+			PAYE_TOP_RATE: {{ PAYE_TOP_RATE }},
+			SSNIT_EMPLOYEE_RATE: {{ SSNIT_EMPLOYEE_RATE }},
+			SSNIT_EMPLOYER_RATE: {{ SSNIT_EMPLOYER_RATE }},
+			SSNIT_TOTAL_RATE: {{ SSNIT_TOTAL_RATE }},
+			TIER_1_RATE: {{ TIER_1_RATE }},
+			TIER_2_RATE: {{ TIER_2_RATE }},
+			TIER_3_MAX_RELIEF_RATE: {{ TIER_3_MAX_RELIEF_RATE }},
+			SSNIT_BEST_MONTHS: {{ SSNIT_BEST_MONTHS }},
+			SSNIT_PENSION_RIGHT_MIN: {{ SSNIT_PENSION_RIGHT_MIN }},
+			SSNIT_PENSION_RIGHT_PER_YEAR: {{ SSNIT_PENSION_RIGHT_PER_YEAR }},
+			SSNIT_PENSION_RIGHT_MAX: {{ SSNIT_PENSION_RIGHT_MAX }},
+			SSNIT_MIN_CONTRIBUTION_MONTHS: {{ SSNIT_MIN_CONTRIBUTION_MONTHS }},
+			SSNIT_MIN_CONTRIBUTION_YEARS: {{ SSNIT_MIN_CONTRIBUTION_YEARS }},
+			SSNIT_MAX_CONTRIBUTION_YEARS: {{ SSNIT_MAX_CONTRIBUTION_YEARS }},
+			SSNIT_PENSION_AGE: {{ SSNIT_PENSION_AGE }},
+			SSNIT_EARLY_PENSION_AGE: {{ SSNIT_EARLY_PENSION_AGE }},
+			SSNIT_EARLY_FACTORS: {{ SSNIT_EARLY_FACTORS_JSON|safe }},
+			VAT_RATE: {{ VAT_RATE }},
+			NHIL_RATE: {{ NHIL_RATE }},
+			GETFUND_RATE: {{ GETFUND_RATE }},
+			VAT_EFFECTIVE_RATE: {{ VAT_EFFECTIVE_RATE }},
+			DAILY_MINIMUM_WAGE: {{ DAILY_MINIMUM_WAGE }},
+			MONTHLY_MINIMUM_WAGE_APPROX: {{ MONTHLY_MINIMUM_WAGE_APPROX }},
+			MAX_LEGAL_RENT_ADVANCE_MONTHS: {{ MAX_LEGAL_RENT_ADVANCE_MONTHS }},
+			TYPICAL_RENT_ADVANCE_MONTHS: {{ TYPICAL_RENT_ADVANCE_MONTHS }},
+			ACCRA_ONE_BED_RENT_MID: {{ ACCRA_ONE_BED_RENT_MID }},
+			WHT_SERVICES_RESIDENT: {{ WHT_SERVICES_RESIDENT }},
+			WHT_GOODS: {{ WHT_GOODS }},
+			WHT_WORKS: {{ WHT_WORKS }},
+			WHT_RENT_RESIDENTIAL: {{ WHT_RENT_RESIDENTIAL }},
+			WHT_RENT_COMMERCIAL: {{ WHT_RENT_COMMERCIAL }},
+			WHT_DIVIDENDS: {{ WHT_DIVIDENDS }},
+			CET_BAND_SOCIAL: {{ CET_BAND_SOCIAL }},
+			CET_BAND_RAW_MATERIALS: {{ CET_BAND_RAW_MATERIALS }},
+			CET_BAND_INTERMEDIATE: {{ CET_BAND_INTERMEDIATE }},
+			CET_BAND_FINISHED: {{ CET_BAND_FINISHED }},
+			CET_BAND_SPECIFIC: {{ CET_BAND_SPECIFIC }},
+			ECOWAS_LEVY_RATE: {{ ECOWAS_LEVY_RATE }},
+			AU_IMPORT_LEVY_RATE: {{ AU_IMPORT_LEVY_RATE }},
+			EXIM_LEVY_RATE: {{ EXIM_LEVY_RATE }},
+			SPECIAL_IMPORT_LEVY_RATE: {{ SPECIAL_IMPORT_LEVY_RATE }},
+			IMPORT_INSPECTION_FEE_RATE: {{ IMPORT_INSPECTION_FEE_RATE }},
+			IMPORT_NETWORK_CHARGE_RATE: {{ IMPORT_NETWORK_CHARGE_RATE }},
+			VEHICLE_DUTY_UNDER_1900CC: {{ VEHICLE_DUTY_UNDER_1900CC }},
+			VEHICLE_DUTY_1900_TO_3000CC: {{ VEHICLE_DUTY_1900_TO_3000CC }},
+			VEHICLE_DUTY_OVER_3000CC: {{ VEHICLE_DUTY_OVER_3000CC }},
+			VEHICLE_OVERAGE_THRESHOLD_YEARS: {{ VEHICLE_OVERAGE_THRESHOLD_YEARS }},
+			VEHICLE_OVERAGE_PENALTY_10_TO_12: {{ VEHICLE_OVERAGE_PENALTY_10_TO_12 }},
+			VEHICLE_OVERAGE_PENALTY_12_TO_15: {{ VEHICLE_OVERAGE_PENALTY_12_TO_15 }},
+			VEHICLE_OVERAGE_PENALTY_OVER_15: {{ VEHICLE_OVERAGE_PENALTY_OVER_15 }},
+			WASSCE_CREDIT_GRADE: {{ WASSCE_CREDIT_GRADE }},
+			UNIVERSITY_GENERAL_CUTOFF_AGGREGATE: {{ UNIVERSITY_GENERAL_CUTOFF_AGGREGATE }},
+			PUBLIC_HOLIDAYS: {{ PUBLIC_HOLIDAYS_JSON|safe }},
+			SITE_URL: {{ SITE_URL|tojson }}
+		};
+	</script>
+
+	<script type="module">
+		{% queueJs %}
+			import initializeMenu from '/js/components/menu.mjs';
+			import initializeTableOfContents from '/js/components/table-of-contents.mjs';
+			import initializeGlossaryTooltips from '/js/components/glossary-tooltip.mjs';
+			import initializeCurrency from '/js/components/currency.mjs';
+			import initializeChecklists from '/js/components/checklist.mjs';
+			import initializeSupportButton from '/js/components/support.mjs';
+			import initializeThemeToggle from '/js/components/theme-toggle.mjs';
+			import initializeInstallPrompt from '/js/components/install-prompt.mjs';
+			import initializeHeroMapGlow from '/js/components/hero-map-glow.mjs';
+
+			initializeMenu();
+			initializeTableOfContents();
+			initializeGlossaryTooltips();
+			initializeCurrency();
+			initializeChecklists();
+			initializeSupportButton();
+			initializeThemeToggle();
+			initializeInstallPrompt();
+			initializeHeroMapGlow();
+		{% endqueueJs %}
+
+		{% alljs %}
+	</script>
+
+	<script type="module">
+		{#
+			Registered after load, so the worker never competes with the page it
+			is meant to serve. Root scope, which is why sw.js is emitted at the
+			output root rather than under /js.
+		#}
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', () => {
+				navigator.serviceWorker
+					.register('{{ SITE_URL }}/sw.js', { scope: '/' })
+					.catch((error) => console.warn('Service worker not registered:', error));
+			});
+		}
+	</script>
+
+	<script type="application/ld+json">
+	{% block jsonld %}
+		{#
+			Every @id here is built on CANONICAL_ORIGIN, not SITE_URL. The node
+			identifiers have to match across pages for the graph to join up,
+			and SITE_URL is empty locally and different again on a preview
+			deploy, which would give three sites instead of one.
+		#}
+		{%- set breadcrumb_sections = {
+			'guides': ['Guides', '/guides'],
+			'glossary': ['Glossary', '/glossary'],
+			'tools': ['Tools', '/tools'],
+			'docs': ['Tools', '/tools'],
+			'collections': ['Guides', '/guides']
+		} -%}
+		{#- The section is read off the page's own URL, because not every entry
+		    type carries an entry_uri by the time templates see it. -#}
+		{%- set section = (page_path.split('/')[1] if entry|default and page_path.count('/') > 1 else none) -%}
+		[
+			{
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"@id": "{{ CANONICAL_ORIGIN }}/#site",
+				"name": {{ SITE_NAME|tojson }},
+				"description": {{ SITE_DESCRIPTION|tojson }},
+				"inLanguage": "en-GH",
+				"url": "{{ CANONICAL_ORIGIN }}/",
+				"publisher": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
+				"potentialAction": {
+					"@type": "SearchAction",
+					"target": {
+						"@type": "EntryPoint",
+						"urlTemplate": "{{ CANONICAL_ORIGIN }}/search?q={search_term_string}"
+					},
+					"query-input": "required name=search_term_string"
+				}
+			},
+			{
+				"@context": "https://schema.org",
+				"@type": "Organization",
+				"@id": "{{ CANONICAL_ORIGIN }}/#organization",
+				"name": {{ SITE_NAME|tojson }},
+				"description": {{ SITE_DESCRIPTION|tojson }},
+				"url": "{{ CANONICAL_ORIGIN }}/",
+				"email": {{ CONTACT_EMAIL|tojson }},
+				"sameAs": [{{ X_URL|tojson }}],
+				"logo": {
+					"@type": "ImageObject",
+					"url": "{{ CANONICAL_ORIGIN }}/staticimages/og-image.png",
+					"width": 1200,
+					"height": 630
+				},
+				"address": {
+					"@type": "PostalAddress",
+					"addressCountry": "GH",
+					"addressRegion": "Greater Accra",
+					"addressLocality": "Accra"
+				},
+				"areaServed": {
+					"@type": "City",
+					"name": "Accra"
+				}
+			}{% if section and section in breadcrumb_sections %},
+			{
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				"itemListElement": [
+					{ "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ CANONICAL_ORIGIN }}/" },
+					{ "@type": "ListItem", "position": 2, "name": {{ breadcrumb_sections[section][0]|tojson }}, "item": "{{ CANONICAL_ORIGIN }}{{ breadcrumb_sections[section][1] }}" },
+					{ "@type": "ListItem", "position": 3, "name": {{ (entry.short_title|default(entry.title))|tojson }} }
+				]
+			}{% endif %}
+		]
+	{% endblock %}
+	</script>
+{% endblock %}
+</body>
+</html>

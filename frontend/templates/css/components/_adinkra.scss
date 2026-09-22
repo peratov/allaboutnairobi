@@ -1,0 +1,180 @@
+// =============================================================================
+// Adinkra symbols
+//
+// These replaced a set of generic line icons, and they are a different kind of
+// object. Adinkra are stamped, not drawn: solid filled glyphs, printed onto
+// cloth with a calabash stamp and dye. They carry far more detail than a
+// two-pixel stroke icon, and they go muddy if you size them like one.
+//
+// So they get more room, a little more contrast, and a ground to sit on -
+// which also echoes how they are actually made.
+// =============================================================================
+
+.adinkra {
+	// Filled artwork, never stroked. Guard against inheriting a stroke from
+	// anything that assumed line icons.
+	stroke: none;
+	fill: currentColor;
+	flex: none;
+	// The detail needs room; below about 18px the finer symbols close up.
+	width: 1.35em;
+	height: 1.35em;
+	vertical-align: -0.25em;
+}
+
+// The stamp: a tinted ground the symbol is printed onto. Adinkra cloth is made
+// by stamping symbols in rows, so a square block is the honest shape - and it
+// separates a dense glyph from the text beside it.
+.adinkra-stamp {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: var(--b-radius);
+	background: var(--c-highlight-soft);
+	color: var(--c-highlight);
+	transition: background 0.15s ease, color 0.15s ease;
+
+	.adinkra {
+		width: 1.6rem;
+		height: 1.6rem;
+		vertical-align: 0;
+	}
+}
+
+// The wordmark symbol. Adinkrahene - chief of the adinkra symbols, and a set
+// of concentric circles, so it stays legible at 20px where a detailed glyph
+// would not.
+.wordmark .adinkra {
+	width: 1.5rem;
+	height: 1.5rem;
+	color: var(--c-highlight);
+	vertical-align: -0.3rem;
+	margin-right: 0.1em;
+}
+
+// Cards on the home page and section indexes.
+.card .adinkra-stamp { margin-bottom: var(--m); }
+
+.card:hover .adinkra-stamp,
+.card:focus-within .adinkra-stamp {
+	background: var(--c-highlight);
+	color: var(--c-bg-on-accent);
+}
+
+// The guides mega-menu.
+.submenu li a .adinkra-stamp {
+	width: 2.25rem;
+	height: 2.25rem;
+
+	.adinkra { width: 1.3rem; height: 1.3rem; }
+}
+
+.submenu li a:hover .adinkra-stamp {
+	background: var(--c-highlight);
+	color: var(--c-bg-on-accent);
+}
+
+// The search button in the header. No stamp - it is a control, and the field
+// beside it already says what it does.
+.search-form .adinkra {
+	width: 1.15rem;
+	height: 1.15rem;
+}
+
+// Collection headings: symbol, then title, on one baseline.
+.collection h3 {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+
+	.adinkra-stamp {
+		width: 2rem;
+		height: 2rem;
+
+		.adinkra { width: 1.2rem; height: 1.2rem; }
+	}
+}
+
+// Symbols set inline in a heading sit on the text baseline rather than
+// stretching the line box.
+h2 > .adinkra,
+h3 > .adinkra {
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.1em;
+	margin-right: 0.35em;
+	color: var(--c-highlight);
+}
+
+.sidebar-card h2 > .adinkra {
+	width: 1.15em;
+	height: 1.15em;
+	vertical-align: -0.2em;
+}
+
+// A heading that carries its section's symbol.
+.section-heading {
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+
+	> :is(h1, h2) { margin: 0; }
+}
+
+// The legend on the About page: what each symbol is, and why it marks what it
+// marks. Every entry is generated from the same registry that builds the SVGs.
+.symbol-legend {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+	gap: var(--m);
+	list-style: none;
+	margin: var(--xl) 0;
+	padding: 0;
+}
+
+.symbol-legend li {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: var(--s) var(--m);
+	align-items: start;
+	padding: var(--m);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	background: var(--c-bg-widget);
+	margin: 0;
+}
+
+.symbol-legend .adinkra {
+	width: 2rem;
+	height: 2rem;
+	color: var(--c-highlight);
+	grid-row: span 2;
+	vertical-align: 0;
+}
+
+.symbol-legend .symbol-name {
+	font-family: var(--font-heading);
+	font-weight: 700;
+	color: var(--c-text-heading);
+	align-self: center;
+}
+
+.symbol-legend .symbol-meaning {
+	grid-column: 2;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+	.adinkra-stamp { width: 2.4rem; height: 2.4rem; }
+	.adinkra-stamp .adinkra { width: 1.4rem; height: 1.4rem; }
+}
+
+// Adinkra are solid black on cloth. In print, follow suit.
+@media print {
+	.adinkra { color: #000 !important; }
+	.adinkra-stamp { background: none !important; }
+}

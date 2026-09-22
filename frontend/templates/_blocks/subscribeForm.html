@@ -1,0 +1,73 @@
+{#
+	The newsletter sign-up.
+
+	Two shapes, chosen by whether NEWSLETTER_ACTION is configured:
+
+	  * a real form that posts straight to whichever provider runs the list. No
+	    JavaScript, no fetch - a plain form POST works with scripts off and does
+	    not need connect-src widening in the CSP.
+	  * failing that, a mailto: link. Not a placeholder: for a list of a few
+	    hundred readers it is a genuine answer, and it means this page is never
+	    broken while a provider is being chosen.
+
+	Pass `compact` to drop the blurb where the surrounding page has already
+	explained what this is.
+#}
+{% set uid = random_id() %}
+
+<section class="subscribe{% if compact|default(false) %} subscribe-compact{% endif %}" aria-labelledby="subscribe-{{ uid }}">
+	{#
+		"Subscribe", not the name of the newsletter. On /newsletter the name is
+		already the h1 directly above, and a heading that repeats the one above
+		it is a heading that says nothing.
+	#}
+	<h2 id="subscribe-{{ uid }}" class="subscribe-title">
+		{% if compact|default(false) %}Get it monthly{% else %}Subscribe{% endif %}
+	</h2>
+
+	{% if not compact|default(false) %}
+		<p class="subscribe-blurb">
+			One email a month: what changed at the offices, what a thing costs now,
+			and the guides that were rewritten because the rules moved. No more than
+			that, and nothing else &mdash; your address is used for this and for
+			nothing else.
+		</p>
+	{% endif %}
+
+	{% if NEWSLETTER_ACTION %}
+		<form
+			class="subscribe-form"
+			action="{{ NEWSLETTER_ACTION }}"
+			method="post"
+			target="_blank"
+			rel="noopener">
+			<label class="visually-hidden" for="subscribe-email-{{ uid }}">Your email address</label>
+			<input
+				id="subscribe-email-{{ uid }}"
+				type="email"
+				name="{{ NEWSLETTER_FIELD }}"
+				placeholder="you@example.com"
+				autocomplete="email"
+				spellcheck="false"
+				required
+				data-clarity-mask="true">
+			<button type="submit">Subscribe</button>
+		</form>
+
+		<p class="subscribe-note">
+			Free. Unsubscribe from the link at the bottom of any issue.
+			&mdash; <a href="{{ SITE_URL }}/terms#newsletter">What happens to your address</a>
+		</p>
+	{% else %}
+		<p class="subscribe-form subscribe-form-mailto">
+			<a class="next-link" href="mailto:{{ CONTACT_EMAIL }}?subject=Subscribe%20to%20the%20Accra%20newsletter">
+				Email to subscribe
+			</a>
+		</p>
+		<p class="subscribe-note">
+			Send a blank email and you will be added to the list. Free, and
+			unsubscribing is a reply saying so.
+			&mdash; <a href="{{ SITE_URL }}/terms#newsletter">What happens to your address</a>
+		</p>
+	{% endif %}
+</section>

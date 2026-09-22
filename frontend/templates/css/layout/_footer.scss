@@ -1,0 +1,24 @@
+.site-footer {
+	border-top: 1px solid var(--c-border);
+	background: var(--c-bg-page);
+	padding: var(--xxl) var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.footer-inner {
+	max-width: var(--w-page);
+	margin: 0 auto;
+	display: grid;
+	gap: var(--m);
+}
+
+.footer-blurb { max-width: 44rem; margin: 0; }
+
+.site-footer nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--m);
+}
+
+.footer-meta { margin: 0; font-size: var(--f-xs); }

@@ -1,0 +1,56 @@
+{% extends "_layout.html" %}
+{% set metatitle = entry.title %}
+{% set metadescription = entry.description %}
+
+{% block postHead %}
+	{{ super() }}
+	<link rel="index" href="{{ SITE_URL }}/guides">
+{% endblock %}
+
+{% block main %}
+	<main id="main" aria-label="Main page">
+		<article class="section">
+			<h1>{{ entry.title }}</h1>
+			{% include "_blocks/postMeta.html" %}
+
+			<div class="article-body">
+				{{ entry.body|render|safe }}
+			</div>
+
+			{% include "_blocks/verifiedNotice.html" %}
+		</article>
+
+		{% if entry.collections|default %}
+			<aside id="related" class="section no-print" aria-label="Related guides" data-nosnippet>
+				<h2>{% include "_icons/related.svg" %} Related guides</h2>
+				{% with collections=entry.collections, currentEntry=entry %}
+					{% include "_blocks/collections.html" %}
+				{% endwith %}
+			</aside>
+		{% endif %}
+
+		{% with entry=entry, showRelatedEntriesLink=entry.collections|default(false) %}
+			{% include "_blocks/sidebar.html" %}
+		{% endwith %}
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{{ super() }}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		"headline": {{ entry.title|tojson }},
+		"description": {{ entry.description|tojson }},
+		"inLanguage": "en-GH",
+		"url": "{{ canonical_url }}",
+		{% if entry.date_created|default %}"datePublished": "{{ entry.date_created.strftime('%Y-%m-%d') }}",{% endif %}
+		{% if entry.date_updated|default %}"dateModified": "{{ entry.date_updated.strftime('%Y-%m-%d') }}",{% endif %}
+		"publisher": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
+		"isPartOf": { "@id": "{{ CANONICAL_ORIGIN }}/#site" },
+		"mainEntityOfPage": { "@type": "WebPage", "@id": "{{ canonical_url }}" },
+		"about": { "@type": "Place", "name": "Accra, Ghana" }
+	}
+	</script>
+{% endblock %}

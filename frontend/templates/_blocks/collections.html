@@ -1,0 +1,44 @@
+{% macro renderEntries(items, currentUrl) %}
+	<ol>
+		{% for item in items %}
+			{% set target = entries.get(item.uri) if item.uri|default else None %}
+			{#
+				A uri with no entry is a page scheduled for later (see
+				extensions/release.py): skip it, children and all, rather than
+				fall through to the heading branch and print its title as text.
+			#}
+			{% if target or not item.uri|default %}
+			<li>
+				{% if target %}
+					<a href="{{ target.url }}"{% if target.url == currentUrl %} aria-current="page"{% endif %}>{{ item.title|default(target.short_title|default(target.title)) }}</a>
+				{% else %}
+					<span class="collection-heading">{{ item.title|default('') }}</span>
+				{% endif %}
+				{% if item.entries|default %}
+					{{ renderEntries(item.entries, currentUrl) }}
+				{% endif %}
+			</li>
+			{% endif %}
+		{% endfor %}
+	</ol>
+{% endmacro %}
+
+{#
+	`bare` renders the list alone, for a caller that has already drawn its own
+	heading and description - the guides index, which puts each subject in a
+	card. Everything else gets the section with its heading, unchanged.
+#}
+{% for collection in collections %}
+	{% if bare|default(false) %}
+		{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '') }}
+	{% else %}
+		<section class="collection">
+			<h3>
+				{% if collection.symbol|default %}<span class="adinkra-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>{% endif %}
+				<a href="{{ collection.url }}">{{ collection.title }}</a>
+			</h3>
+			{% if collection.description|default %}<p class="collection-description">{{ collection.description }}</p>{% endif %}
+			{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '') }}
+		</section>
+	{% endif %}
+{% endfor %}

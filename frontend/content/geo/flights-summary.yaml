@@ -1,0 +1,425 @@
+meta:
+  generated: '2026-09-10'
+  viewBox: 0 0 1000.0 636.9
+  sources:
+  - what: Airlines and nonstop destinations
+    who: Wikipedia
+    url: https://en.wikipedia.org/wiki/Kotoka_International_Airport
+    licence: CC BY-SA 4.0
+  - what: Airport coordinates
+    who: OpenFlights
+    url: https://openflights.org/data.html
+    licence: ODbL
+  - what: Coastlines
+    who: Natural Earth
+    url: https://www.naturalearthdata.com
+    licence: Public domain
+  caveat: A photograph of the schedule on the date generated. Airlines add and drop
+    routes with a few weeks' notice. Always check with the airline.
+origin:
+  iata: ACC
+  name: Kotoka International Airport
+  city: Accra
+  lat: 5.605189800262451
+  lon: -0.16678600013256073
+  x: 604.0
+  y: 359.2
+destinations:
+- iata: ATL
+  name: Hartsfield Jackson Atlanta International Airport
+  city: Atlanta
+  country: United States
+  lat: 33.6367
+  lon: -84.428101
+  region: North America
+  km: 9132
+  airlines:
+  - name: Delta Air Lines
+    note: seasonal
+- iata: IAD
+  name: Washington Dulles International Airport
+  city: Washington
+  country: United States
+  lat: 38.94449997
+  lon: -77.45580292
+  region: North America
+  km: 8518
+  airlines:
+  - name: United Airlines
+- iata: JFK
+  name: John F Kennedy International Airport
+  city: New York
+  country: United States
+  lat: 40.63980103
+  lon: -73.77890015
+  region: North America
+  km: 8222
+  airlines:
+  - name: Delta Air Lines
+- iata: DXB
+  name: Dubai International Airport
+  city: Dubai
+  country: United Arab Emirates
+  lat: 25.2527999878
+  lon: 55.3643989563
+  region: Middle East
+  km: 6289
+  airlines:
+  - name: Emirates
+- iata: AUH
+  name: Abu Dhabi International Airport
+  city: Abu Dhabi
+  country: United Arab Emirates
+  lat: 24.433000564575195
+  lon: 54.651100158691406
+  region: Middle East
+  km: 6202
+  airlines:
+  - name: Etihad Airways
+    note: from March 2027
+- iata: DOH
+  name: Hamad International Airport
+  city: Doha
+  country: Qatar
+  lat: 25.273056
+  lon: 51.608056
+  region: Middle East
+  km: 5919
+  airlines:
+  - name: Qatar Airways
+- iata: AMS
+  name: Amsterdam Airport Schiphol
+  city: Amsterdam
+  country: Netherlands
+  lat: 52.308601
+  lon: 4.76389
+  region: Europe
+  km: 5213
+  airlines:
+  - name: KLM
+- iata: LHR
+  name: London Heathrow Airport
+  city: London
+  country: United Kingdom
+  lat: 51.4706
+  lon: -0.461941
+  region: Europe
+  km: 5100
+  airlines:
+  - name: British Airways
+- iata: LGW
+  name: London Gatwick Airport
+  city: London
+  country: United Kingdom
+  lat: 51.148102
+  lon: -0.190278
+  region: Europe
+  km: 5064
+  airlines:
+  - name: British Airways
+- iata: BRU
+  name: Brussels Airport
+  city: Brussels
+  country: Belgium
+  lat: 50.901401519800004
+  lon: 4.48443984985
+  region: Europe
+  km: 5055
+  airlines:
+  - name: Brussels Airlines
+- iata: IST
+  name: Istanbul Airport
+  city: Istanbul
+  country: Turkey
+  lat: 41.275278
+  lon: 28.751944
+  region: Europe
+  km: 4895
+  airlines:
+  - name: Turkish Airlines
+- iata: BEY
+  name: Beirut Rafic Hariri International Airport
+  city: Beirut
+  country: Lebanon
+  lat: 33.820899963378906
+  lon: 35.488399505615234
+  region: Middle East
+  km: 4830
+  airlines:
+  - name: Middle East Airlines
+- iata: JNB
+  name: OR Tambo International Airport
+  city: Johannesburg
+  country: South Africa
+  lat: -26.1392
+  lon: 28.246
+  region: Rest of Africa
+  km: 4674
+  airlines:
+  - name: South African Airways
+- iata: DAR
+  name: Julius Nyerere International Airport
+  city: Dar Es Salaam
+  country: Tanzania
+  lat: -6.87811
+  lon: 39.202599
+  region: Rest of Africa
+  km: 4584
+  airlines:
+  - name: Air Tanzania
+- iata: ADD
+  name: Addis Ababa Bole International Airport
+  city: Addis Ababa
+  country: Ethiopia
+  lat: 8.97789001465
+  lon: 38.799301147499996
+  region: Rest of Africa
+  km: 4312
+  airlines:
+  - name: Ethiopian Airlines
+- iata: CAI
+  name: Cairo International Airport
+  city: Cairo
+  country: Egypt
+  lat: 30.12190055847168
+  lon: 31.40559959411621
+  region: Rest of Africa
+  km: 4283
+  airlines:
+  - name: EgyptAir
+- iata: FCO
+  name: Leonardo da Vinci–Fiumicino Airport
+  city: Rome
+  country: Italy
+  lat: 41.8002778
+  lon: 12.2388889
+  region: Europe
+  km: 4208
+  airlines:
+  - name: ITA Airways
+- iata: NBO
+  name: Jomo Kenyatta International Airport
+  city: Nairobi
+  country: Kenya
+  lat: -1.31923997402
+  lon: 36.9277992249
+  region: Rest of Africa
+  km: 4191
+  airlines:
+  - name: Kenya Airways
+- iata: LIS
+  name: Humberto Delgado Airport (Lisbon Portela Airport)
+  city: Lisbon
+  country: Portugal
+  lat: 38.7813
+  lon: -9.13592
+  region: Europe
+  km: 3798
+  airlines:
+  - name: TAP Air Portugal
+- iata: KGL
+  name: Kigali International Airport
+  city: Kigali
+  country: Rwanda
+  lat: -1.96863
+  lon: 30.1395
+  region: Rest of Africa
+  km: 3469
+  airlines:
+  - name: RwandAir
+- iata: CMN
+  name: Mohammed V International Airport
+  city: Casablanca
+  country: Morocco
+  lat: 33.36750030517578
+  lon: -7.589970111846924
+  region: Rest of Africa
+  km: 3181
+  airlines:
+  - name: Royal Air Maroc
+- iata: BJL
+  name: Banjul International Airport
+  city: Banjul
+  country: Gambia
+  lat: 13.338000297546387
+  lon: -16.65220069885254
+  region: West Africa
+  km: 2001
+  airlines:
+  - name: ASKY
+- iata: CKY
+  name: Conakry International Airport
+  city: Conakry
+  country: Guinea
+  lat: 9.57689
+  lon: -13.612
+  region: West Africa
+  km: 1546
+  airlines:
+  - name: Africa World Airlines
+    note: from August 2026
+- iata: FNA
+  name: Lungi International Airport
+  city: Freetown
+  country: Sierra Leone
+  lat: 8.61644
+  lon: -13.1955
+  region: West Africa
+  km: 1476
+  airlines:
+  - name: ASKY
+  - name: Air Peace
+  - name: Kenya Airways
+- iata: ROB
+  name: Roberts International Airport
+  city: Monrovia
+  country: Liberia
+  lat: 6.23379
+  lon: -10.3623
+  region: West Africa
+  km: 1130
+  airlines:
+  - name: ASKY
+  - name: Air Peace
+  - name: Kenya Airways
+- iata: TMS
+  name: São Tomé International Airport
+  city: Sao Tome
+  country: Sao Tome and Principe
+  lat: 0.3781749904155731
+  lon: 6.7121500968933105
+  region: West Africa
+  km: 960
+  airlines:
+  - name: TAP Air Portugal
+- iata: QUO
+  name: Akwa Ibom International Airport
+  city: Uyo
+  country: Nigeria
+  lat: 4.8725
+  lon: 8.093
+  region: West Africa
+  km: 918
+  airlines:
+  - name: Ibom Air
+- iata: ABV
+  name: Nnamdi Azikiwe International Airport
+  city: Abuja
+  country: Nigeria
+  lat: 9.006790161132812
+  lon: 7.263169765472412
+  region: West Africa
+  km: 902
+  airlines:
+  - name: Africa World Airlines
+  - name: Ibom Air
+  - name: United Nigeria Airlines
+- iata: OUA
+  name: Ouagadougou Airport
+  city: Ouagadougou
+  country: Burkina Faso
+  lat: 12.3532
+  lon: -1.51242
+  region: West Africa
+  km: 765
+  airlines:
+  - name: Africa World Airlines
+  - name: Air Burkina
+- iata: WZA
+  name: Wa Airport
+  city: Wa
+  country: Ghana
+  lat: 10.0827
+  lon: -2.50767
+  region: Domestic
+  km: 561
+  airlines:
+  - name: Passion Air
+- iata: TML
+  name: Tamale Airport
+  city: Tamale
+  country: Ghana
+  lat: 9.55718994140625
+  lon: -0.8632140159606934
+  region: Domestic
+  km: 446
+  airlines:
+  - name: Africa World Airlines
+  - name: Passion Air
+- iata: ABJ
+  name: Port Bouet Airport
+  city: Abidjan
+  country: Cote d'Ivoire
+  lat: 5.261390209197998
+  lon: -3.9262900352478027
+  region: West Africa
+  km: 418
+  airlines:
+  - name: Air Côte d'Ivoire
+  - name: Emirates
+  - name: South African Airways
+- iata: LOS
+  name: Murtala Muhammed International Airport
+  city: Lagos
+  country: Nigeria
+  lat: 6.5773701667785645
+  lon: 3.321160078048706
+  region: West Africa
+  km: 401
+  airlines:
+  - name: Africa World Airlines
+  - name: Air Peace
+  - name: Ibom Air
+  - name: United Nigeria Airlines
+- iata: NYI
+  name: Sunyani Airport
+  city: Sunyani
+  country: Ghana
+  lat: 7.361830234527588
+  lon: -2.3287599086761475
+  region: Domestic
+  km: 309
+  airlines:
+  - name: Passion Air
+- iata: KMS
+  name: Kumasi Airport
+  city: Kumasi
+  country: Ghana
+  lat: 6.714560031890869
+  lon: -1.5908199548721313
+  region: Domestic
+  km: 200
+  airlines:
+  - name: Africa World Airlines
+  - name: Passion Air
+- iata: TKD
+  name: Takoradi Airport
+  city: Takoradi
+  country: Ghana
+  lat: 4.896059989929199
+  lon: -1.7747600078582764
+  region: Domestic
+  km: 195
+  airlines:
+  - name: Africa World Airlines
+  - name: Passion Air
+- iata: OBU
+  name: Obuasi Airport
+  city: Obuasi
+  country: Ghana
+  lat: 6.29056
+  lon: -1.70139
+  region: Domestic
+  km: 186
+  airlines:
+  - name: Gianair
+- iata: LFW
+  name: Lomé-Tokoin Airport
+  city: Lome
+  country: Togo
+  lat: 6.165609836578369
+  lon: 1.2545100450515747
+  region: West Africa
+  km: 169
+  airlines:
+  - name: ASKY

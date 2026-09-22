@@ -1,0 +1,35 @@
+{#
+	The install invitation.
+
+	Ships hidden and stays hidden unless install-prompt.mjs finds a browser
+	that can actually do something: Chromium, which fires beforeinstallprompt,
+	or iOS Safari, where the only honest move is to point at the Share menu.
+
+	It is a card at the foot of the page rather than anything that covers what
+	somebody is reading. A site whose whole argument is "here is the thing
+	nobody told you" should not open by interrupting.
+#}
+<aside class="install" data-install hidden aria-label="Install All About Accra">
+	<span class="install-icon" aria-hidden="true">
+		<img src="{{ SITE_URL }}/staticimages/icon-192.png" alt="" width="40" height="40" loading="lazy">
+	</span>
+
+	<div class="install-body">
+		<p class="install-title">Keep Accra in your pocket</p>
+		<p class="install-text">
+			Install the site as an app. It opens without the browser chrome, and
+			the guides you have already read still work with no connection.
+		</p>
+
+		<p class="install-ios" data-install-ios hidden>
+			On iPhone or iPad: tap
+			<strong>Share</strong> &#8593;, then
+			<strong>Add to Home Screen</strong>.
+		</p>
+	</div>
+
+	<div class="install-actions">
+		<button class="install-button" type="button" data-install-button hidden>Install</button>
+		<button class="install-dismiss" type="button" data-install-dismiss>Not now</button>
+	</div>
+</aside>

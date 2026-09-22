@@ -1,0 +1,599 @@
+// =============================================================================
+// The interactive map at /map
+//
+// Everything is driven by --map-unit, which the component sets to the number of
+// map units in one screen pixel at the current zoom. Strokes, labels and pins
+// are multiples of it, so a border stays a hairline and a name stays 11px
+// whether you are looking at the whole country or at one street in Osu. Sized
+// in raw user units instead, a hairline over Ghana becomes a stripe over
+// Ablekuma.
+//
+// Mobile first: the panel is a sheet under the map on a phone and a column
+// beside it from tablet up.
+// =============================================================================
+
+.accra-map {
+	--map-unit: 20;
+
+	display: block;
+	margin: var(--l) 0 var(--xl);
+}
+
+.map-controls {
+	display: flex;
+	flex-direction: column;
+	gap: var(--s);
+	margin-bottom: var(--s);
+}
+
+.map-search {
+	position: relative;
+
+	input {
+		width: 100%;
+		min-width: 0;
+	}
+}
+
+.map-suggestions {
+	position: absolute;
+	z-index: 20;
+	inset-inline: 0;
+	top: calc(100% + var(--xs));
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	overflow: hidden;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+.map-suggestion {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	width: 100%;
+	padding: var(--s) var(--m);
+	text-align: left;
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--c-border);
+	cursor: pointer;
+	font: inherit;
+	color: var(--c-text);
+
+	&:last-child { border-bottom: 0; }
+	&:hover, &:focus-visible { background: var(--c-highlight-soft); }
+
+	strong { font-weight: 600; }
+	span { font-size: var(--f-xs); color: var(--c-text-light); }
+}
+
+.map-toggles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s);
+	align-items: center;
+}
+
+.map-zooms {
+	display: flex;
+	gap: var(--xs);
+	margin-inline-start: auto;
+}
+
+.map-zoom {
+	// 44px, because this is the control people use most on a phone.
+	width: 2.75rem;
+	height: 2.75rem;
+	font-size: 1.15rem;
+	line-height: 1;
+	background: var(--c-bg-widget-opaque);
+	color: var(--c-text);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+
+	&:hover { background: var(--c-highlight-soft); }
+}
+
+.map-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+}
+
+.chip {
+	font-size: var(--f-xs);
+	padding: 0.3rem 0.6rem;
+	border-radius: 999px;
+	border: 1px solid var(--c-border-strong);
+	background: transparent;
+	color: var(--c-text-light);
+	cursor: pointer;
+
+	&[aria-pressed='true'] {
+		background: var(--c-highlight-soft);
+		border-color: var(--c-highlight);
+		color: var(--c-text);
+	}
+}
+
+// --- the map itself ----------------------------------------------------------
+
+.map-body {
+	display: grid;
+	gap: var(--m);
+}
+
+.map-stage {
+	position: relative;
+
+	// The ground outside the shapes has to sit clear of BOTH ends of every ramp
+	// drawn on it. Two warm tones were tried and the palest rent band vanished
+	// into each - in dark mode against --c-bg-widget-opaque, and in light mode
+	// against --c-bg-website. A district that matches the background does not
+	// read as a low band, it reads as a hole. Hence a cool token of its own.
+	background: var(--c-map-void);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	overflow: hidden;
+
+	// Set by the component from the shape of what is on screen, clamped to
+	// something usable on a phone. Greater Accra is twice as wide as it is
+	// tall, so a portrait box would have spent half the screen on empty sea.
+	// The default matches what Greater Accra resolves to, so the box does not
+	// change height under the reader when the data arrives.
+	aspect-ratio: var(--map-aspect, 1.35);
+}
+
+.map-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none; // the component handles pan and pinch itself
+	cursor: grab;
+
+	&:active { cursor: grabbing; }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+}
+
+.map-status {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-content: center;
+	margin: 0;
+	padding: var(--l);
+	text-align: center;
+	color: var(--c-text-light);
+	pointer-events: none;
+
+	// display:grid above beats the user agent's [hidden] rule, so the overlay
+	// would otherwise sit over a perfectly good map saying "Loading".
+	&[hidden] { display: none; }
+}
+
+.layer.is-hidden { display: none; }
+
+.shape {
+	stroke: var(--c-bg-page);
+	stroke-width: calc(var(--map-unit) * 1.1);
+	stroke-linejoin: round;
+	cursor: pointer;
+	transition: fill 120ms ease-out;
+
+	&:focus-visible {
+		outline: none;
+		stroke: var(--c-text-heading);
+		stroke-width: calc(var(--map-unit) * 2.5);
+	}
+}
+
+// Regions read as one country, with home picked out. The fill has to differ
+// from the stage behind it, or sixteen regions render perfectly and look like
+// an empty box.
+.region {
+	fill: color-mix(in srgb, var(--c-text-light) 26%, var(--c-bg-page));
+
+	&:hover { fill: color-mix(in srgb, var(--c-laterite) 45%, var(--c-bg-page)); }
+	&.is-home { fill: color-mix(in srgb, var(--c-laterite) 60%, var(--c-bg-page)); }
+	&.is-selected { fill: var(--c-laterite); }
+}
+
+// Districts are tinted by what kind of assembly they are, which is three
+// colours rather than twenty-nine - calm enough to read, and it means the
+// colour carries information rather than just separating shapes.
+.shade-type .district {
+	&.type-metropolitan { fill: color-mix(in srgb, var(--c-laterite) 34%, var(--c-bg-page)); }
+	&.type-municipal    { fill: color-mix(in srgb, var(--c-forest) 24%, var(--c-bg-page)); }
+	&.type-district     { fill: color-mix(in srgb, var(--c-gold) 22%, var(--c-bg-page)); }
+}
+
+// The rent heatmap: one hue, five steps. A sequential ramp says "more of the
+// same thing" where a rainbow would say "five unrelated categories", and the
+// ranking is the whole content here. Laterite because it is the site's accent
+// and it survives being printed or read in sunlight.
+.shade-rent .district {
+	&.rent-1 { fill: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); }
+	&.rent-2 { fill: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+	&.rent-3 { fill: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+	&.rent-4 { fill: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+	&.rent-5 { fill: var(--c-laterite); }
+}
+
+// Every census metric shares the rent ramp. One hue in five steps says
+// "more of one thing", which is what a quintile map is; a different palette
+// per metric would just be decoration that has to be relearned each time.
+.shade-quantile .district {
+	fill: var(--c-bg-widget-opaque);
+
+	&[data-bucket="1"] { fill: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); }
+	&[data-bucket="2"] { fill: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+	&[data-bucket="3"] { fill: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+	&[data-bucket="4"] { fill: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+	&[data-bucket="5"] { fill: var(--c-laterite); }
+}
+
+// Ethnicity is the one categorical census layer, so it gets hues rather than
+// steps - these are unordered groups, and a ramp would imply a ranking.
+.shade-ethnicity .district {
+	fill: var(--c-bg-widget-opaque);
+
+	&[data-eth="akan"]         { fill: color-mix(in srgb, var(--c-laterite) 62%, var(--c-bg-page)); }
+	&[data-eth="ga-dangme"]    { fill: color-mix(in srgb, var(--c-forest) 60%, var(--c-bg-page)); }
+	&[data-eth="ewe"]          { fill: color-mix(in srgb, var(--c-gold) 62%, var(--c-bg-page)); }
+	&[data-eth="gurma"]        { fill: color-mix(in srgb, #6b3d64 62%, var(--c-bg-page)); }
+	&[data-eth="guan"]         { fill: color-mix(in srgb, #2f6690 60%, var(--c-bg-page)); }
+	&[data-eth="mole-dagbani"] { fill: color-mix(in srgb, #7a4b9c 58%, var(--c-bg-page)); }
+	&[data-eth="grusi"]        { fill: color-mix(in srgb, #b03a48 58%, var(--c-bg-page)); }
+	&[data-eth="mande"]        { fill: color-mix(in srgb, #2f7d5b 58%, var(--c-bg-page)); }
+	&[data-eth="others"]       { fill: color-mix(in srgb, var(--c-text-light) 40%, var(--c-bg-page)); }
+}
+
+.district {
+	&:hover { fill: var(--c-highlight-soft); }
+	&.is-selected { fill: var(--c-highlight); stroke: var(--c-text-heading); }
+}
+
+.map-label {
+	fill: var(--c-text-light);
+	font-family: var(--font-body);
+	// px, and it matters. A UNITLESS calc is invalid for font-size, so this
+	// silently inherited and the labels were sized in user units instead -
+	// 3px across the whole region, 13px zoomed in, when they were meant to be
+	// 11px throughout. stroke-width below is fine unitless because SVG allows
+	// a bare number there; font-size does not.
+	font-size: calc(var(--map-unit) * 11px);
+	text-anchor: middle;
+	dominant-baseline: middle;
+	pointer-events: none;
+	paint-order: stroke;
+	stroke: var(--c-bg-page);
+	stroke-width: calc(var(--map-unit) * 3);
+	stroke-linejoin: round;
+}
+
+// Names would be illegible over the whole country, so they only appear once
+// the view is close enough for them to mean something. The Names toggle can
+// take them away; it cannot bring them back at a zoom where they overlap.
+// :not(.is-hidden) so the Names toggle still wins. Without it the zoom rule is
+// more specific than .layer.is-hidden and the toggle does nothing.
+.layer-labels { display: none; }
+.accra-map.is-zoomed .layer-labels:not(.is-hidden) { display: block; }
+
+.view-ghana .layer-labels,
+.view-ghana .layer-districts,
+.view-ghana .layer-landmarks { display: none; }
+
+.view-accra .layer-regions { display: none; }
+
+.landmark {
+	cursor: pointer;
+
+	.pin {
+		fill: var(--c-laterite);
+		stroke: var(--c-bg-page);
+		stroke-width: calc(var(--map-unit) * 1.5);
+		r: calc(var(--map-unit) * 5);
+	}
+
+	.pin-halo {
+		fill: var(--c-laterite);
+		opacity: 0;
+		r: calc(var(--map-unit) * 11);
+		transition: opacity 140ms ease-out;
+	}
+
+	&:hover .pin-halo,
+	&:focus-visible .pin-halo,
+	&.is-selected .pin-halo { opacity: 0.28; }
+
+	&:focus-visible { outline: none; }
+	&.is-hidden { display: none; }
+
+	&.cat-government .pin { fill: var(--c-forest); }
+	&.cat-culture .pin    { fill: #6b3d64; }
+	&.cat-market .pin     { fill: var(--c-gold); }
+	&.cat-transport .pin  { fill: #2f6690; }
+	&.cat-education .pin  { fill: #7a4b9c; }
+	&.cat-health .pin     { fill: #b03a48; }
+	&.cat-nature .pin     { fill: #2f7d5b; }
+}
+
+// --- the detail panel --------------------------------------------------------
+
+.map-panel {
+	position: relative;
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	padding: var(--m);
+
+	h3 { margin: 0 0 var(--s); }
+	p { margin: 0 0 var(--s); }
+}
+
+.map-panel-close {
+	position: absolute;
+	top: var(--xs);
+	inset-inline-end: var(--xs);
+	width: 2.25rem;
+	height: 2.25rem;
+	font-size: 1.4rem;
+	line-height: 1;
+	background: none;
+	border: 0;
+	color: var(--c-text-light);
+	cursor: pointer;
+	border-radius: var(--b-radius);
+
+	&:hover { background: var(--c-highlight-soft); color: var(--c-text); }
+}
+
+.map-eyebrow {
+	font-size: var(--f-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--c-text-light);
+	margin: 0 0 var(--xs) !important;
+}
+
+.map-facts {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: var(--xs) var(--m);
+	margin: 0 0 var(--m);
+	font-size: var(--f-s);
+
+	dt { color: var(--c-text-light); }
+	dd { margin: 0; font-weight: 600; }
+}
+
+.map-list {
+	margin: 0 0 var(--m);
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-s);
+
+	li { margin-bottom: 2px; }
+}
+
+// Constituencies are buttons, because they do something. They have no shape of
+// their own to fly to, so selecting one marks it inside its district.
+.constituency {
+	display: block;
+	width: 100%;
+	text-align: left;
+	font: inherit;
+	color: var(--c-text);
+	background: none;
+	border: 0;
+	border-radius: var(--b-radius);
+	padding: 0.35em 0.5em;
+	cursor: pointer;
+
+	&::before {
+		content: "";
+		display: inline-block;
+		width: 0.5rem;
+		height: 0.5rem;
+		margin-inline-end: 0.5rem;
+		border-radius: 50%;
+		background: var(--c-border-strong);
+		vertical-align: 0.05em;
+	}
+
+	&:hover { background: var(--c-highlight-soft); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+
+	&.is-current {
+		background: var(--c-highlight-soft);
+		color: var(--c-text-heading);
+		font-weight: 600;
+
+		&::before { background: var(--c-highlight); }
+	}
+}
+
+.map-hint {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+.map-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s) var(--m);
+	margin: var(--s) 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+
+	li { display: flex; align-items: center; gap: var(--xs); }
+
+}
+
+// Not nested under .map-legend: the same swatches appear in the detail panel
+// and in the table on the page, and scoping them to the legend left those two
+// drawing empty boxes.
+.swatch {
+	display: inline-block;
+	width: 0.9rem;
+	height: 0.9rem;
+	border-radius: 3px;
+	border: 1px solid var(--c-border-strong);
+	vertical-align: -1px;
+	flex: 0 0 auto;
+}
+
+.swatch-metropolitan { background: color-mix(in srgb, var(--c-laterite) 34%, var(--c-bg-page)); }
+.swatch-municipal    { background: color-mix(in srgb, var(--c-forest) 24%, var(--c-bg-page)); }
+.swatch-district     { background: color-mix(in srgb, var(--c-gold) 22%, var(--c-bg-page)); }
+
+.swatch-rent-1 { background: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); }
+.swatch-rent-2 { background: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+.swatch-rent-3 { background: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+.swatch-rent-4 { background: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+.swatch-rent-5 { background: var(--c-laterite); }
+
+.swatch-eth-akan         { background: color-mix(in srgb, var(--c-laterite) 62%, var(--c-bg-page)); }
+.swatch-eth-ga-dangme    { background: color-mix(in srgb, var(--c-forest) 60%, var(--c-bg-page)); }
+.swatch-eth-ewe          { background: color-mix(in srgb, var(--c-gold) 62%, var(--c-bg-page)); }
+.swatch-eth-gurma        { background: color-mix(in srgb, #6b3d64 62%, var(--c-bg-page)); }
+.swatch-eth-guan         { background: color-mix(in srgb, #2f6690 60%, var(--c-bg-page)); }
+.swatch-eth-mole-dagbani { background: color-mix(in srgb, #7a4b9c 58%, var(--c-bg-page)); }
+.swatch-eth-grusi        { background: color-mix(in srgb, #b03a48 58%, var(--c-bg-page)); }
+.swatch-eth-mande        { background: color-mix(in srgb, #2f7d5b 58%, var(--c-bg-page)); }
+.swatch-eth-others       { background: color-mix(in srgb, var(--c-text-light) 40%, var(--c-bg-page)); }
+
+// --- the shade picker --------------------------------------------------------
+
+.map-shade {
+	display: flex;
+	align-items: center;
+	gap: var(--xs);
+
+	label {
+		font-size: var(--f-xs);
+		color: var(--c-text-light);
+		white-space: nowrap;
+	}
+
+	select { max-width: 14rem; }
+}
+
+// --- census block in the panel ----------------------------------------------
+
+.map-census {
+	margin-top: var(--m);
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+
+	h4 {
+		margin: 0 0 var(--xs);
+		font-size: var(--f-s);
+	}
+
+	.map-facts { margin-bottom: var(--m); }
+	p { margin: 0 0 var(--m); }
+}
+
+// A bar is worth more than a number here: the point of the ethnicity block is
+// that most districts are mixed, and four bars show that at a glance where
+// four percentages have to be read.
+.map-bars {
+	list-style: none;
+	margin: 0 0 var(--m);
+	padding: 0;
+	font-size: var(--f-xs);
+
+	li {
+		display: grid;
+		grid-template-columns: 5.5rem 1fr 2.5rem;
+		align-items: center;
+		gap: var(--xs);
+		margin-bottom: 3px;
+	}
+}
+
+.map-bar {
+	display: block;
+	height: 0.6rem;
+	border-radius: 3px;
+	background: var(--c-bg-widget);
+	overflow: hidden;
+}
+
+.map-bar-fill {
+	display: block;
+	height: 100%;
+	border-radius: 3px;
+	background: var(--c-laterite);
+
+	&.eth-akan         { background: color-mix(in srgb, var(--c-laterite) 80%, var(--c-bg-page)); }
+	&.eth-ga-dangme    { background: color-mix(in srgb, var(--c-forest) 75%, var(--c-bg-page)); }
+	&.eth-ewe          { background: color-mix(in srgb, var(--c-gold) 78%, var(--c-bg-page)); }
+	&.eth-gurma        { background: color-mix(in srgb, #6b3d64 78%, var(--c-bg-page)); }
+	&.eth-guan         { background: color-mix(in srgb, #2f6690 75%, var(--c-bg-page)); }
+	&.eth-mole-dagbani { background: color-mix(in srgb, #7a4b9c 72%, var(--c-bg-page)); }
+	&.eth-grusi        { background: color-mix(in srgb, #b03a48 72%, var(--c-bg-page)); }
+	&.eth-mande        { background: color-mix(in srgb, #2f7d5b 72%, var(--c-bg-page)); }
+	&.eth-others       { background: color-mix(in srgb, var(--c-text-light) 55%, var(--c-bg-page)); }
+}
+
+.map-bar-value {
+	text-align: right;
+	color: var(--c-text-light);
+	font-variant-numeric: tabular-nums;
+}
+
+.map-bar-label { color: var(--c-text-light); }
+
+// The caveat travels with the colours rather than sitting in a footnote. A
+// heatmap looks authoritative whether or not it has earned it.
+.map-legend-caveat {
+	flex-basis: 100%;
+	font-style: italic;
+}
+
+.map-rent {
+	margin-top: var(--m);
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+
+	h4 {
+		display: flex;
+		align-items: center;
+		gap: var(--xs);
+		margin: 0 0 var(--xs);
+		font-size: var(--f-s);
+	}
+
+	p { margin: 0 0 var(--xs); }
+}
+
+.map-hint-warn { color: var(--c-gold); }
+
+// The list under the map is the whole dataset as text. It is what a reader
+// with JavaScript off gets, and what a crawler indexes, so it is not hidden
+// once the map loads - only de-emphasised.
+.map-fallback {
+	margin-top: var(--xl);
+}
+
+@media (min-width: 720px) {
+	.map-body {
+		grid-template-columns: 1fr 20rem;
+		align-items: start;
+	}
+
+	.map-panel {
+		position: sticky;
+		top: calc(var(--h-header) + var(--m));
+		max-height: calc(100vh - var(--h-header) - var(--xxl));
+		overflow-y: auto;
+	}
+}

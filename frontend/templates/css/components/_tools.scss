@@ -1,0 +1,254 @@
+// Interactive calculators. Each one is a custom element that upgrades in
+// place, so the layout must not jump when the module loads.
+.tool, [data-tool] {
+	display: block;
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	padding: var(--l) clamp(var(--m), 3vw, var(--xl));
+	margin: var(--xl) 0;
+}
+
+.tool-placeholder h4 { margin-top: 0; }
+.tool-placeholder p { font-size: var(--f-s); color: var(--c-text-light); margin-bottom: 0; }
+
+.tool h4:first-child, .tool > form > h4:first-child { margin-top: 0; }
+
+.tool-results {
+	margin-top: var(--l);
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+}
+
+.tool-headline {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--s);
+	margin-bottom: var(--m);
+}
+
+.tool-headline-value {
+	font-family: var(--font-heading);
+	font-size: clamp(1.8rem, calc(1.3rem + 2vw), 2.4rem);
+	font-weight: 700;
+	color: var(--c-text-heading);
+	font-variant-numeric: tabular-nums;
+	line-height: 1;
+}
+
+.tool-headline-label { font-size: var(--f-s); color: var(--c-text-light); }
+
+// The pension calculator answers three separate questions, so its results are
+// three tables rather than one. Every other tool has a single result and needs
+// none of this.
+.tool-section-heading {
+	margin: var(--l) 0 var(--s);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	font-variant-caps: all-small-caps;
+	letter-spacing: 0.06em;
+}
+
+.tool-results > .tool-section-heading:first-child { margin-top: 0; }
+
+.tool-breakdown { width: 100%; font-size: var(--f-s); }
+.tool-breakdown td:last-child, .tool-breakdown th:last-child {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+.tool-breakdown tr.total td, .tool-breakdown tr.total th {
+	border-top: 2px solid var(--c-border-strong);
+	border-bottom: 0;
+	font-weight: 700;
+	color: var(--c-text-heading);
+}
+.tool-breakdown tr.subtle td, .tool-breakdown tr.subtle th { color: var(--c-text-light); }
+
+// A stacked bar showing where the money went. Colour alone never carries the
+// meaning; every segment is also labelled in the table underneath.
+.tool-bar {
+	display: flex;
+	height: 0.9rem;
+	border-radius: 999px;
+	overflow: hidden;
+	margin-bottom: var(--m);
+	background: var(--c-bg-widget);
+}
+
+.tool-bar > span { display: block; height: 100%; }
+.tool-bar .seg-net { background: var(--c-forest); }
+.tool-bar .seg-tax { background: var(--c-laterite); }
+.tool-bar .seg-pension { background: var(--c-gold); }
+
+.tool-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--m);
+	list-style: none;
+	margin: 0 0 var(--m);
+	padding: 0;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+.tool-legend li { display: flex; align-items: center; gap: var(--xs); }
+.tool-legend .swatch { width: 0.7rem; height: 0.7rem; border-radius: 2px; }
+.tool-legend .swatch.seg-net { background: var(--c-forest); }
+.tool-legend .swatch.seg-tax { background: var(--c-laterite); }
+.tool-legend .swatch.seg-pension { background: var(--c-gold); }
+
+.tool-note {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	margin: var(--m) 0 0;
+}
+
+.currency { border-bottom: 1px dotted var(--c-border-strong); cursor: help; }
+
+// ── The night out planner ──────────────────────────────────────────────────
+//
+// The only tool whose result is a sequence rather than a number, so it gets a
+// timeline: stops as cards, the journeys between them as quieter rows. The
+// point of showing the travel at all is that in Accra it is the part that eats
+// the evening, and a plan that hides it is lying about the night.
+
+.night-vibes {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+}
+
+.night-vibe {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--xs);
+	padding: 0.3em 0.7em;
+	font-size: var(--f-s);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 2rem;
+	cursor: pointer;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.night-vibe:hover { border-color: var(--c-laterite); }
+.night-vibe input { accent-color: var(--c-highlight); cursor: pointer; }
+
+// :has() so the whole pill fills in, not just the box. Where it is
+// unsupported the checkbox still shows its own state.
+.night-vibe:has(input:checked) {
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+}
+
+.night-vibe:has(input:focus-visible) { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+.night-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	margin-bottom: var(--m);
+}
+
+.night-tab {
+	display: flex;
+	flex-direction: column;
+	gap: 0.1em;
+	padding: var(--s) var(--m);
+	font: inherit;
+	text-align: left;
+	color: var(--c-text-light);
+	background: transparent;
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+}
+
+.night-tab strong { font-size: var(--f-s); color: var(--c-text-heading); }
+.night-tab span { font-size: var(--f-xs); font-variant-numeric: tabular-nums; }
+.night-tab:hover { border-color: var(--c-border-strong); }
+.night-tab.is-on { border-color: var(--c-laterite); box-shadow: inset 0 0 0 1px var(--c-laterite); }
+.night-tab.is-on strong { color: var(--c-laterite); }
+.night-tab:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+.night-budget {
+	margin: calc(var(--m) * -1) 0 var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.night-budget.is-over { color: var(--c-laterite); font-weight: 600; }
+
+.night-run {
+	list-style: none;
+	margin: 0 0 var(--l);
+	padding: 0;
+}
+
+.night-stop {
+	display: grid;
+	grid-template-columns: 6.5rem 1fr auto;
+	gap: var(--s) var(--m);
+	align-items: start;
+	padding: var(--m) 0;
+	border-top: 1px solid var(--c-border);
+}
+
+.night-stop-time,
+.night-move-time {
+	font-size: var(--f-s);
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-light);
+	white-space: nowrap;
+}
+
+.night-stop-name {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--s);
+	margin: 0 0 0.2em;
+	font-size: 1rem;
+}
+
+.night-stop-area {
+	font-family: var(--font-body);
+	font-size: var(--f-xs);
+	font-weight: 400;
+	color: var(--c-text-light);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.night-stop-what { margin: 0; font-size: var(--f-s); color: var(--c-text-light); }
+.night-stop-flag { margin: var(--xs) 0 0; font-size: var(--f-xs); color: var(--c-laterite); }
+
+.night-stop-cost {
+	font-size: var(--f-s);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-heading);
+	white-space: nowrap;
+}
+
+// The journeys. Deliberately quieter than the stops - they are the cost of
+// the night, not the point of it.
+.night-move {
+	display: grid;
+	grid-template-columns: 6.5rem 1fr;
+	gap: var(--m);
+	padding: var(--xs) 0;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+@media (max-width: 34rem) {
+	.night-stop {
+		grid-template-columns: 1fr auto;
+	}
+	.night-stop-time { grid-column: 1 / -1; }
+	.night-move { grid-template-columns: 4.5rem 1fr; gap: var(--s); }
+}

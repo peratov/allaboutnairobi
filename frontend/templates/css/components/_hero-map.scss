@@ -1,0 +1,138 @@
+// The map of Greater Accra in the home page hero.
+//
+// Two columns on a wide screen, text first and map second; one column below
+// that, with the map after the prose and before the stat row. The map is
+// decoration that happens to be navigation, so it is the part that gives way
+// when there is no room.
+
+.hero-inner {
+	display: grid;
+	gap: var(--xl);
+	align-items: center;
+	grid-template-columns: 1fr;
+}
+
+@media (min-width: 60rem) {
+	.hero-inner {
+		// The text column keeps a comfortable measure; the map takes what is
+		// left rather than half, because Greater Accra is a wide, thin shape
+		// and a square box around it would be mostly empty.
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+		gap: var(--xxl);
+	}
+}
+
+.hero-map {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: var(--s);
+	min-width: 0;
+}
+
+.hero-map-svg {
+	width: 100%;
+	height: auto;
+	// Greater Accra is about 1.87:1. Reserving the ratio stops the hero from
+	// reflowing as the SVG lays out.
+	aspect-ratio: 1.87 / 1;
+	overflow: visible;
+}
+
+.hero-map-district {
+	// The same laterite the real map selects with, at a fraction of its
+	// strength, so the hero reads as the map rather than as an illustration.
+	// The strength differs by colour scheme, so it comes from a token.
+	fill: var(--c-hero-map-fill);
+	// Stroking in the hero's own background separates neighbours without
+	// drawing a border around the coastline.
+	stroke: var(--c-bg-page);
+	// The whole map is drawn at one scale in the hero, so unlike /map this
+	// needs no --map-unit: a fixed hairline is correct at every viewport.
+	stroke-width: 4;
+	stroke-linejoin: round;
+	// Slow, because the ambient cycle fades between districts and a 120ms
+	// snap would read as a flicker. Hover puts the fast transition back, so
+	// answering the pointer still feels immediate.
+	transition: fill 850ms ease-in-out;
+}
+
+// The ambient cycle. Deliberately weaker than hover: hover is the reader
+// doing something and has to stay the strongest state on the map.
+.hero-map-district.is-lit {
+	fill: color-mix(in srgb, var(--c-laterite) 72%, var(--c-hero-map-fill));
+}
+
+.hero-map a:hover .hero-map-district,
+.hero-map a:focus-visible .hero-map-district {
+	fill: var(--c-laterite);
+	stroke: var(--c-bg-page);
+	transition: fill 120ms ease-out;
+}
+
+.hero-map a:focus-visible {
+	outline: none;
+}
+
+.hero-map a:focus-visible .hero-map-district {
+	stroke: var(--c-text-heading);
+	stroke-width: 10;
+}
+
+// Scoped under .hero, because `.hero p` in _cards.scss sets a 1.15rem
+// paragraph in muted grey and outspecifies a bare class. Unscoped, the
+// caption rendered at 18px in the body colour - the same specificity trap
+// the header hit with .no-mobile.
+.hero .hero-map-caption {
+	// Reserves its own height empty, so nothing moves when the first name
+	// appears. min-height rather than a fixed one, in case a long name wraps
+	// on a narrow column.
+	min-height: 1.4em;
+	margin: 0;
+	max-width: none;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-laterite);
+	text-align: end;
+	opacity: 0;
+	transition: opacity 450ms ease-in-out;
+}
+
+.hero .hero-map-caption.is-visible { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-map-district { transition: none; }
+	.hero-map-caption { transition: none; }
+}
+
+.hero-map-link {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.hero-map-link:hover,
+.hero-map-link:focus-visible {
+	color: var(--c-text-link);
+	text-decoration: underline;
+}
+
+// Below the text on a narrow screen, and centred rather than pushed right.
+@media (max-width: 59.99rem) {
+	.hero-map {
+		align-items: center;
+		max-width: 32rem;
+		width: 100%;
+	}
+}
+
+// A phone has better things to do with the first screen than a decorative map,
+// and the hero already carries a heading, a paragraph, search and four stats.
+@media (max-width: 30rem) {
+	.hero-map { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-map-district { transition: none; }
+}

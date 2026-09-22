@@ -1,0 +1,69 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
+	scroll-padding-top: calc(var(--h-header) + var(--m));
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+body {
+	margin: 0;
+	background: var(--c-bg-website);
+	color: var(--c-text);
+	font-family: var(--font-body);
+	font-size: var(--f-body);
+	line-height: var(--line-height-text);
+	text-rendering: optimizeLegibility;
+}
+
+img, svg, video { max-width: 100%; height: auto; }
+img { border-radius: var(--b-radius); background: var(--c-bg-widget); }
+
+::selection { background: var(--c-bg-selection); }
+
+:focus-visible {
+	outline: 3px solid var(--c-highlight);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px; height: 1px;
+	margin: -1px; padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.skip-link {
+	position: absolute;
+	left: var(--s);
+	top: -4rem;
+	z-index: 100;
+	padding: var(--s) var(--m);
+	background: var(--c-bg-page);
+	border: 2px solid var(--c-highlight);
+	border-radius: var(--b-radius);
+	transition: top 0.15s ease;
+}
+
+.skip-link:focus { top: var(--s); }
+
+// The hidden attribute always wins. A component rule like display: flex beats
+// the browser's own [hidden] rule, and that has shipped as a bug four times -
+// the checklist reset button, the map overlay, and twice on /radio, where the
+// filters marked stations hidden while every one stayed on screen. Each got a
+// local [hidden] patch; this is the fix for all of them, and for the next one.
+[hidden] {
+	display: none !important;
+}

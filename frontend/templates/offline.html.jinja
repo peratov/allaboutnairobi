@@ -1,0 +1,51 @@
+{% extends "_layout.html" %}
+
+{#
+	Shown by the service worker when the network is gone and the page asked for
+	was never opened online. Not indexable: it is a state, not a page, and a
+	search result promising "Offline" would be a poor joke.
+#}
+{% set page_robots = "noindex, follow" %}
+{% set metatitle = "Offline" %}
+{% set metadescription = "You are offline. Pages you have already opened are still here." %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section">
+			<h1>You are offline</h1>
+
+			<p class="page-intro">
+				There is no connection right now, and this page was not one you had
+				already opened. Anything you have read before is still here.
+			</p>
+
+			<p>
+				<a class="next-link" href="{{ SITE_URL }}/">Go to the home page &#8658;</a>
+			</p>
+
+			<h2 id="what-works">What still works without a connection</h2>
+			<ul>
+				<li><strong>Guides you have already opened</strong>, exactly as they were.</li>
+				<li><strong>The calculators</strong>, which have never needed the network
+					&mdash; every sum happens on your own device.</li>
+				<li><strong>Your checklists</strong>, which are saved in this browser.</li>
+			</ul>
+
+			<p class="tool-note">
+				Figures on a page you saved earlier are as old as the day you opened
+				it. Ghanaian fees change without much notice, so check anything that
+				matters once you are back online.
+			</p>
+
+			<h2 id="data">If the connection is the problem</h2>
+			<p>
+				Accra's networks are uneven and outages are usually one operator at a
+				time, which is why most people here carry a second SIM.
+			</p>
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/guides/internet-and-sim-cards">Internet and SIM cards &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/electricity-and-dumsor">Electricity and dumsor &#8658;</a>
+			</p>
+		</article>
+	</main>
+{% endblock %}

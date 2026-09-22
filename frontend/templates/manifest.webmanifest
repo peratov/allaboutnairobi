@@ -1,0 +1,61 @@
+{
+	"name": "All About Accra",
+	"short_name": "AllAboutAccra",
+	"description": "Free, independent guides and calculators for living in Accra - housing, the Ghana Card, PAYE, SSNIT, NHIS, mobile money and everything else nobody explains to you.",
+	"id": "/",
+	"start_url": "/",
+	"scope": "/",
+	"display": "standalone",
+	"orientation": "any",
+	"lang": "en-GH",
+	"dir": "ltr",
+	"background_color": "#fdfbf7",
+	"theme_color": "#b3541e",
+	"categories": ["education", "travel", "lifestyle"],
+	"icons": [
+		{
+			"src": "/staticimages/icon-192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "/staticimages/icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "/staticimages/icon-maskable-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		}
+	],
+	"shortcuts": [
+		{
+			"name": "Map of Greater Accra",
+			"short_name": "Map",
+			"url": "/map",
+			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]
+		},
+		{
+			"name": "Accra radio, live",
+			"short_name": "Radio",
+			"url": "/radio",
+			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]
+		},
+		{
+			"name": "What is on in Accra",
+			"short_name": "Events",
+			"url": "/events",
+			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]
+		},
+		{
+			"name": "Calculators and templates",
+			"short_name": "Tools",
+			"url": "/tools",
+			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]
+		}
+	]
+}

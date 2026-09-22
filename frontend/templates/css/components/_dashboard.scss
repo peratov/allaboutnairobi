@@ -1,0 +1,265 @@
+// The data dashboard at /data.
+//
+// The scope badge is the most important element on the page. Almost every
+// series here is national, and a reader who mistakes Ghana's GDP for Accra's
+// has been misled by the page rather than by the data - so the badge is on
+// every card, colour-coded, and never only in a legend.
+
+// A custom element is inline by default, and this one wraps eight thousand
+// pixels of grid.
+data-dashboard { display: block; }
+
+.dash-headline {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--s) var(--l);
+	margin: var(--l) 0;
+	padding: var(--l);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+}
+
+.dash-headline-figure {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s);
+	flex-wrap: wrap;
+}
+
+.dash-headline-figure strong {
+	font-size: 2.6rem;
+	line-height: 1;
+	color: var(--c-laterite);
+	font-variant-numeric: tabular-nums;
+}
+
+.dash-headline-figure span {
+	font-size: 1.05rem;
+	color: var(--c-text-heading);
+	max-width: 22ch;
+}
+
+.dash-headline-detail {
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	font-variant-numeric: tabular-nums;
+}
+
+.dash-scopes {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: var(--xs) var(--m);
+	margin: var(--l) 0;
+	padding: var(--m) 0;
+	border-block: 1px solid var(--c-border);
+}
+
+.dash-scope-note {
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.dash-badge {
+	display: inline-block;
+	padding: 0.05rem var(--s);
+	font-size: var(--f-xs);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	border-radius: 2rem;
+	white-space: nowrap;
+}
+
+// Accra is the accent, because it is the thing this site is about and the
+// thing there is least of. Ghana is deliberately quieter.
+.dash-badge.scope-accra   { color: var(--c-bg-on-accent); background: var(--c-laterite); }
+.dash-badge.scope-ghana   { color: var(--c-text-light); background: transparent; border: 1px solid var(--c-border-strong); }
+.dash-badge.scope-derived { color: var(--c-bg-on-accent); background: var(--c-forest); }
+
+.dash-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	margin-bottom: var(--l);
+}
+
+.dash-chip {
+	padding: var(--xs) var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: transparent;
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+	cursor: pointer;
+}
+
+.dash-chip:hover { color: var(--c-text); border-color: var(--c-border-strong); }
+
+.dash-chip.is-on {
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+}
+
+.dash-chip:focus-visible { outline: 2px solid var(--c-laterite); outline-offset: 2px; }
+
+.dash-group { margin-top: var(--xxl); }
+
+.dash-group-title {
+	margin: 0 0 var(--m);
+	padding-bottom: var(--xs);
+	font-size: 1.1rem;
+	color: var(--c-text-light);
+	border-bottom: 1px solid var(--c-border);
+	font-variant-caps: all-small-caps;
+	letter-spacing: 0.06em;
+}
+
+.dash-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+	gap: var(--m);
+}
+
+.dash-card {
+	display: flex;
+	flex-direction: column;
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+// A quiet left edge in the scope colour, so scanning the grid tells you what
+// is Accra and what is not without reading a word.
+.dash-card.scope-accra   { border-inline-start: 3px solid var(--c-laterite); }
+.dash-card.scope-derived { border-inline-start: 3px solid var(--c-forest); }
+.dash-card.scope-ghana   { border-inline-start: 3px solid var(--c-border-strong); }
+
+.dash-card-head {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s);
+	flex-wrap: wrap;
+	margin-bottom: var(--xs);
+}
+
+.dash-card-title {
+	margin: 0;
+	font-size: 0.95rem;
+	line-height: 1.3;
+}
+
+.dash-readout {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s);
+	margin: 0 0 var(--s);
+}
+
+.dash-readout-value {
+	font-size: 1.5rem;
+	line-height: 1;
+	color: var(--c-text-heading);
+	font-variant-numeric: tabular-nums;
+}
+
+.dash-readout-year {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	font-variant-numeric: tabular-nums;
+}
+
+.dash-chart-wrap {
+	position: relative;
+	height: 5.5rem;
+	margin-bottom: var(--s);
+	cursor: crosshair;
+}
+
+.dash-chart {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+// The charts are drawn in the element's own pixels rather than in a stretched
+// viewBox, so a stroke width here is the width you get and a circle is round.
+// See the comment on chart() for why the stretched box was wrong.
+.dash-line {
+	fill: none;
+	stroke: var(--c-laterite);
+	stroke-width: 1.75;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+
+.dash-area {
+	fill: var(--c-laterite);
+	fill-opacity: 0.12;
+	stroke: none;
+}
+
+.dash-zero {
+	stroke: var(--c-border-strong);
+	stroke-width: 1;
+	stroke-dasharray: 3 3;
+}
+
+.dash-point {
+	fill: var(--c-bg-page);
+	stroke: var(--c-laterite);
+	stroke-width: 1.5;
+}
+
+.dash-marker,
+.dash-rule { opacity: 0; transition: opacity 120ms ease-out; }
+
+.dash-marker {
+	fill: var(--c-laterite);
+	stroke: var(--c-bg-page);
+	stroke-width: 1.5;
+}
+
+.dash-rule {
+	stroke: var(--c-border-strong);
+	stroke-width: 1;
+}
+
+.is-reading .dash-marker,
+.is-reading .dash-rule { opacity: 1; }
+
+.dash-card-foot,
+.dash-card-source,
+.dash-card-note {
+	margin: 0;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+.dash-card-foot { margin-bottom: var(--xs); }
+
+.dash-card-note {
+	margin-bottom: var(--xs);
+	font-style: italic;
+}
+
+.dash-card-source { margin-top: auto; opacity: 0.75; }
+
+// Cards are the same shape whatever the series, so a 66-point line and a
+// 5-point scatter sit side by side without one dwarfing the other.
+@media (max-width: 30rem) {
+	.dash-chart-wrap { height: 4.5rem; }
+	.dash-headline-figure strong { font-size: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dash-marker, .dash-rule { transition: none; }
+}

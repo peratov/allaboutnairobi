@@ -1,0 +1,20 @@
+# {{ SITE_NAME }} - {{ SITE_TAGLINE }}
+#
+# Everything here is free to read, so everything here is free to crawl. The
+# only exclusions are paths with nothing in them a search result could use.
+
+User-agent: *
+Allow: /
+
+# Build-time JSON consumed by the search box and the glossary tooltips. Not
+# pages, not readable, and the search index is large enough to be a waste of
+# anyone's crawl budget.
+Disallow: /api/
+
+# A plain-text table of contents for language models, in the llmstxt.org
+# convention. Generated from the same curated reading order as /guides, so it
+# cannot drift from the site.
+#
+#   {{ CANONICAL_ORIGIN }}/llms.txt
+
+Sitemap: {{ CANONICAL_ORIGIN }}/sitemap.xml

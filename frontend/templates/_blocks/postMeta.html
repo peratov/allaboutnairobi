@@ -1,0 +1,8 @@
+<p class="post-meta">
+	{%- if entry.date_updated|default -%}
+		<span>Updated <time datetime="{{ entry.date_updated.strftime('%Y-%m-%d') }}">{{ entry.date_updated.strftime('%d %B %Y') }}</time></span>
+	{%- elif entry.date_created|default -%}
+		<span>Published <time datetime="{{ entry.date_created.strftime('%Y-%m-%d') }}">{{ entry.date_created.strftime('%d %B %Y') }}</time></span>
+	{%- endif -%}
+	{%- if entry.reading_minutes|default %} <span>{{ entry.reading_minutes }} min read</span>{% endif -%}
+</p>

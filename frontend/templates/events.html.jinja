@@ -1,0 +1,159 @@
+{% extends "_layout.html" %}
+{% set canonical_path = "/events" %}
+{% set metatitle = "Events in Accra" %}
+{% set metadescription = "What is on in Accra - festivals, music, public holidays and the annual fixtures. Past dates drop off by themselves." %}
+
+{% macro event_card(event) %}
+	{#
+		Every date the browser needs is on the element, in ISO form, so
+		events-filter.mjs can re-check expiry against the reader's own clock
+		rather than against whenever this page was last built.
+	#}
+	<li class="event"
+		data-category="{{ event.category }}"
+		{% if event.get('ends') %}data-ends="{{ event.ends.isoformat() }}"{% endif %}
+		{% if event.get('starts') %}data-starts="{{ event.starts.isoformat() }}"{% endif %}>
+
+		{% if event.get('starts') %}
+			<time class="event-date" datetime="{{ event.starts.isoformat() }}">
+				<span class="event-day">{{ event.starts.day }}</span>
+				<span class="event-month">{{ event.starts.strftime('%b') }}</span>
+			</time>
+		{% else %}
+			<div class="event-date event-date-annual" aria-hidden="true">
+				<span class="event-day">&#8734;</span>
+				<span class="event-month">yearly</span>
+			</div>
+		{% endif %}
+
+		<div class="event-body">
+			<h3 class="event-title">
+				{% if event.get('url') %}
+					<a href="{{ event.url }}" rel="noopener">{{ event.title }}</a>
+				{% else %}
+					{{ event.title }}
+				{% endif %}
+			</h3>
+
+			<p class="event-meta">
+				<span class="event-tag event-tag-{{ event.category }}">{{ event.category_label }}</span>
+				{% if event.get('is_multi_day') %}
+					<span class="event-when">until {{ event.ends.day }} {{ event.ends.strftime('%b') }}</span>
+				{% endif %}
+				{% if event.get('when') %}<span class="event-when">{{ event.when }}</span>{% endif %}
+				{% if event.get('venue') %}<span class="event-venue">{{ event.venue }}</span>{% endif %}
+				{% if event.get('area') and not event.get('venue') %}<span class="event-venue">{{ event.area }}</span>{% endif %}
+				{% if event.get('price') %}<span class="event-price">{{ event.price }}</span>{% endif %}
+			</p>
+
+			{% if event.get('description') %}
+				<p class="event-description">{{ event.description }}</p>
+			{% endif %}
+		</div>
+	</li>
+{% endmacro %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section">
+			<div class="section-heading">
+				<span class="adinkra-stamp">{% include "_icons/culture.svg" %}</span>
+				<h1>Events in Accra</h1>
+			</div>
+
+			<p class="page-intro">
+				What is coming up, soonest first. A date that has passed disappears
+				from this page by itself &mdash; including if you are reading a copy
+				your browser cached weeks ago.
+			</p>
+
+			{% if EVENTS.categories %}
+				<div class="event-filters" data-event-filters hidden>
+					<span class="event-filters-label" id="event-filter-label">Show</span>
+					<div class="event-filter-chips" role="group" aria-labelledby="event-filter-label">
+						<button type="button" class="event-chip is-on" data-filter="all" aria-pressed="true">
+							Everything
+						</button>
+						{% for category in EVENTS.categories %}
+							<button type="button" class="event-chip" data-filter="{{ category.slug }}" aria-pressed="false">
+								{{ category.label }}
+							</button>
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+
+			<p class="event-empty" data-event-empty hidden>
+				Nothing in that category is coming up. Try another.
+			</p>
+
+			{% if EVENTS.months %}
+				{% for month in EVENTS.months %}
+					<section class="event-month-group" data-event-month>
+						<h2 class="event-month-heading">{{ month.label }}</h2>
+						<ul class="event-list">
+							{% for event in month.events %}{{ event_card(event) }}{% endfor %}
+						</ul>
+					</section>
+				{% endfor %}
+			{% else %}
+				<p class="tool-note">
+					Nothing dated is listed at the moment. The annual fixtures below
+					still stand.
+				</p>
+			{% endif %}
+		</article>
+
+		{% if EVENTS.annual %}
+			<article class="section">
+				<h2 id="every-year">Every year in Accra</h2>
+				<p class="page-intro">
+					Fixtures that come round annually and whose dates for the next
+					edition have not been announced. There is no date on these on
+					purpose: a guessed date that sends you across town is worse than
+					no date at all.
+				</p>
+				<ul class="event-list">
+					{% for event in EVENTS.annual %}{{ event_card(event) }}{% endfor %}
+				</ul>
+			</article>
+		{% endif %}
+
+		<article class="section">
+			<h2 id="how-this-works">How this page is kept</h2>
+			<p>
+				Ghana's public holidays are <strong>computed</strong>, not typed. They
+				are generated from the same corrected list the rest of the site uses,
+				so they roll forward every year and cannot go stale.
+			</p>
+			<p>
+				Everything else is <strong>checked by hand</strong>. There is no public
+				events API with real Accra coverage &mdash; Eventbrite withdrew public
+				event search in 2020, and the global ticketing services have almost no
+				Ghanaian listings &mdash; so anything claiming to pull Accra events
+				automatically is either scraping somebody or showing you nothing. Each
+				listing here carries where it came from and when it was last checked.
+			</p>
+			<p>
+				<strong>Know something that should be here?</strong>
+				&mdash; <a href="mailto:{{ CONTACT_EMAIL }}?subject=Event%20for%20the%20Accra%20events%20page">Send it to us</a>,
+				with a date and a link.
+			</p>
+			<p class="tool-note">
+				Always check the organiser's own page before travelling. Dates in Accra
+				move, and the announcement is often on Instagram and nowhere else.
+			</p>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/guides/festivals-in-ghana">Festivals in Ghana &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/public-holidays-ghana">Public holidays and what closes &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/things-to-do-in-accra">Things to do in Accra &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/accra-nightlife">Accra nightlife &#8658;</a>
+			</p>
+		</article>
+	</main>
+
+	<script type="module">
+		import '{{ SITE_URL }}/js/components/events-filter.mjs';
+	</script>
+{% endblock %}

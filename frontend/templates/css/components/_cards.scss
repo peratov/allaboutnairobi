@@ -1,0 +1,109 @@
+.sidebar-card {
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	padding: var(--m) var(--l);
+	margin-bottom: var(--l);
+}
+
+.sidebar-card h2 {
+	margin: 0 0 var(--s);
+	font-family: var(--font-body);
+	font-size: var(--f-s);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--c-text-light);
+}
+
+.sidebar-card p { font-size: var(--f-s); margin-bottom: var(--s); }
+
+.verified-notice {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	border-top: 1px solid var(--c-border);
+	padding-top: var(--m);
+	margin-top: var(--xxl);
+}
+
+// Home page
+.hero {
+	padding: var(--xxl) clamp(var(--m), 4vw, var(--xxl));
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	margin-bottom: var(--xl);
+}
+
+.hero h1 { margin-bottom: var(--m); max-width: 20ch; }
+
+.hero p {
+	font-size: 1.15rem;
+	color: var(--c-text-light);
+	max-width: 46ch;
+}
+
+.hero .search-form {
+	max-width: 30rem;
+	margin-top: var(--l);
+	font-size: 1.05rem;
+	background: var(--c-bg-page);
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: var(--m);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.card {
+	display: block;
+	padding: var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	text-decoration: none;
+	color: inherit;
+	height: 100%;
+}
+
+.card:hover { border-color: var(--c-highlight); background: var(--c-highlight-soft); }
+
+.card h3 { margin: 0 0 var(--xs); font-size: 1.05rem; }
+.card p { margin: 0; font-size: var(--f-s); color: var(--c-text-light); }
+
+.stat-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: var(--m);
+	margin: var(--xl) 0;
+	padding: 0;
+	list-style: none;
+}
+
+.stat {
+	padding: var(--m);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	background: var(--c-bg-widget);
+}
+
+.stat-value {
+	display: block;
+	font-family: var(--font-heading);
+	font-size: 1.6rem;
+	font-weight: 700;
+	color: var(--c-text-heading);
+	font-variant-numeric: tabular-nums;
+	line-height: 1.1;
+}
+
+.stat-label {
+	display: block;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	margin-top: var(--xs);
+}

@@ -1,0 +1,159 @@
+// =============================================================================
+// Design tokens
+//
+// The palette comes from Accra rather than from the Ghanaian flag. Laterite is
+// the red earth you see wherever a road is being cut - the colour of the city
+// under construction. Paper is the warm off-white of a harmattan sky, not the
+// cold grey-white a European site would use.
+//
+// Every value below is measured, not chosen by eye. The targets are set for
+// the way this site is actually read: on a phone, outdoors, in equatorial
+// sun, often on a cheap screen. WCAG AA (4.5:1) is calibrated for an office.
+// It is a floor here, not a target.
+//
+//   body text            >= 12:1   (AAA is 7)
+//   muted text           >=  7:1   on page and on card - it carries the card
+//                                  descriptions, glossary definitions and
+//                                  input hints, which is most of the reading
+//   links                >=  7:1
+//   accent as text       >=  6:1
+//   text on accent fill  >=  5:1
+//   input borders        >=  3:1   WCAG 1.4.11. The previous values were
+//                                  1.69:1 light and 1.89:1 dark - the
+//                                  calculator fields had effectively no
+//                                  visible edge in sunlight.
+//
+// Borders are solid colours rather than black-at-low-alpha. Alpha only has a
+// real contrast ratio once composited, which is how the old ones passed
+// review and failed in practice.
+// =============================================================================
+
+$width-tablet: 720px;
+$width-desktop: 1180px;
+
+:root {
+	color-scheme: light dark;
+
+	--xxxl: 3rem;
+	--xxl: 2rem;
+	--xl: 1.5rem;
+	--l: 1.25rem;
+	--m: 1rem;
+	--s: 0.5rem;
+	--xs: 0.25rem;
+
+	--f-body: 1.0625rem;
+	--f-s: 0.9rem;
+	--f-xs: 0.8rem;
+	--line-height-text: 1.65;
+	--line-height-heading: 1.25;
+
+	--font-heading: Georgia, "Iowan Old Style", "Times New Roman", serif;
+	--font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+	--b-radius: 6px;
+	--w-main-column: 46rem;
+	--w-sidebar: 17rem;
+	--w-page: #{$width-desktop};
+	--h-header: 3.5rem;
+
+	// --- Light -------------------------------------------------------------
+	--c-laterite: #9c4113;        // 6.39:1 as text, 6.50:1 with paper on it
+	--c-laterite-dark: #8a3510;   // 7.82:1 - links
+	--c-forest: #185c3c;
+	--c-gold: #8a5f0f;
+
+	--c-highlight: var(--c-laterite);
+	--c-highlight-soft: #9c411322;
+
+	--c-text: #2a2521;            // 14.67:1
+	--c-text-heading: #14110d;    // 18.21:1
+	--c-text-light: #4f4941;      // 8.60:1 page, 7.77:1 card
+	--c-text-link: var(--c-laterite-dark);
+	--c-text-link-visited: #6b3d64;
+
+	--c-bg-website: #ece4d5;
+	--c-bg-page: #fdfbf7;
+	--c-bg-widget: #00000009;
+	--c-bg-widget-opaque: #f5efe4;
+	--c-bg-selection: #f5d9a3;
+	--c-bg-on-accent: #fffdf9;    // text placed on an accent fill
+
+	--c-border: #c2b6a0;          // 1.94:1 - visible, still quiet
+	--c-border-strong: #877e71;   // 3.87:1 - inputs and controls
+
+	// The ground under the map, outside every shape. Deliberately cool, where
+	// the rest of this palette is warm: the rent heatmap is a laterite ramp,
+	// and the palest step of it disappeared against every warm tone tried
+	// here. Cool also happens to be the right instinct for the sea, and Accra
+	// is on it.
+	--c-map-void: #d5dee1;
+
+	// The home page's small map of Greater Accra. It needs its own token per
+	// scheme rather than one mix: 22% laterite reads well on the dark ground
+	// and washes out to almost nothing against the near-white card, which is
+	// the same way the palest rent band once vanished.
+	// Light laterite is a deep rust, so a smaller share of it goes further
+	// here than the same figure does on the dark ground below.
+	--c-hero-map-fill: color-mix(in srgb, var(--c-laterite) 40%, var(--c-bg-page));
+
+	--c-warning-bg: #f7e2bd;
+	--c-warning-border: #8a5f0f;
+	--c-note-bg: #d8ece0;
+	--c-note-border: var(--c-forest);
+	--c-danger-bg: #f7d6c9;
+	--c-danger-border: var(--c-laterite);
+
+	--shadow-card: 0 1px 2px #0000001a, 0 6px 18px -12px #00000033;
+}
+
+// The dark palette, defined once and applied three ways below.
+//
+// A toggle needs the same tokens under two different selectors - the system
+// preference, and an explicit choice that has to beat it in both directions -
+// so this is a mixin rather than a media query with the values inside it.
+@mixin dark-palette {
+	--c-laterite: #ec9052;        // 7.00:1 as text
+	--c-laterite-dark: #f2a76f;   // 8.49:1 - links
+	--c-forest: #5cbb8b;
+	--c-gold: #e0ae52;
+
+	--c-highlight-soft: #ec905226;
+
+	--c-text: #e5ded2;            // 12.67:1
+	--c-text-heading: #f7f2e8;    // 15.18:1
+	--c-text-light: #b8b09e;      // 7.86:1 page, 7.12:1 card
+	--c-text-link-visited: #d0aeca;
+
+	--c-bg-website: #0f0d0a;
+	--c-bg-page: #201c17;
+	--c-bg-widget: #ffffff0f;
+	--c-bg-widget-opaque: #2b2419;
+	--c-bg-selection: #6b4a12;
+	--c-bg-on-accent: #17130f;    // 7.64:1 on the accent fill
+
+	--c-border: #524937;          // 1.91:1
+	--c-border-strong: #7f7563;   // 3.73:1
+	--c-map-void: #0c1013;
+	--c-hero-map-fill: color-mix(in srgb, var(--c-laterite) 22%, var(--c-bg-page));
+
+	--c-warning-bg: #3d3117;
+	--c-note-bg: #14301f;
+	--c-danger-bg: #3f2117;
+
+	--shadow-card: 0 1px 2px #00000059, 0 6px 18px -12px #00000099;
+}
+
+// 1. The system preference, unless the reader has explicitly asked for light.
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) { @include dark-palette; }
+}
+
+// 2. An explicit choice, which wins whatever the system says.
+:root[data-theme="dark"] { @include dark-palette; }
+
+// 3. And tell the browser, so form controls, scrollbars and the caret follow
+//    the page rather than the operating system.
+:root[data-theme="dark"] { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }

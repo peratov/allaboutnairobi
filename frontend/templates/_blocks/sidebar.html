@@ -1,0 +1,26 @@
+<aside class="sidebar no-print" aria-label="Page navigation">
+	{% with entry=entry, showRelatedEntriesLink=showRelatedEntriesLink|default(false) %}
+		{% include "_blocks/tableOfContents.html" %}
+	{% endwith %}
+
+	<div class="sidebar-card support-card">
+		<h2>Free, and staying that way</h2>
+		<p>
+			Nothing here is sponsored and nothing is behind a paywall. If a guide
+			saved you a wasted trip to an office, you can put something in the pot.
+		</p>
+		<a class="support-button" href="{{ SUPPORT_URL }}" target="_blank" rel="noopener">
+			{% include "_icons/help.svg" %}
+			<span class="support-button-label">Buy me a coffee</span>
+		</a>
+	</div>
+
+	<div class="sidebar-card">
+		<h2>{% include "_icons/accuracy.svg" %} Something wrong?</h2>
+		<p>
+			Ghanaian fees, tax bands and office procedures change without warning.
+			If this page is out of date, tell us and it gets fixed.
+		</p>
+		<a class="next-link" href="{{ SITE_URL }}/contact">Report an error</a>
+	</div>
+</aside>

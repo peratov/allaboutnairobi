@@ -1,0 +1,177 @@
+{% extends "_layout.html" %}
+
+{% set canonical_path = "/" %}
+{% set metatitle = SITE_NAME + " - " + SITE_TAGLINE %}
+{% set metadescription = SITE_DESCRIPTION %}
+
+{% set guides = get_entries('guides', sort_by='title') %}
+{% set glossary = get_entries('glossary') %}
+{% set tools = get_entries('tools') %}
+{% set collections = get_entries('collections') %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<section class="hero">
+			<div class="hero-inner">
+			<div class="hero-text">
+			<h1>Everything nobody tells you about living in Accra</h1>
+			<p>
+				Free, independent guides to Ghanaian bureaucracy, housing, money and daily
+				life. Written for anyone making Accra home &mdash; returnees, new arrivals,
+				and Ghanaians who have simply never had to renew a roadworthy before.
+			</p>
+			{% include "_blocks/searchForm.html" %}
+			</div>
+
+			{% include "_blocks/heroMap.html" %}
+			</div>
+
+			<ul class="stat-row">
+				<li class="stat">
+					<span class="stat-value">{{ guides|length }}</span>
+					<span class="stat-label">guides</span>
+				</li>
+				<li class="stat">
+					<span class="stat-value">{{ glossary|length }}</span>
+					<span class="stat-label">terms explained</span>
+				</li>
+				<li class="stat">
+					<span class="stat-value">{{ tools|length }}</span>
+					<span class="stat-label">calculators</span>
+				</li>
+				<li class="stat">
+					<span class="stat-value">&#8373;0</span>
+					<span class="stat-label">to use, always</span>
+				</li>
+			</ul>
+		</section>
+
+		<article class="section">
+			<p class="radio-promo">
+				<a href="{{ SITE_URL }}/radio"><strong>Listen live</strong> to
+				{{ RADIO.stations|map(attribute='name')|list|batch(4)|first|join(', ') }} and
+				{{ RADIO.stations|length - 4 }} more Accra stations &#8658;</a>
+			</p>
+
+			<h2 id="start-here">Start here</h2>
+			<p class="page-intro">
+				The things that block everything else. Until these are done, you cannot
+				open a bank account, sign a lease or get paid properly.
+			</p>
+
+			<ul class="card-grid">
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/ghana-card">
+						<span class="adinkra-stamp">{% include "_icons/identity.svg" %}</span>
+						<h3>Get a Ghana Card</h3>
+						<p>The single ID that unlocks banking, SIM cards and your tax number.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/find-a-place-in-accra">
+						<span class="adinkra-stamp">{% include "_icons/housing.svg" %}</span>
+						<h3>Find a place to live</h3>
+						<p>Agents, viewings, and the rent advance that eats your savings.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/mobile-money">
+						<span class="adinkra-stamp">{% include "_icons/money.svg" %}</span>
+						<h3>Set up mobile money</h3>
+						<p>MoMo does more work in Ghana than most bank accounts.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/getting-around-accra">
+						<span class="adinkra-stamp">{% include "_icons/transport.svg" %}</span>
+						<h3>Learn to move</h3>
+						<p>Trotro routes, Bolt, okada, and why nobody uses street names.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/nhis-health-insurance">
+						<span class="adinkra-stamp">{% include "_icons/health.svg" %}</span>
+						<h3>Register for NHIS</h3>
+						<p>It costs less than a plate of waakye a month and takes 90 days to start.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/tools/salary-calculator">
+						<span class="adinkra-stamp">{% include "_icons/accuracy.svg" %}</span>
+						<h3>Check your payslip</h3>
+						<p>Work out PAYE and SSNIT, and see if your deductions are right.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/schools-in-accra">
+						<span class="adinkra-stamp">{% include "_icons/education.svg" %}</span>
+						<h3>Find a school</h3>
+						<p>How the system works, what it costs, and when to apply.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/things-to-do-in-accra">
+						<span class="adinkra-stamp">{% include "_icons/exploring.svg" %}</span>
+						<h3>Explore the city</h3>
+						<p>Jamestown, the beaches, the festivals and the road out.</p>
+					</a>
+				</li>
+			</ul>
+		</article>
+
+		<article class="section">
+			<h2 id="numbers">The numbers, today</h2>
+			<p class="page-intro">
+				Every figure on this site comes from one dated file, so a guide can never
+				quietly go stale.
+				<a href="{{ SITE_URL }}/about#how-this-site-stays-accurate">How that works &#10142;</a>
+			</p>
+
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">What</th>
+							<th scope="col" class="numeric">How much</th>
+							<th scope="col">Where it bites</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">Daily minimum wage</th>
+							<td class="numeric">&#8373;{{ DAILY_MINIMUM_WAGE|cedis }}</td>
+							<td>About &#8373;{{ MONTHLY_MINIMUM_WAGE_APPROX|cedis }} a month</td>
+						</tr>
+						<tr>
+							<th scope="row">Tax-free income</th>
+							<td class="numeric">&#8373;{{ PAYE_BAND_1_WIDTH|cedis }}/month</td>
+							<td>Everything above it is taxed in bands</td>
+						</tr>
+						<tr>
+							<th scope="row">SSNIT off your payslip</th>
+							<td class="numeric">{{ SSNIT_EMPLOYEE_RATE|percent }}%</td>
+							<td>Your employer adds another {{ SSNIT_EMPLOYER_RATE|percent }}%</td>
+						</tr>
+						<tr>
+							<th scope="row">VAT you actually pay</th>
+							<td class="numeric">{{ VAT_EFFECTIVE_RATE|percent }}%</td>
+							<td>Not {{ VAT_RATE|percent }}% &mdash; the levies compound</td>
+						</tr>
+						<tr>
+							<th scope="row">Legal maximum rent advance</th>
+							<td class="numeric">{{ MAX_LEGAL_RENT_ADVANCE_MONTHS }} months</td>
+							<td>Landlords routinely ask for {{ TYPICAL_RENT_ADVANCE_MONTHS }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</article>
+
+		<article class="section">
+			<h2 id="browse">Browse everything</h2>
+			{% with collections=collections %}
+				{% include "_blocks/collections.html" %}
+			{% endwith %}
+		</article>
+	</main>
+{% endblock %}

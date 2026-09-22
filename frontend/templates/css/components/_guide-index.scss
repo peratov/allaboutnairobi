@@ -1,0 +1,130 @@
+// The /guides index.
+//
+// It used to be one column of sixteen subjects and 116 guides, which is a page
+// you scroll past rather than read. Two changes: a jump list at the top so the
+// whole shape is visible without scrolling, and each subject in its own card,
+// two-up on a wide screen.
+
+.guide-jump {
+	margin-top: var(--l);
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+}
+
+.guide-jump ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.guide-jump a {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--xs);
+	padding: var(--xs) var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text);
+	text-decoration: none;
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+}
+
+.guide-jump a:hover,
+.guide-jump a:focus-visible {
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+}
+
+.guide-jump a:hover .guide-jump-count,
+.guide-jump a:focus-visible .guide-jump-count { color: inherit; opacity: 0.8; }
+
+.guide-jump-count {
+	font-size: var(--f-xs);
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-light);
+}
+
+// Masonry-ish: columns rather than grid, so cards of very different heights
+// pack without leaving a tall gap beside a short one. Grid would align rows
+// and waste the space, and a subject with three guides sits next to one with
+// sixteen.
+.guide-grid {
+	margin-top: var(--xl);
+}
+
+@media (min-width: 62rem) {
+	.guide-grid {
+		columns: 2;
+		column-gap: var(--xl);
+	}
+}
+
+.guide-group {
+	// Never split a subject across the column break.
+	break-inside: avoid;
+	display: inline-block;
+	width: 100%;
+	margin-bottom: var(--xl);
+	padding: var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.guide-group-title {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s);
+	margin: 0 0 var(--xs);
+	font-size: 1.15rem;
+	// Anchored from the jump list, so keep the heading clear of the sticky
+	// header when it lands.
+	scroll-margin-top: calc(var(--h-header) + var(--m));
+}
+
+.guide-group-title a { text-decoration: none; }
+.guide-group-title a:hover { text-decoration: underline; }
+
+.guide-group-count {
+	margin-inline-start: auto;
+	font-size: var(--f-xs);
+	font-weight: 400;
+	white-space: nowrap;
+	color: var(--c-text-light);
+	font-variant-numeric: tabular-nums;
+}
+
+.guide-group-description {
+	margin: 0 0 var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+// The nested lists inside a card: tighter than the standalone collection
+// block, because there are sixteen of them on one page.
+.guide-group ol {
+	margin: 0;
+	padding-inline-start: 1.1rem;
+}
+
+.guide-group ol ol {
+	padding-inline-start: 1rem;
+	margin-top: var(--xs);
+}
+
+.guide-group li { margin-bottom: var(--xs); }
+
+.guide-group a { text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+// A grouping label with no guide of its own - "Food", "Retail" - inside the
+// business collection.
+.guide-group .collection-heading {
+	font-weight: 600;
+	color: var(--c-text-heading);
+}

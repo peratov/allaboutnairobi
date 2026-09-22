@@ -1,0 +1,20 @@
+@media print {
+	.no-print, .site-header, .site-footer, .sidebar, .table-of-contents {
+		display: none !important;
+	}
+
+	body { background: #fff; color: #000; font-size: 11pt; }
+	main { display: block; max-width: none; margin: 0; padding: 0; }
+	.section { box-shadow: none; border: 0; padding: 0; }
+
+	a { color: #000; text-decoration: underline; }
+
+	// A reader on paper cannot click, so print where the link goes.
+	.article-body a[href^="/"]::after {
+		content: " (allaboutaccra.com" attr(href) ")";
+		font-size: 9pt;
+	}
+
+	h1, h2, h3 { break-after: avoid; }
+	table, figure, .callout, .admonition { break-inside: avoid; }
+}

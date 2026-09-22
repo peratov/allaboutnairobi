@@ -1,0 +1,495 @@
+{% extends "_layout.html" %}
+{% set canonical_path = "/map" %}
+{% set metatitle = "Map of Greater Accra: districts, constituencies and landmarks" %}
+{% set metadescription = "An interactive map of Ghana's 16 regions and Greater Accra's 29 district assemblies, with all 34 constituencies, their capitals and 45 landmarks." %}
+
+{% set districts = MAP.districts %}
+{% set regions = MAP.regions %}
+{% set landmarks = MAP.landmarks %}
+{% set seat_count = districts|map(attribute='constituencies')|map('length')|sum %}
+{% set category_names = {
+	'monument': 'Monuments and memorials',
+	'government': 'Government',
+	'culture': 'Culture',
+	'market': 'Markets and shopping',
+	'transport': 'Transport',
+	'education': 'Education',
+	'health': 'Health',
+	'nature': 'Coast and green space'
+} %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section">
+			<h1>Map of Greater Accra</h1>
+			<p class="page-intro">
+				Ghana's {{ regions|length }} regions, Greater Accra's
+				{{ districts|length }} district assemblies, all {{ seat_count }}
+				constituencies and {{ landmarks|length }} landmarks. Shade it by who
+				lives there and what they do, from the 2021 census. Tap anything.
+			</p>
+
+			<accra-map data-clarity-mask="true"></accra-map>
+
+			<noscript>
+				<p class="tool-note">
+					The map needs JavaScript. Everything on it is listed below, which
+					is the same data.
+				</p>
+			</noscript>
+
+		</article>
+
+		<article class="section map-fallback">
+			<h2 id="people">Who lives in each assembly</h2>
+			<p>
+				From the 2021 Population and Housing Census. These are counts, not
+				estimates, and the 29 figures below sum to
+				{{ '{:,}'.format(districts|map(attribute='population')|sum) }} &mdash;
+				the published total for Greater Accra.
+			</p>
+
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Assembly</th>
+							<th scope="col">People</th>
+							<th scope="col">Women</th>
+							<th scope="col">Under 15</th>
+							<th scope="col">Over 64</th>
+							<th scope="col">Largest ethnic group</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for district in districts|sort(attribute='population', reverse=true) %}
+							<tr>
+								<th scope="row">{{ district.name }}</th>
+								<td>{{ '{:,}'.format(district.population) }}</td>
+								<td>{{ district.femalePct }}%</td>
+								<td>{{ district.under15Pct }}%</td>
+								<td>{{ district.over64Pct }}%</td>
+								<td>{{ district.largestEthnicGroup }} {{ district.largestEthnicPct }}%</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<p class="map-hint">
+				The largest group is not a majority in most of Accra. In Ayawaso East
+				&mdash; Nima and Mamobi &mdash; no group reaches 18%.
+			</p>
+		</article>
+
+		<article class="section map-fallback">
+			<h2 id="work">Work</h2>
+			<p>
+				<strong>Unemployment</strong> is a share of the labour force, not of
+				the population. <strong>Informal</strong> is a share of those in work,
+				and in Ghana it means <em>private informal</em> &mdash; a trader, an
+				apprentice, a mechanic with no payslip. It is the majority of
+				employment in every assembly in Greater Accra without exception.
+			</p>
+
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Assembly</th>
+							<th scope="col">In the labour force</th>
+							<th scope="col">Unemployed</th>
+							<th scope="col">Informal</th>
+							<th scope="col">Government</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for district in districts|sort(attribute='informalPct', reverse=true) %}
+							<tr>
+								<th scope="row">{{ district.name }}</th>
+								<td>{{ district.participationPct }}%</td>
+								<td>{{ district.unemploymentPct }}%</td>
+								<td>{{ district.informalPct }}%</td>
+								<td>{{ district.publicPct }}%</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<p>
+				That last column is worth sitting with. Formal employment &mdash; the
+				kind with a payslip, a PAYE deduction and a SSNIT contribution &mdash;
+				is a minority everywhere, and a small one in most places.
+			</p>
+			<p>
+				<a class="next-link" href="{{ SITE_URL }}/guides/freelancing-in-ghana">Working informally, and tax</a><br>
+				<a class="next-link" href="{{ SITE_URL }}/guides/ssnit-and-pensions">SSNIT and pensions</a><br>
+				<a class="next-link" href="{{ SITE_URL }}/guides/find-a-job-in-accra">Finding a job in Accra</a>
+			</p>
+		</article>
+
+		{% if MAP.noise and districts[0].noiseScore is defined %}
+			<article class="section map-fallback">
+				<h2 id="noise">The noise layers, and what they are not</h2>
+
+				<div class="admonition warning">
+					<p class="admonition-title">These are not decibels</p>
+					<p>
+						Nobody publishes measured ambient noise by district for Accra.
+						The EPA monitors noise and sets permissible limits by zone, but
+						there is no open series of readings per assembly &mdash; so
+						there are <strong>no decibel figures anywhere here</strong>, and
+						there is nothing on this page you could hold a council to.
+					</p>
+					<p>
+						What the layers do instead is count the things that make a place
+						loud, from data that does exist, and rank the 29 assemblies
+						against each other.
+					</p>
+				</div>
+
+				<h3>The three ingredients</h3>
+				<ul>
+					<li>
+						<strong>Major road density</strong> &mdash; kilometres of
+						motorway, trunk, primary and secondary road per km², from
+						OpenStreetMap. Traffic is the dominant source of urban noise
+						nearly everywhere, and Accra is not an exception.
+					</li>
+					<li>
+						<strong>Noisy premises</strong> &mdash; markets, industrial land,
+						places of worship and licensed premises per km², also from
+						OpenStreetMap.
+					</li>
+					<li>
+						<strong>People per km²</strong> &mdash; from the 2021 census.
+					</li>
+				</ul>
+				<p>
+					The combined layer <strong>averages the three quintile ranks with
+					equal weight</strong>. Ranks because the three are in different
+					units and one of them spans three orders of magnitude; equal weight
+					because any other split would be a coefficient somebody made up.
+					Each ingredient is also on the map as its own layer, so you can see
+					which one is driving a district's score.
+				</p>
+
+				<div class="table-wrapper">
+					<table>
+						<thead>
+							<tr>
+								<th scope="col">Assembly</th>
+								<th scope="col">Score</th>
+								<th scope="col">Roads km/km²</th>
+								<th scope="col">Premises /km²</th>
+								<th scope="col">People /km²</th>
+								<th scope="col">Area km²</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for district in districts|sort(attribute='noiseScore', reverse=true) %}
+								<tr>
+									<th scope="row">{{ district.name }}</th>
+									<td>{{ district.noiseScore }}</td>
+									<td>{{ district.roadPerKm2 }}</td>
+									<td>{{ district.premisesPerKm2 }}</td>
+									<td>{{ '{:,}'.format(district.peoplePerKm2) }}</td>
+									<td>{{ district.areaKm2 }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+
+				<h3>Where it is weakest</h3>
+				<p>
+					<strong>OpenStreetMap is uneven.</strong> A market that nobody has
+					mapped counts as no market. Coverage is better in central Accra than
+					in Ada or Shai Osudoku, which means the outer districts are more
+					likely to be under-counted than over-counted.
+				</p>
+				<p>
+					<strong>Small districts are fragile.</strong> Ayawaso Central is
+					under two square kilometres, so a single road either counted or not
+					swings its density more than it would anywhere else. This is part of
+					why the combined layer averages three ingredients rather than
+					trusting one: where the road count is thin, the premises and people
+					counts still carry it.
+				</p>
+				<p>
+					<strong>Noise is local and this is not.</strong> An assembly-wide
+					number cannot tell you about your street. Living beside a lorry
+					station in a quiet district is louder than living on a back lane in
+					a loud one.
+				</p>
+
+				<p>
+					<a class="next-link" href="{{ SITE_URL }}/guides/reporting-broken-infrastructure">Reporting a noise problem, and who to</a><br>
+					<a class="next-link" href="{{ SITE_URL }}/guides/government-agencies">The EPA and the other regulators</a>
+				</p>
+			</article>
+		{% endif %}
+
+		<article class="section">
+			<h2 id="rent">The rent layer, and what it is not</h2>
+			<p>
+				Switching the map to <strong>Rent</strong> shades the 29 assemblies
+				from cheapest to dearest. Before you use it, know exactly what you
+				are looking at.
+			</p>
+
+			<div class="admonition warning">
+				<p class="admonition-title">These bands are not measured</p>
+				<p>
+					Ghana publishes no rent data by district. There is no official
+					index, the Rent Control Department releases no figures, and the
+					Ghana Statistical Service reports housing expenditure by region
+					rather than by assembly.
+				</p>
+				<p>
+					So this is <strong>a coarse ranking, not a survey</strong>: five
+					ordered steps from listing observation and local knowledge. Band 4
+					is dearer than band 3; it is not twice it. There are deliberately
+					no cedi figures per district, because a number would imply a
+					precision that does not exist.
+				</p>
+				<p>
+					It is here because <em>where is expensive and where is cheap</em>
+					is a real question that nothing else answers for Accra in one
+					picture. Treat it as a starting point for asking around, not as
+					evidence.
+				</p>
+			</div>
+
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Band</th>
+							<th scope="col">What it means</th>
+							<th scope="col">Assemblies</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for band in MAP.rent.bands %}
+							{% set members = districts|selectattr('rent', 'equalto', band.band)|list %}
+							<tr>
+								<th scope="row">
+									<span class="swatch swatch-rent-{{ band.band }}"></span>
+									{{ band.label }}
+								</th>
+								<td>{{ band.note }}</td>
+								<td>{{ members|map(attribute='name')|join(', ') }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<h3>Districts too varied for one band to mean much</h3>
+			<p>
+				In these, the difference between one neighbourhood and the next
+				inside the same assembly is larger than the gap between two bands.
+			</p>
+			<ul>
+				{% for district in districts if district.rentSpread == 'wide' %}
+					<li><strong>{{ district.name }}</strong> &mdash; {{ district.rentDrivenBy }}</li>
+				{% endfor %}
+			</ul>
+
+			<p>
+				If you know a band is wrong, <a href="{{ SITE_URL }}/contact">say so</a>.
+				The neighbourhoods behind each call are published precisely so they
+				can be argued with.
+			</p>
+
+			<p class="map-hint">
+				Rent bands last reviewed {{ MAP.rent.meta.last_verified }}.
+			</p>
+
+			<p>
+				<strong>For actual numbers</strong>, the housing guides carry the
+				figures this site does track, each with a source and an expiry date.
+			</p>
+			<p>
+				<a class="next-link" href="{{ SITE_URL }}/guides/find-a-place-in-accra">How to find a place in Accra</a><br>
+				<a class="next-link" href="{{ SITE_URL }}/guides/rent-advance">The rent advance</a><br>
+				<a class="next-link" href="{{ SITE_URL }}/tools/cost-of-living-calculator">Cost of living calculator</a>
+			</p>
+		</article>
+
+		<article class="section map-fallback">
+			<h2 id="assemblies">The {{ districts|length }} district assemblies</h2>
+			<p>
+				A <strong>Metropolitan</strong> assembly serves a population over
+				250,000, a <strong>Municipal</strong> assembly a single large town
+				over 95,000, and a <strong>District</strong> assembly everywhere else.
+				The distinction decides how much a local authority can do and how much
+				it is funded.
+			</p>
+
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Assembly</th>
+							<th scope="col">Type</th>
+							<th scope="col">Capital</th>
+							<th scope="col">Constituencies</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for district in districts %}
+							<tr id="district-{{ district.id }}">
+								<th scope="row">{{ district.name }}</th>
+								<td>{{ district.type }}</td>
+								<td>{{ district.capital }}</td>
+								{#
+									Links into the map rather than plain text. Clicking a
+									constituency name and having nothing happen is what
+									made these look broken, and the hash the component
+									resolves is built with the same slug rule its own
+									JavaScript uses.
+								#}
+								<td>
+									{% for constituency in district.constituencies %}
+										<a href="#constituency={{ constituency|slug }}">{{ constituency }}</a>{% if not loop.last %}, {% endif %}
+									{% endfor %}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<p class="map-hint">
+				Ghana's constituency boundaries are not published as open data, so they
+				are listed here by the assembly that contains them rather than drawn on
+				the map. A district may hold several: Accra Metropolitan holds four.
+			</p>
+		</article>
+
+		<article class="section">
+			<h2 id="regions">Ghana's {{ regions|length }} regions</h2>
+			<p>
+				Six new regions were created by referendum in December 2018, taking
+				Ghana from ten to sixteen.
+			</p>
+
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Region</th>
+							<th scope="col">Districts</th>
+							<th scope="col">Constituencies</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for region in regions %}
+							<tr>
+								<th scope="row">{{ region.name }}</th>
+								<td>{{ region.districts }}</td>
+								<td>{{ region.constituencies }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</article>
+
+		<article class="section">
+			<h2 id="landmarks">Landmarks</h2>
+			{% set grouped = landmarks|groupby('category') %}
+			{% for category, items in grouped %}
+				<h3>{{ category_names.get(category, category) }}</h3>
+				<ul>
+					{% for item in items %}
+						<li>
+							{% if item.url %}<a href="{{ SITE_URL }}{{ item.url }}">{{ item.name }}</a>{% else %}<strong>{{ item.name }}</strong>{% endif %}
+							&mdash; {{ item.blurb }}
+						</li>
+					{% endfor %}
+				</ul>
+			{% endfor %}
+		</article>
+
+		<article class="section">
+			<h2 id="sources">Where this comes from</h2>
+			<p>
+				Nothing here is drawn by hand or remembered. The boundaries are real,
+				the constituency list is checked against its own source, and every
+				landmark coordinate was looked up rather than guessed.
+			</p>
+			<ul>
+				<li>
+					<strong>Region and district boundaries</strong> &mdash;
+					<a href="https://www.geoboundaries.org" rel="noopener" target="_blank">geoBoundaries</a>,
+					which carries Ghana's districts from the Ghana Statistical Service
+					and its regions from OpenStreetMap. CC BY 4.0.
+				</li>
+				<li>
+					<strong>District capitals and constituencies</strong> &mdash; the
+					<a href="https://en.wikipedia.org/wiki/List_of_parliamentary_constituencies_of_Ghana" rel="noopener" target="_blank">Wikipedia
+					list of parliamentary constituencies</a>, which reproduces the
+					Electoral Commission's tables. The build refuses to publish unless
+					every region's constituency count matches that article's own
+					summary table, and unless all {{ seat_count }} Greater Accra seats
+					land on a district.
+				</li>
+				<li>
+					<strong>Population, age, sex, ethnicity and employment</strong>
+					&mdash; Ghana Statistical Service, <strong>2021 Population and
+					Housing Census</strong>, through the StatsBank API. Real counts at
+					district level: the 2021 census uses the post-2018 assemblies, so
+					it joins to these 29 without any fudging. The build refuses to
+					publish unless the district populations sum to the published
+					regional total of 5,455,692, which is what catches a sub-metro
+					counted twice or an assembly dropped.
+				</li>
+				<li>
+					<strong>Landmark coordinates</strong> &mdash;
+					<a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OpenStreetMap
+					contributors</a>, ODbL. Two places that belong on this list are
+					missing because OpenStreetMap has no record to point at, and a
+					guessed coordinate is worse than an absent one.
+				</li>
+			</ul>
+			<p class="map-hint">
+				Boundaries reflect the districts as constituted after the 2018
+				reorganisation. Data generated {{ MAP.generated }}.
+			</p>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/guides/drive-accra-online">Drive these streets from anywhere, in a trotro &#8658;</a>
+			</p>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/data">Greater Accra at every census since 1960, and sixty
+				years of national figures &#8658;</a>
+			</p>
+
+			<p>
+				<strong>The map is drawn here, not fetched.</strong> There is no tile
+				server and no third party involved: it is one SVG built from a single
+				file served by this site, so it costs one request, works on a slow
+				connection, and does not tell anyone else where you are looking.
+			</p>
+		</article>
+
+		{% include "_blocks/relatedGuides.html" ignore missing %}
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{#
+		Queued before super() on purpose. The layout's own {% raw %}{% alljs %}{% endraw %} runs
+		inside super() and emits everything queued up to that point, so this
+		import rides along in the one module script rather than adding a second.
+	#}
+	{% queueJs %}
+		import '/js/components/accra-map.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

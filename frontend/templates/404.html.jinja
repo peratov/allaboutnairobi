@@ -1,0 +1,20 @@
+{% extends "_layout.html" %}
+{% set page_robots = "noindex, follow" %}
+{% set metatitle = "Page not found" %}
+{% set metadescription = "That page does not exist on All About Accra. Try the search, or start from the guides index." %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page">
+		<article class="section">
+			<h1>You have reached a dead end</h1>
+			<p class="page-intro">
+				This page does not exist. It may have been renamed, or the link that
+				brought you here may be old.
+			</p>
+			{% include "_blocks/searchForm.html" %}
+			<p style="margin-top: var(--l)">
+				<a class="next-link" href="{{ SITE_URL }}/guides">Browse all guides</a>
+			</p>
+		</article>
+	</main>
+{% endblock %}

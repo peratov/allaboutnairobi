@@ -1,0 +1,59 @@
+{% extends "_layout.html" %}
+
+{#
+	The issue number lives in the front matter, not in the title. The archive
+	shows it as a pill and this page as an eyebrow, so a title carrying it too
+	would say "Issue 01" twice on the same line. It goes back on for the browser
+	tab and for anything that shares the page, where there is no pill to see.
+#}
+{% set issue_prefix = ('Issue %02d: '|format(entry.issue)) if entry.issue|default else '' %}
+{% set metatitle = issue_prefix ~ entry.title %}
+{% set metadescription = entry.description %}
+
+{% block postHead %}
+	{{ super() }}
+	<link rel="index" href="{{ SITE_URL }}/newsletter">
+{% endblock %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page">
+		<article class="section">
+			<p class="map-eyebrow">
+				<a href="{{ SITE_URL }}/newsletter">The monthly Accra newsletter</a>
+				{% if entry.issue|default %} &middot; Issue {{ '%02d'|format(entry.issue) }}{% endif %}
+			</p>
+			<h1>{{ entry.title }}</h1>
+			{% include "_blocks/postMeta.html" %}
+
+			<div class="article-body">
+				{{ entry.body|render|safe }}
+			</div>
+		</article>
+
+		{% include "_blocks/subscribeForm.html" %}
+
+		<article class="section">
+			<p>
+				<a class="next-link" href="{{ SITE_URL }}/newsletter">All past issues</a>
+			</p>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{{ super() }}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		"headline": {{ entry.title|tojson }},
+		"description": {{ entry.description|tojson }},
+		"inLanguage": "en-GH",
+		"url": "{{ canonical_url }}",
+		{% if entry.date_created|default %}"datePublished": "{{ entry.date_created.strftime('%Y-%m-%d') }}",{% endif %}
+		"isPartOf": { "@id": "{{ CANONICAL_ORIGIN }}/#site" },
+		"publisher": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
+		"mainEntityOfPage": { "@type": "WebPage", "@id": "{{ canonical_url }}" }
+	}
+	</script>
+{% endblock %}

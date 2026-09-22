@@ -1,0 +1,89 @@
+.glossary-link {
+	text-decoration: none;
+	border-bottom: 1px dotted var(--c-highlight);
+	color: inherit;
+	cursor: help;
+}
+
+.glossary-link:visited { color: inherit; }
+.glossary-link:hover { background: var(--c-highlight-soft); }
+
+.glossary-tooltip {
+	position: absolute;
+	z-index: 50;
+	max-width: #{"min(22rem, calc(100vw - 2rem))"};
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	line-height: 1.5;
+}
+
+.glossary-tooltip strong { display: block; }
+.glossary-tooltip .glossary-language {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	font-style: italic;
+}
+
+// The A-Z index
+.glossary-index { display: grid; gap: var(--xl); }
+
+.glossary-jump {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	position: sticky;
+	top: calc(var(--h-header) + var(--s));
+	background: var(--c-bg-page);
+	padding: var(--s) 0;
+	z-index: 5;
+}
+
+.glossary-jump a {
+	display: grid;
+	place-items: center;
+	min-width: 1.9em;
+	padding: 0.15em 0.4em;
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	text-decoration: none;
+	font-size: var(--f-s);
+	font-weight: 600;
+}
+
+.glossary-jump a:hover { background: var(--c-highlight-soft); border-color: var(--c-highlight); }
+
+.glossary-group h2 {
+	font-size: 1.5rem;
+	margin: 0 0 var(--s);
+	color: var(--c-highlight);
+}
+
+.glossary-group dl { margin: 0; }
+.glossary-group dt { margin-top: var(--m); }
+.glossary-group dt a { text-decoration: none; }
+.glossary-group dt a:hover { text-decoration: underline; }
+.glossary-group dd { color: var(--c-text-light); font-size: var(--f-s); }
+
+.term-language {
+	display: inline-block;
+	margin-left: var(--s);
+	padding: 0.05em 0.5em;
+	border-radius: 999px;
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	font-size: var(--f-xs);
+	font-weight: 500;
+	color: var(--c-text-light);
+	vertical-align: 0.1em;
+}
+
+.term-header { margin-bottom: var(--l); }
+.term-english {
+	font-size: 1.15rem;
+	color: var(--c-text-light);
+	margin: 0;
+}

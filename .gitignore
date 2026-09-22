@@ -1,0 +1,12 @@
+.venv/
+node_modules/
+.vercel-venv/
+.vercel/
+__pycache__/
+*.py[cod]
+frontend/output/
+frontend/public/
+.env
+.DS_Store
+*.log
+vercel-schema.tmp.json

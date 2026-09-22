@@ -1,0 +1,200 @@
+# =============================================================================
+# Indicative rent bands for the map at /map
+#
+# READ THIS BEFORE TRUSTING THE COLOURS.
+#
+# Ghana does not publish rent data by district. There is no official index, the
+# Rent Control Department does not release figures, and the Ghana Statistical
+# Service reports housing expenditure by region rather than by assembly. So
+# this is not a survey and it is not measured. It is a coarse five-way ranking
+# of typical asking rents, from listing observation and local knowledge, and it
+# is here because "where is expensive and where is cheap" is a real question
+# that nothing else on the internet answers for Accra in one picture.
+#
+# What that means in practice:
+#
+#   * The bands are ordinal. Band 4 is dearer than band 3. It is not twice it.
+#   * Deliberately no cedi figures per district. A number would imply a
+#     precision that does not exist, and this site does not do that.
+#   * Variation WITHIN a district is often larger than the gap between two
+#     bands. Ga South holds both Weija and farming villages. `spread: wide`
+#     marks the districts where the average is least useful.
+#   * `driven_by` names the neighbourhoods that set the band, so a reader can
+#     judge the call rather than take it on faith.
+#
+# Corrections are welcome and are the point of publishing the reasoning:
+# https://www.allaboutaccra.com/contact
+#
+# Run scripts/build_map_data.py after editing this.
+# =============================================================================
+
+meta:
+  last_verified: 2026-09-08
+  fail_on: 2027-03-01
+  basis: >-
+    Indicative ranking of typical asking rents, from listing observation and
+    local knowledge. Not a survey, and not published data - Ghana has none at
+    this level.
+
+bands:
+  - band: 1
+    label: Lowest
+    note: Rural and semi-rural. Far below the city median, and far from work.
+  - band: 2
+    label: Below median
+    note: Dense older neighbourhoods and the outer commuter belt.
+  - band: 3
+    label: Around the median
+    note: The bulk of ordinary Accra housing.
+  - band: 4
+    label: Above median
+    note: Established suburbs with newer stock and shorter commutes.
+  - band: 5
+    label: Highest
+    note: Diplomatic and executive Accra. Often quoted in dollars.
+
+districts:
+  - id: ablekuma-central-municipal
+    band: 2
+    spread: moderate
+    driven_by: Lartebiokorshie, Abossey Okai, Kaneshie
+
+  - id: ablekuma-north-municipal
+    band: 2
+    spread: moderate
+    driven_by: Darkuman, Odorkor
+
+  - id: ablekuma-west-municipal
+    band: 3
+    spread: moderate
+    driven_by: Dansoman, Mataheko
+
+  - id: accra-metropolitan
+    band: 2
+    spread: wide
+    driven_by: Accra Central, Jamestown, Korle Gonno, Chorkor
+
+  - id: ada-east
+    band: 1
+    spread: moderate
+    driven_by: Ada Foah, Big Ada
+
+  - id: ada-west
+    band: 1
+    spread: moderate
+    driven_by: Sege
+
+  - id: adenta-municipal
+    band: 3
+    spread: moderate
+    driven_by: Adenta, Frafraha
+
+  - id: ashaiman-municipal
+    band: 2
+    spread: narrow
+    driven_by: Ashaiman
+
+  - id: ayawaso-central-municipal
+    band: 3
+    spread: moderate
+    driven_by: Kokomlemle, Asylum Down, Adabraka
+
+  - id: ayawaso-east-municipal
+    band: 2
+    spread: moderate
+    driven_by: Nima, Mamobi, Kotobabi
+
+  - id: ayawaso-north-municipal
+    band: 2
+    spread: moderate
+    driven_by: Accra New Town, Alajo
+
+  - id: ayawaso-west-wuogon-municipal
+    band: 5
+    spread: moderate
+    driven_by: Airport Residential, Roman Ridge, Dzorwulu, East Legon
+
+  - id: ga-central-municipal
+    band: 2
+    spread: moderate
+    driven_by: Sowutuom, Anyaa
+
+  - id: ga-east-municipal
+    band: 3
+    spread: wide
+    driven_by: Haatso, Dome, Abokobi
+
+  - id: ga-north-municipal
+    band: 2
+    spread: wide
+    driven_by: Ofankor, Pokuase
+
+  - id: ga-south-municipal
+    band: 2
+    spread: wide
+    driven_by: Weija outskirts, Bortianor, Ngleshie Amanfro
+
+  - id: ga-west-municipal
+    band: 2
+    spread: wide
+    driven_by: Amasaman, Pokuase
+
+  - id: korle-klottey-municipal
+    band: 5
+    spread: wide
+    driven_by: Ridge, Osu, Labone, North Ridge
+
+  - id: kpone-katamanso-municipal
+    band: 2
+    spread: wide
+    driven_by: Kpone, Katamanso, Michel Camp
+
+  - id: krowor-municipal
+    band: 3
+    spread: moderate
+    driven_by: Nungua, Teshie-Nungua Estates
+
+  - id: la-dade-kotopon-municipal
+    band: 5
+    spread: wide
+    driven_by: Cantonments, Labone, Airport Hills, Burma Camp
+
+  - id: la-nkwantanang-madina-municipal
+    band: 3
+    spread: moderate
+    driven_by: Madina, Ashongman
+
+  - id: ledzokuku-municipal
+    band: 3
+    spread: moderate
+    driven_by: Teshie, Baatsona
+
+  - id: ningo-prampram
+    band: 1
+    spread: wide
+    driven_by: Prampram, Dawhenya, Afienya
+
+  - id: okaikwei-north-municipal
+    band: 4
+    spread: moderate
+    driven_by: Tesano, Achimota, Abeka
+
+  - id: shai-osudoku
+    band: 1
+    spread: moderate
+    driven_by: Dodowa, Ayikuma
+
+  - id: tema-metropolitan
+    band: 3
+    spread: moderate
+    driven_by: Tema Communities 1 to 12
+
+  - id: tema-west-municipal
+    band: 4
+    spread: moderate
+    driven_by: Community 25, Sakumono, Spintex
+
+  - id: weija-gbawe-municipal
+    band: 3
+    spread: wide
+    driven_by: Weija, Gbawe, McCarthy Hill

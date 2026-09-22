@@ -1,0 +1,296 @@
+// =============================================================================
+// The site header
+//
+// Wordmark left, navigation right, both hard against the page gutter.
+//
+// It was centred, and centring was wrong here. With the search field gone
+// there is nothing to put on the right, so a centred group left 287px of dead
+// air on one side and a wordmark floating on the other: geometrically centred,
+// visually lopsided. Anchoring both ends is the ordinary convention for a bar
+// with no right-hand actions, and it is the one arrangement that stays
+// balanced at every width without a phantom third column propping it up.
+//
+// Two details that separate this from looking almost right:
+//
+//   * every item sits on one optical axis, rather than each being centred in
+//     its own box
+//   * the text of the last item lines up with the gutter, not the padding
+//     that makes it tappable
+// =============================================================================
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: var(--c-bg-page);
+	border-bottom: 1px solid var(--c-border);
+}
+
+.site-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--l);
+	max-width: var(--w-page);
+	min-height: var(--h-header);
+	margin: 0 auto;
+	padding: 0 var(--m);
+}
+
+.site-nav-links {
+	display: flex;
+	align-items: center;
+	gap: var(--l);
+
+	// Each item carries side padding so it is comfortably tappable. Pull that
+	// back at the end, or the last item's text stops short of the gutter while
+	// its invisible box reaches it - which is exactly the kind of two-pixel
+	// wrongness that reads as "misaligned" without anyone being able to say
+	// why.
+	margin-inline-end: calc(var(--xs) * -1);
+}
+
+.site-nav-links > a,
+.site-nav-links > button {
+	position: relative;
+	color: var(--c-text);
+	text-decoration: none;
+	font-family: var(--font-body);
+	font-size: 0.95rem;
+	font-weight: 500;
+	letter-spacing: 0.005em;
+	line-height: 1;
+	background: none;
+	border: 0;
+	cursor: pointer;
+	white-space: nowrap;
+
+	// Tall enough to hit with a thumb without making the bar taller.
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+	padding: 0 var(--xs);
+}
+
+// A rule that grows from the middle, rather than a colour change alone -
+// colour on its own is a poor signal, and this reads at a glance.
+.site-nav-links > a::after,
+.site-nav-links > button::after {
+	content: "";
+	position: absolute;
+	left: var(--xs);
+	right: var(--xs);
+	bottom: 0.55rem;
+	height: 2px;
+	background: var(--c-highlight);
+	border-radius: 2px;
+	transform: scaleX(0);
+	transition: transform 140ms ease-out;
+}
+
+.site-nav-links > a:hover,
+.site-nav-links > button:hover,
+.site-nav-links > button[aria-expanded="true"],
+.site-nav-links > [aria-current="page"],
+.site-nav-links > .is-current {
+	color: var(--c-highlight);
+	text-decoration: none;
+}
+
+.site-nav-links > a:hover::after,
+.site-nav-links > button:hover::after,
+.site-nav-links > button[aria-expanded="true"]::after,
+.site-nav-links > [aria-current="page"]::after,
+.site-nav-links > .is-current::after {
+	transform: scaleX(1);
+}
+
+// The page you are on keeps its rule whether or not the pointer is anywhere
+// near it, and does not animate in - it was already there.
+.site-nav-links > [aria-current="page"],
+.site-nav-links > .is-current {
+	font-weight: 600;
+
+	&::after { transition: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.site-nav-links > a::after,
+	.site-nav-links > button::after { transition: none; }
+}
+
+// A text-only wordmark: the domain, set as one word.
+//
+// It was doing too much - three weights, two sizes and two colours inside
+// sixteen pixels, which at that scale is noise rather than hierarchy. One
+// weight for the whole thing now, with "accra" carrying the emphasis on colour
+// alone. That is the word people scan for and the one that has to survive when
+// the bar narrows; it does not also need to be bolder, bigger and a different
+// colour all at once.
+//
+// Plain inline text, not flex.
+//
+// This was an inline-flex box with align-items:center and align-self:baseline
+// on the spans, which fight: a baseline-aligned flex group is placed at the
+// START of the cross axis, so the box centred perfectly and the letters inside
+// it sat 15px high - above the line of the menu items, and even spilling out
+// of the top of their own box.
+//
+// Inline layout already does the one thing that was wanted here. Sibling spans
+// share a baseline for free, which is how ".com" is meant to sit against the
+// rest of a domain, and a line-height equal to the hit height centres the
+// glyphs in it. No flex, nothing to fight.
+.wordmark {
+	display: inline-block;
+	font-family: var(--font-body);
+	font-size: 1.15rem;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+	text-decoration: none;
+	border-radius: var(--b-radius);
+
+	// Both the tap target and the vertical centring, in one declaration. Matches
+	// the nav items, so the wordmark and the links share one optical centre.
+	line-height: 2.75rem;
+}
+
+.wordmark:hover { text-decoration: none; }
+.wordmark:hover .wordmark-city { color: var(--c-laterite-dark); }
+
+.wordmark:focus-visible {
+	outline: 2px solid var(--c-highlight);
+	outline-offset: 3px;
+}
+
+// The three spans are one word. Same weight throughout; only the colour and
+// the slightly smaller tld separate them, and inline layout baselines them
+// without being asked.
+.wordmark-all { color: var(--c-text-light); }
+.wordmark-city { color: var(--c-highlight); }
+.wordmark-tld {
+	color: var(--c-text-light);
+	font-size: 0.8em;
+	opacity: 0.85;
+}
+
+.submenu {
+	background: var(--c-bg-widget-opaque);
+	border-top: 1px solid var(--c-border);
+}
+
+.submenu ul {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+	gap: var(--s);
+	max-width: var(--w-page);
+	margin: 0 auto;
+	padding: var(--m);
+	list-style: none;
+}
+
+.submenu li a {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-areas: "icon title" "icon text";
+	gap: 0 var(--s);
+	padding: var(--s);
+	border-radius: var(--b-radius);
+	text-decoration: none;
+	color: inherit;
+}
+
+.submenu li a:hover { background: var(--c-highlight-soft); }
+.submenu li a .adinkra-stamp { grid-area: icon; align-self: center; }
+.submenu li a h4 { grid-area: title; margin: 0; font-size: 0.98rem; }
+.submenu li a p { grid-area: text; margin: 0; font-size: var(--f-xs); color: var(--c-text-light); }
+
+.submenu > .next-link {
+	display: block;
+	max-width: var(--w-page);
+	margin: 0 auto;
+	padding: 0 var(--m) var(--m);
+	font-size: var(--f-s);
+}
+
+// Below this the wordmark and five links no longer leave room for a centred
+// group, so the gutter is dropped and the links simply follow the wordmark.
+@media (max-width: 860px) {
+	// Scoped and specific enough to beat the display:inline-flex above, which
+	// a bare .no-mobile is not - the bar silently overflowed at 320px instead.
+	.site-nav-links > .no-mobile { display: none; }
+	.no-mobile { display: none; }
+
+	// The arrangement does not change on a phone, only the spacing. Logo left
+	// and links right already works at every width, which is most of the
+	// reason for choosing it over a centred group.
+	.site-nav {
+		gap: var(--m);
+		padding: 0 var(--s);
+	}
+
+	.site-nav-links { gap: var(--m); }
+
+	.wordmark { font-size: 1.05rem; }
+
+	.site-nav-links > a,
+	.site-nav-links > button { font-size: 0.88rem; }
+}
+
+// 320px is still a real device here. At this width the gaps are what has to
+// give, not a navigation item or the domain.
+// Six items stopped fitting when Events was added. Below this the bar keeps
+// Guides, Tools, Events and Map; Glossary goes to the footer, where it already
+// was. Scoped like .no-mobile above, for the same specificity reason.
+//
+// 560px, not 400: five items plus the wordmark need about 520px, so a
+// breakpoint set at the phone width left the bar overflowing across the whole
+// of the small-tablet range instead - measured, after guessing wrong once.
+@media (max-width: 560px) {
+	.site-nav-links > .no-small { display: none; }
+
+	// 20px between items is right on a wide bar and is pure waste on a phone,
+	// where it costs more than the theme toggle it was crowding out. Halving
+	// it buys back 40px across four gaps - the items are still 44px tall, so
+	// nothing gets harder to hit.
+	.site-nav-links { gap: var(--s); }
+	.site-nav { gap: var(--m); }
+}
+
+// Compact the items well before the wordmark shrinks.
+//
+// This used to start at 380px, which left the bar overflowing across the whole
+// 381-460px band - and that band is where most phones now sit: 390, 393, 412,
+// 428. It read as fine on a 375px iPhone SE and broken on a 393px Pixel, which
+// is the wrong way round for a Ghanaian audience on mid-range Android.
+@media (max-width: 460px) {
+	.site-nav {
+		gap: var(--s);
+		padding: 0 var(--xs);
+	}
+
+	// The pulled-in end margin is measured against the wider padding above,
+	// so it has to shrink with it or the last item hangs past the gutter.
+	.site-nav-links {
+		gap: var(--s);
+		margin-inline-end: -2px;
+	}
+
+	.site-nav-links > a,
+	.site-nav-links > button { font-size: 0.82rem; padding: 0 2px; }
+}
+
+@media (max-width: 380px) {
+	.wordmark {
+		font-size: 0.95rem;
+		letter-spacing: -0.02em;
+	}
+}
+
+// The last resort, and only on the narrowest phones still in use. Dropping the
+// tld is worth about 26px, which is the difference between the bar fitting and
+// the theme toggle hanging off the end of it at 320px. "allaboutaccra" is
+// still the name; ".com" is the part nobody reads.
+@media (max-width: 360px) {
+	.wordmark-tld { display: none; }
+}

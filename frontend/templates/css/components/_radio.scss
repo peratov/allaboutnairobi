@@ -1,0 +1,355 @@
+// Live radio at /radio.
+//
+// A list of stations, each row a play button, and a now-playing bar that sticks
+// to the bottom of the screen once something is selected. Everything is built
+// from the site's own tokens, so both colour schemes follow for free.
+//
+// The bar is fixed rather than sticky because the station list is long on a
+// phone, and the one control a listener needs - stop - should never be a
+// scroll away.
+
+.radio-filters-wrap {
+	margin: var(--l) 0 var(--m);
+}
+
+.radio-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+}
+
+.radio-filter {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--xs);
+	min-height: 2.75rem;
+	padding: var(--xs) var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: transparent;
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+	cursor: pointer;
+	transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.radio-filter:hover {
+	color: var(--c-text);
+	border-color: var(--c-border-strong);
+}
+
+.radio-filter:active {
+	transform: scale(0.97);
+}
+
+.radio-filter[aria-pressed="true"] {
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+}
+
+.radio-filter-count {
+	min-width: 1.4rem;
+	padding: 0 0.35rem;
+	font-size: var(--f-xs);
+	font-variant-numeric: tabular-nums;
+	line-height: 1.4rem;
+	text-align: center;
+	background: var(--c-bg-widget);
+	border-radius: 1rem;
+}
+
+.radio-filter[aria-pressed="true"] .radio-filter-count {
+	color: var(--c-laterite);
+	background: var(--c-bg-on-accent);
+}
+
+.radio-filter-result {
+	margin: var(--s) 0 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.radio-station.is-entering {
+	animation: radio-enter 0.22s ease-out;
+}
+
+@keyframes radio-enter {
+	from {
+		opacity: 0;
+		transform: translateY(0.35rem);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.radio-station.is-entering {
+		animation: none;
+	}
+
+	.radio-filter,
+	.radio-filter:active {
+		transition: none;
+		transform: none;
+	}
+}
+
+.radio-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--s);
+	margin: 0 0 var(--xl);
+	padding: 0;
+	list-style: none;
+}
+
+.radio-station {
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+	padding: var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-left: 4px solid transparent;
+	border-radius: var(--b-radius);
+}
+
+.radio-station.is-current {
+	border-left-color: var(--c-laterite);
+}
+
+.radio-station-body {
+	flex: 1;
+	min-width: 0;
+}
+
+.radio-station-name {
+	margin: 0;
+	font-size: 1.05rem;
+	color: var(--c-text-heading);
+}
+
+.radio-station-freq {
+	margin-left: var(--xs);
+	font-variant-numeric: tabular-nums;
+	color: var(--c-laterite);
+	white-space: nowrap;
+}
+
+.radio-station-about {
+	margin: var(--xs) 0 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.radio-station-site {
+	font-size: var(--f-s);
+	white-space: nowrap;
+}
+
+// The play button. Only exists once the script has run; without it each row
+// is a plain entry with a link to the station's own site.
+.radio-play,
+.radio-bar-toggle {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.radio-play:hover,
+.radio-bar-toggle:hover {
+	background: var(--c-laterite-dark);
+}
+
+.radio-play:focus-visible,
+.radio-bar-toggle:focus-visible,
+.radio-filter:focus-visible,
+.radio-bar-popout:focus-visible {
+	outline: 3px solid var(--c-highlight);
+	outline-offset: 2px;
+}
+
+// A CSS triangle for play, two bars for pause, a ring while connecting. Drawn
+// rather than an icon font or an image: the page loads nothing it does not need.
+.radio-play-icon {
+	width: 0;
+	height: 0;
+	margin-left: 3px;
+	border-top: 0.5rem solid transparent;
+	border-bottom: 0.5rem solid transparent;
+	border-left: 0.8rem solid currentColor;
+}
+
+[data-state="playing"] > .radio-play .radio-play-icon,
+.radio-bar[data-state="playing"] .radio-play-icon {
+	width: 0.8rem;
+	height: 1rem;
+	margin-left: 0;
+	border: 0;
+	border-left: 0.28rem solid currentColor;
+	border-right: 0.28rem solid currentColor;
+}
+
+[data-state="loading"] > .radio-play .radio-play-icon,
+.radio-bar[data-state="loading"] .radio-play-icon {
+	width: 1.1rem;
+	height: 1.1rem;
+	margin-left: 0;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: radio-spin 0.9s linear infinite;
+}
+
+[data-state="error"] > .radio-play {
+	background: var(--c-text-light);
+}
+
+@keyframes radio-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-state="loading"] > .radio-play .radio-play-icon,
+	.radio-bar[data-state="loading"] .radio-play-icon {
+		animation: none;
+		border-right-color: currentColor;
+		opacity: 0.6;
+	}
+}
+
+// The now-playing bar. Hidden until a station is chosen; the site-wide
+// [hidden] rule in _reset.scss is what keeps display: flex below from showing it.
+
+// The floating support button sits bottom right, exactly where the bar's Pop
+// out button is. While the bar is up, lift it clear.
+body:has(.radio-bar:not([hidden])) .support-float {
+	bottom: 5.5rem;
+}
+
+.radio-bar {
+	position: fixed;
+	inset: auto 0 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+	padding: var(--s) var(--m);
+	padding-bottom: calc(var(--s) + env(safe-area-inset-bottom));
+	background: var(--c-bg-widget-opaque);
+	border-top: 1px solid var(--c-border-strong);
+	box-shadow: var(--shadow-card);
+}
+
+.radio-bar-now {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.radio-bar-name,
+.radio-bar-status {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.radio-bar-status {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+// A stream that is not answering gets its full sentence, not an ellipsis.
+.radio-bar[data-state="error"] .radio-bar-status {
+	white-space: normal;
+	color: var(--c-text);
+}
+
+.radio-bar-volume input {
+	width: 7rem;
+	accent-color: var(--c-laterite);
+}
+
+.radio-bar-popout {
+	padding: var(--xs) var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text);
+	background: transparent;
+	border: 1px solid var(--c-border-strong);
+	border-radius: 2rem;
+	cursor: pointer;
+}
+
+// Phones control volume with the hardware buttons, and the bar needs the room.
+@media (max-width: 560px) {
+	.radio-bar-volume {
+		display: none;
+	}
+}
+
+// Leave room at the foot of the page so the bar never covers the last station.
+radio-player.is-ready {
+	display: block;
+	padding-bottom: 5rem;
+}
+
+// Pop-out mode: the same page in a small window, reduced to the player.
+.radio-popout .site-header,
+.radio-popout .site-footer,
+.radio-popout .radio-extra,
+.radio-popout .page-intro,
+.radio-popout .install {
+	display: none;
+}
+
+.radio-popout main {
+	padding-top: var(--m);
+}
+
+// The home page's pointer to /radio, between the hero and "Start here".
+.radio-promo {
+	margin: 0 0 var(--l);
+	padding: var(--s) var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-left: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+}
+
+.radio-promo a {
+	text-decoration: none;
+}
+
+// On a phone the "Station site" link took a column of its own and squeezed the
+// station's name into a strip two words wide. Put it under the description
+// instead. Only once the script has added the play buttons; without them the
+// row is two items and the flex layout above suits it.
+@media (max-width: 560px) {
+	radio-player.is-ready .radio-station {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		column-gap: var(--m);
+		row-gap: var(--xs);
+		align-items: start;
+	}
+
+	radio-player.is-ready .radio-play {
+		grid-row: span 2;
+	}
+
+	radio-player.is-ready .radio-station-site {
+		grid-column: 2;
+	}
+}

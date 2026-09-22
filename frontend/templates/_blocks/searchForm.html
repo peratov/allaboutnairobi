@@ -1,0 +1,26 @@
+<form
+	class="search-form"
+	role="search"
+	action="{{ SITE_URL }}/search"
+	method="get"
+	data-search-form>
+	<label class="visually-hidden" for="site-search">Search {{ SITE_NAME }}</label>
+	<input
+		id="site-search"
+		type="search"
+		name="q"
+		placeholder="Search guides and glossary"
+		autocomplete="off"
+		spellcheck="false"
+		data-search-input>
+
+	{#
+		type="submit" on purpose. Without JavaScript this submits to /search,
+		where there is a full-width field with autofocus - so search still works
+		on a phone with scripts off. With JavaScript, search-toggle.mjs
+		intercepts the first tap and expands the field in place instead.
+	#}
+	<button type="submit" aria-label="Search" data-search-button>
+		{% include "_icons/search.svg" %}
+	</button>
+</form>

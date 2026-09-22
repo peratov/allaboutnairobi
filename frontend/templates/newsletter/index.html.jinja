@@ -1,0 +1,73 @@
+{% extends "_layout.html" %}
+{% set canonical_path = "/newsletter" %}
+{% set metatitle = "The monthly Accra newsletter" %}
+{% set metadescription = "One email a month about living in Accra: what changed at the offices, what things cost now, and which guides were rewritten because the rules moved." %}
+
+{% set issues = get_entries('newsletter', sort_by='date_created', reverse=true) %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page">
+		<article class="section">
+			<h1>The monthly Accra newsletter</h1>
+			<p class="page-intro">
+				Ghana's rules change without announcement. A fee moves, an office
+				relocates, a levy is repealed in a budget and nobody updates the sign
+				on the wall. This is one email a month about what actually changed.
+			</p>
+
+			{% include "_blocks/subscribeForm.html" %}
+
+			<h2 id="what">What is in it</h2>
+			<ul>
+				<li><strong>What changed.</strong> Fees, forms, offices, deadlines.</li>
+				<li><strong>What a thing costs now</strong>, when a figure on this site
+					has been re-checked against its source.</li>
+				<li><strong>Which guides were rewritten</strong>, and why.</li>
+				<li><strong>One thing worth knowing</strong> about the month ahead
+					&mdash; the rains, the harmattan, school terms, the holidays that
+					close every office for a week.</li>
+			</ul>
+			<p>
+				No sponsorships, no affiliate links, no forwarding your address to
+				anyone. This site is free and independent and the newsletter is the
+				same thing in an inbox.
+			</p>
+		</article>
+
+		<article class="section">
+			<h2 id="issues">
+				{% if issues %}Past issues{% else %}Issues{% endif %}
+			</h2>
+
+			{% if issues %}
+				<ul class="issue-list">
+					{% for issue in issues %}
+						<li>
+							<a href="{{ issue.url }}">
+								{% if issue.issue|default %}
+									<span class="issue-number">Issue {{ '%02d'|format(issue.issue) }}</span>
+								{% endif %}
+								<span class="issue-title">{{ issue.title }}</span>
+								<time class="issue-date" datetime="{{ issue.date_created.strftime('%Y-%m-%d') }}">
+									{{ issue.date_created.strftime('%B %Y') }}
+								</time>
+							</a>
+							<p class="issue-summary">{{ issue.description }}</p>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>
+					The first issue has not gone out yet. Subscribe above and it will be
+					the first thing you get.
+				</p>
+			{% endif %}
+
+			<p class="subscribe-note">
+				Every issue is published here as a web page too, and carried in
+				<a href="{{ CANONICAL_ORIGIN }}/feed.xml">the feed</a>. You never have
+				to give an email address to read one.
+			</p>
+		</article>
+	</main>
+{% endblock %}

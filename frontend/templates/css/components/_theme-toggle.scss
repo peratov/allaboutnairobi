@@ -1,0 +1,67 @@
+// The light/dark toggle in the header.
+//
+// Which icon shows is decided in CSS, not JavaScript, so the button is right
+// on the very first paint and stays right if the system preference changes
+// under it. The rule is the same three-way test the palette uses: system
+// preference, unless overridden, and an explicit choice beating both.
+
+.theme-toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	// Square, and the same height as the nav's tap targets. Deliberately the
+	// narrowest thing in the bar: the header runs out of room before 560px
+	// and a text label here would cost another nav item.
+	inline-size: 2rem;
+	block-size: 2rem;
+	flex: 0 0 auto;
+	padding: 0;
+	color: var(--c-text-light);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--b-radius);
+	cursor: pointer;
+}
+
+.theme-toggle:hover {
+	color: var(--c-text-heading);
+	border-color: var(--c-border);
+}
+
+.theme-toggle:focus-visible {
+	outline: 2px solid var(--c-laterite);
+	outline-offset: 2px;
+}
+
+.theme-icon {
+	inline-size: 1.125rem;
+	block-size: 1.125rem;
+	// Drawn as strokes so one path set works on either ground.
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.6;
+}
+
+.theme-icon-moon { fill: currentColor; stroke: none; }
+
+// Light is the default, so the button offers the moon: press it to go dark.
+.theme-icon-sun { display: none; }
+.theme-icon-moon { display: block; }
+
+@mixin showing-dark {
+	.theme-icon-sun { display: block; }
+	.theme-icon-moon { display: none; }
+}
+
+// Dark by system preference, unless light was explicitly chosen.
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) { @include showing-dark; }
+}
+
+// Dark by explicit choice.
+:root[data-theme="dark"] { @include showing-dark; }
+
+// Without JavaScript the button cannot do anything, so it should not be there
+// claiming it can. The system preference still works. The `js` class is set by
+// the blocking script in the head, so this never flashes.
+:root:not(.js) .theme-toggle { display: none; }

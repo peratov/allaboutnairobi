@@ -1,0 +1,10 @@
+<ul class="entry-previews">
+	{% for preview in related_entries %}
+		<li>
+			<a href="{{ preview.url }}">
+				<h3>{{ preview.short_title|default(preview.title) }}</h3>
+				{% if preview.description|default %}<p>{{ preview.description }}</p>{% endif %}
+			</a>
+		</li>
+	{% endfor %}
+</ul>

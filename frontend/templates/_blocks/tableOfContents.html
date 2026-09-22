@@ -1,0 +1,22 @@
+{% if entry.table_of_contents|default %}
+	<nav class="table-of-contents no-print" aria-label="Table of contents">
+		<h2>On this page</h2>
+		<ol>
+			{%- for heading in entry.table_of_contents -%}
+				<li>
+					<a href="#{{ heading.id }}">{{ heading.name }}</a>
+					{%- if heading.children -%}
+						<ol>
+							{%- for child in heading.children -%}
+								<li><a href="#{{ child.id }}">{{ child.name }}</a></li>
+							{%- endfor -%}
+						</ol>
+					{%- endif -%}
+				</li>
+			{%- endfor -%}
+			{%- if showRelatedEntriesLink|default -%}
+				<li><a href="#related">Related guides</a></li>
+			{%- endif -%}
+		</ol>
+	</nav>
+{% endif %}

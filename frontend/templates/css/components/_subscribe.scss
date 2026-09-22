@@ -1,0 +1,148 @@
+// =============================================================================
+// Newsletter sign-up and the issue archive
+//
+// The form is one row on a wide screen and two on a phone, which is the whole
+// responsive story. No JavaScript: it is a plain form POST to whichever
+// provider runs the list, so it works with scripts off and needs nothing
+// widened in the CSP.
+// =============================================================================
+
+.subscribe {
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	padding: var(--l);
+	margin: var(--xl) 0;
+}
+
+// Inside an article it is already in a card, so it becomes a rule-off band
+// rather than a box within a box.
+.section .subscribe {
+	background: none;
+	border: 0;
+	border-top: 1px solid var(--c-border);
+	border-radius: 0;
+	padding: var(--l) 0 0;
+	margin: var(--xl) 0 0;
+}
+
+.subscribe-title {
+	margin: 0 0 var(--s);
+	font-size: 1.3rem;
+}
+
+.subscribe-compact .subscribe-title {
+	font-size: 1.1rem;
+}
+
+.subscribe-blurb {
+	margin: 0 0 var(--m);
+	color: var(--c-text-light);
+	max-width: 34rem;
+}
+
+.subscribe-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s);
+	margin: 0 0 var(--s);
+
+	input[type="email"] {
+		flex: 1 1 14rem;
+		min-width: 0;
+		// The shared input styling leaves this at 39px, under the 44px floor
+		// and 10px shorter than the button beside it.
+		min-height: 2.75rem;
+	}
+
+	button {
+		flex: 0 0 auto;
+		padding: 0.55em 1.4em;
+		font-size: var(--f-body);
+		font-weight: 600;
+		color: var(--c-bg-on-accent);
+		background: var(--c-laterite);
+		border: 1px solid var(--c-laterite);
+		border-radius: var(--b-radius);
+		cursor: pointer;
+
+		// 44px, like every other control that a thumb has to find.
+		min-height: 2.75rem;
+
+		&:hover { background: var(--c-laterite-dark); border-color: var(--c-laterite-dark); }
+		&:focus-visible { outline: 2px solid var(--c-text-heading); outline-offset: 2px; }
+	}
+}
+
+.subscribe-form-mailto { display: block; }
+
+.subscribe-note {
+	margin: 0;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+// --- the archive -------------------------------------------------------------
+
+.issue-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	> li {
+		padding: var(--m) 0;
+		border-bottom: 1px solid var(--c-border);
+
+		&:first-child { padding-top: 0; }
+		&:last-child { border-bottom: 0; }
+	}
+
+	a {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--xs) var(--s);
+		text-decoration: none;
+
+		&:hover .issue-title { text-decoration: underline; }
+	}
+}
+
+.issue-number {
+	font-family: var(--font-mono);
+	font-size: var(--f-xs);
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-radius: 999px;
+	padding: 0.15em 0.6em;
+	// Stops the pill riding up off the baseline of the title beside it.
+	align-self: center;
+}
+
+.issue-title {
+	font-family: var(--font-heading);
+	font-size: 1.15rem;
+	font-weight: 600;
+	color: var(--c-text-heading);
+}
+
+.issue-date {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	margin-inline-start: auto;
+	white-space: nowrap;
+}
+
+.issue-summary {
+	margin: var(--xs) 0 0;
+	color: var(--c-text-light);
+	font-size: var(--f-s);
+}
+
+@media (max-width: 600px) {
+	.issue-date { margin-inline-start: 0; }
+
+	// Once the button drops onto its own line there is no reason for it to be
+	// a small target floating at one end of an empty row.
+	.subscribe-form button { flex: 1 1 100%; }
+}

@@ -1,0 +1,375 @@
+# =============================================================================
+# Landmarks on /map
+#
+# Every coordinate here was geocoded against OpenStreetMap and checked to fall
+# inside the Greater Accra bounding box, rather than remembered. Two places
+# that belong on this list are missing because OSM has no record to point at -
+# the W.E.B. Du Bois Memorial Centre and the Legon Botanical Gardens - and a
+# guessed coordinate is worse than an absent one.
+#
+# `osm` is the name OpenStreetMap returned, kept so the next person can see
+# what was actually matched. Coordinates and place data (c) OpenStreetMap
+# contributors, ODbL.
+#
+# Run scripts/build_map_data.py after editing this.
+# =============================================================================
+
+- name: Black Star Gate
+  category: monument
+  lat: 5.549
+  lon: -0.19286
+  blurb: "The Independence Arch at the head of Black Star Square."
+  url: /guides/things-to-do-in-accra
+  osm: "Black Star Gate, 28th February Roundabout, Ridge, Ministerial Area, La, Accra, Korle-Klott"
+
+- name: Independence Square
+  category: monument
+  lat: 5.54742
+  lon: -0.19256
+  blurb: "Black Star Square. Parades, state occasions, and a great deal of open concrete."
+  url: /guides/things-to-do-in-accra
+  osm: "Black Star Square, Ridge, Ministerial Area, La, Accra, Korle-Klottey Municipal District, G"
+
+- name: Jamestown Lighthouse
+  category: monument
+  lat: 5.53309
+  lon: -0.21213
+  blurb: "The lighthouse over old Accra, and the best view of Ga Mashie and the fishing harbour."
+  url: /guides/things-to-do-in-accra
+  osm: "Jamestown Lighthouse, Cleland Road, James Town, Accra, Ashiedu Keteke Sub Metropolitan Dis"
+
+- name: Kwame Nkrumah Memorial Park
+  category: monument
+  lat: 5.54474
+  lon: -0.20299
+  blurb: "Nkrumah's mausoleum and museum, on the ground where he declared independence in 1957."
+  url: /guides/things-to-do-in-accra
+  osm: "Kwame Nkrumah Memorial Park, Accra Central, Accra, Ashiedu Keteke Sub Metropolitan Distric"
+
+- name: Osu Castle
+  category: monument
+  lat: 5.54742
+  lon: -0.18327
+  blurb: "Christiansborg. Danish slave fort, then colonial seat, then the seat of government until 2013."
+  url: /guides/things-to-do-in-accra
+  osm: "Osu Castle, Ringway Estates, La, Accra, Korle-Klottey Municipal District, Greater Accra Re"
+
+- name: Ussher Fort
+  category: monument
+  lat: 5.53834
+  lon: -0.20893
+  blurb: "A 1649 Dutch fort in Ga Mashie, later a colonial prison."
+  url: /guides/things-to-do-in-accra
+  osm: "Ussher Fort, High Street, Bukom, Ussher Town, Accra, Ashiedu Keteke Sub Metropolitan Distr"
+
+- name: Accra Metropolitan Assembly
+  category: government
+  lat: 5.5508
+  lon: -0.20353
+  blurb: "The assembly for central Accra, and one of 29 in the region."
+  url: /guides/government-agencies
+  osm: "Accra Metropolitan Assembly, Independence Avenue, Ridge, Accra Central, Accra, Korle-Klott"
+
+- name: Bank of Ghana
+  category: government
+  lat: 5.54311
+  lon: -0.20593
+  blurb: "The central bank. It regulates banks, forex bureaux and mobile money."
+  url: /guides/government-agencies
+  osm: "Bank of Ghana, Thorpe Road, Accra Central, Accra, Ashiedu Keteke Sub Metropolitan District"
+
+- name: Ghana Immigration Service
+  category: government
+  lat: 5.5708
+  lon: -0.19235
+  blurb: "Visas, residence permits and work permits."
+  url: /guides/residence-permit
+  osm: "Ghana Immigration Service Headquarters, Ahmadou Ahidjo Lane, North Ridge, La, Accra, Korle"
+
+- name: Jubilee House
+  category: government
+  lat: 5.57972
+  lon: -0.18837
+  blurb: "The seat of government and the President's office."
+  url: /guides/government-agencies
+  osm: "Jubilee House, Independence Avenue, Labone, La, Accra, La-Dade-Kotopon Municipal District,"
+
+- name: Parliament House
+  category: government
+  lat: 5.55808
+  lon: -0.18997
+  blurb: "Where Ghana's 276 members of parliament sit."
+  url: /guides/government-agencies
+  osm: "Job 600, State House Drive, Osu, Ringway Estates, La, Accra, Korle-Klottey Municipal Distr"
+
+- name: Supreme Court of Ghana
+  category: government
+  lat: 5.5455
+  lon: -0.20483
+  blurb: "The apex court, and the seat of the Judicial Service."
+  url: /guides/government-agencies
+  osm: "Supreme Court of Ghana, Prof. Atta Mills High Street, Accra Central, Accra, Ashiedu Keteke"
+
+- name: Artists Alliance Gallery
+  category: culture
+  lat: 5.55687
+  lon: -0.15613
+  blurb: "Three floors of Ghanaian art on the Labadi shore."
+  url: /guides/things-to-do-in-accra
+  osm: "Artists Alliance Gallery, La Road, Kaajaanor, La, Accra, La-Dade-Kotopon Municipal Distric"
+
+- name: Arts Centre
+  category: culture
+  lat: 5.54582
+  lon: -0.20199
+  blurb: "Crafts, textiles and hard bargaining, near Independence Square."
+  url: /guides/where-to-shop-in-accra
+  osm: "National Center for Arts and Culture of Ghana, Prof. Atta Mills High Street, Ridge, Minist"
+
+- name: National Museum of Ghana
+  category: culture
+  lat: 5.56074
+  lon: -0.20642
+  blurb: "Archaeology, ethnography and art, in a listed 1957 rotunda."
+  url: /guides/things-to-do-in-accra
+  osm: "National Museum, Barnes Avenue, Adabraka, Accra, Korle-Klottey Municipal District, Greater"
+
+- name: National Theatre
+  category: culture
+  lat: 5.55367
+  lon: -0.20059
+  blurb: "The sail-shaped 1992 theatre, home to the national dance, drama and symphony companies."
+  url: /guides/things-to-do-in-accra
+  osm: "National Theatre, Independence Avenue, Ridge, Ministerial Area, Accra, Korle-Klottey Munic"
+
+- name: Nubuke Foundation
+  category: culture
+  lat: 5.63636
+  lon: -0.1746
+  blurb: "Contemporary Ghanaian art, in East Legon."
+  url: /guides/things-to-do-in-accra
+  osm: "Nubuke Foundation, Lome Close, East Legon, Accra, Ayawaso West Municipal District, Greater"
+
+- name: Accra Mall
+  category: market
+  lat: 5.62218
+  lon: -0.17294
+  blurb: "The first modern mall in Ghana, at the Tetteh Quarshie interchange."
+  url: /guides/where-to-shop-in-accra
+  osm: "Accra Mall, Tetteh Quarshie Road, Accra, La-Dade-Kotopon Municipal District, Greater Accra"
+
+- name: Agbogbloshie
+  category: market
+  lat: 5.55453
+  lon: -0.22748
+  blurb: "Scrap, electronics and the Konkomba yam market."
+  url: /guides/accra-markets
+  osm: "Agbogbloshie, Abossey Okai, Accra, Ablekuma Central Municipal District, Greater Accra Regi"
+
+- name: Kaneshie Market
+  category: market
+  lat: 5.56444
+  lon: -0.2343
+  blurb: "A vast covered market west of the centre, strongest on food."
+  url: /guides/accra-markets
+  osm: "Kaneshie Market, Dr. Busia High Street, Kaneshie, Accra, Okaikoi South Sub Metropolitan Di"
+
+- name: Kantamanto Market
+  category: market
+  lat: 5.54956
+  lon: -0.21345
+  blurb: "One of the world's largest second-hand clothing markets."
+  url: /guides/where-to-shop-in-accra
+  osm: "Kantamanto Market, Kwame Nkrumah Avenue, Korle Dudor, Accra, Ashiedu Keteke Sub Metropolit"
+
+- name: Madina Market
+  category: market
+  lat: 5.679
+  lon: -0.16946
+  blurb: "The market for the northern suburbs, busiest at the weekend."
+  url: /guides/accra-markets
+  osm: "Madina Market, Market Street, North Legon, La-Nkwantanang-Madina Municipal District, Great"
+
+- name: Makola Market
+  category: market
+  lat: 5.54807
+  lon: -0.20693
+  blurb: "Central Accra's market. If it is sold in Ghana, it is sold here."
+  url: /guides/accra-markets
+  osm: "Makola Market, Kojo Thompson Avenue, Accra Central, Accra, Ashiedu Keteke Sub Metropolitan"
+
+- name: West Hills Mall
+  category: market
+  lat: 5.54471
+  lon: -0.34381
+  blurb: "The largest mall in the country, out at Weija."
+  url: /guides/where-to-shop-in-accra
+  osm: "West Hills Mall, New Weija, Ga South Municipal District, Greater Accra Region, Ghana"
+
+- name: Achimota Terminal
+  category: transport
+  lat: 5.63789
+  lon: -0.24092
+  blurb: "A major northern transport hub and market."
+  url: /guides/trotro-guide
+  osm: "Achimota Retail Centre, Nsawam Road, Alogboshie, Accra, Ga East Municipal District, Greate"
+
+- name: Kotoka International Airport
+  category: transport
+  lat: 5.60384
+  lon: -0.16827
+  blurb: "Ghana's main airport, and about twenty minutes from most of Accra outside rush hour."
+  url: /guides/moving-to-accra
+  osm: "Accra International Airport, Liberation Road, Accra, La-Dade-Kotopon Municipal District, G"
+
+- name: Kwame Nkrumah Circle
+  category: transport
+  lat: 5.5695
+  lon: -0.21576
+  blurb: "Circle. The interchange, the lorry station and the electronics market all at once."
+  url: /guides/trotro-guide
+  osm: "Kwame Nkrumah Circle, Avenor, Accra, Okaikoi South Sub Metropolitan District, Accra Metrop"
+
+- name: Port of Tema
+  category: transport
+  lat: 5.63106
+  lon: 0.00187
+  blurb: "Ghana's main port. Almost everything imported arrives here."
+  url: /guides/importing-and-customs
+  osm: "Tema Harbour, Harbour Road, Ports & Harbour, Tema, Tema Metropolitan District, Greater Acc"
+
+- name: Tema Station
+  category: transport
+  lat: 5.54862
+  lon: -0.2015
+  blurb: "A central trotro terminal, despite the name being in Accra."
+  url: /guides/trotro-guide
+  osm: "Tema Station, Dodoo Lane, Ridge, Ministerial Area, Accra, Korle-Klottey Municipal District"
+
+- name: Accra Technical University
+  category: education
+  lat: 5.55382
+  lon: -0.20585
+  blurb: "Technical and vocational higher education in the centre of town."
+  url: /guides/learning-a-trade
+  osm: "Accra Technical University, Tudu Road, Tudu, Accra, Korle-Klottey Municipal District, Grea"
+
+- name: Achimota School
+  category: education
+  lat: 5.62777
+  lon: -0.21301
+  blurb: "Founded 1927, and one of the most consequential schools in West Africa."
+  url: /guides/schools-in-accra
+  osm: "Achimota School, Achimota, Accra, Okaikwei North Municipal District, Greater Accra Region,"
+
+- name: GIMPA
+  category: education
+  lat: 5.63653
+  lon: -0.20241
+  blurb: "Public administration, law and business, at Achimota."
+  url: /guides/universities-in-ghana
+  osm: "Ghana Institute of Management and Public Administration, Forest Road, Legon, Accra, Ayawas"
+
+- name: UPSA
+  category: education
+  lat: 5.6615
+  lon: -0.16636
+  blurb: "The University of Professional Studies, strong on accountancy and business."
+  url: /guides/universities-in-ghana
+  osm: "University of Professional Studies, Accra, IPS Road, North Legon, Accra, La-Nkwantanang-Ma"
+
+- name: University of Ghana, Legon
+  category: education
+  lat: 5.6466
+  lon: -0.188
+  blurb: "Ghana's oldest and largest university, founded 1948."
+  url: /guides/universities-in-ghana
+  osm: "University of Ghana, Lower Hill Drive, Legon, Accra, Ayawaso West Municipal District, Grea"
+
+- name: 37 Military Hospital
+  category: health
+  lat: 5.58689
+  lon: -0.18505
+  blurb: "Military hospital that treats civilians, and a major trauma centre."
+  url: /guides/hospitals-in-accra
+  osm: "37 Military Hospital, Independence Avenue, Cantonments, La, Accra, La-Dade-Kotopon Municip"
+
+- name: Korle Bu Teaching Hospital
+  category: health
+  lat: 5.53832
+  lon: -0.22681
+  blurb: "Ghana's largest hospital and its main teaching hospital, founded 1923."
+  url: /guides/hospitals-in-accra
+  osm: "Korle Bu Teaching Hospital, Harley Street, Korle Bu, Accra, Ablekuma South Sub Metropolita"
+
+- name: Ridge Hospital
+  category: health
+  lat: 5.56211
+  lon: -0.19893
+  blurb: "The Greater Accra Regional Hospital, rebuilt and expanded in 2017."
+  url: /guides/hospitals-in-accra
+  osm: "Ridge Hospital, Castle Road, West Ridge, Accra, Korle-Klottey Municipal District, Greater "
+
+- name: UG Medical Centre
+  category: health
+  lat: 5.63228
+  lon: -0.18611
+  blurb: "A newer teaching hospital on the Legon campus."
+  url: /guides/hospitals-in-accra
+  osm: "University of Ghana Medical Center Limited, Jubilee Link, Legon, Accra, Ayawaso West Munic"
+
+- name: Achimota Forest
+  category: nature
+  lat: 5.62076
+  lon: -0.21857
+  blurb: "A protected forest reserve inside the city, and a long-running political argument."
+  url: /guides/things-to-do-in-accra
+  osm: "Achimota Forest, Achimota Forest Road, Green Hill, Achimota, Accra, Okaikwei North Municip"
+
+- name: Ada Foah
+  category: nature
+  lat: 5.78164
+  lon: 0.6332
+  blurb: "Where the Volta meets the sea, at the eastern edge of the region."
+  url: /guides/day-trips-from-accra
+  osm: "Ada Foah, Ada East District, Greater Accra Region, GY-0243-6529, Ghana"
+
+- name: Bojo Beach
+  category: nature
+  lat: 5.5079
+  lon: -0.32526
+  blurb: "Reached by a short boat across the lagoon, which is half the appeal."
+  url: /guides/accra-beaches
+  osm: "Bojo Beach, Prof. J.E.A. Mills Bypass, Mandela, New Weija, Tuba, Ga South Municipal Distri"
+
+- name: Kokrobite Beach
+  category: nature
+  lat: 5.49772
+  lon: -0.36488
+  blurb: "An hour west, and the closest thing Accra has to a beach village."
+  url: /guides/accra-beaches
+  osm: "Kokrobite, Ga South Municipal District, Greater Accra Region, Ghana"
+
+- name: Labadi Beach
+  category: nature
+  lat: 5.56394
+  lon: -0.14061
+  blurb: "La Pleasure Beach. Busiest on Sundays and public holidays."
+  url: /guides/accra-beaches
+  osm: "Labadi Beach, La Road, Adobetor, La, Accra, La-Dade-Kotopon Municipal District, Greater Ac"
+
+- name: Sakumono Ramsar Site
+  category: nature
+  lat: 5.62472
+  lon: -0.03709
+  blurb: "A protected coastal wetland between Accra and Tema, and important for birds."
+  url: /guides/things-to-do-in-accra
+  osm: "Sakumono Lagoon, Sakumono, Tema West Municipal District, Greater Accra Region, Ghana"
+
+- name: Shai Hills Reserve
+  category: nature
+  lat: 5.90558
+  lon: 0.0633
+  blurb: "Baboons, antelope and caves, an hour up the Akosombo road and still in the region."
+  url: /guides/day-trips-from-accra
+  osm: "Shai Hills Resource Reserve, Dedenya, Shai-Osudoku District, Greater Accra Region, Ghana"

@@ -1,0 +1,159 @@
+.article-body > *:first-child { margin-top: 0; }
+
+.article-body h2 {
+	padding-bottom: var(--xs);
+	border-bottom: 1px solid var(--c-border);
+}
+
+.article-body ul, .article-body ol { padding-left: 1.4em; }
+.article-body li { margin-bottom: var(--s); }
+.article-body li > ul, .article-body li > ol { margin-top: var(--s); }
+
+.article-body li p { margin-bottom: var(--s); }
+
+.article-body dt { font-weight: 650; color: var(--c-text-heading); }
+.article-body dd { margin: 0 0 var(--m); padding-left: var(--m); }
+
+.article-body figure { margin: var(--xl) 0; }
+.article-body figcaption {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	margin-top: var(--s);
+}
+
+// Checklists. Someone doing their Ghana Card registration should be able to
+// tick things off as they go, and have it still be ticked when they come back
+// from the queue.
+.article-body li.checkbox {
+	list-style: none;
+	margin-left: -1.4em;
+}
+
+// A hanging indent, NOT flex or grid.
+//
+// This was `display: grid; grid-template-columns: auto 1fr` on the <li>, which
+// makes every inline child its own grid item - so an item containing bold text
+// or a link became four boxes flowed across two columns, with the sentence
+// broken into fragments on separate rows. Only items of unbroken plain text
+// looked right, which is why it survived.
+//
+// Absolute positioning cannot do that to arbitrary inline content: the label
+// is an ordinary block, the text wraps under itself, and bold, links and
+// glossary terms behave like text because they are text.
+.article-body li.checkbox > label {
+	display: block;
+	position: relative;
+	padding: 0.1em 0 0.1em 1.9em;
+	cursor: pointer;
+	// Nothing on these lines is a drag handle, and a mis-hit that selects the
+	// text instead of ticking the box feels broken.
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.article-body li.checkbox input[type="checkbox"] {
+	position: absolute;
+	left: 0;
+	top: 0.3em;
+	width: 1.15em;
+	height: 1.15em;
+	margin: 0;
+	accent-color: var(--c-highlight);
+	cursor: pointer;
+}
+
+// Ticked items recede, so the remaining work is what stands out.
+.article-body li.checkbox > label:has(input:checked) {
+	color: var(--c-text-light);
+	text-decoration: line-through;
+	text-decoration-color: var(--c-border-strong);
+	text-decoration-thickness: 1px;
+}
+
+.article-body li.checkbox > label:has(input:focus-visible) {
+	outline: 2px solid var(--c-highlight);
+	outline-offset: 2px;
+	border-radius: var(--b-radius);
+}
+
+@media (hover: hover) {
+	.article-body li.checkbox > label:hover { color: var(--c-text-heading); }
+	.article-body li.checkbox > label:hover:has(input:checked) { color: var(--c-text-light); }
+}
+
+// Progress and reset, added by checklist.mjs. Absent with JavaScript off,
+// which is why it is not in the markup.
+.checklist-progress {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--s) var(--m);
+	margin: var(--s) 0 var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.checklist-progress[hidden] { display: none; }
+
+.checklist-count { font-variant-numeric: tabular-nums; }
+.checklist-count.is-complete { color: var(--c-forest); font-weight: 600; }
+
+.checklist-reset {
+	padding: 0;
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--c-border-strong);
+	cursor: pointer;
+}
+
+.checklist-reset:hover { color: var(--c-laterite); border-bottom-color: var(--c-laterite); }
+.checklist-reset:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+// Admonitions: !!! warning / !!! note / !!! danger / !!! tip
+.admonition {
+	border-left: 4px solid var(--c-border-strong);
+	background: var(--c-bg-widget);
+	border-radius: 0 var(--b-radius) var(--b-radius) 0;
+	padding: var(--m) var(--l);
+	margin: var(--xl) 0;
+}
+
+.admonition > *:last-child { margin-bottom: 0; }
+
+.admonition-title {
+	font-family: var(--font-body);
+	font-weight: 700;
+	font-size: var(--f-s);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	margin: 0 0 var(--s);
+}
+
+.admonition.warning { background: var(--c-warning-bg); border-left-color: var(--c-warning-border); }
+.admonition.note, .admonition.tip { background: var(--c-note-bg); border-left-color: var(--c-note-border); }
+.admonition.danger { background: var(--c-danger-bg); border-left-color: var(--c-danger-border); }
+
+// A link that pushes the reader onward, written as "Do the thing ➞" in Markdown.
+.next-link {
+	display: inline-block;
+	font-weight: 600;
+	text-decoration: none;
+	color: var(--c-text-link);
+}
+.next-link::after { content: " →"; }
+.next-link:hover { text-decoration: underline; }
+
+// Footnotes carry the sources. On a site about bureaucracy they are the whole
+// difference between advice and hearsay.
+.footnote {
+	margin-top: var(--xxl);
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+.footnote ol { padding-left: 1.2em; }
+sup a { text-decoration: none; padding: 0 0.15em; }

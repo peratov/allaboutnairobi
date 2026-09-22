@@ -1,0 +1,147 @@
+{% extends "_layout.html" %}
+{% set canonical_path = "/radio" %}
+{% set stations = RADIO.stations %}
+{% set fm = stations|selectattr('frequency')|list %}
+{% set metatitle = "Accra radio live: Joy, Citi, Peace, Adom and more" %}
+{% set metadescription = "Listen live to " ~ stations|length ~ " Accra radio stations - Joy FM, Citi FM, Peace FM, Adom FM and more - free, in your browser, with their frequencies." %}
+
+{% block postHead %}
+	{{ super() }}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		"name": "Radio stations in Accra you can listen to live",
+		"numberOfItems": {{ fm|length }},
+		"itemListElement": [
+			{% for s in fm %}{
+				"@type": "ListItem",
+				"position": {{ loop.index }},
+				"item": {
+					"@type": "RadioStation",
+					"name": {{ s.name|tojson }},
+					{% if s.website %}"url": {{ s.website|tojson }},{% endif %}
+					"areaServed": { "@type": "City", "name": "Accra" },
+					"broadcastFrequency": {
+						"@type": "BroadcastFrequencySpecification",
+						"broadcastFrequencyValue": {{ s.frequency }},
+						"broadcastSignalModulation": "FM"
+					}
+				}
+			}{% if not loop.last %},{% endif %}
+			{% endfor %}
+		]
+	}
+	</script>
+{% endblock %}
+
+{% block main %}
+	<main id="main" aria-label="Main page">
+		<article class="section">
+			<div class="section-heading">
+				<span class="adinkra-stamp">{% include "_icons/culture.svg" %}</span>
+				<h1>Accra radio, live</h1>
+			</div>
+
+			<p class="page-intro">
+				{{ stations|length }} stations broadcasting from Accra, playable right
+				here. Press a station to listen; press it again to stop. Every stream
+				was checked on {{ RADIO_CHECKED_ON }}.
+			</p>
+
+			<radio-player>
+				<ul class="radio-list">
+					{% for s in stations %}
+					{% set group = 'Online only' if not s.frequency else (s.language or 'Other') %}
+					<li class="radio-station"
+						data-id="{{ s.id }}"
+						data-name="{{ s.name }}"
+						data-freq="{{ s.frequency or '' }}"
+						data-group="{{ group }}"
+						data-stream="{{ s.stream }}">
+						<div class="radio-station-body">
+							<h2 class="radio-station-name">
+								{{ s.name }}{% if s.frequency %}<span class="radio-station-freq">{{ s.frequency }} FM</span>{% else %}<span class="radio-station-freq">online</span>{% endif %}
+							</h2>
+							<p class="radio-station-about">
+								{{ s.about }}{% if s.language %} &middot; {{ s.language }}{% endif %}{% if s.owner %} &middot; {{ s.owner }}{% endif %}
+							</p>
+						</div>
+						{% if s.website %}<a class="radio-station-site" href="{{ s.website }}" rel="noopener">Station site</a>{% endif %}
+					</li>
+					{% endfor %}
+				</ul>
+			</radio-player>
+
+			<noscript>
+				<p class="tool-note">
+					Playing a station needs JavaScript. Every station is listed above
+					with its frequency and a link to its own site, which carries its own
+					player.
+				</p>
+			</noscript>
+		</article>
+
+		<article class="section radio-extra">
+			<h2 id="about-these-streams">About these streams</h2>
+
+			<p>
+				<strong>Nothing is loaded until you press play.</strong> The audio comes
+				straight from each station's own streaming server, not through this
+				site, so that server sees your IP address, the way any website you visit
+				does. Until you press play it has not been contacted at all. Stopping a
+				station closes the connection, so a paused stream is not quietly using
+				your data. What else this site does and does not share is in the
+				<a href="{{ SITE_URL }}/terms">terms</a>.
+			</p>
+
+			{% if RADIO_MB_PER_HOUR %}
+			<p>
+				<strong>Streaming uses data.</strong> These streams mostly run at
+				{{ RADIO_TYPICAL_KBPS }} kbps, which is about {{ RADIO_MB_PER_HOUR }} MB an
+				hour - an hour a day comes to roughly {{ RADIO_GB_PER_MONTH }} GB a month.
+				On a mobile bundle that is worth knowing; on home fibre it is nothing.
+			</p>
+			{% endif %}
+
+			<p>
+				<strong>Keep listening while you read.</strong> Press <em>Pop out</em>
+				in the player and the station keeps playing in a small window of its
+				own while you use the rest of the site. On a phone, the controls appear
+				on your lock screen.
+			</p>
+
+			<h2 id="no-stream">Accra stations without a stream here</h2>
+			<p>
+				These are on air in Greater Accra, but no stream could be verified
+				for them, so there is no play button rather than a guessed link that
+				might play something else. Listen on FM, or on the station's own site.
+			</p>
+			<ul class="radio-unstreamed">
+				{% for s in RADIO.unstreamed %}<li>{{ s.name }}, {{ s.frequency }} FM</li>{% endfor %}
+			</ul>
+
+			<h2 id="where-this-comes-from">Where this comes from</h2>
+			<p>
+				Frequencies are from the National Communications Authority's register of
+				authorised FM stations, as at {{ RADIO.meta.register_as_at }}: it lists
+				{{ RADIO.meta.greater_accra_authorised }} stations authorised in Greater
+				Accra, {{ RADIO.meta.greater_accra_on_air }} of them on air. Every
+				station here was checked against it, and every stream was tested by
+				playing audio from it. Streams move, so the list is re-checked every few
+				months, and a station whose stream stops answering is removed rather
+				than left looking broken.
+			</p>
+			<p>
+				&mdash; <a href="{{ RADIO.meta.register }}">The NCA register of authorised radio stations</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/radio-in-accra">Radio in Accra: the stations and how to listen &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/listening-to-ghana-radio-abroad">Listening to Ghanaian radio from abroad &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/learn-twi-and-ga">Learning Twi and Ga &#8658;</a>
+			</p>
+		</article>
+	</main>
+
+	<script type="module">
+		import '{{ SITE_URL }}/js/components/radio-player.mjs';
+	</script>
+{% endblock %}

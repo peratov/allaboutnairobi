@@ -1,0 +1,118 @@
+{% extends "_layout.html" %}
+{% set canonical_path = "/flights" %}
+{% set metatitle = "Where you can fly nonstop from Accra" %}
+{% set metadescription = "Every nonstop destination from Kotoka International Airport, by airline and region, on a map and as a list. " ~ FLIGHTS.destinations|length ~ " destinations." %}
+
+{% set regions = ['Domestic', 'West Africa', 'Rest of Africa', 'Europe', 'Middle East', 'North America'] %}
+{% set airlines = FLIGHTS.destinations|map(attribute='airlines')|sum(start=[])|map(attribute='name')|unique|list %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section">
+			<div class="section-heading">
+				<span class="adinkra-stamp">{% include "_icons/exploring.svg" %}</span>
+				<h1>Where you can fly nonstop from Accra</h1>
+			</div>
+
+			<p class="page-intro">
+				{{ FLIGHTS.destinations|length }} destinations, {{ airlines|length }} airlines,
+				from {{ FLIGHTS.origin.name }} &mdash; {{ FLIGHTS.origin.iata }}. Every line
+				on the map is a flight you can take without changing planes.
+			</p>
+
+			<flight-map data-clarity-mask="true"></flight-map>
+
+			<noscript>
+				<p class="tool-note">
+					The map needs JavaScript. Every destination on it is listed below,
+					which is the same information.
+				</p>
+			</noscript>
+
+		</article>
+
+		<article class="section">
+			<h2 id="every-destination">Every nonstop destination</h2>
+			<p class="page-intro">
+				Grouped by how far you are going, then by distance. Distances are
+				great-circle kilometres from Accra &mdash; what the aircraft flies, not
+				what a road would.
+			</p>
+
+			{% for region in regions %}
+				{% set in_region = FLIGHTS.destinations|selectattr('region', 'equalto', region)|list %}
+				{% if in_region %}
+					<h3 id="{{ region|lower|replace(' ', '-') }}">{{ region }}</h3>
+					<div class="table-wrapper">
+						<table>
+							<thead>
+								<tr>
+									<th scope="col">Destination</th>
+									<th scope="col">Airport</th>
+									<th scope="col">Distance</th>
+									<th scope="col">Airlines</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for destination in in_region|sort(attribute='km') %}
+									<tr>
+										<th scope="row">{{ destination.city }}<br><small>{{ destination.country }}</small></th>
+										<td>{{ destination.iata }}</td>
+										<td>{{ '{:,}'.format(destination.km) }}&nbsp;km</td>
+										<td>
+											{% for airline in destination.airlines %}
+												{{ airline.name }}{% if airline.get('note') %} <em>({{ airline.note }})</em>{% endif %}{% if not loop.last %}<br>{% endif %}
+											{% endfor %}
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</article>
+
+		<article class="section">
+			<h2 id="airlines">Airlines serving Accra</h2>
+			<p>
+				{{ airlines|sort|join(', ') }}.
+			</p>
+
+			<h2 id="where-this-comes-from">Where this comes from, and how fast it rots</h2>
+			<p class="tool-note">
+				<strong>This is a photograph, taken on {{ FLIGHTS.meta.generated }}.</strong>
+				Airlines add and drop routes with a few weeks' notice, suspend them for
+				a season, and change them again. <strong>Never book on the strength of
+				this page</strong> &mdash; check the airline.
+			</p>
+
+			<table>
+				<thead>
+					<tr><th scope="col">What</th><th scope="col">Source</th><th scope="col">Licence</th></tr>
+				</thead>
+				<tbody>
+					{% for source in FLIGHTS.meta.sources %}
+						<tr>
+							<th scope="row">{{ source.what }}</th>
+							<td><a href="{{ source.url }}" rel="noopener">{{ source.who }}</a></td>
+							<td>{{ source.licence }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/guides/flying-into-accra">Flying into Accra &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/flying-out-of-accra">Flying out of Accra &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/kotoka-airport-guide">Kotoka airport, terminal by terminal &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/domestic-flights-in-ghana">Domestic flights in Ghana &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/map">The map of Greater Accra &#8658;</a>
+			</p>
+		</article>
+	</main>
+
+	<script type="module">
+		import '{{ SITE_URL }}/js/components/flight-map.mjs';
+	</script>
+{% endblock %}

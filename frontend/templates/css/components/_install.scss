@@ -1,0 +1,109 @@
+// The install card.
+//
+// Sits at the foot of the page in normal flow, not fixed over the content. A
+// banner pinned to the viewport is the pattern everyone has learned to dismiss
+// without reading, and on a phone it covers the thing being read.
+
+.install {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--m);
+	max-width: var(--w-page);
+	margin: var(--xl) auto 0;
+	padding: var(--m) var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.install-icon {
+	flex: 0 0 auto;
+	display: flex;
+}
+
+.install-icon img {
+	border-radius: 10px;
+}
+
+.install-body {
+	flex: 1 1 18rem;
+	min-width: 0;
+}
+
+.install-title {
+	margin: 0 0 var(--xs);
+	font-weight: 600;
+	color: var(--c-text-heading);
+}
+
+.install-text,
+.install-ios {
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	max-width: 58ch;
+}
+
+.install-ios {
+	margin-top: var(--xs);
+	color: var(--c-text);
+}
+
+.install-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	flex: 0 0 auto;
+	margin-inline-start: auto;
+}
+
+.install-button {
+	padding: var(--s) var(--l);
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border: 1px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+}
+
+.install-button:hover { background: var(--c-laterite-dark); border-color: var(--c-laterite-dark); }
+
+.install-dismiss {
+	padding: var(--s) var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--b-radius);
+	cursor: pointer;
+}
+
+.install-dismiss:hover { color: var(--c-text); border-color: var(--c-border); }
+
+.install-button:focus-visible,
+.install-dismiss:focus-visible {
+	outline: 2px solid var(--c-laterite);
+	outline-offset: 2px;
+}
+
+// On a phone the actions get their own row rather than squeezing the text.
+@media (max-width: 40rem) {
+	.install-actions {
+		margin-inline-start: 0;
+		width: 100%;
+	}
+
+	.install-button { flex: 1 1 auto; text-align: center; }
+}
+
+// An installed app does not need to be told to install itself. Belt and
+// braces: the module checks this too, but the CSS costs nothing and covers
+// the moment before it runs.
+@media (display-mode: standalone) {
+	.install { display: none; }
+}

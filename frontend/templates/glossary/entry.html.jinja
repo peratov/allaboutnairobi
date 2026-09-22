@@ -1,0 +1,55 @@
+{% extends "_layout.html" %}
+
+{% set metatitle = entry.title|default('What is "' + entry.local_term + '"?') %}
+{% set metadescription = entry.description %}
+
+{% block postHead %}
+	{{ super() }}
+	<link rel="index" href="{{ SITE_URL }}/glossary">
+{% endblock %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page">
+		<article class="section">
+			<header class="term-header">
+				<h1>{{ metatitle }}</h1>
+				<p class="term-english">
+					{{ entry.english_term|default(entry.description) }}
+					{%- if entry.language|default %}<span class="term-language">{{ entry.language }}</span>{% endif -%}
+				</p>
+			</header>
+			{% include "_blocks/postMeta.html" %}
+
+			<div class="article-body">
+				{{ entry.body|render|safe }}
+			</div>
+		</article>
+
+		{% if entry.related_guides|default %}
+			<aside class="section no-print" id="related" aria-label="Related guides" data-nosnippet>
+				<h2>Where this comes up</h2>
+				{% with related_entries=entry.related_guides %}
+					{% include "_blocks/entryPreviews.html" %}
+				{% endwith %}
+			</aside>
+		{% endif %}
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{{ super() }}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "DefinedTerm",
+		"name": {{ entry.local_term|tojson }},
+		"description": {{ entry.description|tojson }},
+		"url": "{{ canonical_url }}",
+		"inDefinedTermSet": {
+			"@type": "DefinedTermSet",
+			"name": "All About Accra glossary",
+			"url": "{{ CANONICAL_ORIGIN }}/glossary"
+		}
+	}
+	</script>
+{% endblock %}

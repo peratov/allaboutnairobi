@@ -1,0 +1,24 @@
+{% extends "_layout.html" %}
+{% set canonical_path = "/tools" %}
+{% set metatitle = "Calculators and templates" %}
+{% set metadescription = "Ghanaian salary and PAYE calculators, rent advance calculators, VAT calculators and document templates. Free, and they run entirely in your browser." %}
+{% set collections = get_entries('collections')|selectattr('type', 'equalto', 'tools')|list %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section">
+			<div class="section-heading">
+				<span class="adinkra-stamp">{% include "_icons/tools.svg" %}</span>
+				<h1>Tools and templates</h1>
+			</div>
+			<p class="page-intro">
+				Calculators that use the same figures as the guides, and letter templates
+				you can copy. Nothing you type is sent anywhere &mdash; every calculation
+				happens on your own device.
+			</p>
+			{% with collections=collections %}
+				{% include "_blocks/collections.html" %}
+			{% endwith %}
+		</article>
+	</main>
+{% endblock %}

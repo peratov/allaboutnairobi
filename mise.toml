@@ -1,0 +1,101 @@
+## All About Accra - task runner
+##
+## Mirrors the task layout of All About Berlin, which this project is modelled
+## on. Every task assumes the virtualenv at ./.venv.
+##
+## If you do not have mise, the raw commands are in the README.
+
+[env]
+# Ursus and Python-Markdown open files without an explicit encoding. On Windows
+# that means cp1252, which cannot read a cedi sign or a Twi vowel, so the build
+# dies on the first guide. UTF-8 mode fixes it everywhere and costs nothing.
+PYTHONUTF8 = "1"
+
+[tools]
+python = "3.12"
+
+[tasks.setup]
+description = "Create the virtualenv and install dependencies"
+run = [
+    "python -m venv .venv",
+    "./.venv/Scripts/python.exe -m pip install --upgrade pip",
+    "./.venv/Scripts/python.exe -m pip install -r frontend/requirements.txt",
+    "./.venv/Scripts/python.exe -m pip install -r frontend/requirements-dev.txt",
+]
+
+[tasks.build]
+description = "Build the static site into frontend/output"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe ../.venv/Scripts/ursus build"
+
+[tasks.site]
+description = "Build, then serve the site with live rebuilds on change"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe ../.venv/Scripts/ursus build --watch --serve 8814"
+
+[tasks.serve]
+description = "Serve an already-built site, with production URL rewrites"
+run = "./.venv/Scripts/python.exe frontend/devserver.py 8814"
+
+[tasks.lint]
+description = "Lint the content: stale constants, dead links, missing metadata"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe ../.venv/Scripts/ursus lint --level WARNING"
+
+[tasks.verify-constants]
+description = "List every figure that needs re-checking against its source"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/verify_constants.py"
+
+[tasks.check-deploy]
+description = "Check the live site is serving the commit you are on"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/check_deploy.py"
+
+[tasks.check-crawl]
+description = "Check the built site for orphan pages and sitemap problems"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/check_crawlability.py"
+
+[tasks.census-data]
+description = "Refetch the 2021 census figures behind the map's demographic layers"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/fetch_census_data.py"
+
+[tasks.flight-data]
+description = "Refetch the nonstop routes behind the Kotoka flight map"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_flight_map.py"
+
+[tasks.radio-data]
+description = "Re-check every stream on /radio against the NCA register, and rebuild the station list"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_radio_data.py"
+
+[tasks.dashboard-data]
+description = "Refetch the World Bank series and census counts behind /data"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_dashboard_data.py"
+
+[tasks.noise-data]
+description = "Refetch the OpenStreetMap inputs behind the map's noise layers"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/fetch_noise_data.py"
+
+[tasks.map-data]
+description = "Refetch boundaries and rebuild the data behind /map"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_map_data.py"
+
+[tasks.build-og-image]
+description = "Redraw the social card at templates/staticimages/og-image.png"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_og_image.py"
+
+[tasks.clean]
+description = "Delete the built site"
+run = "rm -rf frontend/output"
+
+[tasks.dev]
+description = "Run the full stack in Docker (frontend + proxy)"
+run = "docker compose up --build"

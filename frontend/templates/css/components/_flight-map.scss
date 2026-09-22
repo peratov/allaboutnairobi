@@ -1,0 +1,292 @@
+// The Kotoka route map.
+//
+// Same palette discipline as /map: the land is a quiet ground, the arcs carry
+// the colour, and one selected route is stronger than all the others.
+//
+// Everything is sized in multiples of `--flight-unit`, the number of viewBox
+// units in one screen pixel at the current zoom, which the component sets on
+// every view change. Size a stroke in raw user units instead and a 2px arc
+// over the Atlantic becomes a 30px band over Lomé the moment somebody zooms
+// in. This is the same rule /map keeps with --map-unit, for the same reason.
+//
+// Every one of those calcs carries `px`. In SVG, one CSS pixel is one user
+// unit, so `calc(var(--flight-unit) * 13px)` is 13 screen pixels at any zoom.
+// A UNITLESS calc silently fails for font-size and the element inherits
+// instead - which is exactly how the labels here first shipped sized in user
+// units, quadrupling when you zoomed in four times.
+//
+// --flight-unit falls back to 1 so the map still draws sensibly for the
+// instant before the first applyBox().
+
+.flight-stage {
+	position: relative;
+	margin: var(--m) 0;
+	background: var(--c-map-void);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	overflow: hidden;
+}
+
+.flight-canvas {
+	display: block;
+	width: 100%;
+	height: auto;
+	touch-action: none;   // we handle pinch and drag ourselves
+	cursor: grab;
+}
+
+.flight-canvas:focus-visible {
+	outline: 2px solid var(--c-laterite);
+	outline-offset: -2px;
+}
+
+.is-dragging .flight-canvas { cursor: grabbing; }
+
+.flight-land path {
+	fill: color-mix(in srgb, var(--c-text-light) 20%, var(--c-map-void));
+	stroke: var(--c-map-void);
+	stroke-width: calc(var(--flight-unit, 1) * 1px);
+}
+
+.flight-arc {
+	fill: none;
+	stroke: var(--c-laterite);
+	stroke-width: calc(var(--flight-unit, 1) * 2px);
+	stroke-opacity: 0.55;
+	stroke-linecap: round;
+	transition: stroke-opacity 160ms ease-out;
+}
+
+// Regions are told apart by hue, and the hues are the site's own - there is no
+// second palette here.
+.flight-arc.region-domestic        { stroke: var(--c-forest); }
+.flight-arc.region-west-africa     { stroke: var(--c-laterite); }
+.flight-arc.region-rest-of-africa  { stroke: var(--c-gold); }
+.flight-arc.region-europe          { stroke: var(--c-text-link); }
+.flight-arc.region-middle-east     { stroke: var(--c-laterite-dark); }
+.flight-arc.region-north-america   { stroke: var(--c-text-link-visited); }
+
+.flight-arc.is-active {
+	stroke-opacity: 1;
+	stroke-width: calc(var(--flight-unit, 1) * 3.5px);
+}
+
+.flight-arc.is-dim { stroke-opacity: 0.08; }
+
+.flight-dot-hit {
+	// Bigger than it looks, because a 4px dot is not a tap target. Sized in
+	// screen pixels, so it stays a 22px target at every zoom.
+	fill: transparent;
+	r: calc(var(--flight-unit, 1) * 11px);
+}
+
+.flight-dot-mark {
+	fill: var(--c-laterite);
+	stroke: var(--c-map-void);
+	stroke-width: calc(var(--flight-unit, 1) * 1.2px);
+	r: calc(var(--flight-unit, 1) * 4px);
+	transition: r 160ms ease-out;
+}
+
+.flight-dot.region-domestic       .flight-dot-mark { fill: var(--c-forest); }
+.flight-dot.region-rest-of-africa .flight-dot-mark { fill: var(--c-gold); }
+.flight-dot.region-europe         .flight-dot-mark { fill: var(--c-text-link); }
+.flight-dot.region-middle-east    .flight-dot-mark { fill: var(--c-laterite-dark); }
+.flight-dot.region-north-america  .flight-dot-mark { fill: var(--c-text-link-visited); }
+
+.flight-dot { cursor: pointer; }
+.flight-dot:hover .flight-dot-mark,
+.flight-dot.is-active .flight-dot-mark { r: calc(var(--flight-unit, 1) * 6.5px); }
+
+.flight-dot:focus { outline: none; }
+.flight-dot:focus-visible .flight-dot-mark {
+	r: calc(var(--flight-unit, 1) * 7.5px);
+	stroke: var(--c-text-heading);
+	stroke-width: calc(var(--flight-unit, 1) * 2px);
+}
+
+.flight-dot.is-dim { opacity: 0.12; pointer-events: none; }
+
+.flight-origin-dot {
+	fill: var(--c-bg-on-accent);
+	stroke: var(--c-laterite);
+	stroke-width: calc(var(--flight-unit, 1) * 2.5px);
+	r: calc(var(--flight-unit, 1) * 6px);
+}
+
+.flight-origin-label {
+	fill: var(--c-text-heading);
+	// 13 screen pixels at any zoom, rather than 20 user units that grow into
+	// a billboard the moment you zoom in.
+	font-size: calc(var(--flight-unit, 1) * 13px);
+	font-weight: 700;
+	transform: translate(calc(var(--flight-unit, 1) * 12px), calc(var(--flight-unit, 1) * 4px));
+	paint-order: stroke;
+	stroke: var(--c-map-void);
+	stroke-width: calc(var(--flight-unit, 1) * 3px);
+}
+
+// Destination names, once there is room to read them. Hidden at the full view,
+// where thirty-eight of them would overlap into a smear.
+.flight-dot-label {
+	fill: var(--c-text);
+	font-size: calc(var(--flight-unit, 1) * 10px);
+	transform: translate(calc(var(--flight-unit, 1) * 9px), calc(var(--flight-unit, 1) * 3.5px));
+	paint-order: stroke;
+	stroke: var(--c-map-void);
+	stroke-width: calc(var(--flight-unit, 1) * 2.5px);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 160ms ease-out;
+}
+
+.is-zoomed .flight-dot-label { opacity: 1; }
+.flight-dot.is-dim .flight-dot-label { opacity: 0; }
+
+// The one you are pointing at is named whatever the zoom.
+.flight-dot:hover .flight-dot-label,
+.flight-dot.is-active .flight-dot-label,
+.flight-dot:focus-visible .flight-dot-label { opacity: 1; }
+
+.flight-zoom {
+	position: absolute;
+	inset-block-start: var(--s);
+	inset-inline-end: var(--s);
+	display: flex;
+	gap: var(--xs);
+}
+
+.flight-zoom-button {
+	min-inline-size: 2rem;
+	block-size: 2rem;
+	padding: 0 var(--xs);
+	font: inherit;
+	font-size: var(--f-s);
+	line-height: 1;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+}
+
+.flight-zoom-button:hover {
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+}
+
+.flight-zoom-button:focus-visible {
+	outline: 2px solid var(--c-laterite);
+	outline-offset: 2px;
+}
+
+// Nothing to reset when you are already looking at the whole thing.
+.is-home .flight-zoom-reset { opacity: 0.45; }
+
+.flight-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	margin-bottom: var(--m);
+}
+
+.flight-chip {
+	padding: var(--xs) var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: transparent;
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+	cursor: pointer;
+}
+
+.flight-chip:hover { color: var(--c-text); border-color: var(--c-border-strong); }
+
+.flight-chip.is-on {
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+}
+
+.flight-chip:focus-visible {
+	outline: 2px solid var(--c-laterite);
+	outline-offset: 2px;
+}
+
+.flight-panel {
+	// Reserves its height, so hovering the map does not shunt the page about.
+	min-height: 7.5rem;
+	padding: var(--m) var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.flight-panel-hint {
+	margin: 0 0 var(--s);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.flight-panel-eyebrow {
+	margin: 0;
+	font-size: var(--f-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--c-text-light);
+}
+
+.flight-panel-city {
+	margin: var(--xs) 0 var(--xs);
+	font-size: 1.2rem;
+}
+
+.flight-panel-meta {
+	margin: 0 0 var(--s);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.flight-panel-airlines {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs) var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-s);
+}
+
+.flight-panel-airlines li {
+	padding: 0.1rem var(--s);
+	background: var(--c-highlight-soft);
+	border-radius: 2rem;
+}
+
+.flight-note { color: var(--c-text-light); font-style: italic; }
+
+.flight-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	gap: var(--xs) var(--m);
+	margin: 0;
+}
+
+.flight-stats dt {
+	font-size: var(--f-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--c-text-light);
+}
+
+.flight-stats dd {
+	margin: 0;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-heading);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.flight-arc, .flight-dot-mark, .flight-dot-label { transition: none; }
+}

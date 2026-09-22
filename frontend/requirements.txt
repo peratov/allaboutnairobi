@@ -1,0 +1,8 @@
+ursus-ssg==1.6.0
+PyYAML~=6.0
+holidays~=0.60
+GitPython~=3.1
+
+# Windows ships no IANA time zone database, so ZoneInfo("Africa/Accra") fails
+# without this. Harmless everywhere else.
+tzdata~=2025.1

@@ -1,0 +1,7 @@
+{% if entry.date_updated|default %}
+	<p class="verified-notice no-print" data-nosnippet>
+		Figures on this page come from
+		<a href="{{ SITE_URL }}/about#how-this-site-stays-accurate">a single dated constants file</a>.
+		Always confirm fees at the office before you pay.
+	</p>
+{% endif %}

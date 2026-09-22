@@ -1,0 +1,156 @@
+// =============================================================================
+// The support button
+//
+// Persistent, so it is reachable from anywhere on a 4,000-pixel guide without
+// scrolling back to the footer. Buy Me a Coffee's yellow, so it reads as what
+// it is at a glance.
+//
+// The hard part of a floating call to action is not making it visible. It is
+// making it visible without covering the thing the reader came for - which on
+// a phone, on a page full of checklists and calculators, is a real risk. So it
+// collapses to a single stamp on small screens, sits clear of the safe area,
+// and can be dismissed for good.
+// =============================================================================
+
+.support-float {
+	position: fixed;
+	right: #{"max(var(--m), env(safe-area-inset-right))"};
+	bottom: #{"max(var(--m), env(safe-area-inset-bottom))"};
+	z-index: 30;
+	display: flex;
+	align-items: center;
+	gap: var(--xs);
+}
+
+// Set by support.mjs while the sidebar's own support card is on screen, so the
+// reader is never asked twice in the same corner.
+.support-float.is-superseded {
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(0.5rem);
+}
+
+.support-float {
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.support-button {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--s);
+	padding: 0.6rem 1rem;
+	border-radius: 999px;
+
+	// Buy Me a Coffee's brand yellow. Near-black text on it clears WCAG AA
+	// comfortably; white would not come close.
+	background: #ffdd00;
+	color: #14100c;
+	border: 1px solid #00000022;
+	box-shadow: 0 2px 6px #0000002e, 0 8px 24px -12px #00000040;
+
+	font-family: var(--font-body);
+	font-size: var(--f-s);
+	font-weight: 650;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+// The link colours in _elements.scss would otherwise repaint this on visit.
+.support-button:visited { color: #14100c; }
+
+.support-button:hover,
+.support-button:focus-visible {
+	color: #14100c;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 10px #00000036, 0 12px 28px -12px #0000004d;
+}
+
+.support-button .adinkra {
+	width: 1.25rem;
+	height: 1.25rem;
+	color: #14100c;
+	vertical-align: 0;
+}
+
+.support-dismiss {
+	display: grid;
+	place-items: center;
+	width: 1.6rem;
+	height: 1.6rem;
+	padding: 0;
+	border-radius: 50%;
+	border: 1px solid var(--c-border);
+	background: var(--c-bg-page);
+	color: var(--c-text-light);
+	font-size: 1rem;
+	line-height: 1;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+// The dismiss control stays out of the way until the reader is clearly
+// interacting with the button, and is always available to the keyboard.
+.support-float:hover .support-dismiss,
+.support-float:focus-within .support-dismiss { opacity: 1; }
+.support-dismiss:focus-visible { opacity: 1; }
+.support-dismiss:hover { color: var(--c-text); border-color: var(--c-border-strong); }
+
+// On a phone the label is the first thing to go: the yellow stamp and the
+// symbol carry the meaning, and the tap target stays a comfortable 44px.
+@media (max-width: 640px) {
+	.support-button {
+		padding: 0;
+		width: 2.9rem;
+		height: 2.9rem;
+		justify-content: center;
+		border-radius: 50%;
+	}
+
+	.support-button-label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	.support-dismiss { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.support-button { transition: none; }
+	.support-button:hover, .support-button:focus-visible { transform: none; }
+}
+
+// -----------------------------------------------------------------------------
+// The sidebar card, for readers who are already at the end of a guide.
+// -----------------------------------------------------------------------------
+
+.support-card .support-button {
+	display: flex;
+	justify-content: center;
+	margin-top: var(--s);
+}
+
+@media (max-width: 640px) {
+	.support-card .support-button {
+		width: auto;
+		height: auto;
+		padding: 0.6rem 1rem;
+		border-radius: 999px;
+	}
+
+	.support-card .support-button-label {
+		position: static;
+		width: auto;
+		height: auto;
+		margin: 0;
+		overflow: visible;
+		clip: auto;
+	}
+}

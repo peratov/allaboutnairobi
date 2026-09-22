@@ -1,0 +1,74 @@
+# =============================================================================
+# All About Nairobi - site constants
+#
+# Every number that appears on the website lives here, never hardcoded in a
+# guide. Each constant carries provenance with a source URL and expiry date.
+#
+# `mise lint` fails the build when a constant is past its fail_on date.
+# =============================================================================
+
+constants:
+
+  INCOME_TAX_BASIC_EXEMPTION_ANNUAL:
+    value: 288000
+    unit: integer
+    description: "Annual personal income tax exemption (KRA 2026)"
+    source_url: "https://www.kra.go.ke"
+    last_verified: "2026-09-22"
+    fail_on: "2027-01-15"
+
+  INCOME_TAX_BAND_1_RATE:
+    value: 0.10
+    unit: percent
+    description: "10% tax on income between exemption and 532667 (KRA)"
+    source_url: "https://www.kra.go.ke"
+    last_verified: "2026-09-22"
+    fail_on: "2027-01-15"
+
+  VAT_RATE:
+    value: 0.16
+    unit: percent
+    description: "Standard VAT rate in Kenya"
+    source_url: "https://www.kra.go.ke"
+    last_verified: "2026-09-22"
+    fail_on: "2027-01-15"
+
+  NSSF_EMPLOYEE_RATE:
+    value: 0.06
+    unit: percent
+    description: "NSSF employee contribution rate"
+    source_url: "https://www.nssf.or.ke"
+    last_verified: "2026-09-22"
+    fail_on: "2027-01-15"
+
+  NSSF_EMPLOYER_RATE:
+    value: 0.06
+    unit: percent
+    description: "NSSF employer contribution rate"
+    source_url: "https://www.nssf.or.ke"
+    last_verified: "2026-09-22"
+    fail_on: "2027-01-15"
+
+  DAILY_MINIMUM_WAGE:
+    value: 804
+    unit: integer
+    description: "Daily minimum wage in Kenya"
+    source_url: "https://www.labour.go.ke"
+    last_verified: "2026-09-22"
+    fail_on: "2027-01-15"
+
+  ELECTRICITY_TARIFF_DOMESTIC_LIFELINE_KWH:
+    value: 16.90
+    unit: text
+    description: "Domestic lifeline tariff per kWh (Kenya Power)"
+    source_url: "https://www.kplc.co.ke"
+    last_verified: "2026-09-22"
+    fail_on: "2026-12-22"
+
+  TYPICAL_RENT_ADVANCE_MONTHS:
+    value: 3
+    unit: integer
+    description: "Typical rent advance demanded (3 months typical)"
+    source_url: "Community knowledge"
+    last_verified: "2026-09-22"
+    fail_on: "2027-06-22"

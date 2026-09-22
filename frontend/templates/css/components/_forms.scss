@@ -1,0 +1,105 @@
+.form-group {
+	display: grid;
+	grid-template-columns: minmax(9rem, 14rem) 1fr;
+	gap: var(--s) var(--m);
+	align-items: baseline;
+	margin-bottom: var(--m);
+}
+
+.form-group > label, .form-group > .label {
+	font-weight: 600;
+	font-size: var(--f-s);
+	color: var(--c-text-heading);
+}
+
+// A note sitting under a field's own label, for the rule that governs that one
+// field - the 15-year minimum, the 16.5% cap. `.input-instructions` is the
+// whole-form version and sits in the other column.
+.form-hint {
+	display: block;
+	margin-top: var(--xs);
+	font-size: var(--f-xs);
+	font-weight: 400;
+	color: var(--c-text-light);
+}
+
+.input-group {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s);
+}
+
+input[type="text"], input[type="email"], input[type="number"],
+input[type="search"], select, textarea {
+	font: inherit;
+	font-size: var(--f-s);
+	color: inherit;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	padding: 0.45em 0.7em;
+	min-width: 0;
+	max-width: 100%;
+}
+
+input[type="number"] { font-variant-numeric: tabular-nums; width: 9rem; }
+
+input:focus, select:focus, textarea:focus {
+	outline: none;
+	border-color: var(--c-highlight);
+	box-shadow: 0 0 0 3px var(--c-highlight-soft);
+}
+
+.input-instructions {
+	display: block;
+	grid-column: 2;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	margin-top: calc(var(--xs) * -1);
+}
+
+.input-instructions.error { color: var(--c-laterite); }
+
+.toggle {
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	padding: 0.4em 0.7em;
+	font-size: var(--f-xs);
+	color: inherit;
+}
+
+.toggle[aria-pressed="true"] {
+	background: var(--c-highlight);
+	border-color: var(--c-highlight);
+	color: var(--c-bg-on-accent);
+}
+
+.button {
+	display: inline-block;
+	background: var(--c-highlight);
+	color: var(--c-bg-on-accent);
+	border: 1px solid transparent;
+	border-radius: var(--b-radius);
+	padding: 0.5em 1.1em;
+	font-weight: 600;
+	font-size: var(--f-s);
+	text-decoration: none;
+}
+
+.button:visited { color: var(--c-bg-on-accent); }
+.button:hover { background: var(--c-laterite-dark); }
+
+.button.secondary {
+	background: transparent;
+	color: var(--c-text-link);
+	border-color: var(--c-border-strong);
+}
+
+.button.secondary:hover { background: var(--c-highlight-soft); }
+
+@media (max-width: 620px) {
+	.form-group { grid-template-columns: 1fr; gap: var(--xs); }
+	.input-instructions { grid-column: 1; }
+}

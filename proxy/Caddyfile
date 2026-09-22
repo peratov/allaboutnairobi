@@ -1,0 +1,78 @@
+# Caddy configuration for All About Accra.
+#
+# The site uses extensionless URLs (/guides/rent-advance). Caddy's try_files
+# resolves them to the generated .html, which is what makes the URLs stable
+# even if the generator's output layout changes.
+
+{$DOMAIN:localhost} {
+	encode zstd gzip
+
+	# The seam for a future API. Nothing is behind it yet - every calculator
+	# on this site runs in the browser - but the path is reserved so that
+	# adding form handling later does not change any URL.
+	handle /api/* {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+		root * /srv
+
+		# /guides/rent-advance -> /guides/rent-advance.html
+		try_files {path} {path}.html {path}/index.html
+
+		file_server
+
+		header {
+			X-Content-Type-Options nosniff
+			Referrer-Policy strict-origin-when-cross-origin
+			# Almost everything is same-origin: the CSS is inlined and the JS is
+			# local. The exceptions are the analytics grants below, which
+			# are the only third-party origins the site talks to.
+			Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; frame-ancestors 'none'"
+		}
+
+		# /radio plays live streams from the broadcasters' own servers, so it -
+		# and only it - widens media-src to exactly those hosts. The same policy
+		# is in both vercel.json files; scripts/build_radio_data.py fails if a
+		# stream ends up on a host none of them allow. `header` replaces the value
+		# set above for this one path.
+		@radio path /radio /radio.html
+		header @radio Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; media-src 'self' https://mmg.streamguys1.com https://atunwadigital.streamguys1.com https://peacefm-atunwadigital.streamguys1.com https://omanfm-atunwadigital.streamguys1.com https://citi973fm.radioca.st https://mediagh.us:2000 https://stream.zeno.fm https://*.surfernetwork.com https://oroko-radio.radiocult.fm; frame-ancestors 'none'"
+
+		# Nothing here is content-addressed, so nothing here is immutable.
+		# /js and /geo change on every deploy and the filenames do not, which
+		# means a year of immutable is a promise this build cannot keep - a
+		# returning reader would hold last year's JavaScript. Fresh for an
+		# hour, then served stale while it revalidates in the background.
+		@revalidating path /js/* /geo/*
+		header @revalidating Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
+
+		# The favicon and the social card do change, just rarely.
+		@images path /staticimages/*
+		header @images Cache-Control "public, max-age=604800"
+
+		# Fonts are the one thing here that genuinely never changes.
+		@fonts path /fonts/*
+		header @fonts Cache-Control "public, max-age=31536000, immutable"
+
+		@html path *.html /
+		header @html Cache-Control "public, max-age=300"
+
+		# Atom has its own media type, and file_server would infer
+		# application/xml from the extension alone.
+		@feed path /feed.xml
+		header @feed {
+			Content-Type "application/atom+xml; charset=utf-8"
+			Cache-Control "public, max-age=3600"
+		}
+	}
+
+	handle_errors {
+		@404 expression {err.status_code} == 404
+		handle @404 {
+			root * /srv
+			rewrite * /404.html
+			file_server
+		}
+	}
+}

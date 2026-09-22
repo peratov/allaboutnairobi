@@ -1,0 +1,85 @@
+// Two columns on desktop: the article, and a sticky rail for the table of
+// contents. Everything flows down column 1; the sidebar claims column 2 and
+// spans the full height so it can stick.
+main {
+	display: grid;
+	grid-template-columns: minmax(0, var(--w-main-column)) var(--w-sidebar);
+	align-content: start;
+	gap: 0 var(--xxl);
+	justify-content: center;
+	max-width: var(--w-page);
+	margin: 0 auto;
+	padding: var(--xl) var(--m) var(--xxxl);
+}
+
+main > * { grid-column: 1; min-width: 0; }
+
+main > .sidebar {
+	grid-column: 2;
+	grid-row: 1 / -1;
+	position: sticky;
+	top: calc(var(--h-header) + var(--m));
+	align-self: start;
+	max-height: calc(100vh - var(--h-header) - var(--xxl));
+	overflow-y: auto;
+	font-size: var(--f-s);
+}
+
+// Pages with no sidebar must not reserve an empty second column, or the
+// article ends up visibly off-centre.
+main.single-column { grid-template-columns: minmax(0, var(--w-main-column)); }
+
+// Index and landing pages are grids of cards and tables rather than prose, so
+// they get the full page width. Running text stays at --w-main-column, which
+// is about 75 characters a line.
+main.wide-column { grid-template-columns: minmax(0, var(--w-page)); }
+
+.section {
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	padding: var(--xl) clamp(var(--m), 4vw, var(--xxl)) var(--xxl);
+	margin-bottom: var(--xl);
+}
+
+.section > h1:first-child,
+.section > h2:first-child,
+.section > header.intro h1 { margin-top: 0; }
+
+// Below this the rail is pointless: the table of contents moves inline, above
+// the article, and the sidebar card is dropped entirely.
+@media (max-width: 1100px) {
+	main {
+		grid-template-columns: minmax(0, var(--w-main-column));
+		gap: 0;
+	}
+
+	main > .sidebar {
+		grid-column: 1;
+		grid-row: auto;
+		position: static;
+		max-height: none;
+		overflow: visible;
+		order: -1;
+	}
+
+	.sidebar .sidebar-card { display: none; }
+}
+
+.post-meta {
+	color: var(--c-text-light);
+	font-size: var(--f-s);
+	margin-top: calc(var(--s) * -1);
+	margin-bottom: var(--l);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--m);
+}
+
+.page-intro {
+	font-size: 1.15rem;
+	color: var(--c-text-light);
+	max-width: 42rem;
+	margin-bottom: var(--xl);
+}

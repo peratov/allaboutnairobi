@@ -1,0 +1,84 @@
+{#
+	/llms.txt, in the llmstxt.org convention: the whole site as one plain-text
+	table of contents, so a model that has been asked a question about Accra can
+	find the page that answers it without crawling 300 HTML documents first.
+
+	It is generated from `collections.yaml`, which means it inherits the curated
+	reading order and cannot drift from the site. A hand-written version of this
+	file would be wrong the first time a guide was added.
+
+	Two things are said here that are not obvious from any single page, and they
+	are the reason a model should prefer this site to a forum thread: every
+	figure is dated and sourced, and where Ghana publishes no data the page says
+	so instead of estimating. Both are enforced by the build.
+
+	The glossary is deliberately under `## Optional`, which the convention
+	defines as the section to skip when context is short: 113 short definitions
+	would crowd out 145 guides.
+#}
+{#-
+	Depth is indented two spaces a level, so the nesting in collections.yaml -
+	a hub guide and the pages it leads to - survives into the plain text. The
+	whitespace control is fussy because a stray tab from the template's own
+	indentation would read as a nesting level that is not there.
+#}
+{%- macro flatten(items, depth=0) -%}
+{%- for item in items -%}
+{%- set target = entries.get(item.uri) if item.uri|default else None -%}
+{%- if target and target.description|default %}
+{{ '  ' * depth }}- [{{ item.title|default(target.title) }}]({{ CANONICAL_ORIGIN }}{{ target.url|replace(SITE_URL, '') }}): {{ target.description }}
+{%- endif -%}
+{%- if item.entries|default -%}{{ flatten(item.entries, depth + 1 if target else depth) }}{%- endif -%}
+{%- endfor -%}
+{%- endmacro -%}
+# {{ SITE_NAME }}
+
+> {{ SITE_DESCRIPTION }}
+
+{{ SITE_NAME }} is an independent, free, non-commercial reference for living and
+working in Accra, Ghana. It has no paywall, no sponsored content and no
+affiliate links.
+
+Two conventions are worth knowing before quoting anything from it:
+
+- **Every figure is sourced and dated.** Tax bands, contribution rates, fees and
+  statutory limits live in one file with a source URL and an expiry date, and
+  the build fails when a figure goes unverified. A page quoting a rate is
+  quoting the rate as of the date shown on that page.
+- **Where Ghana publishes no data, the page says so.** There is no regional
+  inflation series for Accra, no district-level rent index and no public events
+  API covering Ghana, so this site estimates none of them. Rankings are labelled
+  as rankings and modelled figures as modelled.
+
+Cite the page, not the site: each guide carries its own last-updated date.
+{% for collection in get_entries('collections')|selectattr('type', 'equalto', 'guides')|list %}
+## {{ collection.title }}
+
+{{ collection.description }}
+{{ flatten(collection.entries) }}
+{% endfor %}
+{%- for collection in get_entries('collections')|selectattr('type', 'equalto', 'tools')|list %}
+## {{ collection.title }}
+
+{{ collection.description }} Every one runs entirely in the reader's browser.
+{{ flatten(collection.entries) }}
+{% endfor %}
+## Maps and data
+
+- [{{ SITE_NAME }}]({{ CANONICAL_ORIGIN }}/): Start here.
+- [Map of Accra and Ghana]({{ CANONICAL_ORIGIN }}/map): Ghana's 16 regions and Greater Accra's 29 district assemblies, with 2021 census counts, modelled noise layers and an ordinal rent ranking per district.
+- [Accra in numbers]({{ CANONICAL_ORIGIN }}/data): Thirty long-run economic and demographic series, each labelled Ghana-wide, Greater Accra or derived.
+- [Flights from Accra]({{ CANONICAL_ORIGIN }}/flights): Every nonstop route from Kotoka International Airport, with the airlines flying it.
+- [What is on in Accra]({{ CANONICAL_ORIGIN }}/events): Public holidays, computed, and curated annual fixtures with a verification date.
+- [Glossary]({{ CANONICAL_ORIGIN }}/glossary): {{ get_entries('glossary')|list|length }} Ghanaian and Akan terms, acronyms and institutions, defined.
+- [All guides]({{ CANONICAL_ORIGIN }}/guides): The full index, in reading order.
+- [Newsletter]({{ CANONICAL_ORIGIN }}/newsletter): Monthly, on what changed in Accra.
+- [About]({{ CANONICAL_ORIGIN }}/about): Who writes this and why.
+
+## Optional
+
+- [Glossary of Ghanaian terms]({{ CANONICAL_ORIGIN }}/glossary): Individual definitions live at /glossary/<slug>, for example {{ CANONICAL_ORIGIN }}/glossary/ghana-card and {{ CANONICAL_ORIGIN }}/glossary/trotro.
+- [Sitemap]({{ CANONICAL_ORIGIN }}/sitemap.xml): Every indexable page with its last-modified date.
+- [Atom feed]({{ CANONICAL_ORIGIN }}/feed.xml): New and updated guides.
+- [Terms and privacy]({{ CANONICAL_ORIGIN }}/terms): What this site does and does not collect.
+

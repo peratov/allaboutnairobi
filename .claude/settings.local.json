@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__1a59c906-04da-521d-bda7-7f71b9f9e01c__batch",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git config *)",
+      "Bash(cp -r accra-source/frontend .)",
+      "Bash(cp -r accra-source/proxy .)",
+      "Bash(cp -r accra-source/seo .)",
+      "Bash(cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\\\\content\" && rm -rf guides/* glossary/* && ls -la)",
+      "Bash(python)",
+      "Bash(python3.11)",
+      "Bash(\"C:/Python/python.exe\" --version)",
+      "PowerShell(Get-Command python -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command mise -ErrorAction SilentlyContinue)",
+      "PowerShell($env:PYTHONUTF8 = \"1\"; cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 30)",
+      "PowerShell($env:PYTHONUTF8 = \"1\"; cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 15)",
+      "PowerShell($env:PYTHONUTF8 = \"1\"; cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 20)",
+      "PowerShell($env:PYTHONUTF8 = \"1\"; cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1)",
+      "PowerShell($env:PYTHONUTF8 = \"1\"; cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 5)",
+      "PowerShell($env:PYTHONUTF8 = \"1\"; cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | tail -n 3)",
+      "PowerShell($env:PYTHONUTF8 = \"1\"; cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 3)",
+      "PowerShell(cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; $env:PYTHONUTF8 = \"1\"; mv ursus_config.py ursus_config_full_accra.py; mv ursus_config_minimal.py ursus_config.py; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 10)",
+      "PowerShell(cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; $env:PYTHONUTF8 = \"1\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 10)",
+      "PowerShell(cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; $env:PYTHONUTF8 = \"1\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | tail -n 1)",
+      "PowerShell(cd \"C:\\\\Users\\\\kenra\\\\allaboutnairobi\\\\frontend\"; $env:PYTHONUTF8 = \"1\"; ..\\\\.venv\\\\Scripts\\\\python.exe ..\\\\.venv\\\\Scripts\\\\ursus build 2>&1 | Select-Object -Last 1)"
+    ]
+  }
+}
