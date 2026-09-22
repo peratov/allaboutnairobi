@@ -1,7 +1,7 @@
 {
   "buildCommand": "cd frontend && source ../.venv/Scripts/activate && ursus build",
   "outputDirectory": "frontend/output",
-  "framework": "other",
+  "framework": "python",
   "rewrites": [
     {
       "source": "/:path*",
