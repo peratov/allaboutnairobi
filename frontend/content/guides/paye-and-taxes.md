@@ -210,6 +210,6 @@ If your employer doesn't deduct PAYE, **they are not avoiding tax—you still ow
 
 ## Next steps
 
-- [[opening-a-bank-account]] — Managing money in Kenya
-- [[finding-housing]] — Housing costs and budgeting
-- [[moving-to-nairobi]] — Getting started in Nairobi
+- [Opening a bank account](/guides/opening-a-bank-account) — Managing money in Kenya
+- [Finding housing](/guides/finding-housing) — Housing costs and budgeting
+- [Moving to Nairobi](/guides/moving-to-nairobi) — Getting started in Nairobi

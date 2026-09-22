@@ -28,7 +28,7 @@ Banking in Kenya is straightforward. You'll need an account for salary deposits,
 **Minimum requirements:**
 
 1. Passport (original + photocopy)
-2. Huduma Number (national ID) — **Get this first** (see [[moving-to-nairobi]])
+2. Huduma Number (national ID) — **Get this first** (see [Moving to Nairobi](/guides/moving-to-nairobi))
 3. Proof of address (rental agreement or utility bill)
 4. Minimum opening balance: KES 500-2,000 (varies by bank)
 
@@ -225,6 +225,6 @@ Yes, but large irregular deposits may trigger KRA scrutiny. Consider a business 
 
 ## Next steps
 
-- [[paye-and-taxes]] — Understanding your salary and taxes
-- [[moving-to-nairobi]] — Getting started in Nairobi
-- [[finding-housing]] — Housing and budgeting
+- [PAYE and taxes](/guides/paye-and-taxes) — Understanding your salary and taxes
+- [Moving to Nairobi](/guides/moving-to-nairobi) — Getting started in Nairobi
+- [Finding housing](/guides/finding-housing) — Housing and budgeting

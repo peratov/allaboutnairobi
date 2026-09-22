@@ -181,6 +181,6 @@ If you can't pay on time:
 
 ## Next steps
 
-- [[moving-to-nairobi]] — Visas and first arrival
-- [[paye-and-taxes]] — Employment and income
-- [[opening-a-bank-account]] — Banking setup
+- [Moving to Nairobi](/guides/moving-to-nairobi) — Visas and first arrival
+- [PAYE and taxes](/guides/paye-and-taxes) — Employment and income
+- [Opening a bank account](/guides/opening-a-bank-account) — Banking setup

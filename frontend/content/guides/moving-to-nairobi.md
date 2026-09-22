@@ -53,7 +53,7 @@ Jomo Kenyatta International Airport is 18 km southeast of central Nairobi. Optio
 1. **Get a SIM card** — Visit any telecom shop (Safaricom, Airtel, Jio). You'll need your passport and Huduma Number.
 2. **Open a bank account** — Most banks open accounts in 1-2 days with passport + residence proof.
 3. **Register with your embassy** — Many embassies keep a register of citizens.
-4. **Find accommodation** — Use Airbnb for the first month while you search. See [[finding-housing]] for longer-term options.
+4. **Find accommodation** — Use Airbnb for the first month while you search. See [finding-housing](/guides/finding-housing) for longer-term options.
 5. **Get to know your neighborhood** — Explore on foot during daylight hours.
 
 ## Safety and orientation
@@ -99,6 +99,6 @@ Nairobi is generally safe for expats, but as with any major city, follow common 
 
 ## Next steps
 
-- [[finding-housing]] — Detailed guide to renting in Nairobi
-- [[opening-a-bank-account]] — Banking for residents and expats
-- [[paye-and-taxes]] — Income tax, NSSF, and payroll
+- [Finding housing](/guides/finding-housing) — Detailed guide to renting in Nairobi
+- [Opening a bank account](/guides/opening-a-bank-account) — Banking for residents and expats
+- [PAYE and taxes](/guides/paye-and-taxes) — Income tax, NSSF, and payroll

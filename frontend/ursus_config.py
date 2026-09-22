@@ -89,6 +89,14 @@ placeholders = {
     "MATERNITY_LEAVE_WEEKS_EXTENDED": 0,
     "SSNIT_EMPLOYEE_RATE": 0,
     "SSNIT_EMPLOYER_RATE": 0,
+    # Accra/Ghana constants (legacy tool content)
+    "ACCRA_ONE_BED_RENT_MID": 0,
+    "WAAKYE_PRICE": 0,
+    "TROTRO_SHORT_FARE_MIN": 0,
+    "TROTRO_CROSSTOWN_FARE_MAX": 0,
+    "RIDE_HAILING_SHORT_TRIP": 0,
+    "LPG_CYLINDER_REFILL_14KG": 0,
+    "GHANA_MEDIAN_MONTHLY_EARNINGS": 0,
 }
 
 for key, value in placeholders.items():
