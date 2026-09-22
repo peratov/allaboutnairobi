@@ -1,15 +1,12 @@
 {#
-	Greater Accra in the home page hero.
+	Nairobi in the home page hero.
 
-	Geometry only - the interactive instrument lives at /map. Every district is
-	a link that opens the real map with that district selected, so this is a way
-	in rather than a picture of one. No JavaScript: the hover state is CSS and
-	the labels are real link text, which is also what a crawler and a screen
-	reader get.
+	Geometry only - the interactive map lives at /map. Every constituency is a
+	link that opens the real map with it selected. No JavaScript needed: the
+	hover state is CSS and the labels are real link text.
 
-	hero-map-glow.mjs adds an ambient cycle - one district lit at a time, its
-	name in the caption. Everything below works without it; the caption is
-	simply empty until it runs, and reserves its own line so nothing shifts.
+	hero-map-glow.mjs adds an ambient cycle - one constituency lit at a time,
+	its name in the caption. The caption reserves its own line so nothing shifts.
 #}
 {% if HERO_MAP %}
 	<div class="hero-map">
@@ -20,25 +17,20 @@
 			aria-labelledby="hero-map-title"
 			focusable="false">
 			<title id="hero-map-title">
-				Greater Accra, by district assembly. Choose one to open it on the map.
+				Nairobi, by constituency. Choose one to open it on the map.
 			</title>
 
 			{% for district in HERO_MAP.districts %}
 				<a
-					href="{{ SITE_URL }}/map#district={{ district.id }}"
+					href="{{ SITE_URL }}/map#constituency/{{ district.id }}"
 					data-name="{{ district.name }}"
-					aria-label="{{ district.name }} on the map of Greater Accra">
+					aria-label="{{ district.name }} on the map of Nairobi">
 					<path class="hero-map-district" d="{{ district.d }}" />
 				</a>
 			{% endfor %}
 		</svg>
 
-		{#
-			The lit district's name. aria-hidden on purpose: it changes every
-			few seconds, and a live region announcing "Ada West" at a screen
-			reader every three seconds would be intolerable. The names are
-			already available accessibly, on the links themselves.
-		#}
+		{# aria-hidden: it changes every few seconds, and the names are already on the links. #}
 		<p class="hero-map-caption" data-hero-map-caption aria-hidden="true"></p>
 
 		<a class="hero-map-link" href="{{ SITE_URL }}/map">

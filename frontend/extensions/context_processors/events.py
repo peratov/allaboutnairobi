@@ -1,33 +1,21 @@
 """
-What is on in Accra, and how it stops being wrong.
+What is on in Nairobi, and how it stops being wrong.
 
-There is no public events API worth building on for Accra. Eventbrite withdrew
-public event search in 2020 and never replaced it; the global ticketing APIs
-have effectively no Ghanaian inventory; the Ghanaian ticketing platforms
-publish no documented API. Anything claiming to self-populate from one of
-those would render an empty page for ever and look like it was working.
+There is no public events API worth building on for Nairobi, so this splits the
+problem in two and only promises what it can keep.
 
-So this splits the problem in two, and only promises what it can keep.
+**Computed.** Kenya's public holidays come from the same list the rest of the
+site uses (extensions/functions.py), generated forward every build, so they
+roll over on their own and cannot go stale.
 
-**Computed.** Ghana's public holidays come from the same corrected list the
-rest of the site uses, generated forward every build. They roll over on their
-own, for ever, and cannot go stale. Farmers' Day really is the first Friday in
-December every year, so a function is the honest way to say so.
-
-**Curated.** Everything else lives in content/events.yaml with a source and a
-`last_verified`, exactly like a constant. An annual festival whose dates have
+**Curated.** Everything else lives in content/events-calendar.yaml with a
+source and a `last_verified`, like a constant. An annual event whose dates have
 not been announced carries a `when` note and no date at all, and the page files
 it separately rather than inventing a Saturday for it.
 
-Expiry happens three times over, because a static site is only as fresh as its
-last deploy:
-
-  1. here, at build time, which is what a crawler and a reader with no
-     JavaScript see;
-  2. again in the browser, in events-filter.mjs, so a deploy that went quiet
-     for a fortnight still never shows a date that has passed;
-  3. and the scheduled rebuild in .github/workflows/refresh-events.yml, which
-     redeploys daily so (1) stays true without anyone doing anything.
+Expiry happens twice: here at build time, and again in the browser in
+events-filter.mjs, so a deploy that went quiet for a fortnight still never
+shows a date that has passed.
 """
 
 import logging
@@ -64,13 +52,17 @@ CATEGORIES = {
 # Public holidays that are worth a sentence, because "the offices are shut" is
 # not the only thing a reader wants to know about them.
 HOLIDAY_NOTES = {
-    "Independence Day": "Parades, and almost everything closed.",
-    "Farmers' Day": "The first Friday in December, honouring farmers and fishers.",
-    "Kwame Nkrumah Memorial Day": "Marking the birthday of Ghana's first president.",
-    "Founders' Day": "Marking the founding of the nation.",
-    "Republic Day": "Commemorative since 2019, and no longer a day off.",
-    "African Union Day": "Marked across the continent.",
-    "May Day": "Workers' day, with a rally at Black Star Square.",
+    "New Year's Day": "Government offices, banks and most businesses closed.",
+    "Good Friday": "Offices and banks closed; heavy traffic out of Nairobi on the Thursday evening.",
+    "Easter Monday": "Offices and banks closed.",
+    "Labour Day": "Workers' day. Offices closed; the main rally is usually at Uhuru Gardens or Nyayo Stadium.",
+    "Madaraka Day": "Marks self-rule in 1963. National celebrations, with the venue rotating between counties.",
+    "Mazingira Day": "Environment day, with tree planting. Formerly Utamaduni, Huduma and Moi Day.",
+    "Mashujaa Day": "Heroes' Day. Offices closed.",
+    "Jamhuri Day": "Independence and the republic. Offices closed, national celebrations.",
+    "Christmas Day": "Much of Nairobi empties as people travel upcountry for the holidays.",
+    "Utamaduni Day": "Culture day, on 26 December. Formerly Boxing Day.",
+    "Idd-ul-Fitr": "The end of Ramadan. The date depends on the moon and is confirmed by gazette notice.",
 }
 
 
@@ -168,7 +160,10 @@ class EventsProcessor(ContextProcessor):
                 "category": "civic",
                 "category_label": CATEGORIES["civic"],
                 "area": "Nationwide",
-                "description": HOLIDAY_NOTES.get(name, "A statutory public holiday."),
+                "description": HOLIDAY_NOTES.get(
+                    name.replace(" (estimated)", "").replace(" (observed)", ""),
+                    "A public holiday.",
+                ),
                 "computed": True,
             })
 

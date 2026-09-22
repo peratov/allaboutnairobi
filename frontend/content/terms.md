@@ -84,7 +84,7 @@ If you would rather read it without being on a list at all, that is what
 
 Everything here is provided in good faith and without warranty.
 
-Ghanaian fees, procedures and legal requirements change, sometimes without
+Kenyan fees, procedures and legal requirements change, sometimes without
 announcement, and they vary between offices. The figures on this site carry
 verification dates and expire on a schedule, which is the best a written guide
 can do &mdash; but the counter is the authority, not this page.
@@ -100,10 +100,10 @@ correct now.
 
 ## Independence
 
-All About Accra is not affiliated with, endorsed by, or acting for the
-Government of Ghana or any of its agencies &mdash; including the NIA, the GRA,
-SSNIT, the NHIA, the DVLA, Ghana Immigration Service, the Rent Control
-Department or the Office of the Registrar of Companies.
+All About Nairobi is not affiliated with, endorsed by, or acting for the
+Government of Kenya, Nairobi City County or any of their agencies &mdash;
+including KRA, NSSF, the Social Health Authority, NTSA, the Directorate of
+Immigration Services or the Business Registration Service.
 
 Agency names and abbreviations are used descriptively, because those are the
 names on the buildings.

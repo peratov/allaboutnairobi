@@ -1,35 +1,56 @@
+# Nairobi stations playable on /radio.
+#
+# Only stations whose stream was fetched and returned audio on the day in
+# `last_verified` are listed. Frequencies are the Nairobi FM frequency.
+# Streams move: re-test each one before changing `last_verified`.
+
 meta:
   last_verified: 2026-09-22
+  checked_on: 22 September 2026
+  typical_kbps: 128
 
 stations:
 - id: capital-fm
   name: Capital FM
   frequency: 98.4
-  language: Swahili/English
-  about: Music and entertainment
-  owner: Mediamax Network
-  stream: https://stream.capitalfm.co.ke/live
-
-- id: classical-fm
-  name: Classical 96.9
-  frequency: 96.9
   language: English
-  about: Classical and light music
-  owner: Classical FM
-  stream: https://stream.classical969.co.ke/live
+  about: Music, news and talk
+  owner: Capital Group
+  homepage: https://www.capitalfm.co.ke
+  stream: https://atunwadigital.streamguys1.com/capitalfm
 
-- id: east-africa-fm
-  name: East Africa FM
-  frequency: 104.7
-  language: Swahili/English
-  about: Music and lifestyle
-  owner: East Africa Media
-  stream: https://stream.eastafricafm.co.ke/live
-
-- id: x-fm
-  name: X FM
+- id: kameme-fm
+  name: Kameme FM
   frequency: 101.1
-  language: English
-  about: Music and entertainment
-  owner: X FM Kenya
-  stream: https://stream.xfm.co.ke/live
+  language: Kikuyu
+  about: News, talk and music
+  owner: Mediamax Network
+  homepage: https://www.mediamax.app/kameme-fm
+  stream: https://kamemefm-atunwadigital.streamguys1.com/kamemefm
+
+- id: radio-47
+  name: Radio 47
+  frequency: 103.0
+  language: Swahili
+  about: News, talk and music
+  owner: Cape Media
+  homepage: https://www.radio47.fm
+  stream: https://streaming.shoutcast.com/radio-47
+
+- id: radio-waumini
+  name: Radio Waumini
+  frequency: 88.3
+  language: Swahili and English
+  about: Catholic radio
+  owner: Kenya Conference of Catholic Bishops
+  homepage: https://radiowaumini.co.ke
+  stream: http://stream.zeno.fm/gvk894g072quv
+
+- id: radio-maria-kenya
+  name: Radio Maria Kenya
+  frequency: 88.1
+  language: Swahili
+  about: Catholic radio
+  owner: Radio Maria
+  homepage: https://www.radiomaria.co.ke
+  stream: http://dreamsiteradiocp5.com:8069/stream

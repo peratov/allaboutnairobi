@@ -3,6 +3,6 @@ PyYAML~=6.0
 holidays~=0.60
 GitPython~=3.1
 
-# Windows ships no IANA time zone database, so ZoneInfo("Africa/Accra") fails
+# Windows ships no IANA time zone database, so ZoneInfo("Africa/Nairobi") fails
 # without this. Harmless everywhere else.
 tzdata~=2025.1

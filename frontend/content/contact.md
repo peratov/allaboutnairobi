@@ -25,15 +25,14 @@ site has. Anything else using this name is not us.
 
 ## Things worth telling us
 
-- **A fee changed.** Especially at the NIA, the DVLA, Ghana Immigration or the
-  Registrar of Companies, where published schedules and counter reality drift
-  apart.
+- **A fee changed.** Especially on eCitizen, at immigration, at NTSA or at a
+  Huduma Centre, where published schedules and counter reality drift apart.
 - **A process changed.** An office moved, a form went online, a step was
   dropped or added.
 - **A guide is missing.** If you spent a week working something out the hard
   way, that is exactly the guide that should exist.
-- **A term is missing from the [glossary](/glossary).** Especially Twi, Ga or
-  pidgin that everyone uses and nobody translates.
+- **A term is missing from the [glossary](/glossary).** Especially Swahili or
+  Sheng that everyone uses and nobody translates.
 
 ## What we cannot do
 

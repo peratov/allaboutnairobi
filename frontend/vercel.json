@@ -1,82 +1,65 @@
 {
-	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"buildCommand": "bash scripts/vercel-build.sh",
-	"installCommand": "echo 'Dependencies are installed inside scripts/vercel-build.sh'",
-	"outputDirectory": "public",
-	"framework": null,
-	"cleanUrls": true,
-	"trailingSlash": false,
-	"redirects": [
-		{
-			"source": "/",
-			"has": [
-				{
-					"type": "host",
-					"value": "allaboutnairobi.com"
-				}
-			],
-			"destination": "https://www.allaboutnairobi.com/",
-			"permanent": true
-		},
-		{
-			"source": "/:path*",
-			"has": [
-				{
-					"type": "host",
-					"value": "allaboutnairobi.com"
-				}
-			],
-			"destination": "https://www.allaboutnairobi.com/:path*",
-			"permanent": true
-		}
-	],
-	"headers": [
-		{
-			"source": "/((?!drive|radio).*)",
-			"headers": [
-				{
-					"key": "Content-Security-Policy",
-					"value": "default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; object-src 'none'; frame-src 'none'; form-action 'self' https://buttondown.email"
-				},
-				{
-					"key": "X-Content-Type-Options",
-					"value": "nosniff"
-				},
-				{
-					"key": "X-Frame-Options",
-					"value": "DENY"
-				},
-				{
-					"key": "X-XSS-Protection",
-					"value": "1; mode=block"
-				},
-				{
-					"key": "Referrer-Policy",
-					"value": "no-referrer-when-downgrade"
-				},
-				{
-					"key": "Permissions-Policy",
-					"value": "geolocation=(), microphone=(), camera=()"
-				}
-			]
-		},
-		{
-			"source": "/sw.js",
-			"headers": [
-				{
-					"key": "Cache-Control",
-					"value": "no-cache, no-store, must-revalidate"
-				}
-			]
-		},
-		{
-			"source": "/:path(.+)\?v=:version",
-			"headers": [
-				{
-					"key": "Cache-Control",
-					"value": "public, max-age=31536000, immutable"
-				}
-			]
-		}
-	]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "bash scripts/vercel-build.sh",
+  "installCommand": "echo 'Dependencies are installed inside scripts/vercel-build.sh'",
+  "outputDirectory": "public",
+  "framework": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "allaboutnairobi.com"
+        }
+      ],
+      "destination": "https://www.allaboutnairobi.com/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "allaboutnairobi.com"
+        }
+      ],
+      "destination": "https://www.allaboutnairobi.com/:path*",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(self), microphone=(), camera=()"
+        }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ]
 }

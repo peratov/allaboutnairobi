@@ -1,215 +1,125 @@
 ---
-title: PAYE and Income Tax in Kenya
-short_title: PAYE and Taxes
-description: Income tax, NSSF contributions, and understanding your payslip.
+title: PAYE, NSSF, SHIF and the Housing Levy
+short_title: PAYE and taxes
+description: How Kenyan payroll deductions work in 2026 - PAYE bands, personal relief, NSSF, SHIF and the Housing Levy - with a worked example and filing your return.
 date_created: 2026-09-22
 ---
 
-If you're employed in Kenya, your salary gets taxed before you see it. This guide explains PAYE, NSSF, and how to calculate your actual take-home pay.
+Four things come off a Kenyan salary before it reaches you: pension, health
+insurance, the housing levy and income tax. This is how each is worked out,
+with the rates in force in 2026.
 
-## PAYE (Income Tax)
+## The four deductions
 
-PAYE stands for "Pay As You Earn" — income tax deducted at source from every salary payment.
+<div class="table-wrapper"><table>
+<thead><tr><th scope="col">Deduction</th><th scope="col">Rate</th><th scope="col">Notes</th></tr></thead>
+<tbody>
+<tr><th scope="row">NSSF</th><td>{{ NSSF_RATE|percent }}%</td><td>On pay up to KES {{ NSSF_UPPER_EARNINGS_LIMIT|shillings }}; your employer pays the same again</td></tr>
+<tr><th scope="row">SHIF</th><td>{{ SHIF_RATE|percent }}%</td><td>Of gross pay, minimum KES {{ SHIF_MINIMUM|shillings }}</td></tr>
+<tr><th scope="row">Housing Levy</th><td>{{ HOUSING_LEVY_RATE|percent }}%</td><td>Of gross pay; your employer pays the same again</td></tr>
+<tr><th scope="row">PAYE</th><td>10% to 35%</td><td>On what is left, in bands, less personal relief</td></tr>
+</tbody></table></div>
 
-### Tax bands (2026)
+NSSF, SHIF and the Housing Levy all come off **before** PAYE is worked out, so
+they lower your tax.
 
-Tax is progressive: you pay different rates on different portions of your income.
+## PAYE bands
 
-| Monthly Income | Tax Rate |
-|---|---|
-| First KES 10,597 | 0% |
-| KES 10,597 — 24,272 | 10% |
-| KES 24,272 — 37,947 | 15% |
-| KES 37,947 — 51,623 | 20% |
-| KES 51,623 — 65,299 | 25% |
-| Above KES 65,299 | 30% |
+Monthly, for residents:
 
-### Example calculation
+<div class="table-wrapper"><table>
+<thead><tr><th scope="col">Monthly taxable pay (KES)</th><th scope="col">Rate</th></tr></thead>
+<tbody>
+{% for band in PAYE_BANDS %}<tr><td>{{ band.from|shillings }}{% if band.to %} to {{ band.to|shillings }}{% else %} and above{% endif %}</td><td>{{ band.rate|percent }}%</td></tr>
+{% endfor %}</tbody></table></div>
 
-**Monthly salary: KES 100,000**
+Every resident then gets **personal relief of KES
+{{ PERSONAL_RELIEF_MONTHLY|shillings }} a month**, taken off the tax. If your
+tax comes to less than that, you pay no PAYE.
 
-- First KES 10,597: Tax-free (KES 0)
-- Next KES 13,675 (to KES 24,272): 10% = KES 1,367
-- Next KES 13,675 (to KES 37,947): 15% = KES 2,051
-- Next KES 13,676 (to KES 51,623): 20% = KES 2,735
-- Next KES 13,676 (to KES 65,299): 25% = KES 3,419
-- Remaining KES 34,701: 30% = KES 10,410
-- **Total PAYE: KES 19,982**
+## A worked example
 
-Your employer should withhold this from your salary. If they don't, it's your responsibility to pay it to KRA by the 20th of the following month.
+Someone earning **KES 100,000 a month** gross:
 
-### Tax exemptions
+<div class="table-wrapper"><table>
+<thead><tr><th scope="col">Step</th><th scope="col" class="numeric">KES</th></tr></thead>
+<tbody>
+<tr><td>Gross pay</td><td class="numeric">100,000.00</td></tr>
+<tr><td>NSSF: {{ NSSF_RATE|percent }}% of 100,000</td><td class="numeric">6,000.00</td></tr>
+<tr><td>SHIF: {{ SHIF_RATE|percent }}% of 100,000</td><td class="numeric">2,750.00</td></tr>
+<tr><td>Housing Levy: {{ HOUSING_LEVY_RATE|percent }}% of 100,000</td><td class="numeric">1,500.00</td></tr>
+<tr><th scope="row">Taxable pay</th><th class="numeric">89,750.00</th></tr>
+<tr><td>10% on the first 24,000</td><td class="numeric">2,400.00</td></tr>
+<tr><td>25% on the next 8,333</td><td class="numeric">2,083.25</td></tr>
+<tr><td>30% on the remaining 57,417</td><td class="numeric">17,225.10</td></tr>
+<tr><td>Tax before relief</td><td class="numeric">21,708.35</td></tr>
+<tr><td>Less personal relief</td><td class="numeric">2,400.00</td></tr>
+<tr><th scope="row">PAYE</th><th class="numeric">19,308.35</th></tr>
+<tr><th scope="row">Take-home pay</th><th class="numeric">70,441.65</th></tr>
+</tbody></table></div>
 
-Certain allowances are tax-exempt:
+Payroll software rounds slightly differently, so expect your payslip to be
+within a few shillings of this, not identical.
 
-- **Housing allowance:** Up to KES 20,000/month
-- **Leave allowance:** One month's salary for unused leave
-- **Transport allowance:** KES 800-2,000/month (varies)
-- **Medical allowance:** Reasonable amount for health insurance
-- **Share options:** In some cases
+## NSSF in more detail
 
-Get your employer to document exempt allowances — KRA asks for proof.
+The [[NSSF]] rate is {{ NSSF_RATE|percent }}% from you and
+{{ NSSF_RATE|percent }}% from your employer, in two tiers:
 
-### Personal tax return
+- **Tier I** on pay up to KES {{ NSSF_LOWER_EARNINGS_LIMIT|shillings }}.
+- **Tier II** on pay from there up to KES {{ NSSF_UPPER_EARNINGS_LIMIT|shillings }}.
 
-If you're employed, your employer files taxes on your behalf (PAYE). You only need to file a personal return if:
+So the most you pay is KES {{ NSSF_MAX_EMPLOYEE|shillings }} a month. These
+limits rose on 1 February 2026 and are scheduled to keep rising, so an older
+payslip will show smaller NSSF figures.
 
-- You earned from multiple sources (freelance, rental income, capital gains)
-- Your employer did not file
-- You want to claim deductions or refunds
+## SHIF
 
-File online at: **www.kra.go.ke** by **30 June** of the following year.
+[[SHIF]] replaced NHIF in October 2024. It is
+{{ SHIF_RATE|percent }}% of gross pay, with no upper cap, which is why it
+matters more than NHIF did at higher salaries. See
+[Healthcare in Nairobi](/guides/healthcare-in-nairobi) for what it covers.
 
-## NSSF (Pensions)
+## Filing your return
 
-NSSF is Kenya's pension scheme. Both you and your employer contribute.
+Everyone with a [[KRA PIN]] must file a return on [[iTax]] by
+**{{ TAX_RETURN_DEADLINE }}** for the previous calendar year, even if PAYE has
+already paid all the tax.
 
-### Contribution rates
+1. Ask your employer for your **P9 form**, which shows your pay and the tax
+   deducted for the year.
+2. On iTax, choose the income tax return for residents, enter the P9 figures,
+   and add any other income such as rent or freelance work.
+3. If you had no income at all, file a **nil return**.
 
-| Party | Contribution Rate |
-|---|---|
-| Employee | 6% of gross salary |
-| Employer | 6% of gross salary |
-| **Total** | **12% of gross salary** |
+A late return carries a penalty even when no tax is owed.
 
-**Monthly salary example (KES 100,000):**
-- Your contribution: KES 6,000
-- Employer contribution: KES 6,000
-- Total: KES 12,000 goes to your pension
+## Things that reduce your tax
 
-These are deducted from your salary (your 6%) and added by your employer (their 6%) before you receive payment.
+- **Insurance relief** on life, education and health insurance premiums you
+  pay yourself.
+- **Contributions to a registered pension scheme**, up to a limit.
+- **Mortgage interest** on your own home, up to a limit.
 
-### Withdrawal rules
+The limits change with Finance Acts, so check KRA's current figures before
+relying on them.
 
-**You can withdraw NSSF when:**
+## Other taxes you will meet
 
-- You reach pension age (**60 years** for men, **55 years** for women in formal employment; **60 years** for everyone in informal sector as of 2023)
-- You leave employment
-- You've contributed for minimum period (typically 60 months / 5 years)
+- **VAT** at {{ VAT_RATE|percent }}% on most goods and services, already in
+  the shelf price.
+- **Excise duty** on mobile money and bank transfer fees, airtime and data,
+  already in what you pay.
+- **Rental income tax** if you let out property.
 
-**Early withdrawal (before retirement age):**
+## Non-residents
 
-- Allowed if you stop working (unemployment)
-- Must wait 6-12 months to access funds
-- Otherwise, you cannot access NSSF until pension age
+You count as tax resident if you have a permanent home in Kenya, or spend 183
+days or more here in a year. Non-residents are taxed only on Kenyan income and
+get no personal relief.
 
-### How much you get
+## Next
 
-At retirement, you receive:
-
-1. **Lump sum:** Portion of contributions (rules vary; typically 40% at retirement)
-2. **Monthly pension:** Rest converted to monthly payments for life
-
-**Example:** After 30 years contributing KES 6,000/month:
-- Total contributed (yours + employer): ~KES 2,160,000
-- Lump sum (40%): ~KES 864,000
-- Monthly pension: ~KES 36,000/month for life
-
-The actual amount depends on:
-- How much you contributed
-- Investment returns on the fund
-- Current pension annuity rates
-
-## Other deductions on your payslip
-
-Beyond PAYE and NSSF, expect:
-
-| Deduction | Typical Amount | Notes |
-|---|---|---|
-| NSSF (employee contribution) | 6% | Required for all employed |
-| PAYE | Varies | Depends on income bracket |
-| Health insurance (NHIF) | 500-2,000/month | Employer usually deducts |
-| Union dues | 500-3,000/month | If in a union |
-| Voluntary pension (VAS) | Varies | Optional private pension |
-| Loan repayments | As agreed | Deducted if you took a salary loan |
-| Overpayments | As needed | Correcting errors from previous months |
-
-## Understanding your payslip
-
-A typical Kenyan payslip shows:
-
-**Earnings:**
-- Basic salary
-- Allowances (housing, transport, etc.)
-- Benefits
-- Gross salary (total before deductions)
-
-**Deductions:**
-- PAYE (income tax)
-- NSSF employee contribution (6%)
-- NHIF (health insurance)
-- Other deductions
-
-**Net salary:**
-- Gross salary minus all deductions
-- What you actually receive
-
-### Where's my tax receipt?
-
-Your employer provides a **Certificate of Income and Tax Deducted** yearly (usually in January). This shows:
-- Total salary paid
-- Total PAYE deducted
-- Proof of tax payment to KRA
-
-Keep this for your personal records and tax filings.
-
-## Tax relief
-
-You may qualify for tax relief:
-
-- **Mortgage interest:** Relief on home loan interest (certain conditions)
-- **Life insurance premium:** Relief on personal life insurance
-- **Professional fees:** Relief if required for employment
-- **Donations:** Small relief for charitable donations
-
-File claims with your employer's HR or directly with KRA.
-
-## VAT (Sales Tax)
-
-VAT is charged on goods and services at **16%**.
-
-- Usually included in the displayed price
-- You don't pay VAT on basic foods (maize, beans, rice)
-- Rent and education are typically VAT-exempt
-- You can claim VAT back if you're registered as a business
-
-## Employer obligations
-
-Your employer must:
-
-- Calculate and deduct PAYE correctly
-- File PAYE with KRA by the 20th of next month
-- Contribute their 6% NSSF on your behalf
-- Deduct NSSF and remit to NSSF board
-- Provide monthly payslips with clear deductions
-- Give annual tax certificate
-
-If your employer doesn't deduct PAYE, **they are not avoiding tax—you still owe it.** File personally with KRA to avoid penalties.
-
-## Staying compliant
-
-- Check your payslip every month for accuracy
-- Keep payslips for 7 years (KRA audits)
-- File annual return even if no additional tax owed
-- Update KRA if you change employers
-- Report all income sources (rental, freelance, etc.)
-- Keep receipts for deductible expenses if self-employed
-
-## Common mistakes
-
-- **Not filing a return** — Required even for employed people (zero tax owed is still a return)
-- **Underreporting income** — KRA tracks employer-reported PAYE; mismatches trigger audits
-- **Not keeping receipts** — Deductions need proof
-- **Missing NSSF minimum contribution** — Minimum 60 months to qualify for pension
-
-## Useful links
-
-- **KRA online (iTax):** https://www.kra.go.ke/ — View tax account, file returns, pay taxes
-- **NSSF portal:** https://www.nssf.or.ke/ — Check contributions, withdraw, update details
-- **NHIF (Health Insurance):** https://www.nhif.or.ke/ — Manage health insurance
-
-## Next steps
-
-- [Opening a bank account](/guides/opening-a-bank-account) — Managing money in Kenya
-- [Finding housing](/guides/finding-housing) — Housing costs and budgeting
-- [Moving to Nairobi](/guides/moving-to-nairobi) — Getting started in Nairobi
+- [Working in Kenya](/guides/working-in-kenya)
+- [Opening a bank account](/guides/opening-a-bank-account)
+- [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)

@@ -1,7 +1,7 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/glossary" %}
-{% set metatitle = "Glossary of Ghanaian terms" %}
-{% set metadescription = "Ghanaian acronyms, bureaucracy and everyday Twi, Ga and pidgin explained in plain English - from SSNIT and GhanaPostGPS to chale and chamber and hall." %}
+{% set metatitle = "Glossary of Kenyan terms" %}
+{% set metadescription = "Kenyan acronyms, bureaucracy and everyday Swahili and Sheng explained in plain English - from KRA PIN and SHIF to matatu, mitumba and kanjo." %}
 
 {% set terms = get_entries('glossary') %}
 {% set groups = glossary_groups(terms) %}
@@ -10,13 +10,13 @@
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
-				<span class="adinkra-stamp">{% include "_icons/glossary.svg" %}</span>
+				<span class="icon-stamp">{% include "_icons/glossary.svg" %}</span>
 				<h1>Glossary</h1>
 			</div>
 			<p class="page-intro">
-				{{ terms|length }} words you will hear in Accra and nobody will stop to
-				explain: government acronyms, housing vocabulary, and the Twi, Ga and
-				pidgin that carry most ordinary conversations.
+				{{ terms|length }} words you will hear in Nairobi and nobody will stop to
+				explain: government acronyms, money and housing vocabulary, and the
+				Swahili and Sheng that carry most ordinary conversations.
 			</p>
 
 			<nav class="glossary-jump" aria-label="Jump to letter">

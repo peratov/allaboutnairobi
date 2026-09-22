@@ -1,18 +1,18 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/guides" %}
 {% set metatitle = "All guides" %}
-{% set metadescription = "Every All About Accra guide, grouped by subject and ordered the way you need them: arriving, paperwork, housing, money, work, business and daily life." %}
+{% set metadescription = "Every All About Nairobi guide, grouped by subject and ordered the way you need them: arriving, housing, money and work, getting around, health, daily life and exploring." %}
 {% set collections = get_entries('collections')|selectattr('type', 'equalto', 'guides')|list %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
-				<span class="adinkra-stamp">{% include "_icons/guides.svg" %}</span>
+				<span class="icon-stamp">{% include "_icons/guides.svg" %}</span>
 				<h1>All guides</h1>
 			</div>
 			<p class="page-intro">
-				{{ get_entries('guides')|length }} guides to living in Accra, in the order
+				{{ get_entries('guides')|length }} guides to living in Nairobi, in the order
 				you are likely to need them &mdash; arrive, get legal, get housed, sort
 				the money, then earn.
 			</p>
@@ -45,7 +45,7 @@
 			{% for collection in collections %}
 				<article class="guide-group" id="{{ collection.id }}">
 					<h2 class="guide-group-title">
-						<span class="adinkra-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>
+						<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>
 						<a href="{{ collection.url }}">{{ collection.title }}</a>
 						<span class="guide-group-count">{{ collection.entry_count }} guides</span>
 					</h2>

@@ -22,7 +22,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def send_head(self):
         # Unquote first. Twenty-two glossary terms are two words, so their URLs
-        # arrive as /glossary/Ghana%20Card and the file is "Ghana Card.html".
+        # arrive as /glossary/KRA%20PIN and the file is "KRA PIN.html".
         # Vercel resolves that; a plain string join does not.
         path = ROOT / unquote(self.path.split("?")[0]).lstrip("/")
 

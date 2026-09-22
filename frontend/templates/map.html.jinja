@@ -1,131 +1,175 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/map" %}
-{% set metatitle = "Map of Nairobi: districts and landmarks" %}
-{% set metadescription = "An interactive map of Nairobi's districts with population, characteristics, and landmarks. Explore Nairobi's geography." %}
-
-{% set districts = MAP.districts %}
+{% set metatitle = "Map of Nairobi: constituencies, neighbourhoods and landmarks" %}
+{% set constituencies = MAP.constituencies %}
+{% set census = MAP.census %}
 {% set landmarks = MAP.landmarks %}
+{% set metadescription = "An interactive map of Nairobi's " ~ constituencies|length ~ " constituencies, its neighbourhoods and " ~ landmarks|length ~ " landmarks, with 2019 census figures and estimated population density." %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
-			<h1>Map of Nairobi</h1>
+			<div class="section-heading">
+				<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
+				<h1>Map of Nairobi</h1>
+			</div>
 			<p class="page-intro">
-				Nairobi's {{ districts|length }} districts and {{ landmarks|length }} landmarks.
-				Every district has a 2019 census population count and informality rate.
-				Tap anything to explore.
+				Nairobi City County's {{ constituencies|length }} constituencies,
+				the neighbourhoods inside them and {{ landmarks|length }} landmarks.
+				Tap a constituency or a pin, search for a place, or shade the map by
+				how crowded each part of the city is.
 			</p>
 
 			<nairobi-map data-clarity-mask="true"></nairobi-map>
 
 			<noscript>
 				<p class="tool-note">
-					The map needs JavaScript. Everything on it is listed below, which
-					is the same data.
+					The map needs JavaScript. Everything on it is in the tables below.
 				</p>
 			</noscript>
 		</article>
 
 		<article class="section map-fallback">
-			<h2 id="people">Districts of Nairobi</h2>
+			<h2 id="constituencies">The constituencies</h2>
 			<p>
-				Population counts from the 2019 Kenya Census. The {{ districts|length }}
-				districts below sum to
-				{{ '{:,}'.format(districts|map(attribute='population')|sum) }} &mdash;
-				the approximate total for Nairobi.
+				Nairobi had {{ '{:,}'.format(MAP.population) }} people at the 2019 census,
+				on {{ MAP.county_area_km2|round|int }} km&sup2;. The constituency figures are
+				<strong>estimates</strong>, rounded hard on purpose &mdash;
+				<a href="#map-method">here is why</a>.
 			</p>
 
 			<div class="table-wrapper">
 				<table>
 					<thead>
 						<tr>
-							<th scope="col">District</th>
-							<th scope="col">Population</th>
-							<th scope="col">Informal %</th>
-							<th scope="col">Characteristics</th>
+							<th scope="col">Constituency</th>
+							<th scope="col" class="numeric">People (est.)</th>
+							<th scope="col" class="numeric">Area</th>
+							<th scope="col" class="numeric">People per km&sup2; (est.)</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for district in districts|sort(attribute='population', reverse=true) %}
+						{% for c in constituencies|sort(attribute='density', reverse=true) %}
 							<tr>
-								<th scope="row">{{ district.name }}</th>
-								<td>{{ '{:,}'.format(district.population) }}</td>
-								<td>{{ district.informalPct }}%</td>
-								<td>{{ district.characteristics }}</td>
+								<th scope="row"><a href="#constituency/{{ c.id }}">{{ c.name }}</a></th>
+								<td class="numeric">{{ '{:,}'.format(c.population) }}</td>
+								<td class="numeric">{{ c.areaKm2 }} km&sup2;</td>
+								<td class="numeric">{{ '{:,}'.format(c.density) }}</td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
 			</div>
 
-			<p class="map-hint">
-				Nairobi's districts range from nearly 0% informal (Runda, Muthaiga) to over 80% (Njeru, Eastleigh).
+			<h2 id="census">What the census actually counted</h2>
+			<p>
+				The 2019 Kenya Population and Housing Census reports Nairobi by its
+				{{ census|length }} administrative sub-counties. These are the real counts.
+				Sub-counties are drawn on different lines from constituencies, so the two
+				tables do not line up, even where the names match.
+			</p>
+
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Sub-county</th>
+							<th scope="col" class="numeric">People</th>
+							<th scope="col" class="numeric">Women</th>
+							<th scope="col" class="numeric">Under 15</th>
+							<th scope="col" class="numeric">Over 64</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for s in census %}
+							<tr>
+								<th scope="row">{{ s.name }}</th>
+								<td class="numeric">{{ '{:,}'.format(s.population) }}</td>
+								<td class="numeric">{{ s.femalePct }}%</td>
+								<td class="numeric">{{ s.under15Pct }}%</td>
+								<td class="numeric">{{ s.over64Pct }}%</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<p class="tool-note">
+				Totals exclude the small number of people recorded as intersex, which is
+				why they sum to {{ '{:,}'.format(MAP.population) }} rather than the
+				headline 4,397,073.
 			</p>
 		</article>
 
 		<article class="section map-fallback">
-			<h2 id="landmarks">Landmarks and attractions</h2>
-			<p>
-				Nairobi has parks, museums, cultural sites, wildlife centers, and other landmarks worth exploring.
-				Each landmark has a type and description.
-			</p>
-
-			<div class="table-wrapper">
-				<table>
-					<thead>
-						<tr>
-							<th scope="col">Landmark</th>
-							<th scope="col">Type</th>
-							<th scope="col">Description</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for landmark in landmarks %}
-							<tr>
-								<th scope="row">{{ landmark.name }}</th>
-								<td>{{ landmark.type }}</td>
-								<td>{{ landmark.description }}</td>
-							</tr>
+			<h2 id="landmarks">Landmarks on the map</h2>
+			{% for key, label in MAP.categories.items() %}
+				{% set group = landmarks|selectattr('category', 'equalto', key)|list %}
+				{% if group %}
+					<h3 id="landmarks-{{ key }}">{{ label }}</h3>
+					<ul>
+						{% for l in group %}
+							<li><a href="#place/{{ l.id }}"><strong>{{ l.name }}</strong></a> &mdash; {{ l.description }}</li>
 						{% endfor %}
-					</tbody>
-				</table>
-			</div>
+					</ul>
+				{% endif %}
+			{% endfor %}
 		</article>
 
 		<article class="section">
-			<h2 id="sources">Where this comes from</h2>
+			<h2 id="map-method">How the map is made</h2>
 			<p>
-				The districts and landmarks are drawn from OpenStreetMap data,
-				with population figures from the Kenya National Bureau of Statistics (KNBS) 2019 Census.
+				<strong>Boundaries</strong> are the IEBC's 17 constituencies. They are the
+				units people vote in and the ones most people know. Wards are too small
+				to be useful at this scale.
 			</p>
-			<ul>
-				<li>
-					<strong>District boundaries and data</strong> &mdash;
-					<a href="https://www.knbs.or.ke/" rel="noopener" target="_blank">Kenya National Bureau of Statistics</a>,
-					2019 Population and Housing Census.
-				</li>
-				<li>
-					<strong>Landmark coordinates</strong> &mdash;
-					<a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OpenStreetMap
-					contributors</a>, ODbL.
-				</li>
-			</ul>
-			<p class="map-hint">
-				Data generated {{ now.strftime('%d %B %Y') }}.
-			</p>
-
 			<p>
-				&mdash; <a href="{{ SITE_URL }}/guides">Guides to living in Nairobi &#8658;</a>
+				<strong>The population estimates</strong> start from the census total for
+				the whole county. That total is then shared out between constituencies
+				in proportion to WorldPop's modelled population inside each one. WorldPop
+				works on a one-kilometre grid, and Mathare is under three square
+				kilometres, so the estimates are rounded to the nearest ten thousand. Use
+				them to compare constituencies, not to quote.
 			</p>
-
+			<p>
+				<strong>Why not use the census directly?</strong> Because it does not
+				publish figures by constituency. Its sub-counties follow different lines:
+				even Kamukunji, Starehe and Lang'ata, which share names with
+				constituencies, differ in area by 15 to 20 per cent. Pinning census
+				counts onto constituency shapes would put people in the wrong places.
+			</p>
 			<p>
 				<strong>The map is drawn here, not fetched.</strong> There is no tile
-				server and no third party involved: it is one SVG built from a single
-				file served by this site, so it costs one request, works on a slow
-				connection, and does not tell anyone else where you are looking.
+				server and no third party involved. It is one SVG built from one file on
+				this site, so it works on a slow connection and does not tell anyone
+				else where you are looking. "Show where I am" asks your browser for
+				your location, uses it on your device, and sends it nowhere.
+			</p>
+
+			<h3 id="sources">Sources</h3>
+			<table>
+				<thead>
+					<tr><th scope="col">What</th><th scope="col">Source</th><th scope="col">Licence</th></tr>
+				</thead>
+				<tbody>
+					{% for source in MAP.sources %}
+						<tr>
+							<th scope="row">{{ source.what }}</th>
+							<td><a href="{{ source.url }}" rel="noopener">{{ source.who }}</a></td>
+							<td>{{ source.licence }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<p class="tool-note">Map data built {{ MAP.generated }}.</p>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/guides/neighbourhoods-of-nairobi">Nairobi's neighbourhoods, and who lives where &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/finding-housing">Finding a place to live &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/getting-around-nairobi">Getting around Nairobi &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/things-to-do-in-nairobi">Things to do in Nairobi &#8658;</a>
 			</p>
 		</article>
-
-		{% include "_blocks/relatedGuides.html" ignore missing %}
 	</main>
+
+	<script type="module" src="/js/components/nairobi-map.mjs"></script>
 {% endblock %}

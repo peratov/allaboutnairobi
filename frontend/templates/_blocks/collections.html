@@ -34,7 +34,7 @@
 	{% else %}
 		<section class="collection">
 			<h3>
-				{% if collection.symbol|default %}<span class="adinkra-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>{% endif %}
+				{% if collection.symbol|default %}<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>{% endif %}
 				<a href="{{ collection.url }}">{{ collection.title }}</a>
 			</h3>
 			{% if collection.description|default %}<p class="collection-description">{{ collection.description }}</p>{% endif %}

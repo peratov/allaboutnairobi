@@ -1,196 +1,610 @@
 meta:
   generated: '2026-09-22'
-  last_verified: '2026-09-22'
+  viewBox: 0 0 1000.0 480.0
   sources:
-  - what: Flight schedules and routes from JKIA
-    who: Kenya Airways, RwandAir, Ethiopian Airlines
-    url: https://www.kenyaairways.com
-    licence: Airline data
-
+  - what: Airlines and nonstop destinations
+    who: Wikipedia
+    url: https://en.wikipedia.org/wiki/Jomo_Kenyatta_International_Airport
+    licence: CC BY-SA 4.0
+  - what: Airport coordinates
+    who: OpenFlights
+    url: https://openflights.org/data.html
+    licence: ODbL
+  - what: Coastlines
+    who: Natural Earth
+    url: https://www.naturalearthdata.com
+    licence: Public domain
+  caveat: A photograph of the schedule on the date generated. Airlines add and drop
+    routes with a few weeks' notice. Always check with the airline.
 origin:
-  name: Jomo Kenyatta International Airport
   iata: NBO
+  name: Jomo Kenyatta International Airport
   city: Nairobi
-  country: Kenya
-
+  lat: -1.31923997402
+  lon: 36.9277992249
+  x: 584.6
+  y: 296.6
 destinations:
-- name: Dar es Salaam
-  iata: DAR
-  country: Tanzania
-  region: East Africa
-  airlines: [KQ, PC]
-  frequency: 2 daily
-
-- name: Zanzibar
-  iata: ZNZ
-  country: Tanzania
-  region: East Africa
-  airlines: [KQ, PC]
-  frequency: 1 daily
-
-- name: Kampala
-  iata: EBB
-  country: Uganda
-  region: East Africa
-  airlines: [KQ, PC]
-  frequency: 2 daily
-
-- name: Kigali
-  iata: KGL
-  country: Rwanda
-  region: East Africa
-  airlines: [KQ, WB]
-  frequency: 2 daily
-
-- name: Addis Ababa
-  iata: ADD
-  country: Ethiopia
-  region: East Africa
-  airlines: [KQ, ET]
-  frequency: 3 daily
-
-- name: Mogadishu
-  iata: MGQ
-  country: Somalia
-  region: East Africa
-  airlines: [KQ]
-  frequency: 1 daily
-
-- name: Johannesburg
-  iata: JNB
-  country: South Africa
-  region: Southern Africa
-  airlines: [KQ, SA]
-  frequency: 2 daily
-
-- name: Cape Town
-  iata: CPT
-  country: South Africa
-  region: Southern Africa
-  airlines: [KQ, SA]
-  frequency: 1 daily
-
-- name: Lusaka
-  iata: LUN
-  country: Zambia
-  region: Southern Africa
-  airlines: [KQ]
-  frequency: 1 daily
-
-- name: Lagos
-  iata: LOS
-  country: Nigeria
-  region: West Africa
-  airlines: [KQ]
-  frequency: 1 daily
-
-- name: Accra
-  iata: ACC
-  country: Ghana
-  region: West Africa
-  airlines: [KQ]
-  frequency: 1 daily
-
-- name: Cairo
-  iata: CAI
-  country: Egypt
-  region: North Africa
-  airlines: [KQ, MS]
-  frequency: 1 daily
-
-- name: London Heathrow
-  iata: LHR
-  country: United Kingdom
-  region: Europe
-  airlines: [KQ, BA]
-  frequency: 1 daily
-
-- name: Brussels
-  iata: BRU
-  country: Belgium
-  region: Europe
-  airlines: [KQ]
-  frequency: 1 daily
-
-- name: Mumbai
-  iata: BOM
-  country: India
+- iata: JFK
+  name: John F Kennedy International Airport
+  city: New York
+  country: United States
+  lat: 40.63980103
+  lon: -73.77890015
+  region: North America
+  km: 11837
+  airlines:
+  - name: Kenya Airways
+- iata: CAN
+  name: Guangzhou Baiyun International Airport
+  city: Guangzhou
+  country: China
+  lat: 23.39240074157715
+  lon: 113.29900360107422
   region: Asia
-  airlines: [KQ]
-  frequency: 3 weekly
-
-- name: Doha
-  iata: DOH
-  country: Qatar
-  region: Middle East
-  airlines: [KQ, QR]
-  frequency: 2 daily
-
-- name: Dubai
-  iata: DXB
-  country: UAE
-  region: Middle East
-  airlines: [KQ, EK]
-  frequency: 2 daily
-
-- name: Jeddah
-  iata: JED
-  country: Saudi Arabia
-  region: Middle East
-  airlines: [KQ]
-  frequency: 1 daily
-
-airlines:
-- code: KQ
-  name: Kenya Airways
-  country: Kenya
-  alliance: SkyTeam
-  website: kenyaairways.com
-
-- code: PC
-  name: Precision Air
-  country: Tanzania
-  alliance: n/a
-  website: precisionairtz.com
-
-- code: WB
-  name: RwandAir
-  country: Rwanda
-  alliance: n/a
-  website: rwandair.com
-
-- code: ET
-  name: Ethiopian Airlines
-  country: Ethiopia
-  alliance: Star Alliance
-  website: ethiopianairlines.com
-
-- code: SA
-  name: South African Airways
-  country: South Africa
-  alliance: Star Alliance
-  website: flysaa.com
-
-- code: MS
-  name: EgyptAir
-  country: Egypt
-  alliance: Star Alliance
-  website: egyptair.com
-
-- code: BA
-  name: British Airways
+  km: 8679
+  airlines:
+  - name: Kenya Airways
+- iata: BKK
+  name: Suvarnabhumi Airport
+  city: Bangkok
+  country: Thailand
+  lat: 13.681099891662598
+  lon: 100.74700164794922
+  region: Asia
+  km: 7224
+  airlines:
+  - name: Kenya Airways
+- iata: LHR
+  name: London Heathrow Airport
+  city: London
   country: United Kingdom
-  alliance: Oneworld
-  website: ba.com
-
-- code: QR
-  name: Qatar Airways
+  lat: 51.4706
+  lon: -0.461941
+  region: Europe
+  km: 6841
+  airlines:
+  - name: British Airways
+  - name: Kenya Airways
+- iata: LGW
+  name: London Gatwick Airport
+  city: London
+  country: United Kingdom
+  lat: 51.148102
+  lon: -0.190278
+  region: Europe
+  km: 6802
+  airlines:
+  - name: Kenya Airways
+- iata: AMS
+  name: Amsterdam Airport Schiphol
+  city: Amsterdam
+  country: Netherlands
+  lat: 52.308601
+  lon: 4.76389
+  region: Europe
+  km: 6677
+  airlines:
+  - name: KLM
+  - name: Kenya Airways
+- iata: BRU
+  name: Brussels Airport
+  city: Brussels
+  country: Belgium
+  lat: 50.901401519800004
+  lon: 4.48443984985
+  region: Europe
+  km: 6567
+  airlines:
+  - name: Brussels Airlines
+- iata: CDG
+  name: Charles de Gaulle International Airport
+  city: Paris
+  country: France
+  lat: 49.012798
+  lon: 2.55
+  region: Europe
+  km: 6495
+  airlines:
+  - name: Air France
+  - name: Kenya Airways
+- iata: DSS
+  name: Blaise Diagne International Airport
+  city: Diass
+  country: Senegal
+  lat: 14.67
+  lon: -17.073333
+  region: Rest of Africa
+  km: 6200
+  airlines:
+  - name: Kenya Airways
+- iata: FNA
+  name: Lungi International Airport
+  city: Freetown
+  country: Sierra Leone
+  lat: 8.61644
+  lon: -13.1955
+  region: Rest of Africa
+  km: 5663
+  airlines:
+  - name: Kenya Airways
+- iata: ROB
+  name: Roberts International Airport
+  city: Monrovia
+  country: Liberia
+  lat: 6.23379
+  lon: -10.3623
+  region: Rest of Africa
+  km: 5316
+  airlines:
+  - name: Kenya Airways
+- iata: IST
+  name: Istanbul Airport
+  city: Istanbul
+  country: Turkey
+  lat: 41.275278
+  lon: 28.751944
+  region: Europe
+  km: 4808
+  airlines:
+  - name: Turkish Airlines
+- iata: ABJ
+  name: Port Bouet Airport
+  city: Abidjan
+  country: Cote d'Ivoire
+  lat: 5.261390209197998
+  lon: -3.9262900352478027
+  region: Rest of Africa
+  km: 4596
+  airlines:
+  - name: Kenya Airways
+- iata: BOM
+  name: Chhatrapati Shivaji International Airport
+  city: Mumbai
+  country: India
+  lat: 19.0886993408
+  lon: 72.8678970337
+  region: Asia
+  km: 4533
+  airlines:
+  - name: IndiGo
+  - name: Kenya Airways
+- iata: ACC
+  name: Kotoka International Airport
+  city: Accra
+  country: Ghana
+  lat: 5.605189800262451
+  lon: -0.16678600013256073
+  region: Rest of Africa
+  km: 4191
+  airlines:
+  - name: Kenya Airways
+- iata: LFW
+  name: Lomé-Tokoin Airport
+  city: Lome
+  country: Togo
+  lat: 6.165609836578369
+  lon: 1.2545100450515747
+  region: Rest of Africa
+  km: 4047
+  airlines:
+  - name: ASKY Airlines
+- iata: LOS
+  name: Murtala Muhammed International Airport
+  city: Lagos
+  country: Nigeria
+  lat: 6.5773701667785645
+  lon: 3.321160078048706
+  region: Rest of Africa
+  km: 3832
+  airlines:
+  - name: Kenya Airways
+- iata: MCT
+  name: Muscat International Airport
+  city: Muscat
+  country: Oman
+  lat: 23.593299865722656
+  lon: 58.284400939941406
+  region: Middle East
+  km: 3606
+  airlines:
+  - name: SalamAir
+- iata: SHJ
+  name: Sharjah International Airport
+  city: Sharjah
+  country: United Arab Emirates
+  lat: 25.32859992980957
+  lon: 55.5172004699707
+  region: Middle East
+  km: 3575
+  airlines:
+  - name: Air Arabia
+- iata: DXB
+  name: Dubai International Airport
+  city: Dubai
+  country: United Arab Emirates
+  lat: 25.2527999878
+  lon: 55.3643989563
+  region: Middle East
+  km: 3559
+  airlines:
+  - name: Emirates
+  - name: Flydubai
+  - name: Kenya Airways
+- iata: CAI
+  name: Cairo International Airport
+  city: Cairo
+  country: Egypt
+  lat: 30.12190055847168
+  lon: 31.40559959411621
+  region: Rest of Africa
+  km: 3545
+  airlines:
+  - name: Egyptair
+- iata: AUH
+  name: Abu Dhabi International Airport
+  city: Abu Dhabi
+  country: United Arab Emirates
+  lat: 24.433000564575195
+  lon: 54.651100158691406
+  region: Middle East
+  km: 3443
+  airlines:
+  - name: Etihad Airways
+- iata: BAH
+  name: Bahrain International Airport
+  city: Bahrain
+  country: Bahrain
+  lat: 26.27079963684082
+  lon: 50.63359832763672
+  region: Middle East
+  km: 3402
+  airlines:
+  - name: Gulf Air
+- iata: DOH
+  name: Hamad International Airport
+  city: Doha
   country: Qatar
-  alliance: Oneworld
-  website: qatarairways.com
-
-- code: EK
-  name: Emirates
-  country: UAE
-  alliance: n/a
-  website: emirates.com
+  lat: 25.273056
+  lon: 51.608056
+  region: Middle East
+  km: 3353
+  airlines:
+  - name: Qatar Airways
+- iata: RUH
+  name: King Khaled International Airport
+  city: Riyadh
+  country: Saudi Arabia
+  lat: 24.957599639892578
+  lon: 46.69879913330078
+  region: Middle East
+  km: 3106
+  airlines:
+  - name: Flynas
+- iata: MRU
+  name: Sir Seewoosagur Ramgoolam International Airport
+  city: Plaisance
+  country: Mauritius
+  lat: -20.430201
+  lon: 57.683601
+  region: Rest of Africa
+  km: 3098
+  airlines:
+  - name: Kenya Airways
+- iata: DLA
+  name: Douala International Airport
+  city: Douala
+  country: Cameroon
+  lat: 4.0060801506
+  lon: 9.719479560849999
+  region: Rest of Africa
+  km: 3081
+  airlines:
+  - name: Kenya Airways
+- iata: JNB
+  name: OR Tambo International Airport
+  city: Johannesburg
+  country: South Africa
+  lat: -26.1392
+  lon: 28.246
+  region: Rest of Africa
+  km: 2912
+  airlines:
+  - name: Airlink
+  - name: Kenya Airways
+- iata: MPM
+  name: Maputo Airport
+  city: Maputo
+  country: Mozambique
+  lat: -25.920799
+  lon: 32.572601
+  region: Rest of Africa
+  km: 2775
+  airlines:
+  - name: Kenya Airways
+- iata: NBJ
+  name: Dr. António Agostinho Neto International Airport
+  city: Luanda
+  country: Angola
+  lat: -9.05048
+  lon: 13.49997
+  region: Rest of Africa
+  km: 2731
+  airlines:
+  - name: TAAG Angola Airlines
+- iata: JED
+  name: King Abdulaziz International Airport
+  city: Jeddah
+  country: Saudi Arabia
+  lat: 21.6796
+  lon: 39.156502
+  region: Middle East
+  km: 2569
+  airlines:
+  - name: Saudia
+- iata: FIH
+  name: Ndjili International Airport
+  city: Kinshasa
+  country: Congo (Kinshasa)
+  lat: -4.38575
+  lon: 15.4446
+  region: Rest of Africa
+  km: 2410
+  airlines:
+  - name: Kenya Airways
+- iata: TNR
+  name: Ivato Airport
+  city: Antananarivo
+  country: Madagascar
+  lat: -18.7969
+  lon: 47.478802
+  region: Rest of Africa
+  km: 2258
+  airlines:
+  - name: Kenya Airways
+- iata: VFA
+  name: Victoria Falls International Airport
+  city: Victoria Falls
+  country: Zimbabwe
+  lat: -18.09589958190918
+  lon: 25.839000701904297
+  region: Rest of Africa
+  km: 2224
+  airlines:
+  - name: Kenya Airways
+- iata: LVI
+  name: Livingstone Airport
+  city: Livingstone
+  country: Zambia
+  lat: -17.821800231933594
+  lon: 25.82270050048828
+  region: Rest of Africa
+  km: 2200
+  airlines:
+  - name: Kenya Airways
+- iata: SEZ
+  name: Seychelles International Airport
+  city: Mahe
+  country: Seychelles
+  lat: -4.67434
+  lon: 55.521801
+  region: Rest of Africa
+  km: 2098
+  airlines:
+  - name: Kenya Airways
+- iata: HRE
+  name: Robert Gabriel Mugabe International Airport
+  city: Harare
+  country: Zimbabwe
+  lat: -17.931801
+  lon: 31.0928
+  region: Rest of Africa
+  km: 1954
+  airlines:
+  - name: Kenya Airways
+- iata: LUN
+  name: Kenneth Kaunda International Airport Lusaka
+  city: Lusaka
+  country: Zambia
+  lat: -15.3308000565
+  lon: 28.4526004791
+  region: Rest of Africa
+  km: 1814
+  airlines:
+  - name: Kenya Airways
+  - name: Zambia Airways
+- iata: NLA
+  name: Simon Mwansa Kapwepwe International Airport
+  city: Ndola
+  country: Zambia
+  lat: -12.998100280762
+  lon: 28.66489982605
+  region: Rest of Africa
+  km: 1586
+  airlines:
+  - name: Kenya Airways
+- iata: DZA
+  name: Dzaoudzi Pamandzi International Airport
+  city: Dzaoudzi
+  country: Mayotte
+  lat: -12.804699897766113
+  lon: 45.28110122680664
+  region: Rest of Africa
+  km: 1574
+  airlines:
+  - name: Kenya Airways
+- iata: APL
+  name: Nampula Airport
+  city: Nampula
+  country: Mozambique
+  lat: -15.105600357055664
+  lon: 39.28179931640625
+  region: Rest of Africa
+  km: 1555
+  airlines:
+  - name: Kenya Airways
+- iata: FBM
+  name: Lubumbashi International Airport
+  city: Lubumashi
+  country: Congo (Kinshasa)
+  lat: -11.5913000107
+  lon: 27.5308990479
+  region: Rest of Africa
+  km: 1543
+  airlines:
+  - name: Kenya Airways
+- iata: LLW
+  name: Lilongwe International Airport
+  city: Lilongwe
+  country: Malawi
+  lat: -13.7894001007
+  lon: 33.78099823
+  region: Rest of Africa
+  km: 1429
+  airlines:
+  - name: Kenya Airways
+- iata: HAH
+  name: Prince Said Ibrahim International Airport
+  city: Moroni
+  country: Comoros
+  lat: -11.5337
+  lon: 43.2719
+  region: Rest of Africa
+  km: 1334
+  airlines:
+  - name: Kenya Airways
+- iata: ADD
+  name: Addis Ababa Bole International Airport
+  city: Addis Ababa
+  country: Ethiopia
+  lat: 8.97789001465
+  lon: 38.799301147499996
+  region: East Africa
+  km: 1164
+  airlines:
+  - name: Ethiopian Airlines
+  - name: Kenya Airways
+- iata: MGQ
+  name: Aden Adde International Airport
+  city: Mogadishu
+  country: Somalia
+  lat: 2.0144400596618652
+  lon: 45.3046989440918
+  region: East Africa
+  km: 1002
+  airlines:
+  - name: Kenya Airways
+- iata: JUB
+  name: Juba International Airport
+  city: Juba
+  country: South Sudan
+  lat: 4.87201023102
+  lon: 31.6011009216
+  region: East Africa
+  km: 908
+  airlines:
+  - name: Kenya Airways
+- iata: BJM
+  name: Bujumbura International Airport
+  city: Bujumbura
+  country: Burundi
+  lat: -3.3240199089050293
+  lon: 29.318500518798828
+  region: East Africa
+  km: 874
+  airlines:
+  - name: Kenya Airways
+- iata: KGL
+  name: Kigali International Airport
+  city: Kigali
+  country: Rwanda
+  lat: -1.96863
+  lon: 30.1395
+  region: East Africa
+  km: 758
+  airlines:
+  - name: Kenya Airways
+- iata: DAR
+  name: Julius Nyerere International Airport
+  city: Dar Es Salaam
+  country: Tanzania
+  lat: -6.87811
+  lon: 39.202599
+  region: East Africa
+  km: 668
+  airlines:
+  - name: Air Tanzania
+  - name: Kenya Airways
+- iata: ZNZ
+  name: Abeid Amani Karume International Airport
+  city: Zanzibar
+  country: Tanzania
+  lat: -6.22202
+  lon: 39.224899
+  region: East Africa
+  km: 602
+  airlines:
+  - name: Air Tanzania
+  - name: Kenya Airways
+- iata: EBB
+  name: Entebbe International Airport
+  city: Entebbe
+  country: Uganda
+  lat: 0.042386
+  lon: 32.443501
+  region: East Africa
+  km: 521
+  airlines:
+  - name: Kenya Airways
+- iata: UKA
+  name: Ukunda Airstrip
+  city: Ukunda
+  country: Kenya
+  lat: -4.29333
+  lon: 39.571098
+  region: Domestic
+  km: 442
+  airlines:
+  - name: 748 Air
+- iata: MBA
+  name: Mombasa Moi International Airport
+  city: Mombasa
+  country: Kenya
+  lat: -4.034830093383789
+  lon: 39.594200134277344
+  region: Domestic
+  km: 423
+  airlines:
+  - name: 748 Air
+  - name: Freedom Airline
+  - name: Kenya Airways
+- iata: MYD
+  name: Malindi Airport
+  city: Malindi
+  country: Kenya
+  lat: -3.2293100357055664
+  lon: 40.10169982910156
+  region: Domestic
+  km: 412
+  airlines:
+  - name: Kenya Airways
+- iata: KIS
+  name: Kisumu Airport
+  city: Kisumu
+  country: Kenya
+  lat: -0.0861390009522438
+  lon: 34.72890090942383
+  region: Domestic
+  km: 280
+  airlines:
+  - name: Kenya Airways
+- iata: JRO
+  name: Kilimanjaro International Airport
+  city: Kilimanjaro
+  country: Tanzania
+  lat: -3.42940998077
+  lon: 37.0745010376
+  region: East Africa
+  km: 235
+  airlines:
+  - name: Kenya Airways

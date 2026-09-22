@@ -1,24 +1,38 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/tools" %}
-{% set metatitle = "Calculators and templates" %}
-{% set metadescription = "Ghanaian salary and PAYE calculators, rent advance calculators, VAT calculators and document templates. Free, and they run entirely in your browser." %}
-{% set collections = get_entries('collections')|selectattr('type', 'equalto', 'tools')|list %}
+{% set metatitle = "Templates and checklists" %}
+{% set metadescription = "Free templates and checklists for Kenya: tenancy agreements, rent receipts, resignation letters and employment contracts." %}
+{% set docs = get_entries('docs', sort_by='title') %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
-				<span class="adinkra-stamp">{% include "_icons/tools.svg" %}</span>
-				<h1>Tools and templates</h1>
+				<span class="icon-stamp">{% include "_icons/tools.svg" %}</span>
+				<h1>Templates and checklists</h1>
 			</div>
 			<p class="page-intro">
-				Calculators that use the same figures as the guides, and letter templates
-				you can copy. Nothing you type is sent anywhere &mdash; every calculation
-				happens on your own device.
+				Documents you can copy and adapt, written for Kenyan law and the way
+				things are actually done in Nairobi. Checklists remember what you
+				ticked, in this browser only.
 			</p>
-			{% with collections=collections %}
-				{% include "_blocks/collections.html" %}
-			{% endwith %}
+
+			<ul class="card-grid">
+				{% for doc in docs %}
+					<li>
+						<a class="card" href="{{ doc.url }}">
+							<span class="icon-stamp">{% include "_icons/accuracy.svg" %}</span>
+							<h3>{{ doc.short_title|default(doc.title) }}</h3>
+							<p>{{ doc.description }}</p>
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/guides/paye-and-taxes">Work out your take-home pay, step by step &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/map">The interactive map of Nairobi &#8658;</a>
+			</p>
 		</article>
 	</main>
 {% endblock %}

@@ -271,35 +271,20 @@ def glossary_groups(entries: list[Entry]) -> dict[str, list[Entry]]:
 
 def get_public_holidays(years: Iterable[int]) -> dict[date, str]:
     """
-    Ghana's statutory public holidays, with two corrections.
+    Kenya's public holidays under the Public Holidays Act, with one correction.
 
-    The `holidays` package models Ghana well - it even computes Eid-ul-Fitr,
-    Eid-ul-Adha and Farmers' Day (the first Friday of December). But it is out
-    of date on the 2019 reshuffle of the national days:
-
-      * 4 August is Founders' Day, a statutory holiday since the Public
-        Holidays (Amendment) Act 2019. The package omits it.
-      * 21 September is Kwame Nkrumah Memorial Day. The package still calls it
-        "Founder's Day", which is now a different day entirely.
-      * 1 July, Republic Day, stopped being a statutory holiday in 2019 and is
-        commemorative only. The package still lists it.
-
-    Getting this wrong means telling someone the office is closed when it is
-    not, so we fix it here rather than waiting upstream.
+    The `holidays` package still calls 26 December "Boxing Day". Since the
+    2024 amendments it is Utamaduni Day. Idd-ul-Fitr is kept with the
+    package's "(estimated)" mark, because the date depends on the moon and is
+    confirmed by gazette notice shortly before. Idd-ul-Azha is not listed:
+    it is a holiday only in years the Interior Cabinet Secretary gazettes it.
     """
     years = list(years)
-    upstream = holidays.country_holidays("GH", years=years)
+    upstream = holidays.country_holidays("KE", years=years)
 
     corrected: dict[date, str] = {}
     for holiday_date, name in upstream.items():
-        if holiday_date.month == 7 and holiday_date.day == 1:
-            continue  # Republic Day: commemorative, not a day off
-        if holiday_date.month == 9 and holiday_date.day == 21:
-            name = "Kwame Nkrumah Memorial Day"
-        corrected[holiday_date] = name
-
-    for year in years:
-        corrected.setdefault(date(year, 8, 4), "Founders' Day")
+        corrected[holiday_date] = name.replace("Boxing Day", "Utamaduni Day")
 
     return dict(sorted(corrected.items()))
 

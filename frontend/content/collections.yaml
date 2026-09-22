@@ -1,6 +1,78 @@
-# All About Nairobi - Collections
-#
-# This is the reading order for guides. Empty for now.
-# Add collections as guides are written.
+# Reading order for the guides, grouped by subject. Each collection becomes a
+# page at /collections/<id>, and every guide listed gets a "Related guides"
+# block pointing back at its collection.
 
-collections: []
+- id: arriving
+  type: guides
+  title: Arriving in Nairobi
+  short_title: Arriving
+  symbol: moving
+  description: Entry rules, permits and the accounts and IDs everything else depends on.
+  entries:
+    - uri: guides/moving-to-nairobi.md
+    - uri: guides/ecitizen-kra-pin-and-ids.md
+
+- id: housing
+  type: guides
+  title: Housing
+  short_title: Housing
+  symbol: housing
+  description: Where to live, how renting works, and keeping the power and water on.
+  entries:
+    - uri: guides/neighbourhoods-of-nairobi.md
+    - uri: guides/finding-housing.md
+    - uri: guides/utilities-in-nairobi.md
+
+- id: money-and-work
+  type: guides
+  title: Money and work
+  short_title: Money and work
+  symbol: money
+  description: M-Pesa, banks, payroll deductions, your rights at work, and what things cost.
+  entries:
+    - uri: guides/mpesa-and-mobile-money.md
+    - uri: guides/opening-a-bank-account.md
+    - uri: guides/paye-and-taxes.md
+    - uri: guides/working-in-kenya.md
+    - uri: guides/cost-of-living-in-nairobi.md
+
+- id: getting-around
+  type: guides
+  title: Getting around
+  short_title: Getting around
+  symbol: transport
+  description: Matatus, ride-hailing, trains and driving.
+  entries:
+    - uri: guides/getting-around-nairobi.md
+    - uri: guides/driving-in-nairobi.md
+
+- id: health-and-safety
+  type: guides
+  title: Health and safety
+  short_title: Health and safety
+  symbol: health
+  description: SHA, hospitals and emergencies, and the everyday habits that keep you safe.
+  entries:
+    - uri: guides/healthcare-in-nairobi.md
+    - uri: guides/safety-in-nairobi.md
+
+- id: family-and-daily-life
+  type: guides
+  title: Family and daily life
+  short_title: Daily life
+  symbol: shopping
+  description: Schools, shopping and the public holiday calendar.
+  entries:
+    - uri: guides/schools-in-nairobi.md
+    - uri: guides/shopping-in-nairobi.md
+    - uri: guides/public-holidays-in-kenya.md
+
+- id: exploring
+  type: guides
+  title: Exploring Nairobi
+  short_title: Exploring
+  symbol: exploring
+  description: Wildlife inside the city, museums, markets, nights out and trips beyond.
+  entries:
+    - uri: guides/things-to-do-in-nairobi.md
+    - uri: guides/day-trips-from-nairobi.md

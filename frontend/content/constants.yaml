@@ -1,457 +1,262 @@
 # =============================================================================
 # All About Nairobi - Site Constants
 #
-# Every number that appears on the website lives here, never hardcoded in a
-# guide. This is how we keep all guides consistent when tax bands, NSSF rates,
-# or the minimum wage change.
+# Every number that the templates and guides quote lives here, so a change in
+# the law is one edit rather than a hunt through every page.
 #
 # Each constant carries provenance:
 #   value          the number itself
-#   unit           shillings | percent | integer | usd | text
+#   unit           shillings | percent | integer | text
 #   description    what it is, and the primary source
 #   last_verified  the day a human last checked it against the source
-#   fail_on        the day the build starts complaining that it is stale
-#
-# `mise lint` fails the build when a constant is past its fail_on date, so a
-# stale figure becomes a build error instead of a wrong answer on the internet.
+#   fail_on        the day it should be re-checked
 # =============================================================================
 
 constants:
 
   # ===========================================================================
-  # WAGES AND INCOME - Kenya
+  # PAYE - Income Tax Act (Cap. 470), resident individuals, monthly bands.
+  # In force since 1 July 2023 (Finance Act 2023). https://www.kra.go.ke
   # ===========================================================================
 
-  DAILY_MINIMUM_WAGE:
-    value: 346
+  PAYE_BAND_1_LIMIT:
+    value: 24000
     unit: shillings
-    description: >-
-      National Daily Minimum Wage for 2025, set by the National Tripartite
-      Committee under the Employment and Labour Relations Court in April 2025.
-      Applies to all sectors. https://www.ilo.org/dyn/normlex/en/f?p=NORMLEXPUB
+    description: The first KES 24,000 of monthly taxable pay is taxed at 10%.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  MONTHLY_MINIMUM_WAGE_APPROX:
-    value: 9000
+  PAYE_BAND_2_LIMIT:
+    value: 32333
     unit: shillings
-    description: >-
-      Approximate monthly minimum wage (daily rate × 26 working days/month).
-      Derived in ursus_config.py from DAILY_MINIMUM_WAGE.
+    description: KES 24,001 to 32,333 a month is taxed at 25%.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  KENYA_MEDIAN_MONTHLY_EARNINGS:
-    value: 35000
+  PAYE_BAND_3_LIMIT:
+    value: 500000
     unit: shillings
-    description: >-
-      Approximate median monthly earnings for formal sector employees in Kenya,
-      based on Kenya National Bureau of Statistics (KNBS) 2019 Census.
-    last_verified: 2025-06-01
-    fail_on: 2026-12-31
-
-  NAIROBI_DEV_JUNIOR_SALARY_MIN:
-    value: 40000
-    unit: shillings
-    description: >-
-      Typical monthly gross for a junior software developer in Nairobi (entry level,
-      1-2 years experience). Based on tech industry surveys.
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_DEV_JUNIOR_SALARY_MAX:
-    value: 80000
-    unit: shillings
-    description: >-
-      Typical monthly gross for a junior developer in Nairobi (high end of entry range).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_DEV_MID_SALARY_MIN:
-    value: 80000
-    unit: shillings
-    description: >-
-      Typical monthly gross for a mid-level developer in Nairobi (3-5 years).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_DEV_MID_SALARY_MAX:
-    value: 150000
-    unit: shillings
-    description: >-
-      Typical monthly gross for a mid-level developer in Nairobi (high end).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_DEV_SENIOR_SALARY_MIN:
-    value: 150000
-    unit: shillings
-    description: >-
-      Typical monthly gross for a senior developer in Nairobi (8+ years, lead roles).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_GRADUATE_ENTRY_SALARY_MIN:
-    value: 25000
-    unit: shillings
-    description: >-
-      Typical monthly gross for an entry-level graduate in professional roles.
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_GRADUATE_ENTRY_SALARY_MAX:
-    value: 50000
-    unit: shillings
-    description: >-
-      Typical monthly gross for an entry-level graduate (high end).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  # ===========================================================================
-  # PAYE - Income Tax Act, as amended by KRA
-  # Monthly resident individual bands. Each band is the WIDTH of the band.
-  # ===========================================================================
-
-  PAYE_BAND_1_WIDTH:
-    value: 12500
-    unit: shillings
-    description: >-
-      First KES 12,500/month is tax free (annual: KES 150,000).
-      Income Tax Act as administered by KRA. https://www.kra.go.ke
+    description: KES 32,334 to 500,000 a month is taxed at 30%.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  PAYE_BAND_1_RATE:
-    value: 0
-    unit: percent
-    description: Tax-free band.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  PAYE_BAND_2_WIDTH:
-    value: 12500
+  PAYE_BAND_4_LIMIT:
+    value: 800000
     unit: shillings
-    description: >-
-      Next KES 12,500/month (12,501 to 25,000).
+    description: KES 500,001 to 800,000 a month is taxed at 32.5%; above that, 35%.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  PAYE_BAND_2_RATE:
+  PAYE_RATE_1:
     value: 10
     unit: percent
-    description: >-
-      10% tax on income from KES 12,501 to 25,000.
+    description: First band.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  PAYE_BAND_3_WIDTH:
-    value: 12500
-    unit: shillings
-    description: >-
-      Next KES 12,500/month (25,001 to 37,500).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  PAYE_BAND_3_RATE:
-    value: 15
-    unit: percent
-    description: 15% tax.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  PAYE_BAND_4_WIDTH:
-    value: 12500
-    unit: shillings
-    description: >-
-      Next KES 12,500/month (37,501 to 50,000).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  PAYE_BAND_4_RATE:
-    value: 20
-    unit: percent
-    description: 20% tax.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  PAYE_BAND_5_WIDTH:
-    value: 50000
-    unit: shillings
-    description: >-
-      Next KES 50,000/month (50,001 to 100,000).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  PAYE_BAND_5_RATE:
+  PAYE_RATE_2:
     value: 25
     unit: percent
-    description: 25% tax.
+    description: Second band.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  PAYE_BAND_6_WIDTH:
-    value: 0
-    unit: shillings
-    description: >-
-      Above KES 100,000/month all income is at the top rate.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  PAYE_BAND_6_RATE:
+  PAYE_RATE_3:
     value: 30
     unit: percent
-    description: >-
-      30% tax on income above KES 100,000/month.
+    description: Third band.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
+
+  PAYE_RATE_4:
+    value: 32.5
+    unit: percent
+    description: Fourth band.
+    last_verified: 2026-09-22
+    fail_on: 2027-07-01
 
   PAYE_TOP_RATE:
-    value: 30
+    value: 35
     unit: percent
-    description: >-
-      Top marginal rate for income tax in Kenya.
+    description: Monthly taxable pay above KES 800,000.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  PAYE_TAX_FREE_ANNUAL:
-    value: 150000
+  PERSONAL_RELIEF_MONTHLY:
+    value: 2400
     unit: shillings
     description: >-
-      Annual tax-free allowance (KES 12,500 × 12 months).
+      Personal relief for resident individuals, deducted from the tax
+      calculated. KES 28,800 a year.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
+
+  TAX_RETURN_DEADLINE:
+    value: 30 June
+    unit: text
+    description: Individual income tax returns for the previous year are due on iTax by 30 June.
+    last_verified: 2026-09-22
+    fail_on: 2027-07-01
 
   # ===========================================================================
-  # NSSF - National Social Security Fund
-  # Contribution rates for 2025
+  # Statutory deductions
   # ===========================================================================
 
-  NSSF_EMPLOYEE_CONTRIBUTION:
+  NSSF_RATE:
     value: 6
     unit: percent
     description: >-
-      Employee contribution rate to NSSF (Tier I: 5% + Tier II: 1%).
-      NSSF Act as amended. https://www.nssf.or.ke
+      NSSF Act 2013. The employee pays 6% of pensionable pay and the employer
+      matches it, on pay up to the upper earnings limit.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-02-01
 
-  NSSF_EMPLOYER_CONTRIBUTION:
-    value: 6
+  NSSF_LOWER_EARNINGS_LIMIT:
+    value: 9000
+    unit: shillings
+    description: Tier I ceiling from 1 February 2026 (was KES 8,000).
+    last_verified: 2026-09-22
+    fail_on: 2027-02-01
+
+  NSSF_UPPER_EARNINGS_LIMIT:
+    value: 108000
+    unit: shillings
+    description: Tier II ceiling from 1 February 2026 (was KES 72,000).
+    last_verified: 2026-09-22
+    fail_on: 2027-02-01
+
+  NSSF_MAX_EMPLOYEE:
+    value: 6480
+    unit: shillings
+    description: >-
+      Largest monthly employee contribution: 6% of KES 108,000. The employer
+      pays the same again.
+    last_verified: 2026-09-22
+    fail_on: 2027-02-01
+
+  SHIF_RATE:
+    value: 2.75
     unit: percent
     description: >-
-      Employer contribution rate to NSSF (Tier I: 5% + Tier II: 1%).
+      Social Health Insurance Fund contribution, 2.75% of gross pay, run by the
+      Social Health Authority (SHA). Replaced NHIF in October 2024.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  NSSF_TOTAL_RATE:
-    value: 12
+  SHIF_MINIMUM:
+    value: 300
+    unit: shillings
+    description: Minimum monthly SHIF contribution.
+    last_verified: 2026-09-22
+    fail_on: 2027-07-01
+
+  HOUSING_LEVY_RATE:
+    value: 1.5
     unit: percent
     description: >-
-      Total NSSF contribution (employee + employer).
+      Affordable Housing Levy, 1.5% of gross pay from the employee and 1.5%
+      from the employer. Affordable Housing Act 2024.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  TIER_1_RATE:
-    value: 5
-    unit: percent
-    description: >-
-      NSSF Tier I contribution rate (mandatory, private sector benefit).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  TIER_2_RATE:
-    value: 1
-    unit: percent
-    description: >-
-      NSSF Tier II contribution rate (voluntary, investment account).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  TIER_3_MAX_RELIEF_RATE:
-    value: 0
-    unit: percent
-    description: >-
-      Tax relief on voluntary contributions (varies by employer scheme).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_MIN_CONTRIBUTION_MONTHS:
-    value: 180
-    unit: integer
-    description: >-
-      Minimum contribution period: 180 months (15 years) to qualify for pension.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_MIN_CONTRIBUTION_YEARS:
-    value: 15
-    unit: integer
-    description: >-
-      Minimum contribution period in years. Derived from NSSF_MIN_CONTRIBUTION_MONTHS.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_PENSION_AGE:
-    value: 60
-    unit: integer
-    description: >-
-      Statutory retirement age and normal pension withdrawal age.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_EARLY_PENSION_AGE:
-    value: 50
-    unit: integer
-    description: >-
-      Earliest age at which you can apply for early pension withdrawal.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_PENSION_RIGHT_MIN:
-    value: 37.5
-    unit: percent
-    description: >-
-      Minimum pension right: 37.5% of average contribution for 15-year members.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_PENSION_RIGHT_MAX:
-    value: 60
-    unit: percent
-    description: >-
-      Maximum pension right: 60% of average contribution (ceiling at 35 years).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_PENSION_RIGHT_PER_YEAR:
-    value: 1.125
-    unit: percent
-    description: >-
-      Pension right increases by 1.125% per year of contribution above 15 years,
-      until reaching 60% at 35 years total contribution.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  NSSF_BEST_MONTHS:
-    value: 60
-    unit: integer
-    description: >-
-      Pension is calculated on average contributions of the best 60 months
-      (5 years) before retirement.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  # ===========================================================================
-  # VAT - Value Added Tax (2023 rate)
-  # ===========================================================================
+    fail_on: 2027-07-01
 
   VAT_RATE:
     value: 16
     unit: percent
-    description: >-
-      Standard VAT rate in Kenya. Value Added Tax Act (Cap 476A).
-      https://www.kra.go.ke
+    description: Standard VAT rate. VAT Act 2013.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  VAT_EFFECTIVE_RATE:
-    value: 16
-    unit: percent
-    description: >-
-      Effective VAT rate (no additional levies in recent years).
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  # ===========================================================================
-  # HOUSING - Nairobi
-  # ===========================================================================
-
-  NAIROBI_SINGLE_ROOM_RENT_MIN:
-    value: 8000
-    unit: shillings
-    description: >-
-      Minimum monthly rent for a bedsitter/single room in Nairobi suburbs
-      (Eastleigh, Kasarani, Roysambu areas).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_ONE_BED_RENT_MID:
-    value: 25000
-    unit: shillings
-    description: >-
-      Typical monthly rent for a one-bedroom apartment in mid-range Nairobi
-      neighborhoods (Westlands, Kilimani, Parklands area).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  NAIROBI_TWO_BED_EXPAT_RENT_USD:
-    value: 900
-    unit: usd
-    description: >-
-      Typical monthly rent for a two-bedroom apartment in expat areas
-      (Kilimani, Westlands, Upper Hill) - quoted in USD.
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  TYPICAL_RENT_ADVANCE_MONTHS:
-    value: 3
-    unit: integer
-    description: >-
-      Typical rent advance required in Nairobi: 3 months upfront deposit.
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  MAX_LEGAL_RENT_ADVANCE_MONTHS:
-    value: 3
-    unit: integer
-    description: >-
-      Maximum rent advance allowed by law in Kenya (3 months).
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  TYPICAL_ONE_BED_ADVANCE_TOTAL:
-    value: 75000
-    unit: shillings
-    description: >-
-      Typical total upfront cost: 3 months × 25,000 rent.
-      Derived in ursus_config.py.
-    last_verified: 2025-09-01
-    fail_on: 2026-12-31
-
-  ANNUAL_LEAVE_DAYS:
-    value: 21
-    unit: integer
-    description: >-
-      Statutory minimum annual leave entitlement in Kenya (3 weeks).
-      Employment Act 2007.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
-
-  # ===========================================================================
-  # MISCELLANEOUS
-  # ===========================================================================
-
-  AMBULANCE_NUMBER:
-    value: "999"
-    unit: text
-    description: >-
-      Emergency ambulance number in Kenya.
-    last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
   CORPORATE_TAX_RATE:
     value: 30
     unit: percent
-    description: >-
-      Corporate income tax rate for companies in Kenya.
-      Income Tax Act. https://www.kra.go.ke
+    description: Corporation tax for resident companies.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2027-07-01
 
-  ANNUAL_RETURN_DEADLINE_MONTHS:
-    value: 4
+  # ===========================================================================
+  # Work - Employment Act 2007
+  # ===========================================================================
+
+  NAIROBI_MIN_WAGE_GENERAL_LABOURER:
+    value: 18047
+    unit: shillings
+    description: >-
+      Monthly minimum wage for a general labourer (cleaner, gardener, house
+      worker) in Nairobi, Mombasa and Kisumu from 1 May 2026, after a 12% rise.
+      Regulation of Wages (General) (Amendment) Order, 2026. Housing
+      allowance of 15% is added where housing is not provided.
+    last_verified: 2026-09-22
+    fail_on: 2027-05-01
+
+  ANNUAL_LEAVE_DAYS:
+    value: 21
+    unit: integer
+    description: Minimum paid annual leave, in working days, after twelve months. Employment Act s.28.
+    last_verified: 2026-09-22
+    fail_on: 2028-01-01
+
+  MATERNITY_LEAVE_MONTHS:
+    value: 3
+    unit: integer
+    description: Full-pay maternity leave. Employment Act s.29.
+    last_verified: 2026-09-22
+    fail_on: 2028-01-01
+
+  PATERNITY_LEAVE_WEEKS:
+    value: 2
+    unit: integer
+    description: Full-pay paternity leave. Employment Act s.29.
+    last_verified: 2026-09-22
+    fail_on: 2028-01-01
+
+  NOTICE_DAYS_MONTHLY_PAID:
+    value: 28
+    unit: integer
+    description: Minimum notice for someone paid monthly, unless the contract gives more. Employment Act s.35.
+    last_verified: 2026-09-22
+    fail_on: 2028-01-01
+
+  PROBATION_MAX_MONTHS:
+    value: 6
     unit: integer
     description: >-
-      Months after end of fiscal year to file annual tax return (by April 30 for calendar year).
+      Maximum probation, which may be extended once by up to six months with
+      the employee's agreement. Employment Act s.42.
     last_verified: 2026-09-22
-    fail_on: 2027-12-31
+    fail_on: 2028-01-01
+
+  # ===========================================================================
+  # Money and phones
+  # ===========================================================================
+
+  MPESA_MAX_TRANSACTION:
+    value: 250000
+    unit: shillings
+    description: Largest single M-Pesa transaction for a personal account. Safaricom.
+    last_verified: 2026-09-22
+    fail_on: 2027-07-01
+
+  MPESA_MAX_DAILY:
+    value: 500000
+    unit: shillings
+    description: Daily M-Pesa transaction limit, and the maximum balance. Safaricom.
+    last_verified: 2026-09-22
+    fail_on: 2027-07-01
+
+  # ===========================================================================
+  # Emergencies
+  # ===========================================================================
+
+  EMERGENCY_NUMBER:
+    value: "999"
+    unit: text
+    description: Police, fire and ambulance. 112 also works from any mobile.
+    last_verified: 2026-09-22
+    fail_on: 2028-01-01
+
+  RED_CROSS_EMERGENCY:
+    value: "1199"
+    unit: text
+    description: Kenya Red Cross emergency line, toll free.
+    last_verified: 2026-09-22
+    fail_on: 2028-01-01

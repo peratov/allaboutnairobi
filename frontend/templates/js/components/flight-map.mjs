@@ -1,6 +1,6 @@
-// The Kotoka route map.
+// The JKIA route map.
 //
-// Every nonstop destination from Accra, drawn as a great circle on a cropped
+// Every nonstop destination from Nairobi, drawn as a great circle on a cropped
 // world. Same approach as /map and for the same reasons: one same-origin JSON,
 // hand-drawn SVG, no tile server and no mapping library - which is what lets
 // it work under the site's CSP, cost one request, and load on a slow
@@ -10,11 +10,11 @@
 // point by point, so they curve the way a flight path actually does rather
 // than being drawn as decorative bezier curves between two dots.
 //
-// It zooms, because eleven of the thirty-eight destinations are inside West
-// Africa and at the default view they are a knot around Ghana. Zoom, pan,
-// pinch, scroll, the buttons and the keyboard all drive the same viewBox.
+// It zooms, because many destinations are in East Africa and at the default
+// view they are a knot around Kenya. Zoom, pan, pinch, scroll, the buttons and
+// the keyboard all drive the same viewBox.
 //
-// Everything here is enhancement. The page already lists all 38 destinations
+// Everything here is enhancement. The page already lists every destination
 // as HTML before this runs, which is what a crawler and a reader without
 // JavaScript get.
 
@@ -23,7 +23,7 @@ import { element } from '/js/utils/format.mjs';
 const DATA_URL = '/geo/flights.json';
 
 const REGION_ORDER = [
-	'Domestic', 'West Africa', 'Rest of Africa', 'Europe', 'Middle East', 'North America',
+	'Domestic', 'East Africa', 'Rest of Africa', 'Europe', 'Middle East', 'Asia', 'North America',
 ];
 
 // How far in and out the view may go, as a fraction of the whole network.
@@ -97,7 +97,7 @@ class FlightMap extends HTMLElement {
 				'aria-pressed': String(region === 'all'),
 				text: region === 'all' ? `All ${this.data.destinations.length}` : region,
 				// Zooming to a region is the thing people want from a filter on
-				// a map: West Africa is unreadable at the full view.
+				// a map: East Africa is unreadable at the full view.
 				onclick: () => this.setRegion(region),
 			}))
 		);
@@ -181,7 +181,7 @@ class FlightMap extends HTMLElement {
 
 		this.svg.append(arcs, dots);
 
-		// Accra last, on top of everything, and visibly different.
+		// Nairobi last, on top of everything, and visibly different.
 		const origin = make('g', { class: 'flight-origin' });
 		origin.append(make('circle', { cx: meta.origin.x, cy: meta.origin.y, class: 'flight-origin-dot' }));
 		const label = make('text', { x: meta.origin.x, y: meta.origin.y, class: 'flight-origin-label' });
@@ -439,7 +439,7 @@ class FlightMap extends HTMLElement {
 			if (!dim) inRegion.push(destination);
 		}
 
-		// Zoom to what was asked for. Filtering West Africa and leaving the
+		// Zoom to what was asked for. Filtering East Africa and leaving the
 		// view over the Atlantic would be a filter that does half its job.
 		if (region === 'all') this.reset();
 		else this.frame(inRegion);

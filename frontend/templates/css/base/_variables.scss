@@ -1,10 +1,9 @@
 // =============================================================================
 // Design tokens
 //
-// The palette comes from Accra rather than from the Ghanaian flag. Laterite is
-// the red earth you see wherever a road is being cut - the colour of the city
-// under construction. Paper is the warm off-white of a harmattan sky, not the
-// cold grey-white a European site would use.
+// A warm palette. "Laterite" is the red murram earth you see wherever a road
+// is being cut - the colour of a city under construction. Paper is a warm
+// off-white rather than a cold grey-white.
 //
 // Every value below is measured, not chosen by eye. The targets are set for
 // the way this site is actually read: on a phone, outdoors, in equatorial
@@ -86,11 +85,10 @@ $width-desktop: 1180px;
 	// The ground under the map, outside every shape. Deliberately cool, where
 	// the rest of this palette is warm: the rent heatmap is a laterite ramp,
 	// and the palest step of it disappeared against every warm tone tried
-	// here. Cool also happens to be the right instinct for the sea, and Accra
-	// is on it.
+	// here.
 	--c-map-void: #d5dee1;
 
-	// The home page's small map of Greater Accra. It needs its own token per
+	// The home page's small map of Nairobi. It needs its own token per
 	// scheme rather than one mix: 22% laterite reads well on the dark ground
 	// and washes out to almost nothing against the near-white card, which is
 	// the same way the palest rent band once vanished.

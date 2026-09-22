@@ -6,7 +6,7 @@
 
 {% set guides = get_entries('guides', sort_by='title') %}
 {% set glossary = get_entries('glossary') %}
-{% set tools = get_entries('tools') %}
+{% set constituencies = MAP.constituencies|default([]) %}
 {% set collections = get_entries('collections') %}
 
 {% block main %}
@@ -16,9 +16,10 @@
 			<div class="hero-text">
 			<h1>Everything nobody tells you about living in Nairobi</h1>
 			<p>
-				Free, independent guides to Kenyan bureaucracy, housing, money and daily
-				life. Written for anyone making Nairobi home &mdash; returnees, new arrivals,
-				and Kenyans who have simply never had to renew a driving license before.
+				Free, independent guides to Kenyan paperwork, housing, money and daily
+				life, and an interactive map of the city. Written for anyone making
+				Nairobi home &mdash; new arrivals, returnees, and Nairobians who have
+				never had to file a KRA return before.
 			</p>
 			{% include "_blocks/searchForm.html" %}
 			</div>
@@ -36,11 +37,11 @@
 					<span class="stat-label">terms explained</span>
 				</li>
 				<li class="stat">
-					<span class="stat-value">{{ tools|length }}</span>
-					<span class="stat-label">calculators</span>
+					<span class="stat-value">{{ constituencies|length }}</span>
+					<span class="stat-label">constituencies mapped</span>
 				</li>
 				<li class="stat">
-					<span class="stat-value">&#8373;0</span>
+					<span class="stat-value">KES 0</span>
 					<span class="stat-label">to use, always</span>
 				</li>
 			</ul>
@@ -49,8 +50,7 @@
 		<article class="section">
 			<p class="radio-promo">
 				<a href="{{ SITE_URL }}/radio"><strong>Listen live</strong> to
-				{{ RADIO.stations|map(attribute='name')|list|batch(4)|first|join(', ') }} and
-				{{ RADIO.stations|length - 4 }} more Nairobi stations &#8658;</a>
+				{{ or_list(RADIO.stations|map(attribute='name')|list)|replace(' or ', ' and ') }} &#8658;</a>
 			</p>
 
 			<h2 id="start-here">Start here</h2>
@@ -61,59 +61,59 @@
 
 			<ul class="card-grid">
 				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/ghana-card">
-						<span class="adinkra-stamp">{% include "_icons/identity.svg" %}</span>
-						<h3>Get a Ghana Card</h3>
-						<p>The single ID that unlocks banking, SIM cards and your tax number.</p>
+					<a class="card" href="{{ SITE_URL }}/guides/moving-to-nairobi">
+						<span class="icon-stamp">{% include "_icons/moving.svg" %}</span>
+						<h3>Arrive legally</h3>
+						<p>The eTA, work permits, and what to sort in your first fortnight.</p>
 					</a>
 				</li>
 				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/find-a-place-in-accra">
-						<span class="adinkra-stamp">{% include "_icons/housing.svg" %}</span>
-						<h3>Find a place to live</h3>
-						<p>Agents, viewings, and the rent advance that eats your savings.</p>
+					<a class="card" href="{{ SITE_URL }}/guides/ecitizen-kra-pin-and-ids">
+						<span class="icon-stamp">{% include "_icons/identity.svg" %}</span>
+						<h3>Get a KRA PIN</h3>
+						<p>eCitizen, your PIN and your ID: the numbers everything asks for.</p>
 					</a>
 				</li>
 				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/mobile-money">
-						<span class="adinkra-stamp">{% include "_icons/money.svg" %}</span>
-						<h3>Set up mobile money</h3>
-						<p>MoMo does more work in Ghana than most bank accounts.</p>
+					<a class="card" href="{{ SITE_URL }}/guides/neighbourhoods-of-nairobi">
+						<span class="icon-stamp">{% include "_icons/housing.svg" %}</span>
+						<h3>Choose where to live</h3>
+						<p>Pick the neighbourhood by your commute, then the flat. With the map.</p>
 					</a>
 				</li>
 				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/getting-around-accra">
-						<span class="adinkra-stamp">{% include "_icons/transport.svg" %}</span>
+					<a class="card" href="{{ SITE_URL }}/guides/mpesa-and-mobile-money">
+						<span class="icon-stamp">{% include "_icons/money.svg" %}</span>
+						<h3>Set up M-Pesa</h3>
+						<p>Rent, bills, shops and matatus all run on it. And the scams to avoid.</p>
+					</a>
+				</li>
+				<li>
+					<a class="card" href="{{ SITE_URL }}/guides/getting-around-nairobi">
+						<span class="icon-stamp">{% include "_icons/transport.svg" %}</span>
 						<h3>Learn to move</h3>
-						<p>Trotro routes, Bolt, okada, and why nobody uses street names.</p>
+						<p>Matatus, ride-hailing, boda bodas, the Expressway and the SGR.</p>
 					</a>
 				</li>
 				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/nhis-health-insurance">
-						<span class="adinkra-stamp">{% include "_icons/health.svg" %}</span>
-						<h3>Register for NHIS</h3>
-						<p>It costs less than a plate of waakye a month and takes 90 days to start.</p>
+					<a class="card" href="{{ SITE_URL }}/guides/healthcare-in-nairobi">
+						<span class="icon-stamp">{% include "_icons/health.svg" %}</span>
+						<h3>Get health cover</h3>
+						<p>SHA and SHIF, private insurance, hospitals and emergencies.</p>
 					</a>
 				</li>
 				<li>
-					<a class="card" href="{{ SITE_URL }}/tools/salary-calculator">
-						<span class="adinkra-stamp">{% include "_icons/accuracy.svg" %}</span>
+					<a class="card" href="{{ SITE_URL }}/guides/paye-and-taxes">
+						<span class="icon-stamp">{% include "_icons/accuracy.svg" %}</span>
 						<h3>Check your payslip</h3>
-						<p>Work out PAYE and SSNIT, and see if your deductions are right.</p>
+						<p>PAYE, NSSF, SHIF and the Housing Levy, with a worked example.</p>
 					</a>
 				</li>
 				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/schools-in-accra">
-						<span class="adinkra-stamp">{% include "_icons/education.svg" %}</span>
-						<h3>Find a school</h3>
-						<p>How the system works, what it costs, and when to apply.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/things-to-do-in-accra">
-						<span class="adinkra-stamp">{% include "_icons/exploring.svg" %}</span>
+					<a class="card" href="{{ SITE_URL }}/guides/things-to-do-in-nairobi">
+						<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
 						<h3>Explore the city</h3>
-						<p>Jamestown, the beaches, the festivals and the road out.</p>
+						<p>Lions by the skyline, forests, museums, and trips out of town.</p>
 					</a>
 				</li>
 			</ul>
@@ -138,29 +138,34 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th scope="row">Daily minimum wage</th>
-							<td class="numeric">&#8373;{{ DAILY_MINIMUM_WAGE|cedis }}</td>
-							<td>About &#8373;{{ MONTHLY_MINIMUM_WAGE_APPROX|cedis }} a month</td>
+							<th scope="row">Minimum wage, Nairobi</th>
+							<td class="numeric">KES {{ NAIROBI_MIN_WAGE_GENERAL_LABOURER|shillings }}</td>
+							<td>A month, for a general labourer, from May 2026</td>
 						</tr>
 						<tr>
-							<th scope="row">Tax-free income</th>
-							<td class="numeric">&#8373;{{ PAYE_BAND_1_WIDTH|cedis }}/month</td>
-							<td>Everything above it is taxed in bands</td>
+							<th scope="row">Lowest PAYE rate</th>
+							<td class="numeric">{{ PAYE_RATE_1|percent }}%</td>
+							<td>On the first KES {{ PAYE_BAND_1_LIMIT|shillings }} a month, less KES {{ PERSONAL_RELIEF_MONTHLY|shillings }} relief</td>
 						</tr>
 						<tr>
 							<th scope="row">NSSF off your payslip</th>
-							<td class="numeric">{{ NSSF_EMPLOYEE_CONTRIBUTION|percent }}%</td>
-							<td>Your employer adds another {{ NSSF_EMPLOYER_CONTRIBUTION|percent }}%</td>
+							<td class="numeric">{{ NSSF_RATE|percent }}%</td>
+							<td>Up to KES {{ NSSF_MAX_EMPLOYEE|shillings }} a month; your employer matches it</td>
 						</tr>
 						<tr>
-							<th scope="row">VAT you actually pay</th>
-							<td class="numeric">{{ VAT_EFFECTIVE_RATE|percent }}%</td>
-							<td>Not {{ VAT_RATE|percent }}% &mdash; the levies compound</td>
+							<th scope="row">SHIF and Housing Levy</th>
+							<td class="numeric">{{ SHIF_RATE|percent }}% + {{ HOUSING_LEVY_RATE|percent }}%</td>
+							<td>Of gross pay, before PAYE is worked out</td>
 						</tr>
 						<tr>
-							<th scope="row">Legal maximum rent advance</th>
-							<td class="numeric">{{ MAX_LEGAL_RENT_ADVANCE_MONTHS }} months</td>
-							<td>Landlords routinely ask for {{ TYPICAL_RENT_ADVANCE_MONTHS }}</td>
+							<th scope="row">Largest M-Pesa payment</th>
+							<td class="numeric">KES {{ MPESA_MAX_TRANSACTION|shillings }}</td>
+							<td>Anything bigger goes through a bank</td>
+						</tr>
+						<tr>
+							<th scope="row">Nairobi's population</th>
+							<td class="numeric">{{ MAP.population|count }}</td>
+							<td>At the 2019 census, across {{ constituencies|length }} constituencies</td>
 						</tr>
 					</tbody>
 				</table>

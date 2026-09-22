@@ -10,3 +10,4 @@ frontend/public/
 .DS_Store
 *.log
 vercel-schema.tmp.json
+frontend/scripts/.cache/

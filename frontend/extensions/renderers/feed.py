@@ -114,7 +114,7 @@ class AtomFeedRenderer(Renderer):
         name = context["SITE_NAME"]
         lines = [
             '<?xml version="1.0" encoding="utf-8"?>',
-            '<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-GH">',
+            '<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-KE">',
             f"\t<title>{escape(name)}</title>",
             f'\t<subtitle>{escape(context["SITE_TAGLINE"])}</subtitle>',
             f"\t<id>{escape(origin)}/</id>",

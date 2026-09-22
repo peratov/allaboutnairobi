@@ -1,0 +1,100 @@
+// =============================================================================
+// Line icons
+//
+// Simple 24px stroked icons in currentColor, set on a tinted square "stamp"
+// where they mark a section, a card or a menu item.
+// =============================================================================
+
+.line-icon {
+	fill: none;
+	stroke: currentColor;
+	flex: none;
+	width: 1.25em;
+	height: 1.25em;
+	vertical-align: -0.22em;
+}
+
+.icon-stamp {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: var(--b-radius);
+	background: var(--c-highlight-soft);
+	color: var(--c-highlight);
+	transition: background 0.15s ease, color 0.15s ease;
+
+	.line-icon {
+		width: 1.5rem;
+		height: 1.5rem;
+		vertical-align: 0;
+	}
+}
+
+.card .icon-stamp { margin-bottom: var(--m); }
+
+.card:hover .icon-stamp,
+.card:focus-within .icon-stamp,
+.submenu li a:hover .icon-stamp {
+	background: var(--c-highlight);
+	color: var(--c-bg-on-accent);
+}
+
+.submenu li a .icon-stamp {
+	width: 2.25rem;
+	height: 2.25rem;
+
+	.line-icon { width: 1.25rem; height: 1.25rem; }
+}
+
+.search-form .line-icon {
+	width: 1.15rem;
+	height: 1.15rem;
+}
+
+.collection h3 {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+
+	.icon-stamp {
+		width: 2rem;
+		height: 2rem;
+
+		.line-icon { width: 1.15rem; height: 1.15rem; }
+	}
+}
+
+h2 > .line-icon,
+h3 > .line-icon {
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.1em;
+	margin-right: 0.35em;
+	color: var(--c-highlight);
+}
+
+.sidebar-card h2 > .line-icon {
+	width: 1.15em;
+	height: 1.15em;
+	vertical-align: -0.2em;
+}
+
+.section-heading {
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+
+	> :is(h1, h2) { margin: 0; }
+}
+
+@media (max-width: 600px) {
+	.icon-stamp { width: 2.4rem; height: 2.4rem; }
+	.icon-stamp .line-icon { width: 1.35rem; height: 1.35rem; }
+}
+
+@media print {
+	.line-icon { color: #000 !important; }
+	.icon-stamp { background: none !important; }
+}

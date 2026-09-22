@@ -1,13 +1,11 @@
-export const CEDI = '₵';
-
-export function cedis(value, decimals = 2) {
-	if (!Number.isFinite(value)) return CEDI + '0';
+export function shillings(value, decimals = 2) {
+	if (!Number.isFinite(value)) return 'KES 0';
 	const rounded = Math.round(value * 100) / 100;
-	const text = rounded.toLocaleString('en-GH', {
+	const text = rounded.toLocaleString('en-KE', {
 		minimumFractionDigits: Number.isInteger(rounded) ? 0 : decimals,
 		maximumFractionDigits: decimals,
 	});
-	return CEDI + text;
+	return 'KES ' + text;
 }
 
 export function percent(value) {

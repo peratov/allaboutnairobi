@@ -1,7 +1,7 @@
 {
 	"name": "All About Nairobi",
 	"short_name": "AllAboutNairobi",
-	"description": "Free, independent guides and calculators for living in Nairobi - housing, residence permits, PAYE, NSSF, VAT, mobile money and everything else nobody explains to you.",
+	"description": "Free, independent guides to living in Nairobi - housing, permits, PAYE, NSSF, SHIF, M-Pesa, transport and an interactive map of the city.",
 	"id": "/",
 	"start_url": "/",
 	"scope": "/",
@@ -52,7 +52,7 @@
 			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]
 		},
 		{
-			"name": "Calculators and templates",
+			"name": "Templates and checklists",
 			"short_name": "Tools",
 			"url": "/tools",
 			"icons": [{ "src": "/staticimages/icon-192.png", "sizes": "192x192" }]

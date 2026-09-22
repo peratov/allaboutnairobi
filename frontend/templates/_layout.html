@@ -119,7 +119,7 @@
 		{% if BING_SITE_VERIFICATION %}<meta name="msvalidate.01" content="{{ BING_SITE_VERIFICATION }}">{% endif %}
 
 		<meta property="og:site_name" content="{{ SITE_NAME }}">
-		<meta property="og:locale" content="en_GH">
+		<meta property="og:locale" content="en_KE">
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:site" content="@{{ X_HANDLE }}">
 		<meta name="twitter:creator" content="@{{ X_HANDLE }}">
@@ -167,7 +167,7 @@
 	<header aria-label="Main menu" class="site-header no-print">
 		<nav class="site-nav" aria-label="Website sections">
 			<a class="wordmark" href="{{ SITE_URL }}/" rel="home" title="{{ SITE_NAME }}">
-				<span class="wordmark-all">allabout</span><span class="wordmark-city">accra</span><span class="wordmark-tld">.com</span>
+				<span class="wordmark-all">allabout</span><span class="wordmark-city">nairobi</span><span class="wordmark-tld">.com</span>
 			</a>
 
 			{#
@@ -194,7 +194,7 @@
 					{% if section in ('/tools', '/docs') %}aria-current="page"{% endif %}>Tools</a>
 				<a href="{{ SITE_URL }}/events" title="What is on in Nairobi"
 					{% if section == '/events' %}aria-current="page"{% endif %}>Events</a>
-				<a href="{{ SITE_URL }}/map" title="Districts, constituencies and landmarks of Nairobi"
+				<a href="{{ SITE_URL }}/map" title="Constituencies, neighbourhoods and landmarks of Nairobi"
 					{% if section == '/map' %}aria-current="page"{% endif %}>Map</a>
 				{# Dropped below 400px, where six items no longer fit. It is the one
 				   that survives being dropped: every glossary term is linked inline
@@ -238,65 +238,65 @@
 			<ul>
 				<li>
 					<a href="{{ SITE_URL }}/guides/moving-to-nairobi">
-						<span class="adinkra-stamp">{% include "_icons/moving.svg" %}</span>
+						<span class="icon-stamp">{% include "_icons/moving.svg" %}</span>
 						<h4>Move to Nairobi</h4>
-						<p>Visas, residence permits, and your first month</p>
+						<p>The eTA, work permits and your first fortnight</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/find-a-place-in-nairobi">
-						<span class="adinkra-stamp">{% include "_icons/housing.svg" %}</span>
+					<a href="{{ SITE_URL }}/guides/finding-housing">
+						<span class="icon-stamp">{% include "_icons/housing.svg" %}</span>
 						<h4>Find a place to live</h4>
-						<p>Agents, rent advance and tenancy agreements</p>
+						<p>Neighbourhoods, deposits, leases and scams</p>
 					</a>
 				</li>
 				<li>
 					<a href="{{ SITE_URL }}/guides/paye-and-taxes">
-						<span class="adinkra-stamp">{% include "_icons/money.svg" %}</span>
+						<span class="icon-stamp">{% include "_icons/money.svg" %}</span>
 						<h4>Money and tax</h4>
-						<p>PAYE, SSNIT, mobile money and bank accounts</p>
+						<p>PAYE, NSSF, SHIF, M-Pesa and bank accounts</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/getting-around-accra">
-						<span class="adinkra-stamp">{% include "_icons/transport.svg" %}</span>
+					<a href="{{ SITE_URL }}/guides/getting-around-nairobi">
+						<span class="icon-stamp">{% include "_icons/transport.svg" %}</span>
 						<h4>Get around</h4>
-						<p>Trotros, ride-hailing, okada and driving</p>
+						<p>Matatus, ride-hailing, boda bodas and trains</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/nhis-health-insurance">
-						<span class="adinkra-stamp">{% include "_icons/health.svg" %}</span>
+					<a href="{{ SITE_URL }}/guides/healthcare-in-nairobi">
+						<span class="icon-stamp">{% include "_icons/health.svg" %}</span>
 						<h4>Stay healthy</h4>
-						<p>NHIS, doctors, hospitals and malaria</p>
+						<p>SHA, hospitals, pharmacies and emergencies</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/schools-in-accra">
-						<span class="adinkra-stamp">{% include "_icons/education.svg" %}</span>
+					<a href="{{ SITE_URL }}/guides/schools-in-nairobi">
+						<span class="icon-stamp">{% include "_icons/education.svg" %}</span>
 						<h4>Schools and study</h4>
-						<p>The school system, universities and fees</p>
+						<p>CBE, international schools and universities</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/where-to-shop-in-accra">
-						<span class="adinkra-stamp">{% include "_icons/shopping.svg" %}</span>
+					<a href="{{ SITE_URL }}/guides/shopping-in-nairobi">
+						<span class="icon-stamp">{% include "_icons/shopping.svg" %}</span>
 						<h4>Shop and eat</h4>
-						<p>Markets, malls, Melcom and online</p>
+						<p>Supermarkets, markets, malls and mitumba</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/ghana-passport">
-						<span class="adinkra-stamp">{% include "_icons/identity.svg" %}</span>
+					<a href="{{ SITE_URL }}/guides/ecitizen-kra-pin-and-ids">
+						<span class="icon-stamp">{% include "_icons/identity.svg" %}</span>
 						<h4>Government paperwork</h4>
-						<p>Passports, certificates, licences and regulators</p>
+						<p>eCitizen, KRA PIN, IDs and good conduct</p>
 					</a>
 				</li>
 				<li>
-					<a href="{{ SITE_URL }}/guides/things-to-do-in-accra">
-						<span class="adinkra-stamp">{% include "_icons/exploring.svg" %}</span>
+					<a href="{{ SITE_URL }}/guides/things-to-do-in-nairobi">
+						<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
 						<h4>Explore</h4>
-						<p>Beaches, history, festivals and day trips</p>
+						<p>Wildlife, forests, museums and day trips</p>
 					</a>
 				</li>
 			</ul>
@@ -324,15 +324,15 @@
 			<div class="footer-inner">
 				<p class="footer-blurb">
 					{{ SITE_NAME }} is free and independent. It is not affiliated with the
-					Government of Ghana, the GRA, the NIA or any of the agencies it describes.
+					Government of Kenya, KRA, Nairobi City County or any of the agencies it describes.
 				</p>
 				<nav aria-label="Footer links">
 					<a href="{{ SITE_URL }}/about">About</a>
 					<a href="{{ SITE_URL }}/contact">Contact</a>
 					<a href="{{ SITE_URL }}/events">Events</a>
 					<a href="{{ SITE_URL }}/radio">Live radio</a>
-					<a href="{{ SITE_URL }}/data">Data</a>
-						<a href="{{ SITE_URL }}/glossary">Glossary</a>
+					<a href="{{ SITE_URL }}/map">Map</a>
+					<a href="{{ SITE_URL }}/glossary">Glossary</a>
 					<a href="{{ SITE_URL }}/terms">Terms</a>
 					<a href="{{ SITE_URL }}/newsletter">Newsletter</a>
 					<a href="{{ SITE_URL }}/search">Search</a>
@@ -349,48 +349,11 @@
 {% endblock %}
 
 {% block postFooter %}
-	<script>
-		// Constants travel from constants.yaml to the browser through here, so the
-		// calculators cannot drift away from the guides that explain them.
-		window.nairobiConstants = {
-			PAYE_BANDS: {{ PAYE_BANDS_JSON|safe }},
-			PAYE_TOP_RATE: {{ PAYE_TOP_RATE }},
-			NSSF_EMPLOYEE_CONTRIBUTION: {{ NSSF_EMPLOYEE_CONTRIBUTION }},
-			NSSF_EMPLOYER_CONTRIBUTION: {{ NSSF_EMPLOYER_CONTRIBUTION }},
-			NSSF_TOTAL_RATE: {{ NSSF_TOTAL_RATE }},
-			TIER_1_RATE: {{ TIER_1_RATE }},
-			TIER_2_RATE: {{ TIER_2_RATE }},
-			TIER_3_MAX_RELIEF_RATE: {{ TIER_3_MAX_RELIEF_RATE }},
-			NSSF_BEST_MONTHS: {{ NSSF_BEST_MONTHS }},
-			NSSF_PENSION_RIGHT_MIN: {{ NSSF_PENSION_RIGHT_MIN }},
-			NSSF_PENSION_RIGHT_PER_YEAR: {{ NSSF_PENSION_RIGHT_PER_YEAR }},
-			NSSF_PENSION_RIGHT_MAX: {{ NSSF_PENSION_RIGHT_MAX }},
-			NSSF_MIN_CONTRIBUTION_MONTHS: {{ NSSF_MIN_CONTRIBUTION_MONTHS }},
-			NSSF_MIN_CONTRIBUTION_YEARS: {{ NSSF_MIN_CONTRIBUTION_YEARS }},
-			NSSF_MAX_CONTRIBUTION_YEARS: {{ NSSF_MAX_CONTRIBUTION_YEARS }},
-			NSSF_PENSION_AGE: {{ NSSF_PENSION_AGE }},
-			NSSF_EARLY_PENSION_AGE: {{ NSSF_EARLY_PENSION_AGE }},
-			NSSF_EARLY_FACTORS: {{ NSSF_EARLY_FACTORS_JSON|safe }},
-			VAT_RATE: {{ VAT_RATE }},
-			VAT_EFFECTIVE_RATE: {{ VAT_EFFECTIVE_RATE }},
-			DAILY_MINIMUM_WAGE: {{ DAILY_MINIMUM_WAGE }},
-			MONTHLY_MINIMUM_WAGE_APPROX: {{ MONTHLY_MINIMUM_WAGE_APPROX }},
-			MAX_LEGAL_RENT_ADVANCE_MONTHS: {{ MAX_LEGAL_RENT_ADVANCE_MONTHS }},
-			TYPICAL_RENT_ADVANCE_MONTHS: {{ TYPICAL_RENT_ADVANCE_MONTHS }},
-			NAIROBI_ONE_BED_RENT_MID: {{ NAIROBI_ONE_BED_RENT_MID }},
-			ANNUAL_LEAVE_DAYS: {{ ANNUAL_LEAVE_DAYS }},
-			CORPORATE_TAX_RATE: {{ CORPORATE_TAX_RATE }},
-			ANNUAL_RETURN_DEADLINE_MONTHS: {{ ANNUAL_RETURN_DEADLINE_MONTHS }},
-			PUBLIC_HOLIDAYS: {{ PUBLIC_HOLIDAYS_JSON|safe }},
-			SITE_URL: {{ SITE_URL|tojson }}
-		};
-	</script>
 
 	<script type="module">
 		import initializeMenu from '/js/components/menu.mjs';
 		import initializeTableOfContents from '/js/components/table-of-contents.mjs';
 		import initializeGlossaryTooltips from '/js/components/glossary-tooltip.mjs';
-		import initializeCurrency from '/js/components/currency.mjs';
 		import initializeChecklists from '/js/components/checklist.mjs';
 		import initializeSupportButton from '/js/components/support.mjs';
 		import initializeThemeToggle from '/js/components/theme-toggle.mjs';
@@ -400,7 +363,6 @@
 		initializeMenu();
 		initializeTableOfContents();
 		initializeGlossaryTooltips();
-		initializeCurrency();
 		initializeChecklists();
 		initializeSupportButton();
 		initializeThemeToggle();
@@ -448,7 +410,7 @@
 				"@id": "{{ CANONICAL_ORIGIN }}/#site",
 				"name": {{ SITE_NAME|tojson }},
 				"description": {{ SITE_DESCRIPTION|tojson }},
-				"inLanguage": "en-GH",
+				"inLanguage": "en-KE",
 				"url": "{{ CANONICAL_ORIGIN }}/",
 				"publisher": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
 				"potentialAction": {
@@ -477,13 +439,13 @@
 				},
 				"address": {
 					"@type": "PostalAddress",
-					"addressCountry": "GH",
-					"addressRegion": "Greater Accra",
-					"addressLocality": "Accra"
+					"addressCountry": "KE",
+					"addressRegion": "Nairobi City County",
+					"addressLocality": "Nairobi"
 				},
 				"areaServed": {
 					"@type": "City",
-					"name": "Accra"
+					"name": "Nairobi"
 				}
 			}{% if section and section in breadcrumb_sections %},
 			{

@@ -1,193 +1,119 @@
 # =============================================================================
-# Events in Accra
+# Events in Nairobi
 #
 # Read the note in extensions/context_processors/events.py before adding to
 # this file. The short version:
 #
-#   * Ghana's public holidays are NOT here. They are computed every build from
-#     the same corrected list the rest of the site uses, so they roll forward
-#     for ever and cannot go stale.
+#   * Kenya's public holidays are NOT here. They are computed every build, so
+#     they roll forward on their own.
 #
 #   * An event with a `starts` date is shown on that date and disappears by
-#     itself the day after it ends.
+#     itself the day after it ends. Only a date the organiser has announced
+#     gets `starts`.
 #
 #   * An event that happens every year but whose dates are not yet announced
-#     gets `annual: true` and a `when` note, and NO date. Inventing a date so
-#     the card looks complete is the one thing this file must never do - a
-#     reader who travels to James Town on a guessed date is worse off than a
-#     reader who was told to check.
+#     gets `annual: true` and a `when` note, and NO date. Never invent one.
 #
 #   * `source` and `last_verified` work the way they do in constants.yaml.
-#     An event nobody has checked in a year is a lie waiting to happen.
 #
 # Categories: culture, music, tech, business, sport, food, family, civic
 # =============================================================================
 
 meta:
-  last_reviewed: 2026-09-09
+  last_reviewed: 2026-09-22
   note: >-
-    Curated. There is no public events API with meaningful Accra coverage -
-    Eventbrite withdrew public event search in 2020, and the global ticketing
-    APIs barely see Ghana - so the dated listings here are entered by hand and
-    the recurring civic calendar is computed.
+    Curated by hand. Dated listings appear only once an organiser has announced
+    them; the public holidays are computed.
 
 events:
 
-  # ---------------------------------------------------------------------------
-  # Annual fixtures. No invented dates: these carry `when` instead, and the
-  # page files them under "Every year in Accra" until a date is confirmed.
-  # ---------------------------------------------------------------------------
+  - title: Nairobi International Trade Fair
+    annual: true
+    when: Usually late September or early October
+    venue: Jamhuri Park, off Ngong Road
+    area: Nairobi
+    category: business
+    price: Paid entry
+    url: https://ask.co.ke
+    description: >-
+      The Agricultural Society of Kenya's week-long show: livestock, farm
+      machinery, county and company stands, and school trips by the busload.
+      Traffic on Ngong Road is heavy all week.
+    source: Agricultural Society of Kenya
+    last_verified: 2026-09-22
 
-  # ---------------------------------------------------------------------------
-  # Road races. Ghanaian race dates move and sponsors come and go - the Milo
-  # Marathon vanished for seven years - so only a confirmed date gets `starts`.
-  # ---------------------------------------------------------------------------
+  - title: Safari Rally Kenya
+    annual: true
+    when: Usually March
+    venue: Ceremonial start in Nairobi; stages around Naivasha
+    area: Nairobi and Naivasha
+    category: sport
+    price: Free to watch at most stages
+    description: >-
+      Kenya's round of the World Rally Championship. The cars are shown off in
+      Nairobi before the competitive stages in the Rift Valley, where spectator
+      zones fill up early.
+    source: World Rally Championship calendar
+    last_verified: 2026-09-22
 
-  - title: Accra International Marathon
-    starts: 2026-10-25
-    venue: Prampram to Labadi Beach Hotel, through Tema
-    area: Greater Accra
+  - title: Magical Kenya Open
+    annual: true
+    when: Usually February or March
+    venue: Held at Nairobi golf clubs in recent years
+    area: Nairobi
     category: sport
     price: Paid entry
     description: >-
-      Accra's full marathon, running since 2007 on the last Sunday in October.
-      A point-to-point coastal road race rather than a city loop, with marathon,
-      half marathon and shorter distances. Organised by FIT4life.
-    source: Race organisers and published race calendars
-    last_verified: 2026-09-13
+      Kenya's professional golf open, a DP World Tour event. Check the
+      tournament's own site for the year's venue and ticketing.
+    source: DP World Tour calendar
+    last_verified: 2026-09-22
 
-  - title: Millennium Marathon
+  - title: Kip Keino Classic
     annual: true
-    when: Usually September
-    venue: Independence Arch to Black Star Square
-    area: Accra Metropolitan
+    when: Usually April or May
+    venue: Nairobi stadiums
+    area: Nairobi
     category: sport
-    price: Paid entry
-    url: https://millenniummarathon.com
+    price: Tickets are usually cheap or free
     description: >-
-      Accra's premier international half marathon, World Athletics certified
-      and run since 2015. Closed roads past the Kwame Nkrumah Mausoleum, the
-      National Theatre and Jubilee House, with a 5K alongside the half.
-    source: Millennium Marathon Sports Limited
-    last_verified: 2026-09-13
+      A one-day World Athletics Continental Tour meeting named after Kipchoge
+      Keino. The best chance in the year to see Kenya's track stars at home.
+    source: World Athletics calendar
+    last_verified: 2026-09-22
 
-  - title: Milo Marathon
+  - title: Africa Tech Summit Nairobi
     annual: true
-    when: Normally September, sometimes October
-    venue: The Point, Nungua to Dansoman Keep Fit Club
-    area: Greater Accra
-    category: sport
+    when: Usually February
+    area: Nairobi
+    category: tech
     price: Paid entry
     description: >-
-      The oldest road race in Ghana, founded in 1987 and sponsored for decades
-      by Milo. Discontinued in 2016 and revived in 2023 under new sponsorship.
-      15km and 42km.
-    source: Public reporting and race organisers
-    last_verified: 2026-09-13
+      Two-day conference for founders, investors and the tech companies around
+      Nairobi's startup scene.
+    source: Organiser listings
+    last_verified: 2026-09-22
 
-  - title: Chale Wote Street Art Festival
+  - title: Nairobi Restaurant Week
     annual: true
-    when: Usually late August
-    venue: James Town and Ga Mashie
-    area: Accra Metropolitan
+    when: Usually early in the year
+    area: Restaurants across Nairobi
+    category: food
+    price: Set menus at a fixed price
+    description: >-
+      Participating restaurants offer fixed-price set menus for a week or two.
+      Book ahead at the popular ones.
+    source: Organiser listings
+    last_verified: 2026-09-22
+
+  - title: Nairobi Design Week
+    annual: true
+    when: Usually in the first half of the year
+    area: Venues across Nairobi
     category: culture
-    price: Mostly free
-    url: https://chalewote.com
+    price: Many events free
     description: >-
-      Street art, performance, film and music take over the oldest streets in
-      Accra for a week. The largest thing of its kind in the city, and the one
-      weekend James Town belongs to everybody.
-    source: Accra [dot] Alt / festival organisers
-    last_verified: 2026-09-09
-
-  - title: Homowo
-    annual: true
-    when: August into September, by Ga town
-    venue: Ga Mashie, Teshie, Nungua, La and other Ga towns
-    area: Greater Accra
-    category: culture
-    price: Free to watch
-    description: >-
-      The Ga harvest festival, and the reason for the kpokpoi. Each Ga town
-      keeps its own date within the season, so ask locally rather than
-      assuming one date covers Accra.
-    source: Ga Traditional Council, announced yearly
-    last_verified: 2026-09-09
-
-  - title: Afro Nation Ghana
-    annual: true
-    when: Late December
-    venue: Announced yearly
-    area: Greater Accra
-    category: music
-    price: Ticketed
-    url: https://www.afronation.com
-    description: >-
-      The largest of the December music festivals, and the anchor of the
-      season a lot of the diaspora flies in for.
-    source: Festival organisers
-    last_verified: 2026-09-09
-
-  - title: Afrofuture
-    annual: true
-    when: Late December
-    venue: Announced yearly
-    area: Greater Accra
-    category: music
-    price: Ticketed
-    description: >-
-      The December festival formerly called Afrochella, and one of the
-      fixtures of the Accra festive season.
-    source: Festival organisers
-    last_verified: 2026-09-09
-
-  - title: Telecel Ghana Music Awards
-    annual: true
-    when: Usually May
-    venue: Accra International Conference Centre
-    area: Accra Metropolitan
-    category: music
-    price: Ticketed
-    description: >-
-      The national music awards, and the argument the whole country has
-      afterwards.
-    source: Charterhouse, the organisers
-    last_verified: 2026-09-09
-
-  - title: Accra Fashion Week
-    annual: true
-    when: Dates announced yearly
-    venue: Announced yearly
-    area: Greater Accra
-    category: culture
-    price: Ticketed
-    description: >-
-      Runway shows and trade days across several venues.
-    source: Organisers
-    last_verified: 2026-09-09
-
-  - title: Independence Day parade
-    annual: true
-    when: 6 March, with the national parade rotating between regions
-    venue: Black Star Square when Accra hosts
-    area: Accra Metropolitan
-    category: civic
-    price: Free
-    description: >-
-      The parade moves around the country, so it is only in Accra some years.
-      The holiday itself is national and is listed automatically below.
-    source: Office of the President, announced yearly
-    last_verified: 2026-09-09
-
-  - title: Emancipation Day and Panafest
-    annual: true
-    when: July and August, in alternate years for Panafest
-    venue: Accra, Cape Coast and Elmina
-    area: Greater Accra and Central Region
-    category: culture
-    price: Mixed
-    description: >-
-      Commemorations across the former slave forts, with events in Accra
-      before the coast. Panafest is biennial; Emancipation Day is annual.
-    source: Ghana Tourism Authority
-    last_verified: 2026-09-09
+      Talks, studio visits, markets and exhibitions from Nairobi's designers,
+      architects and makers.
+    source: Organiser listings
+    last_verified: 2026-09-22

@@ -35,12 +35,12 @@ import sys
 import urllib.error
 import urllib.request
 
-SITE = "https://www.allaboutaccra.com/"
+SITE = "https://www.allaboutnairobi.com/"
 # Both, because they are matched differently: Vercel does not match `/:path*`
 # against a bare `/`, so the apex home page kept answering 200 after every
 # other apex URL redirected. The root needs its own rule, and its own check.
-APEX_URLS = ("https://allaboutaccra.com/", "https://allaboutaccra.com/guides")
-CANONICAL_PREFIX = "https://www.allaboutaccra.com/"
+APEX_URLS = ("https://allaboutnairobi.com/", "https://allaboutnairobi.com/guides")
+CANONICAL_PREFIX = "https://www.allaboutnairobi.com/"
 HASH_META = re.compile(r'name="git-commit-hash"\s+content="([0-9a-f]{7,40})"')
 CANONICAL = re.compile(r'<link\s+rel="canonical"\s+href="([^"]+)"')
 
@@ -62,7 +62,7 @@ def host_problems(html: str) -> list[str]:
 
     opener = urllib.request.build_opener(_NoRedirect)
     for apex in APEX_URLS:
-        request = urllib.request.Request(apex, headers={"User-Agent": "allaboutaccra-deploy-check"})
+        request = urllib.request.Request(apex, headers={"User-Agent": "allaboutnairobi-deploy-check"})
         try:
             with opener.open(request, timeout=30) as response:
                 problems.append(
@@ -79,7 +79,7 @@ def host_problems(html: str) -> list[str]:
 
 
 def fetch(url: str) -> str:
-    request = urllib.request.Request(url, headers={"User-Agent": "allaboutaccra-deploy-check"})
+    request = urllib.request.Request(url, headers={"User-Agent": "allaboutnairobi-deploy-check"})
     with urllib.request.urlopen(request, timeout=30) as response:
         return response.read().decode("utf-8", "replace")
 

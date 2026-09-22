@@ -64,16 +64,16 @@ def main() -> None:
     wordmark_size = 104
     run(draw, MARGIN, 300, [
         ("allabout", font(SANS_SEMIBOLD, wordmark_size), TEXT_LIGHT),
-        ("accra", font(SANS_BOLD, wordmark_size), LATERITE),
+        ("nairobi", font(SANS_BOLD, wordmark_size), LATERITE),
         (".com", font(SANS, int(wordmark_size * 0.82)), TEXT_LIGHT),
     ])
 
-    draw.text((MARGIN, 360), "Free guides and tools for living in Accra",
+    draw.text((MARGIN, 360), "Free guides and a map for living in Nairobi",
               font=font(SERIF, 44), fill=TEXT, anchor="la")
 
     draw.rectangle([MARGIN, 452, MARGIN + 180, 455], fill=BORDER)
 
-    draw.text((MARGIN, 490), "Housing  ·  Ghana Card  ·  PAYE  ·  SSNIT  ·  NHIS  ·  Mobile money",
+    draw.text((MARGIN, 490), "Housing  ·  KRA PIN  ·  PAYE  ·  NSSF  ·  SHIF  ·  M-Pesa",
               font=font(SANS, 30), fill=TEXT_LIGHT, anchor="la")
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)

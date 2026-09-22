@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Vercel build for All About Accra.
+# Vercel build for All About Nairobi.
 #
 # This lives under frontend/ because the Vercel project's Root Directory is
 # frontend/ - which is the correct setting, since the deployable site depends
@@ -40,7 +40,7 @@ cd "${SCRIPT_DIR}/.."
 # Ursus reads content files without an explicit encoding. Linux build images
 # already default to UTF-8, so this is belt and braces there - but it makes the
 # script correct if it is ever run on Windows, where the default is cp1252 and
-# the build dies on the first cedi sign.
+# the build dies on the first non-ASCII character.
 export PYTHONUTF8=1
 
 echo "==> Working directory: $(pwd)"

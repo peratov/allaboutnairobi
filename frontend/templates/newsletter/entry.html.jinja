@@ -19,7 +19,7 @@
 	<main id="main" class="single-column" aria-label="Main page">
 		<article class="section">
 			<p class="map-eyebrow">
-				<a href="{{ SITE_URL }}/newsletter">The monthly Accra newsletter</a>
+				<a href="{{ SITE_URL }}/newsletter">The monthly Nairobi newsletter</a>
 				{% if entry.issue|default %} &middot; Issue {{ '%02d'|format(entry.issue) }}{% endif %}
 			</p>
 			<h1>{{ entry.title }}</h1>
@@ -48,7 +48,7 @@
 		"@type": "Article",
 		"headline": {{ entry.title|tojson }},
 		"description": {{ entry.description|tojson }},
-		"inLanguage": "en-GH",
+		"inLanguage": "en-KE",
 		"url": "{{ canonical_url }}",
 		{% if entry.date_created|default %}"datePublished": "{{ entry.date_created.strftime('%Y-%m-%d') }}",{% endif %}
 		"isPartOf": { "@id": "{{ CANONICAL_ORIGIN }}/#site" },

@@ -1,4 +1,4 @@
-// Live radio from Accra's own stations.
+// Live radio from Nairobi's own stations.
 //
 // The page arrives as a plain list of stations, each linking to its own site,
 // so it works with JavaScript off and is what a crawler indexes. This element
@@ -278,8 +278,8 @@ class RadioPlayer extends HTMLElement {
 		if ('mediaSession' in navigator && 'MediaMetadata' in window) {
 			navigator.mediaSession.metadata = new MediaMetadata({
 				title: row.dataset.name,
-				artist: row.dataset.freq ? `${row.dataset.freq} FM, Accra` : 'Online, from Accra',
-				album: 'All About Accra radio',
+				artist: row.dataset.freq ? `${row.dataset.freq} FM, Nairobi` : 'Online, from Nairobi',
+				album: 'All About Nairobi radio',
 				artwork: [{ src: '/staticimages/icon-512.png', sizes: '512x512', type: 'image/png' }],
 			});
 		}
@@ -304,7 +304,7 @@ class RadioPlayer extends HTMLElement {
 		clearTimeout(this.stallTimer);
 		this.audio.pause();
 		// Drop the connection too. A paused live stream otherwise keeps
-		// downloading, which on a Ghanaian data bundle is money.
+		// downloading, which on a mobile data bundle is money.
 		this.audio.removeAttribute('src');
 		this.audio.load();
 		this.setState('paused');

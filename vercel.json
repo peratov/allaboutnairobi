@@ -1,14 +1,65 @@
 {
-  "buildCommand": "cd frontend && python -m pip install --break-system-packages -r requirements.txt && /uv/python/versions/cpython-3.12.14-linux-x86_64-gnu/bin/ursus build",
-  "outputDirectory": "frontend/output",
-  "rewrites": [
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "bash frontend/scripts/vercel-build.sh",
+  "installCommand": "echo 'Dependencies are installed inside frontend/scripts/vercel-build.sh'",
+  "outputDirectory": "frontend/public",
+  "framework": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
     {
-      "source": "/:path*",
-      "destination": "/:path*.html"
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "allaboutnairobi.com"
+        }
+      ],
+      "destination": "https://www.allaboutnairobi.com/",
+      "permanent": true
     },
     {
-      "source": "/:path*/",
-      "destination": "/:path*/index.html"
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "allaboutnairobi.com"
+        }
+      ],
+      "destination": "https://www.allaboutnairobi.com/:path*",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(self), microphone=(), camera=()"
+        }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ]
 }

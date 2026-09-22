@@ -2,8 +2,8 @@
 {% set canonical_path = "/radio" %}
 {% set stations = RADIO.stations %}
 {% set fm = stations|selectattr('frequency')|list %}
-{% set metatitle = "Nairobi radio live: Capital FM, Classic 96.9, and more" %}
-{% set metadescription = "Listen live to " ~ stations|length ~ " Nairobi radio stations - Capital FM, Classical 96.9, East Africa FM and more - free, in your browser, with their frequencies." %}
+{% set metatitle = "Nairobi radio live: Capital FM, Kameme, Radio 47 and more" %}
+{% set metadescription = "Listen live to " ~ stations|length ~ " Nairobi radio stations - Capital FM, Kameme FM, Radio 47 and more - free, in your browser, with their frequencies." %}
 
 {% block postHead %}
 	{{ super() }}
@@ -38,14 +38,14 @@
 	<main id="main" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
-				<span class="adinkra-stamp">{% include "_icons/culture.svg" %}</span>
+				<span class="icon-stamp">{% include "_icons/culture.svg" %}</span>
 				<h1>Nairobi radio, live</h1>
 			</div>
 
 			<p class="page-intro">
 				{{ stations|length }} stations broadcasting in Nairobi, playable right
 				here. Press a station to listen; press it again to stop. Every stream
-				was checked on {{ RADIO_CHECKED_ON }}.
+				was tested on {{ RADIO.meta.checked_on }}.
 			</p>
 
 			<radio-player>
@@ -63,7 +63,7 @@
 								{{ s.name }}{% if s.frequency %}<span class="radio-station-freq">{{ s.frequency }} FM</span>{% else %}<span class="radio-station-freq">online</span>{% endif %}
 							</h2>
 							<p class="radio-station-about">
-								{{ s.about }}{% if s.language %} &middot; {{ s.language }}{% endif %}{% if s.owner %} &middot; {{ s.owner }}{% endif %}
+								{{ s.about }}{% if s.language %} &middot; {{ s.language }}{% endif %}{% if s.owner %} &middot; {{ s.owner }}{% endif %}{% if s.homepage %} &middot; <a href="{{ s.homepage }}" rel="noopener">website</a>{% endif %}
 							</p>
 						</div>
 					</li>
@@ -93,14 +93,13 @@
 				<a href="{{ SITE_URL }}/terms">terms</a>.
 			</p>
 
-			{% if RADIO_MB_PER_HOUR %}
+			{% set kbps = RADIO.meta.typical_kbps %}
 			<p>
 				<strong>Streaming uses data.</strong> These streams mostly run at
-				{{ RADIO_TYPICAL_KBPS }} kbps, which is about {{ RADIO_MB_PER_HOUR }} MB an
-				hour - an hour a day comes to roughly {{ RADIO_GB_PER_MONTH }} GB a month.
-				On a mobile bundle that is worth knowing; on home fibre it is nothing.
+				{{ kbps }} kbps, which is about {{ (kbps * 3600 / 8 / 1000)|round|int }} MB an
+				hour. An hour a day comes to roughly {{ '%.1f'|format(kbps * 3600 * 30 / 8 / 1000 / 1000) }} GB
+				a month: worth knowing on a mobile bundle, nothing on home fibre.
 			</p>
-			{% endif %}
 
 			<p>
 				<strong>Keep listening while you read.</strong> Press <em>Pop out</em>
@@ -112,8 +111,9 @@
 			<h2 id="where-this-comes-from">Where this comes from</h2>
 			<p>
 				Radio stations in Kenya are authorised and regulated by the Communications Authority of Kenya (CAK).
-				Every stream on this list was checked and tested by playing audio from it.
-				Streams move, so the list is refreshed regularly.
+				A station is listed here only if its stream answered with audio when the
+				list was last tested, on {{ RADIO.meta.checked_on }}. Streams move; if one
+				stops working, the station's own website usually has its current player.
 			</p>
 			<p>
 				&mdash; <a href="{{ SITE_URL }}/guides">Guides to living in Nairobi &#8658;</a>

@@ -1,6 +1,6 @@
-// All About Accra stylesheet.
+// All About Nairobi stylesheet.
 // Inlined into every page by the scss tag in _layout.html, so there is no
-// render-blocking request. Ghanaian mobile data is expensive and often slow.
+// render-blocking request. Mobile data is expensive and often slow.
 
 @import "css/base/variables";
 @import "css/base/reset";
@@ -18,7 +18,7 @@
 @import "css/components/tools";
 @import "css/components/forms";
 @import "css/components/cards";
-@import "css/components/adinkra";
+@import "css/components/icons";
 @import "css/components/support";
 @import "css/components/map";
 @import "css/components/hero-map";
@@ -26,8 +26,6 @@
 @import "css/components/events";
 @import "css/components/theme-toggle";
 @import "css/components/install";
-@import "css/components/viability";
 @import "css/components/guide-index";
 @import "css/components/flight-map";
-@import "css/components/dashboard";
 @import "css/components/radio";

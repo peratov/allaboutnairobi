@@ -10,7 +10,7 @@
  *
  *   Pages          network first, always. The cache is only ever consulted
  *                  when the network fails. A reader online sees today's
- *                  figures, never a fortnight-old cedi amount.
+ *                  figures, never a fortnight-old amount.
  *
  *   Versioned      cache first, and safe to do so: /js/*.mjs and /geo/*.json
  *   assets         carry ?v=<commit>, so a deploy changes the URL rather than
@@ -25,7 +25,7 @@
  */
 
 const VERSION = 'v1';
-const CACHE = `allaboutaccra-${VERSION}`;
+const CACHE = `allaboutnairobi-${VERSION}`;
 const OFFLINE_URL = '/offline';
 
 const PRECACHE = [OFFLINE_URL, '/staticimages/icon-192.png'];
@@ -54,7 +54,7 @@ self.addEventListener('activate', (event) => {
 			.then((names) =>
 				Promise.all(
 					names
-						.filter((name) => name.startsWith('allaboutaccra-') && name !== CACHE)
+						.filter((name) => name.startsWith('allaboutnairobi-') && name !== CACHE)
 						.map((name) => caches.delete(name))
 				)
 			)

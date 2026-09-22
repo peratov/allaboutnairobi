@@ -123,7 +123,7 @@
 //
 // It was doing too much - three weights, two sizes and two colours inside
 // sixteen pixels, which at that scale is noise rather than hierarchy. One
-// weight for the whole thing now, with "accra" carrying the emphasis on colour
+// weight for the whole thing now, with "nairobi" carrying the emphasis on colour
 // alone. That is the word people scan for and the one that has to survive when
 // the bar narrows; it does not also need to be bolder, bigger and a different
 // colour all at once.
@@ -201,7 +201,7 @@
 }
 
 .submenu li a:hover { background: var(--c-highlight-soft); }
-.submenu li a .adinkra-stamp { grid-area: icon; align-self: center; }
+.submenu li a .icon-stamp { grid-area: icon; align-self: center; }
 .submenu li a h4 { grid-area: title; margin: 0; font-size: 0.98rem; }
 .submenu li a p { grid-area: text; margin: 0; font-size: var(--f-xs); color: var(--c-text-light); }
 
@@ -262,7 +262,7 @@
 // This used to start at 380px, which left the bar overflowing across the whole
 // 381-460px band - and that band is where most phones now sit: 390, 393, 412,
 // 428. It read as fine on a 375px iPhone SE and broken on a 393px Pixel, which
-// is the wrong way round for a Ghanaian audience on mid-range Android.
+// is the wrong way round for an audience mostly on mid-range Android.
 @media (max-width: 460px) {
 	.site-nav {
 		gap: var(--s);
@@ -289,7 +289,7 @@
 
 // The last resort, and only on the narrowest phones still in use. Dropping the
 // tld is worth about 26px, which is the difference between the bar fitting and
-// the theme toggle hanging off the end of it at 320px. "allaboutaccra" is
+// the theme toggle hanging off the end of it at 320px. "allaboutnairobi" is
 // still the name; ".com" is the part nobody reads.
 @media (max-width: 360px) {
 	.wordmark-tld { display: none; }

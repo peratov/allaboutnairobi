@@ -32,9 +32,8 @@ function startOfToday() {
  * Parse `2026-09-21` as a LOCAL date.
  *
  * `new Date('2026-09-21')` parses as UTC, which in a timezone behind UTC
- * lands on the 20th and expires an event a day early. Ghana is on GMT so this
- * would never show up here - and would be wrong for a reader in Accra planning
- * a trip from New York, which is a real slice of this site's audience.
+ * lands on the 20th and expires an event a day early for a reader in a
+ * timezone behind UTC - someone planning a Nairobi trip from New York, say.
  */
 function parseISO(value) {
 	const [year, month, day] = value.split('-').map(Number);

@@ -1,17 +1,17 @@
 {% extends "_layout.html" %}
 {% set canonical_path = "/newsletter" %}
-{% set metatitle = "The monthly Accra newsletter" %}
-{% set metadescription = "One email a month about living in Accra: what changed at the offices, what things cost now, and which guides were rewritten because the rules moved." %}
+{% set metatitle = "The monthly Nairobi newsletter" %}
+{% set metadescription = "One email a month about living in Nairobi: what changed at the offices, what things cost now, and which guides were rewritten because the rules moved." %}
 
 {% set issues = get_entries('newsletter', sort_by='date_created', reverse=true) %}
 
 {% block main %}
 	<main id="main" class="single-column" aria-label="Main page">
 		<article class="section">
-			<h1>The monthly Accra newsletter</h1>
+			<h1>The monthly Nairobi newsletter</h1>
 			<p class="page-intro">
-				Ghana's rules change without announcement. A fee moves, an office
-				relocates, a levy is repealed in a budget and nobody updates the sign
+				Kenya's rules change without much warning. A Finance Act moves the tax
+				bands, a levy arrives, an office goes online and nobody updates the sign
 				on the wall. This is one email a month about what actually changed.
 			</p>
 

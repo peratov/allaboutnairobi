@@ -1,35 +1,28 @@
 """
-Build the nonstop route map for Kotoka International Airport.
+Build the nonstop route map for Jomo Kenyatta International Airport (NBO).
 
-Run by hand, like build_map_data.py and build_icons.py, because it fetches from
-two places and the deploy must never depend on either being up:
+Run by hand, because it fetches from two places and the deploy must never
+depend on either being up:
 
-    mise flight-data
+    python scripts/build_flight_map.py
 
 It writes two things, both committed:
 
   templates/geo/flights.json        geometry and routes, fetched by the browser
   content/geo/flights-summary.yaml  the same without geometry, loaded into the
                                     context so the page lists every route as
-                                    HTML - the no-JavaScript fallback, and what
-                                    a crawler indexes
+                                    HTML - the no-JavaScript fallback
 
-Three sources, and each is used for the thing it is actually good at:
+Three sources, each used for what it is good at:
 
-  * **Routes** are typed out below from the Wikipedia article's airlines and
-    destinations table. Written out rather than scraped, because a parser
-    against a wiki table is a parser that silently loses a route the week
-    somebody reformats it - and a route map missing Johannesburg is worse than
-    no route map. The date it was checked is in the output and on the page.
+  * **Routes** are typed out below from the passenger section of the Wikipedia
+    article's airlines and destinations table, with destination airports
+    resolved to IATA codes through Wikidata. Cargo-only airlines are left out.
+  * **Coordinates** come from OpenFlights. An airport does not move.
+  * **Coastlines** come from Natural Earth 110m, simplified hard.
 
-  * **Coordinates** come from OpenFlights. That dataset is old and it does not
-    matter in the least: an airport does not move. It is used for nothing else.
-
-  * **Coastlines** come from Natural Earth 110m, simplified hard. It exists so
-    a reader can tell Europe from West Africa, not to be a map of the world.
-
-**Schedules change constantly.** Airlines add and drop routes with a few weeks'
-notice, and this file is a photograph. Everything downstream says so.
+**Schedules change constantly.** This file is a photograph, and everything
+downstream says so.
 """
 
 import csv
@@ -51,88 +44,64 @@ WORLD_URL = (
     "geojson/ne_110m_admin_0_countries.geojson"
 )
 
-ORIGIN = "ACC"
-CHECKED = "2026-09-10"
-SOURCE_ARTICLE = "https://en.wikipedia.org/wiki/Kotoka_International_Airport"
+ORIGIN = "NBO"
+CHECKED = "2026-09-22"
+SOURCE_ARTICLE = "https://en.wikipedia.org/wiki/Jomo_Kenyatta_International_Airport"
 
-# The map is cropped to the network rather than drawn as the whole world.
-# Accra flies west as far as Washington and east as far as Dubai, and nothing
-# it serves is beyond these, so the rest of the planet is wasted space.
-BOUNDS = {"west": -95.0, "east": 62.0, "south": -38.0, "north": 62.0}
+# The map is cropped to the network rather than drawn as the whole world:
+# Nairobi flies west as far as New York and east as far as Guangzhou.
+BOUNDS = {"west": -80.0, "east": 120.0, "south": -38.0, "north": 58.0}
 
-# Nonstop destinations by airline, from the Wikipedia table. `note` marks
-# anything that is not a plain year-round scheduled service.
+# Nonstop passenger destinations by airline, from the Wikipedia table as
+# checked on CHECKED.
 ROUTES = {
-    "Africa World Airlines": ["ABV", "CKY", "KMS", "LOS", "OUA", "TKD", "TML"],
-    "Air Burkina": ["OUA"],
-    "Air Côte d'Ivoire": ["ABJ"],
-    "Air Peace": ["LOS", "ROB", "FNA"],
-    "Air Tanzania": ["DAR"],
-    "ASKY": ["LFW", "ROB", "FNA", "BJL"],
-    "British Airways": ["LGW", "LHR"],
+    "748 Air": ["MBA", "UKA"],
+    "Air Arabia": ["SHJ"],
+    "Air France": ["CDG"],
+    "Air Tanzania": ["DAR", "ZNZ"],
+    "Airlink": ["JNB"],
+    "ASKY Airlines": ["LFW"],
+    "British Airways": ["LHR"],
     "Brussels Airlines": ["BRU"],
-    "Delta Air Lines": ["JFK", "ATL"],
-    "EgyptAir": ["CAI"],
-    "Emirates": ["ABJ", "DXB"],
+    "Egyptair": ["CAI"],
+    "Emirates": ["DXB"],
     "Ethiopian Airlines": ["ADD"],
     "Etihad Airways": ["AUH"],
-    "Gianair": ["OBU"],
-    "Ibom Air": ["LOS", "ABV", "QUO"],
-    "ITA Airways": ["FCO"],
-    "Kenya Airways": ["FNA", "ROB", "NBO"],
+    "Flydubai": ["DXB"],
+    "Flynas": ["RUH"],
+    "Freedom Airline": ["MBA"],
+    "Gulf Air": ["BAH"],
+    "IndiGo": ["BOM"],
+    "Kenya Airways": ["ABJ", "ACC", "ADD", "AMS", "TNR", "BKK", "BJM", "DSS", "DAR", "DLA", "DXB", "DZA", "EBB", "FNA", "CAN", "HRE", "JNB", "JUB", "KGL", "JRO", "FIH", "KIS", "LOS", "LLW", "LVI", "LGW", "LHR", "FBM", "LUN", "SEZ", "MYD", "MPM", "MRU", "MGQ", "MBA", "ROB", "HAH", "BOM", "APL", "NLA", "JFK", "CDG", "VFA", "ZNZ"],
     "KLM": ["AMS"],
-    "Middle East Airlines": ["BEY"],
-    "Passion Air": ["NYI", "KMS", "TML", "WZA", "TKD"],
     "Qatar Airways": ["DOH"],
-    "Royal Air Maroc": ["CMN"],
-    "RwandAir": ["KGL"],
-    "South African Airways": ["ABJ", "JNB"],
-    "TAP Air Portugal": ["LIS", "TMS"],
+    "SalamAir": ["MCT"],
+    "Saudia": ["JED"],
+    "TAAG Angola Airlines": ["NBJ"],
     "Turkish Airlines": ["IST"],
-    "United Airlines": ["IAD"],
-    "United Nigeria Airlines": ["ABV", "LOS"],
+    "Zambia Airways": ["LUN"],
 }
 
 # Routes that are not simply "running now".
-NOTES = {
-    ("Delta Air Lines", "ATL"): "seasonal",
-    ("Africa World Airlines", "CKY"): "from August 2026",
-    ("Etihad Airways", "AUH"): "from March 2027",
-}
+NOTES: dict[tuple[str, str], str] = {}
 
-# Which part of the network a destination belongs to. Used for the filters and
-# for the fallback list, and assigned by hand because "Africa" covers both a
-# 45-minute hop to Lomé and a six-hour flight to Johannesburg.
+# Which part of the network a destination belongs to, for the filters and the
+# fallback list.
 REGIONS = {
-    "KMS": "Domestic", "TML": "Domestic", "TKD": "Domestic", "NYI": "Domestic",
-    "WZA": "Domestic", "OBU": "Domestic",
-    "ABJ": "West Africa", "LFW": "West Africa", "OUA": "West Africa", "LOS": "West Africa",
-    "ABV": "West Africa", "QUO": "West Africa", "CKY": "West Africa", "FNA": "West Africa",
-    "ROB": "West Africa", "BJL": "West Africa", "TMS": "West Africa",
-    "ADD": "Rest of Africa", "NBO": "Rest of Africa", "KGL": "Rest of Africa",
-    "DAR": "Rest of Africa", "JNB": "Rest of Africa", "CAI": "Rest of Africa",
-    "CMN": "Rest of Africa",
-    "LHR": "Europe", "LGW": "Europe", "AMS": "Europe", "BRU": "Europe", "FCO": "Europe",
-    "LIS": "Europe", "IST": "Europe",
-    "DXB": "Middle East", "DOH": "Middle East", "AUH": "Middle East", "BEY": "Middle East",
-    "JFK": "North America", "ATL": "North America", "IAD": "North America",
+    **{c: "Domestic" for c in "MBA UKA KIS MYD".split()},
+    **{c: "East Africa" for c in "DAR ZNZ EBB KGL JRO JUB MGQ BJM ADD".split()},
+    **{c: "Rest of Africa" for c in "JNB LFW CAI ABJ ACC TNR DSS DLA DZA FNA HRE FIH LOS LLW LVI FBM LUN SEZ MPM MRU ROB HAH APL NLA VFA NBJ".split()},
+    **{c: "Europe" for c in "CDG LHR BRU AMS LGW IST".split()},
+    **{c: "Middle East" for c in "SHJ DXB AUH RUH BAH DOH MCT JED".split()},
+    **{c: "Asia" for c in "BOM BKK CAN".split()},
+    **{c: "North America" for c in "JFK".split()},
 }
 
-# Airports OpenFlights carries without an IATA code, or not at all.
-#
-# Wa is in the dataset under ICAO DGLW with its IATA field empty, so the join
-# on IATA misses it; these are its own coordinates from that file.
-#
-# Obuasi has neither an IATA nor an ICAO code - it is a private airfield built
-# by AngloGold Ashanti for the mine and flown by Gianair - so its position
-# comes from its Wikipedia article. An earlier draft of this file guessed at
-# it and was eleven kilometres out, which is the argument for looking things
-# up rather than placing them from memory.
-EXTRA_AIRPORTS = {
-    "WZA": {"name": "Wa Airport", "city": "Wa", "country": "Ghana",
-            "lat": 10.0827, "lon": -2.50767},
-    "OBU": {"name": "Obuasi Airport", "city": "Obuasi", "country": "Ghana",
-            "lat": 6.29056, "lon": -1.70139},
+# Airports OpenFlights does not carry under an IATA code. Coordinates from
+# Wikidata (P625).
+EXTRA_AIRPORTS: dict[str, dict] = {
+    "NBJ": {"name": "Dr. António Agostinho Neto International Airport", "city": "Luanda",
+            "country": "Angola", "lat": -9.05048, "lon": 13.49997},
 }
 
 
@@ -265,7 +234,7 @@ def build_world() -> list[str]:
 
 
 def main() -> None:
-    print("Building the Kotoka route map")
+    print("Building the JKIA route map")
     airports = load_airports()
 
     origin = airports[ORIGIN]

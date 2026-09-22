@@ -43,14 +43,14 @@
 		"@type": "Article",
 		"headline": {{ entry.title|tojson }},
 		"description": {{ entry.description|tojson }},
-		"inLanguage": "en-GH",
+		"inLanguage": "en-KE",
 		"url": "{{ canonical_url }}",
 		{% if entry.date_created|default %}"datePublished": "{{ entry.date_created.strftime('%Y-%m-%d') }}",{% endif %}
 		{% if entry.date_updated|default %}"dateModified": "{{ entry.date_updated.strftime('%Y-%m-%d') }}",{% endif %}
 		"publisher": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
 		"isPartOf": { "@id": "{{ CANONICAL_ORIGIN }}/#site" },
 		"mainEntityOfPage": { "@type": "WebPage", "@id": "{{ canonical_url }}" },
-		"about": { "@type": "Place", "name": "Accra, Ghana" }
+		"about": { "@type": "Place", "name": "Nairobi, Kenya" }
 	}
 	</script>
 {% endblock %}

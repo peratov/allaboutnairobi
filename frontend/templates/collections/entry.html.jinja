@@ -6,7 +6,7 @@
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
-				{% if entry.symbol|default %}<span class="adinkra-stamp">{% include "_icons/" + entry.symbol + ".svg" %}</span>{% endif %}
+				{% if entry.symbol|default %}<span class="icon-stamp">{% include "_icons/" + entry.symbol + ".svg" %}</span>{% endif %}
 				<h1>{{ entry.title }}</h1>
 			</div>
 			<p class="page-intro">{{ entry.description }}</p>

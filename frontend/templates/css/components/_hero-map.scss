@@ -1,4 +1,4 @@
-// The map of Greater Accra in the home page hero.
+// The map of Nairobi in the home page hero.
 //
 // Two columns on a wide screen, text first and map second; one column below
 // that, with the map after the prose and before the stat row. The map is
@@ -15,7 +15,7 @@
 @media (min-width: 60rem) {
 	.hero-inner {
 		// The text column keeps a comfortable measure; the map takes what is
-		// left rather than half, because Greater Accra is a wide, thin shape
+		// left rather than half, because Nairobi is wider than it is tall
 		// and a square box around it would be mostly empty.
 		grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
 		gap: var(--xxl);
@@ -33,9 +33,9 @@
 .hero-map-svg {
 	width: 100%;
 	height: auto;
-	// Greater Accra is about 1.87:1. Reserving the ratio stops the hero from
-	// reflowing as the SVG lays out.
-	aspect-ratio: 1.87 / 1;
+	// Nairobi's constituencies are about 1.54:1. Reserving the ratio stops the
+	// hero from reflowing as the SVG lays out.
+	aspect-ratio: 1.54 / 1;
 	overflow: visible;
 }
 

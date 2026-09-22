@@ -11,7 +11,7 @@
 
 	// A reader on paper cannot click, so print where the link goes.
 	.article-body a[href^="/"]::after {
-		content: " (allaboutaccra.com" attr(href) ")";
+		content: " (allaboutnairobi.com" attr(href) ")";
 		font-size: 9pt;
 	}
 

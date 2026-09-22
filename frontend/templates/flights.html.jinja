@@ -3,15 +3,14 @@
 {% set metatitle = "Where you can fly nonstop from Nairobi" %}
 {% set metadescription = "Every nonstop destination from Jomo Kenyatta International Airport, by airline and region, on a map and as a list. " ~ FLIGHTS.destinations|length ~ " destinations." %}
 
-{% set regions = ['East Africa', 'Southern Africa', 'West Africa', 'North Africa', 'Europe', 'Middle East', 'Asia'] %}
-{% set airline_codes = FLIGHTS.destinations|map(attribute='airlines')|sum(start=[])|unique|list %}
-{% set airlines = FLIGHTS.airlines|selectattr('code', 'in', airline_codes)|list %}
+{% set regions = ['Domestic', 'East Africa', 'Rest of Africa', 'Europe', 'Middle East', 'Asia', 'North America'] %}
+{% set airlines = FLIGHTS.destinations|map(attribute='airlines')|sum(start=[])|map(attribute='name')|unique|list %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
 			<div class="section-heading">
-				<span class="adinkra-stamp">{% include "_icons/exploring.svg" %}</span>
+				<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
 				<h1>Where you can fly nonstop from Nairobi</h1>
 			</div>
 
@@ -35,8 +34,9 @@
 		<article class="section">
 			<h2 id="every-destination">Every nonstop destination</h2>
 			<p class="page-intro">
-				Grouped by region. Every nonstop route from Nairobi is listed here,
-				with the airlines flying it and the frequency.
+				Grouped by how far you are going, then by distance. Distances are
+				great-circle kilometres from Nairobi &mdash; what the aircraft flies, not
+				what a road would.
 			</p>
 
 			{% for region in regions %}
@@ -49,22 +49,21 @@
 								<tr>
 									<th scope="col">Destination</th>
 									<th scope="col">Airport</th>
+									<th scope="col">Distance</th>
 									<th scope="col">Airlines</th>
-									<th scope="col">Frequency</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for destination in in_region %}
+								{% for destination in in_region|sort(attribute='km') %}
 									<tr>
-										<th scope="row">{{ destination.name }}<br><small>{{ destination.country }}</small></th>
+										<th scope="row">{{ destination.city }}<br><small>{{ destination.country }}</small></th>
 										<td>{{ destination.iata }}</td>
+										<td>{{ '{:,}'.format(destination.km) }}&nbsp;km</td>
 										<td>
-											{% for airline_code in destination.airlines %}
-												{% set airline_name = FLIGHTS.airlines|selectattr('code', 'equalto', airline_code)|map(attribute='name')|first %}
-												{{ airline_name }}{% if not loop.last %}<br>{% endif %}
+											{% for airline in destination.airlines %}
+												{{ airline.name }}{% if airline.get('note') %} <em>({{ airline.note }})</em>{% endif %}{% if not loop.last %}<br>{% endif %}
 											{% endfor %}
 										</td>
-										<td>{{ destination.frequency }}</td>
 									</tr>
 								{% endfor %}
 							</tbody>
@@ -77,7 +76,7 @@
 		<article class="section">
 			<h2 id="airlines">Airlines serving Nairobi</h2>
 			<p>
-				{{ airlines|map(attribute='name')|sort|join(', ') }}.
+				{{ airlines|sort|join(', ') }}.
 			</p>
 
 			<h2 id="where-this-comes-from">Where this comes from, and how fast it rots</h2>
@@ -104,11 +103,10 @@
 			</table>
 
 			<p>
-				&mdash; <a href="{{ SITE_URL }}/guides/flying-into-accra">Flying into Accra &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/flying-out-of-accra">Flying out of Accra &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/kotoka-airport-guide">Kotoka airport, terminal by terminal &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/guides/domestic-flights-in-ghana">Domestic flights in Ghana &#8658;</a><br>
-				&mdash; <a href="{{ SITE_URL }}/map">The map of Greater Accra &#8658;</a>
+				&mdash; <a href="{{ SITE_URL }}/guides/moving-to-nairobi">Moving to Nairobi: the eTA and arriving at JKIA &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/getting-around-nairobi#the-expressway">The Expressway to and from the airport &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/day-trips-from-nairobi">Day trips, and places worth flying to &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/map">The map of Nairobi &#8658;</a>
 			</p>
 		</article>
 	</main>

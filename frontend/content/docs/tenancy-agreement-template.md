@@ -1,178 +1,118 @@
 ---
-title: Ghanaian tenancy agreement template
-short_title: Tenancy agreement template
-description: A plain-English tenancy agreement template for Ghana, with the clauses that protect a tenant paying a large rent advance.
-date_created: 2026-01-12
+title: Tenancy agreement template for Kenya
+short_title: Tenancy agreement
+description: A plain-English residential tenancy agreement for a flat or house in Kenya, with the clauses that protect a tenant's deposit.
+date_created: 2026-09-22
 ---
 
-A template you can adapt. It is written to be readable rather than
-impressive-looking, and it includes the clauses that matter most when you are
-handing over {{ TYPICAL_RENT_ADVANCE_MONTHS }} months of rent at once.
+A template you can adapt, or compare against the lease a landlord hands you.
+It is written to be readable, and it includes the clauses that matter most
+when the deposit is on the line.
 
-!!! warning "Have a lawyer review it"
-    This is a starting point, not legal advice. On a two-year advance, a few
-    hundred cedis for an hour of a lawyer's time is trivial insurance.
-    Ghanaian tenancy law is governed by the [[Rent Act]] 1963 (Act 220), which
-    applies whether or not your agreement mentions it.
+!!! warning "Not legal advice"
+    This is a starting point. For a long lease, a house, or a large deposit,
+    have an advocate review it. Some leases must be stamped and registered to
+    be enforceable against third parties; an advocate will tell you if yours
+    does.
 
 ## The template
 
 ```
-TENANCY AGREEMENT
+RESIDENTIAL TENANCY AGREEMENT
 
-THIS AGREEMENT is made this ____ day of ____________, 20____
+This agreement is made on [date] between:
 
-BETWEEN
+THE LANDLORD: [full name], ID / company no. [____], KRA PIN [____],
+of [address], phone [____] ("the Landlord"),
 
-[LANDLORD FULL NAME], of [address], holder of Ghana Card number
-[_______________]  ("the Landlord")
+and
 
-AND
-
-[TENANT FULL NAME], of [address], holder of Ghana Card number
-[_______________]  ("the Tenant")
+THE TENANT: [full name], ID / passport no. [____],
+phone [____], email [____] ("the Tenant").
 
 1. THE PROPERTY
-
-   The Landlord lets to the Tenant the premises described as:
-
-   [Describe precisely: which unit, which floor, which rooms, and whether
-   any parking space, store room or yard is included]
-
-   Digital address (GhanaPostGPS): [__________]
+   House / apartment no. [__] in [building / court], on [road],
+   [area], Nairobi, together with [parking bay no. __ / DSQ / other]
+   ("the Property"), and the items listed in the inventory attached.
 
 2. TERM
+   The tenancy starts on [date] and runs for [12] months, ending on
+   [date]. It may be renewed by agreement in writing.
 
-   The tenancy runs for a term of [____] months, commencing on
-   [____________] and ending on [____________].
-
-3. RENT AND ADVANCE
-
-   The rent is GHS [________] per month.
-
-   The Tenant has paid GHS [________], being [____] months of rent in
-   advance, covering the period from [____________] to [____________].
-
-   The Landlord acknowledges receipt of that sum and shall issue a written
-   receipt identifying the amount, the property and the period covered.
+3. RENT
+   The rent is KES [____] per month, payable in advance on or before
+   the [5th] day of each month, to:
+   [bank name, account name and number / M-Pesa paybill and account].
+   The Landlord will issue a receipt for every payment.
 
 4. RENT REVIEW
+   The rent will not be increased during the term. Any increase on
+   renewal will be notified in writing at least [two] months before the
+   term ends.
 
-   The rent shall not be increased during the term.
+5. DEPOSIT
+   The Tenant has paid a security deposit of KES [____] (equal to [__]
+   months' rent). The Landlord will return it within [30] days of the
+   end of the tenancy, less only the reasonable cost of repairing damage
+   beyond fair wear and tear and any unpaid rent or bills, itemised in
+   writing with receipts. The deposit may not be used as the last
+   month's rent without the Landlord's written agreement.
 
-   Any increase at renewal shall be notified to the Tenant in writing not
-   less than [____] months before the end of the term, and shall not exceed
-   [____]% .
-
-5. UTILITIES AND METERS
-
-   Electricity: the premises are served by [a separate / a shared] prepaid
-   meter, number [__________]. The Tenant is responsible for purchasing
-   credit for that meter.
-
-   Water: the premises are served by [a separate / a shared] connection,
-   account number [__________]. [State who pays, and how a shared bill is
-   apportioned.]
-
-   Waste collection: [state who arranges and who pays].
-
-   The Landlord confirms there are no arrears on any utility account for
-   the premises as at the commencement date.
-
-6. CONDITION AND OUTSTANDING WORKS
-
-   The Tenant takes the premises in the condition recorded in the
-   inventory and photographs attached to this agreement.
-
-   The Landlord shall complete the following works by [____________]:
-
-   [List every promised work with a date. If nothing is promised, write
-   "None."]
-
-   If the works are not completed by that date, [state the consequence:
-   for example, rent abates by GHS ____ per month until completion].
+6. SERVICE CHARGE AND BILLS
+   Service charge of KES [____] per month [is included in / is additional
+   to] the rent, and covers [security, cleaning of common areas, garbage,
+   generator for common areas]. The Tenant pays for electricity (prepaid
+   meter no. [____]), water (meter no. [____]) and internet.
 
 7. REPAIRS
-
-   The Landlord is responsible for structural repairs, the roof, external
-   walls, plumbing and electrical installations, and the water storage
-   tank.
-
-   The Tenant is responsible for minor internal maintenance and for
-   repairing damage caused by the Tenant.
-
-   The Tenant shall notify the Landlord of any repair need in writing. The
-   Landlord shall attend to it within [____] days. If the Landlord does
-   not, the Tenant may carry out the repair and deduct the reasonable cost
-   from the rent.
+   The Landlord is responsible for the structure, roof, external walls,
+   plumbing and wiring, and for repairing them within a reasonable time
+   of being told. The Tenant is responsible for damage caused by the
+   Tenant, household or visitors, and for minor items such as bulbs.
 
 8. USE
-
-   The premises shall be used as a private residence only.
-
-   The Tenant shall not sublet or assign without the Landlord's written
-   consent, which shall not be unreasonably withheld.
+   The Property is for residential use by the Tenant and household only.
+   The Tenant will not sub-let without the Landlord's written consent.
 
 9. ACCESS
+   The Landlord may inspect the Property on at least [24 hours'] notice,
+   at a reasonable time, except in an emergency.
 
-   The Landlord may enter the premises only with not less than 24 hours
-   written notice, at a reasonable hour, and except in an emergency.
+10. ENDING THE TENANCY
+   Either party may end this agreement by giving [one month's] written
+   notice [after the first six months]. At the end, the Tenant will
+   return all keys and leave the Property clean and in the condition
+   recorded in the inventory, fair wear and tear excepted.
 
-10. QUIET ENJOYMENT
+11. INVENTORY AND CONDITION
+   The condition of the Property, meter readings and the items in it are
+   recorded in the inventory and photographs attached and signed by both
+   parties.
 
-    The Landlord shall not interrupt the Tenant's occupation, and shall
-    not disconnect or interfere with the supply of water or electricity to
-    the premises.
+12. NOTICES
+   Notices under this agreement are given in writing to the addresses
+   and email addresses above.
 
-11. TERMINATION
+Signed:
 
-    Either party may terminate by giving [____] months written notice.
-
-    If the tenancy ends before the end of the period covered by the
-    advance, the Landlord shall refund the unused portion of the advance
-    within [____] days.
-
-    Recovery of possession by the Landlord shall be in accordance with the
-    Rent Act 1963 (Act 220).
-
-12. DISPUTES
-
-    The parties shall first attempt to resolve any dispute between
-    themselves, and thereafter through the Rent Control Department.
-
-13. REGISTRATION
-
-    This agreement shall be lodged with the Rent Control Department within
-    30 days of execution.
-
-SIGNED BY THE LANDLORD                SIGNED BY THE TENANT
-
-_________________________             _________________________
+LANDLORD                              TENANT
+______________________               ______________________
 Name:                                 Name:
-Ghana Card No:                        Ghana Card No:
 Date:                                 Date:
 
-WITNESS                               WITNESS
-
-_________________________             _________________________
-Name:                                 Name:
-Phone:                                Phone:
+Witness:                              Witness:
+______________________               ______________________
+Name / ID:                            Name / ID:
 ```
 
 ## Before you sign
 
-- [ ] The **term matches the advance** you are paying. This is the single most
-      common way tenants lose money.
-- [ ] Names match the **ID and the ownership documents**
-- [ ] The **meter arrangements** are stated, and any shared meter has an
-      apportionment method
-- [ ] **Outstanding works** are listed with dates and a consequence
-- [ ] You have **photographed the whole property** at handover, with
-      timestamps, including every existing defect
-- [ ] You have **recorded and photographed the meter readings**
-- [ ] You have a **signed original**, not a photograph of one
-- [ ] You have a **separate receipt** for the advance
-      — [Template ➞](/docs/rent-advance-receipt)
+- [ ] The **rent, deposit and service charge** match what you agreed
+- [ ] The **payment details** are the landlord's or the managing agent's,
+      not a personal number you have never verified
+- [ ] You have **photographed the whole property** at handover, and recorded
+      the meter readings
+- [ ] You have a **signed copy**, not a photograph of one
 
-**[What to check in a tenancy agreement ➞](/guides/tenancy-agreement)**
-**[The rent advance ➞](/guides/rent-advance)**
+**[Finding housing ➞](/guides/finding-housing)**
+**[Rent and deposit receipt template ➞](/docs/rent-receipt)**

@@ -1,186 +1,108 @@
 ---
-title: Finding Housing in Nairobi
-short_title: Finding Housing
-description: Renting in Nairobi, neighborhoods, landlords, and what to budget.
+title: Finding a place to live in Nairobi
+short_title: Finding housing
+description: How renting works in Nairobi - where to look, what a deposit covers, what to check before you sign, and the scams to avoid.
 date_created: 2026-09-22
 ---
 
-Nairobi has neighborhoods for every budget and lifestyle. Finding housing is competitive, but doable if you know what to expect.
+Renting in Nairobi is mostly straightforward: flats are plentiful, leases are
+short, and deposits are modest by global standards. The hard part is choosing
+where, because traffic decides your life here. Start with
+[Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi) and the
+[map](/map).
 
-## Neighborhoods overview
+## What you will find
 
-### Expat-friendly areas (mid to high cost)
+- **[[Bedsitter]]** - one room with a kitchenette and bathroom. The cheapest
+  self-contained option.
+- **One-, two- and three-bedroom apartments** - most of the market, in blocks
+  with a gate, an [[askari]] and often a lift, backup generator, borehole or
+  gym.
+- **Houses and townhouses** - usually in gated compounds, in Karen, Lavington,
+  Runda and the other leafy suburbs, often with a [[DSQ]].
+- **Furnished and serviced apartments** - more expensive by the month, but no
+  furniture to buy and usually flexible terms. Good for your first month.
 
-- **Westlands** — Business district, restaurants, nightlife. One-bed: KES 40,000-80,000/month.
-- **Kilimani** — Upscale residential, shopping, embassies. One-bed: KES 45,000-90,000/month.
-- **Upper Hill** — Quiet, green, family-friendly. One-bed: KES 35,000-70,000/month.
-- **Parklands** — Mixed residential, schools, parks. One-bed: KES 30,000-60,000/month.
-- **Karen** — Spacious, leafy, suburban. Two-bed: KES 50,000-100,000/month.
-- **Muthaiga** — Exclusive, golf course, gated. Two-bed: KES 60,000-150,000/month.
+## Rough asking rents
 
-### Mid-range areas
+These are rough monthly asking rents for unfurnished flats seen in 2026
+listings. They vary a lot with the age of the building and what it includes.
+Use them to shortlist, not to budget to the shilling.
 
-- **Gigiri** — Office parks, growing residential. One-bed: KES 25,000-50,000/month.
-- **Runda** — Residential, quiet. One-bed: KES 25,000-45,000/month.
-- **Lavington** — Central, mixed-use. Studio: KES 15,000-30,000/month.
-- **Nairobi West** — Accessible, affordable. Studio: KES 10,000-20,000/month.
+| Where | What | Rough rent (KES) |
+| --- | --- | --- |
+| Kasarani, Roysambu, Umoja, Kayole | Bedsitter | 8,000 - 15,000 |
+| South B, South C, Madaraka, Ngara | One bedroom | 20,000 - 40,000 |
+| Kilimani, Kileleshwa | One bedroom | 40,000 - 80,000 |
+| Westlands, Parklands | One bedroom | 45,000 - 90,000 |
+| Kilimani, Kileleshwa, Lavington | Two bedrooms | 60,000 - 120,000 |
+| Karen, Runda, Lavington, Muthaiga | House | 150,000 and up |
 
-### Budget areas (good value)
+## Where to look
 
-- **South C** — Growing, vibrant, student area. Studio: KES 8,000-15,000/month.
-- **Ongata Rongai** — Suburban, family areas. Two-bed: KES 20,000-40,000/month.
-- **Utawala** — Far but affordable. One-bed: KES 8,000-15,000/month.
+- **Walk the area.** "To let" signs on gates are still one of the best
+  sources. The [[caretaker]] will show you empty units.
+- **Property sites and apps** such as BuyRentKenya, Property24 Kenya and Jiji.
+- **Agents.** Useful at the top of the market. Agree their fee in writing
+  before viewing, and confirm who pays it.
+- **Facebook groups and colleagues.** Many good flats are passed on
+  privately when someone leaves.
 
-## How to search
+## What you pay up front
 
-### Online platforms
+The usual arrangement:
 
-- **Airbnb** — Good for first month while you search longer-term.
-- **Jumia House** — Kenya's largest property marketplace. Hundreds of listings.
-- **99 Properties** — Rentals and sales, searchable by area.
-- **Facebook groups** — Many neighborhoods have private rental groups.
-- **Property agents** — Charge 1-2 months' rent commission, but handle negotiations.
+- **The first month's rent**, in advance.
+- **A deposit**, usually one or two months' rent, refundable at the end.
+- **Sometimes a water deposit and an electricity deposit** where the meters
+  are in the landlord's name.
+- **An agency fee**, if an agent is involved.
 
-### Direct approach
+Some high-end landlords ask for several months up front. It is negotiable, and
+you should never pay more than you are willing to lose while a dispute runs.
 
-- Walk neighborhoods you like and look for "To Let" signs.
-- Ask colleagues and friends for referrals.
-- Visit local real estate offices (kiosks) in the area you want.
+## Before you sign
 
-## Rent structure
+Visit twice: once in the day and once in the evening rush.
 
-Nairobi's rental model is different from Western countries:
+- [ ] **Water.** Ask how many days a week the county supply comes, and whether
+      there is a borehole or storage tank. Turn on the taps.
+- [ ] **Power.** Is the meter prepaid ([[tokens]]) and in whose name? Is there
+      a backup generator, and what does it cover?
+- [ ] **Security.** A manned gate, working lights, and how visitors are
+      logged.
+- [ ] **Service charge.** Many blocks charge monthly for security, cleaning and
+      the generator. Ask what it is and whether it is included in the rent.
+- [ ] **Parking and internet.** Which fibre providers serve the building?
+      See [Utilities in Nairobi](/guides/utilities-in-nairobi).
+- [ ] **The lease.** Get it in writing: rent, deposit, notice period, how and
+      when the rent can rise, who pays for which repairs.
+- [ ] **Photos.** Photograph every room, meter and defect on the day you move
+      in. It is your evidence when the deposit comes back.
 
-**Typical advance payment:**
-- **3 months advance** (rent + deposit + one month "caution money")
-- **Example:** KES 40,000/month = KES 120,000 upfront
+## Scams
 
-**Monthly payment:**
-- Rent payable in advance, usually by 5th-10th of month
-- Late payment means eviction notices within days
+The most common one: a listing with good photos and a low price, an "owner" or
+"agent" who is out of the country or busy, and a request for a deposit by
+M-Pesa to "hold" the flat. The flat does not exist, or is not theirs.
 
-**Water and electricity:**
-- Usually estimated and paid monthly (not included in rent)
-- Meter-based: tenants pay for actual usage
+- **Never pay before you have seen the unit** and met the landlord or a
+  verified agent there.
+- **Pay rent to the landlord's bank account or business paybill,** and get a
+  receipt.
+- **Search the phone number** and the photos. Scammers reuse both.
 
-**Other costs:**
-- **Garbage collection:** KES 500-1,000/month
-- **Security guard** (in compounds): KES 2,000-5,000/month (sometimes shared)
-- **WiFi/internet:** KES 2,000-3,500/month (not usually included)
+## Moving out and getting the deposit back
 
-## Rental agreements
+Give notice as the lease says, usually one month, in writing. Ask for a joint
+inspection. The deposit should come back less the cost of any damage beyond
+fair wear and tear.
 
-Always get a written lease. Verbal agreements are common but risky.
+If it does not, and a letter does not work, the Small Claims Court handles
+claims up to KES 1 million without a lawyer.
 
-**Standard lease terms:**
-- **Duration:** 12 months (common); shorter terms pay premium
-- **Renewal:** Notice period 3 months before expiry
-- **Eviction:** Landlord gives 1-3 months' notice for any reason or no reason
+## Next
 
-**What to check:**
-- Utilities included (rare, but specify)
-- Pet policy (if applicable)
-- Maintenance responsibility (landlord usually handles structure, tenant handles interiors)
-- Renewal terms and rent increase limits
-- Dispute resolution process
-
-**Red flags:**
-- Pressure to pay before seeing the property
-- Vague lease terms
-- Landlords who won't give receipts for deposits
-- Properties with multiple unresolved disputes
-
-## Negotiating rent
-
-Rent is negotiable, especially for longer leases or off-season (April-July):
-
-- **First offer:** Usually 10-15% above asking price
-- **Counter:** Expect 5-10% discount for 12-month commitment
-- **Sweet spot:** 90-95% of asking price is typical
-- **Tips:** Show bank statements, references, offer to pay upfront, commit to longer terms
-
-## Deposit safety
-
-Your caution money (deposit) should be:
-
-1. Held in a **separate account** (not the landlord's personal account)
-2. Returned with interest after lease ends (interest varies, typically 5-10%)
-3. Documented in writing with witnesses
-4. Protected by **Rental Housing Tribunal** if disputes arise
-
-## Moving in
-
-### Inspection checklist
-
-Before paying, inspect thoroughly:
-
-- Water pressure and plumbing
-- Electrical outlets and safety
-- Cracks, dampness, or structural issues
-- Windows and locks function
-- Appliances (if included) work
-- Parking (if applicable)
-- Security gates and lighting
-- Internet/phone signal strength
-
-Take photos before moving in to protect your deposit.
-
-### What's included?
-
-**Usually included:**
-- Walls, roof, flooring
-- Plumbing, electrical
-- Windows and doors (but sometimes tenants repair)
-
-**Usually NOT included:**
-- Furniture (unless specified as "furnished")
-- Repairs beyond normal wear (tenant pays)
-- Pest control
-- Painting or major fixes
-
-## If things go wrong
-
-### Maintenance disputes
-
-- **Landlord's responsibility:** Structure (roof, walls), plumbing trunk lines, electrical main
-- **Tenant's responsibility:** Interior damage, normal wear, broken fixtures you caused
-- **Resolution:** Complaint to **Rental Housing Tribunal** (free, government body)
-
-### Eviction
-
-Illegal evictions happen in informal areas. If facing eviction:
-
-1. Demand written notice (usually 30-60 days required)
-2. Contact **Rental Housing Tribunal** — they can block illegal evictions
-3. Document all disputes in writing
-4. Seek legal aid if needed (available for low-income residents)
-
-### Non-payment
-
-If you can't pay on time:
-
-- Contact landlord immediately (negotiation possible in some cases)
-- Formal eviction requires court order (3-day notice minimum)
-- Stay engaged — abandoning the flat triggers immediate eviction
-
-## Cost of living breakdown
-
-**Central area (Westlands, Kilimani), one-bedroom:**
-- Rent: KES 50,000
-- Utilities: KES 3,500
-- Internet: KES 2,500
-- Garbage: KES 800
-- **Total:** KES 56,800/month (~USD 440)
-
-**Budget area (South C, Nairobi West), studio:**
-- Rent: KES 12,000
-- Utilities: KES 2,000
-- Internet: KES 2,000
-- Garbage: KES 500
-- **Total:** KES 16,500/month (~USD 127)
-
-## Next steps
-
-- [Moving to Nairobi](/guides/moving-to-nairobi) — Visas and first arrival
-- [PAYE and taxes](/guides/paye-and-taxes) — Employment and income
-- [Opening a bank account](/guides/opening-a-bank-account) — Banking setup
+- [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
+- [Utilities in Nairobi](/guides/utilities-in-nairobi)
+- [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)
