@@ -10,37 +10,34 @@ date_created: 2026-01-10
 This site is static HTML. There is no account to create, no newsletter that
 requires your name, and no advertising.
 
-**This site uses Google Analytics.** It records which pages are read, roughly
+{% if GA_MEASUREMENT_ID %}**This site uses Google Analytics.** It records which pages are read, roughly
 where in the world readers are, and which links they follow. That is used for
 one thing: working out which guides are worth writing and which are failing
 people. Google receives this data and applies
 [its own privacy policy](https://policies.google.com/privacy) to it.
 
-**This site also uses Microsoft Clarity.** Clarity goes further than page
-counts: it records how people move through a page &mdash; scrolling, clicking,
-where attention stalls &mdash; and can replay an anonymised session. That is
-used to find guides where readers visibly get stuck, which is the failure this
-site exists to fix and the one hardest to spot from page views alone. Microsoft
-receives this data under
+{% endif %}**This site uses Microsoft Clarity.** It counts visits and records how people
+move through a page &mdash; scrolling, clicking, where attention stalls &mdash;
+and can replay an anonymised session. That is used to find guides where
+readers visibly get stuck. Microsoft receives this data under
 [its own privacy statement](https://privacy.microsoft.com/privacystatement).
 
 **The calculators are masked from that recording.** Every calculator on this
 site is marked so Clarity cannot capture what is typed into it. Your salary,
 your rent and your household budget are not in any session replay.
 
-You can opt out of both with any tracker blocker, with your browser's "do not
-track" setting where it is honoured, with
-[Google's opt-out add-on](https://tools.google.com/dlpage/gaoptout), or with
+You can opt out with any tracker blocker, or with
 [Clarity's opt-out](https://privacy.microsoft.com/privacystatement). None of
-the site's content or calculators depends on either, so blocking them costs
+the site's content or calculators depends on analytics, so blocking it costs
 you nothing.
 
-**The calculators never send your data anywhere.** The salary calculator, the
-rent advance calculator, the VAT calculator and the cost of living calculator
-all run entirely in your browser. Your salary is not transmitted, logged or
-stored on a server. You can confirm this by opening your browser's network
-tools and watching &mdash; the only outbound requests are the analytics ones
-described above, and they carry no figure you typed.
+**The calculators never send your data anywhere.** Every calculator on
+[/tools](/tools) runs entirely in your browser. What you type is not
+transmitted, logged or stored on a server. The budget planner remembers your
+figures in your own browser's storage, and nowhere else. You can confirm this
+by opening your browser's network tools and watching &mdash; the only outbound
+requests are the analytics ones described above, and they carry no figure you
+typed.
 
 **The live radio player connects you to the station, and only when you press
 play.** On [/radio](/radio) each stream comes straight from that station's own

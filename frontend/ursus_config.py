@@ -97,8 +97,11 @@ ctx["X_URL"] = f"https://x.com/{ctx['X_HANDLE']}"
 ctx["SUPPORT_URL"] = env_str("SUPPORT_URL", "https://buymeacoffee.com/allaboutnairobi")
 
 # Analytics are off unless this site's own IDs are configured.
-ctx["GA_MEASUREMENT_ID"] = env_str("GA_MEASUREMENT_ID")
-ctx["CLARITY_PROJECT_ID"] = env_str("CLARITY_PROJECT_ID")
+ctx["GA_MEASUREMENT_ID"] = env_str("GA_MEASUREMENT_ID", "G-G0SGZ244K0")
+ctx["CLARITY_PROJECT_ID"] = env_str("CLARITY_PROJECT_ID", "ymtnkudhcj")
+# Analytics load only on the production deployment, so local builds and
+# Vercel preview deploys never record sessions.
+ctx["IS_PRODUCTION"] = env_str("VERCEL_ENV") == "production" or env_str("FORCE_ANALYTICS") == "1"
 ctx["GOOGLE_SITE_VERIFICATION"] = env_str("GOOGLE_SITE_VERIFICATION")
 ctx["BING_SITE_VERIFICATION"] = env_str("BING_SITE_VERIFICATION")
 

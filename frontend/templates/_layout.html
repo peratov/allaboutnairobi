@@ -28,7 +28,7 @@
 <head>
 	<meta charset="utf-8">
 
-	{% if GA_MEASUREMENT_ID and SITE_URL %}
+	{% if GA_MEASUREMENT_ID and IS_PRODUCTION %}
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
 		<script>
@@ -40,7 +40,7 @@
 		</script>
 	{% endif %}
 
-	{% if CLARITY_PROJECT_ID and SITE_URL %}
+	{% if CLARITY_PROJECT_ID and IS_PRODUCTION %}
 		<!-- Microsoft Clarity -->
 		<script type="text/javascript">
 			(function(c,l,a,r,i,t,y){
