@@ -91,6 +91,10 @@ and restaurants in the better-off areas. Everywhere else it is M-Pesa or cash.
 ATMs are everywhere; withdraw inside a mall or bank hall rather than at a
 street machine at night.
 
+## Fitting in
+
+See [Culture and etiquette in Kenya](/guides/culture-and-etiquette-in-kenya) and [Setting up your home](/guides/setting-up-your-home).
+
 ## Common mistakes
 
 - **Starting work on a visitor's entry.** It is illegal, and it can end in

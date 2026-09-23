@@ -11,6 +11,8 @@ few weeks as a passenger before taking the wheel.
 
 ## Your licence
 
+The full process is in [Getting a Kenyan driving licence](/guides/getting-a-kenyan-driving-licence).
+
 - **Visitors** can drive on a valid foreign licence for a limited period.
   Carry an International Driving Permit with it.
 - **Residents** should get a Kenyan driving licence. Licences are handled by

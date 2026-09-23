@@ -53,6 +53,8 @@ River is at its best after the rains.
 
 ## Better done overnight
 
+For getting further afield, see [Travelling around Kenya](/guides/travelling-around-kenya).
+
 - **Amboseli National Park** - elephants beneath Kilimanjaro, four to five hours
   away.
 - **The Maasai Mara** - about five to six hours by road, or a short flight

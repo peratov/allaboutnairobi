@@ -13,6 +13,7 @@
     - uri: guides/ecitizen-kra-pin-and-ids.md
     - uri: guides/weather-in-nairobi.md
     - uri: guides/swahili-for-daily-life.md
+    - uri: guides/culture-and-etiquette-in-kenya.md
     - uri: guides/phones-and-sim-cards.md
     - uri: guides/working-remotely-from-nairobi.md
     - uri: guides/leaving-kenya.md
@@ -27,6 +28,7 @@
     - uri: guides/neighbourhoods-of-nairobi.md
     - uri: guides/finding-housing.md
     - uri: guides/utilities-in-nairobi.md
+    - uri: guides/setting-up-your-home.md
     - uri: guides/buying-property-in-kenya.md
     - uri: guides/being-a-landlord-in-kenya.md
 
@@ -64,7 +66,9 @@
   entries:
     - uri: guides/getting-around-nairobi.md
     - uri: guides/driving-in-nairobi.md
+    - uri: guides/getting-a-kenyan-driving-licence.md
     - uri: guides/importing-a-car-to-kenya.md
+    - uri: guides/travelling-around-kenya.md
 
 - id: health-and-safety
   type: guides
@@ -100,6 +104,9 @@
   description: Wildlife inside the city, museums, markets, nights out and trips beyond.
   entries:
     - uri: guides/things-to-do-in-nairobi.md
+    - uri: guides/kenyan-food-and-eating-out.md
+    - uri: guides/nightlife-in-nairobi.md
+    - uri: guides/history-of-nairobi.md
     - uri: guides/day-trips-from-nairobi.md
     - uri: guides/sport-and-fitness-in-nairobi.md
 

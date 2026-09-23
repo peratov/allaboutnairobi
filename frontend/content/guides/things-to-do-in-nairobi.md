@@ -56,6 +56,8 @@ second-hand markets of Gikomba and Toi. See
 
 ## Food and nights out
 
+See [Kenyan food and eating out](/guides/kenyan-food-and-eating-out) and [Nightlife in Nairobi](/guides/nightlife-in-nairobi).
+
 - **Nyama choma** on a weekend afternoon is the Nairobi institution. Carnivore,
   on Lang'ata Road, is the famous one for visitors.
 - **Westlands** has the densest nightlife, from rooftop bars to clubs.
