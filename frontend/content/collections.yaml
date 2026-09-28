@@ -39,6 +39,7 @@
     - uri: guides/buying-property-in-kenya.md
     - uri: guides/being-a-landlord-in-kenya.md
     - uri: guides/land-search-on-ardhisasa.md
+    - uri: guides/housing-levy-and-boma-yangu.md
 
 - id: money-and-work
   type: guides
@@ -55,6 +56,10 @@
     - uri: guides/filing-a-kra-nil-return.md
     - uri: guides/filing-your-kra-return-with-a-p9.md
     - uri: guides/kra-tax-compliance-certificate.md
+    - uri: guides/money-market-funds-in-kenya.md
+    - uri: guides/buying-treasury-bills-and-bonds.md
+    - uri: guides/sending-money-to-kenya.md
+    - uri: guides/receiving-paypal-payoneer-and-wise-payments.md
 
 - id: work-and-business
   type: guides
@@ -93,6 +98,7 @@
   entries:
     - uri: guides/healthcare-in-nairobi.md
     - uri: guides/registering-for-sha.md
+    - uri: guides/health-insurance-in-kenya.md
     - uri: guides/safety-in-nairobi.md
     - uri: guides/reporting-a-crime-and-lost-documents.md
 

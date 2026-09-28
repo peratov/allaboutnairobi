@@ -494,6 +494,48 @@ constants:
     last_verified: 2026-09-28
     fail_on: 2027-07-01
 
+  # ===========================================================================
+  # Market rates - these move weekly, so they are quoted as "at the time of
+  # writing" and re-checked often.
+  # ===========================================================================
+
+  TBILL_91_RATE:
+    value: 8.78
+    unit: decimal
+    description: Weighted average rate of accepted bids, 91-day Treasury bill, CBK auction dated 28 September 2026.
+    last_verified: 2026-09-28
+    fail_on: 2027-01-01
+
+  TBILL_364_RATE:
+    value: 9.04
+    unit: decimal
+    description: Weighted average rate of accepted bids, 364-day Treasury bill, CBK auction dated 28 September 2026.
+    last_verified: 2026-09-28
+    fail_on: 2027-01-01
+
+  TBILL_MIN_BID:
+    value: 50000
+    unit: shillings
+    description: Minimum face value of a non-competitive Treasury bill bid. CBK auction notices.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  MMF_AVERAGE_YIELD:
+    value: 9.2
+    unit: decimal
+    description: >-
+      Approximate average annual yield across the 27 CMA-regulated shilling
+      money market funds at the end of September 2026 (Serrari MMF index).
+    last_verified: 2026-09-28
+    fail_on: 2027-01-01
+
+  PAYPAL_MPESA_FEE:
+    value: 3
+    unit: percent
+    description: Currency conversion charge on PayPal withdrawals to and top-ups from M-Pesa.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
   LATE_FILING_PENALTY:
     value: 2000
     unit: shillings

@@ -20,7 +20,8 @@ The [[SHA]] (Social Health Authority) runs the **Social Health Insurance Fund
 - **Everyone else** registers and pays directly. Contributions for people
   without a salary are assessed on household means.
 - **Registration** is online at sha.go.ke or by USSD, and your dependants
-  should be added to your record.
+  should be added to your record. See
+  [Registering for SHA](/guides/registering-for-sha).
 
 SHIF covers a set list of services at contracted public and private
 facilities. Coverage and the list of contracted hospitals have changed often
@@ -37,6 +38,9 @@ international providers. Check:
 - **The hospital list.** Can you use the hospital nearest your home?
 - **Maternity, dental and optical**, which are often extras.
 - **Evacuation cover**, if you want the option of treatment abroad.
+
+See [Private health insurance](/guides/health-insurance-in-kenya) for a fuller
+comparison.
 
 ## Hospitals
 

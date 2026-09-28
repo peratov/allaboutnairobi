@@ -75,6 +75,11 @@ Beyond [[NSSF]], employer pension schemes and personal pension plans get tax
 relief on contributions up to a limit. Pension schemes are regulated by the
 **Retirement Benefits Authority (RBA)**.
 
+## Step-by-step guides
+
+- [Money market funds - how to compare](/guides/money-market-funds-in-kenya)
+- [Buying Treasury bills and bonds on DhowCSD](/guides/buying-treasury-bills-and-bonds)
+
 ## Tools
 
 - [Savings calculator](/tools/savings-calculator) - growth after tax
