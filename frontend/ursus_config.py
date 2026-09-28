@@ -7,6 +7,7 @@ map data from content/geo/map-summary.yaml, which scripts/build_nairobi_map.py
 generates.
 """
 
+import json
 import logging
 import os
 import subprocess
@@ -79,6 +80,7 @@ ctx["TOOL_CONSTANTS"] = {
         "NOTICE_DAYS_MONTHLY_PAID", "INTEREST_WHT_RATE", "NORMAL_WEEKLY_HOURS", "OVERTIME_RATE_NORMAL",
         "OVERTIME_RATE_REST_DAY", "TURNOVER_TAX_RATE", "TURNOVER_TAX_LOWER", "TURNOVER_TAX_UPPER",
         "WHT_PROFESSIONAL_RESIDENT", "WHT_PROFESSIONAL_THRESHOLD", "WHT_PROFESSIONAL_NONRESIDENT", "VAT_REGISTRATION_THRESHOLD",
+        "ETA_FEE_USD", "NNP_FEE_NONRESIDENT_USD", "NNP_FEE_CITIZEN", "MARA_FEE_LOW_USD", "MARA_FEE_PEAK_USD",
     )
 }
 
@@ -126,6 +128,9 @@ ctx["MAP"] = load_yaml("geo/map-summary.yaml", {})
 ctx["HERO_MAP"] = build_hero_map()
 ctx["FLIGHTS"] = load_yaml("geo/flights-summary.yaml", {"destinations": [], "airlines": []})
 ctx["RADIO"] = load_yaml("geo/radio.yaml", {"stations": [], "meta": {}})
+ctx["AFCON"] = load_yaml("geo/afcon.yaml", {"meta": {}, "nairobi_venues": [], "key_dates": [], "stay_areas": []})
+# The same data with dates as ISO strings, for pages that hand it to JavaScript.
+ctx["AFCON_DATA"] = json.loads(json.dumps(ctx["AFCON"], default=str))
 
 ctx["glossary_groups"] = glossary_groups
 ctx["random_id"] = random_id

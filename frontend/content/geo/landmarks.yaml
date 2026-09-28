@@ -314,14 +314,22 @@ landmarks:
     lat: -1.30419
     lon: 36.82447
     description: >-
-      Stadium where Lang'ata Road meets Mombasa Road.
+      Stadium where Lang'ata Road meets Mombasa Road, and an AFCON 2027
+      venue.
   - name: Kasarani Stadium
     category: sport
     lat: -1.22806
     lon: 36.89056
     description: >-
-      The Moi International Sports Centre, Kenya's largest stadium, off Thika
-      Road.
+      The Moi International Sports Centre, off Thika Road, being rebuilt to
+      60,000 seats as an AFCON 2027 venue.
+  - name: Raila Odinga International Stadium
+    category: sport
+    lat: -1.30521
+    lon: 36.75092
+    description: >-
+      The new 60,000-seat stadium at Talanta Sports City, by Jamhuri Park off
+      Ngong Road, built for AFCON 2027. Formerly called Talanta Stadium.
   - name: Ngong Racecourse
     category: sport
     lat: -1.30972

@@ -1,0 +1,400 @@
+// AFCON 2027: the /afcon hub, the home-page promo and the AFCON tools.
+//
+// The Kenyan flag's black, red and green appear as a thin stripe, never as a
+// text colour, so contrast stays with the site's own tokens in both themes.
+
+$flag-stripe: linear-gradient(90deg,
+	#111 0 30%, #fff 30% 33%, #b30f1f 33% 67%, #fff 67% 70%, #0a6b35 70% 100%);
+
+.afcon-hero {
+	position: relative;
+	overflow: hidden;
+	padding: var(--xxl) clamp(var(--m), 4vw, var(--xxl)) var(--xl);
+	background:
+		radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--c-forest) 16%, transparent), transparent 60%),
+		radial-gradient(90% 80% at 0% 100%, color-mix(in srgb, var(--c-laterite) 14%, transparent), transparent 60%),
+		var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	margin-bottom: var(--xl);
+}
+
+.afcon-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 6px;
+	background: $flag-stripe;
+}
+
+.afcon-kicker {
+	margin: 0 0 var(--s);
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--c-forest);
+}
+
+.afcon-hero h1 {
+	margin-bottom: var(--s);
+	font-size: clamp(2rem, 5vw, 3.1rem);
+	line-height: 1.05;
+	max-width: 18ch;
+}
+
+.afcon-hero .page-intro {
+	max-width: 52ch;
+	font-size: 1.1rem;
+	color: var(--c-text-light);
+}
+
+// Countdown
+afcon-countdown {
+	display: block;
+	margin: var(--l) 0 var(--s);
+}
+
+.afcon-countdown-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 7rem));
+	gap: var(--s);
+}
+
+.afcon-countdown-unit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: var(--s) var(--xs);
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	border-bottom: 3px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+}
+
+.afcon-countdown-value {
+	font-family: var(--font-heading);
+	font-size: clamp(1.6rem, 6vw, 2.6rem);
+	font-weight: 700;
+	line-height: 1.1;
+	color: var(--c-text-heading);
+	font-variant-numeric: tabular-nums;
+}
+
+.afcon-countdown-label {
+	font-size: var(--f-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-text-light);
+}
+
+.afcon-countdown-caption,
+.afcon-countdown-live {
+	margin: var(--s) 0 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.afcon-countdown-live {
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--c-forest);
+}
+
+.afcon-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s);
+	margin-top: var(--l);
+}
+
+// Honest status box
+.afcon-status {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: var(--m);
+	margin: var(--l) 0;
+}
+
+.afcon-status > div {
+	padding: var(--m) var(--l);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	background: var(--c-bg-widget);
+}
+
+.afcon-status h3 {
+	margin-top: 0;
+	font-family: var(--font-body);
+	font-size: var(--f-s);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+.afcon-status .confirmed h3 { color: var(--c-forest); }
+.afcon-status .pending h3 { color: var(--c-gold); }
+.afcon-status ul { margin: 0; padding-left: var(--l); }
+.afcon-status li { margin-bottom: var(--xs); }
+
+// Venue cards
+.afcon-venues {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+	gap: var(--m);
+	list-style: none;
+	margin: var(--l) 0;
+	padding: 0;
+}
+
+.afcon-venue {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-top: 4px solid var(--c-forest);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+}
+
+.afcon-venue h3 { margin: 0 0 var(--xs); }
+
+.afcon-venue-meta {
+	margin: 0 0 var(--s);
+	font-size: var(--f-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--c-text-light);
+}
+
+.afcon-venue-capacity {
+	font-family: var(--font-heading);
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--c-text-heading);
+}
+
+.afcon-venue-capacity small {
+	font-family: var(--font-body);
+	font-size: var(--f-xs);
+	font-weight: 400;
+	color: var(--c-text-light);
+}
+
+.afcon-venue ul {
+	margin: var(--s) 0 var(--m);
+	padding-left: var(--l);
+	font-size: var(--f-s);
+}
+
+.afcon-venue-links {
+	margin-top: auto;
+	font-size: var(--f-s);
+}
+
+// Timeline
+afcon-calendar { display: block; }
+
+.afcon-calendar-all { margin-bottom: var(--m); }
+
+.afcon-timeline {
+	position: relative;
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 var(--l);
+	border-left: 2px solid var(--c-border);
+}
+
+.afcon-timeline li {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--xs) var(--s);
+	padding: 0 0 var(--m);
+}
+
+.afcon-timeline li::before {
+	content: "";
+	position: absolute;
+	left: calc(-1 * var(--l) - 7px);
+	top: 0.35em;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--c-bg-page);
+	border: 2px solid var(--c-border-strong);
+}
+
+.afcon-timeline li.is-past { opacity: 0.72; }
+.afcon-timeline li.is-past::before { background: var(--c-border-strong); }
+.afcon-timeline li.is-kenya::before { border-color: var(--c-laterite); }
+.afcon-timeline li.is-tbc::before { border-style: dashed; }
+
+.afcon-timeline li.is-next::before {
+	background: var(--c-laterite);
+	border-color: var(--c-laterite);
+	box-shadow: 0 0 0 4px var(--c-highlight-soft);
+}
+
+.afcon-timeline time,
+.afcon-timeline .afcon-tbc {
+	min-width: 7.5rem;
+	font-size: var(--f-s);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-heading);
+}
+
+.afcon-timeline .afcon-tbc { color: var(--c-gold); }
+.afcon-timeline strong { color: var(--c-text-heading); }
+
+.afcon-timeline .afcon-detail {
+	flex-basis: 100%;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.afcon-tag {
+	padding: 0 var(--s);
+	font-size: var(--f-xs);
+	font-weight: 700;
+	border-radius: 999px;
+	background: var(--c-highlight-soft);
+	color: var(--c-laterite-dark);
+}
+
+.afcon-calendar-add {
+	padding: 0 var(--s);
+	font: inherit;
+	font-size: var(--f-xs);
+	color: var(--c-text-link);
+	background: none;
+	border: 1px solid var(--c-border-strong);
+	border-radius: 999px;
+	cursor: pointer;
+}
+
+.afcon-calendar-add:hover { background: var(--c-highlight-soft); }
+
+// Phrasebook: <details> cards, so it works without JavaScript.
+.afcon-phrases {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	gap: var(--s);
+	margin: var(--l) 0;
+}
+
+.afcon-phrases details {
+	padding: var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.afcon-phrases details[open] {
+	background: var(--c-bg-page);
+	border-color: var(--c-forest);
+}
+
+.afcon-phrases summary {
+	cursor: pointer;
+	font-family: var(--font-heading);
+	font-size: 1.15rem;
+	font-weight: 700;
+	color: var(--c-text-heading);
+	list-style: none;
+}
+
+.afcon-phrases summary::-webkit-details-marker { display: none; }
+.afcon-phrases summary::after { content: " +"; color: var(--c-text-light); font-weight: 400; }
+.afcon-phrases details[open] summary::after { content: " −"; }
+.afcon-phrases p { margin: var(--s) 0 0; font-size: var(--f-s); }
+
+// Tool cards on the hub
+.afcon-tools {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: var(--m);
+	list-style: none;
+	margin: var(--l) 0;
+	padding: 0;
+}
+
+.afcon-tools a {
+	display: block;
+	height: 100%;
+	padding: var(--l);
+	text-decoration: none;
+	color: inherit;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-left: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+}
+
+.afcon-tools a:hover { border-color: var(--c-laterite); }
+.afcon-tools h3 { margin: 0 0 var(--xs); color: var(--c-text-link); }
+.afcon-tools p { margin: 0; font-size: var(--f-s); color: var(--c-text-light); }
+
+// Home page promo
+.afcon-promo {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--m);
+	margin: 0 0 var(--l);
+	padding: var(--m) var(--l) var(--m) calc(var(--l) + 6px);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	overflow: hidden;
+}
+
+.afcon-promo::before {
+	content: "";
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 6px;
+	background: linear-gradient(180deg, #111 0 33%, #b30f1f 33% 67%, #0a6b35 67% 100%);
+}
+
+.afcon-promo p { margin: 0; }
+.afcon-promo a { text-decoration: none; }
+.afcon-promo afcon-countdown { margin: 0; }
+.afcon-promo .afcon-countdown-grid { grid-template-columns: repeat(4, minmax(0, 3.6rem)); gap: var(--xs); }
+.afcon-promo .afcon-countdown-unit { padding: var(--xs); }
+.afcon-promo .afcon-countdown-value { font-size: 1.3rem; }
+.afcon-promo .afcon-countdown-caption { display: none; }
+
+// Tool extras
+.afcon-swahili-time {
+	margin: var(--m) 0;
+	padding: var(--s) var(--m);
+	border-left: 3px solid var(--c-forest);
+	background: var(--c-note-bg);
+}
+
+.afcon-tool-links { font-size: var(--f-s); }
+
+afcon-matchday-planner select,
+afcon-matchday-planner input[type="time"] {
+	font: inherit;
+	padding: var(--xs) var(--s);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	background: var(--c-bg-page);
+	color: var(--c-text);
+	max-width: 100%;
+}
+
+@media (max-width: 420px) {
+	.afcon-countdown-grid { gap: var(--xs); }
+	.afcon-countdown-unit { padding: var(--xs) 0; }
+}

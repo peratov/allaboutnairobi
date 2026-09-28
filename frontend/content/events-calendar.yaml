@@ -117,3 +117,30 @@ events:
       architects and makers.
     source: Organiser listings
     last_verified: 2026-09-22
+
+  - title: "AFCON 2027 qualifier: Kenya v South Africa"
+    starts: 2026-11-11
+    venue: Nairobi (venue to be confirmed)
+    area: Nairobi
+    category: sport
+    price: Tickets through the Football Kenya Federation
+    url: https://www.footballkenya.org
+    source: https://thekenyatimes.com/sports/harambee-stars-full-afcon-2027-qualifying-schedule-as-tough-road-awaits/
+    last_verified: 2026-09-28
+    description: >-
+      Harambee Stars host South Africa in qualifying Group D. Kenya are already
+      at the finals as co-hosts. See the AFCON 2027 hub at /afcon.
+
+  - title: AFCON 2027 - Africa Cup of Nations
+    starts: 2027-06-19
+    ends: 2027-07-17
+    venue: Raila Odinga International Stadium, Kasarani and Nyayo National Stadium
+    area: Nairobi, Kampala, Dar es Salaam and more
+    category: sport
+    price: Tickets through CAF's official channels; prices to be announced
+    url: https://www.cafonline.com
+    source: https://en.wikipedia.org/wiki/2027_Africa_Cup_of_Nations
+    last_verified: 2026-09-28
+    description: >-
+      Africa's biggest football tournament, co-hosted by Kenya, Uganda and
+      Tanzania, with three stadiums in Nairobi. Plan it at /afcon.

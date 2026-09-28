@@ -48,6 +48,14 @@
 		</section>
 
 		<article class="section">
+			<div class="afcon-promo">
+				<p>
+					<a href="{{ SITE_URL }}/afcon"><strong>AFCON 2027 comes to Nairobi.</strong>
+					Stadiums, key dates, tickets and a matchday planner &#8658;</a>
+				</p>
+				<afcon-countdown data-starts="{{ AFCON.meta.starts }}" data-ends="{{ AFCON.meta.ends }}"></afcon-countdown>
+			</div>
+
 			<p class="radio-promo">
 				<a href="{{ SITE_URL }}/radio"><strong>Listen live</strong> to
 				{{ or_list(RADIO.stations|map(attribute='name')|list)|replace(' or ', ' and ') }} &#8658;</a>
@@ -179,4 +187,8 @@
 			{% endwith %}
 		</article>
 	</main>
+
+	<script type="module">
+		import '{{ SITE_URL }}/js/components/afcon-countdown.mjs';
+	</script>
 {% endblock %}

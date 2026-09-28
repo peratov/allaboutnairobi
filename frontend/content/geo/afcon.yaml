@@ -1,0 +1,225 @@
+# =============================================================================
+# AFCON 2027 - the TotalEnergies CAF Africa Cup of Nations PAMOJA 2027.
+#
+# The hub page (/afcon), the AFCON tools and the AFCON guides all read this
+# file, so a date or a capacity is typed once. Rules, as in constants.yaml:
+#
+#   * Only what CAF, FKF or the host governments have announced, or what
+#     several reputable reports agree on, goes in as fact.
+#   * Anything not yet decided (the draw, ticket prices, which stadium hosts
+#     the opening match or final) is marked `tbc: true` and says so on the page.
+#     Never invent a date or a price.
+#   * `checked_on` is the day a human last compared this file with the sources.
+# =============================================================================
+
+meta:
+  checked_on: 2026-09-28
+  name: TotalEnergies CAF Africa Cup of Nations PAMOJA 2027
+  short_name: AFCON 2027
+  pamoja: Pamoja means "together" in Kiswahili - the name of the joint Kenya, Uganda and Tanzania bid.
+  starts: 2027-06-19
+  ends: 2027-07-17
+  teams: 24
+  matches: 52
+  host_countries: 3
+  stadiums: 10
+  host_cities: 7
+  nairobi_stadiums: 3
+  defending_champions: Morocco
+  first_three_host: true
+  last_odd_year: true
+  firsts: >-
+    The first AFCON hosted by three countries, and the first in the CECAFA
+    region (East and Central Africa) since Ethiopia in 1976. It is also the
+    last to be played in an odd-numbered year: from 2028 the tournament moves
+    to a four-year cycle.
+
+# -----------------------------------------------------------------------------
+# Nairobi's three venues. `map_id` is the landmark id on /map.
+# -----------------------------------------------------------------------------
+nairobi_venues:
+
+  - id: raila-odinga
+    name: Raila Odinga International Stadium
+    formerly: Talanta Stadium (Talanta Sports City)
+    capacity: 60000
+    kind: New build
+    map_id: raila-odinga-international-stadium
+    lat: -1.30521
+    lon: 36.75092
+    area: Jamhuri, off Ngong Road, about 10 km west of the CBD
+    near: Jamhuri Park showground, Ngong Racecourse and Kibra
+    status: >-
+      Built from March 2024 by China Road and Bridge Corporation under the
+      supervision of the KDF Engineering Department, at a reported cost of
+      about KES 45.85 billion. Reported to be more than 90% complete in
+      August 2026, with ICT, broadcast and spectator facilities being
+      finished.
+    highlights:
+      - Kenya's largest stadium once complete
+      - A roof shaped like the shield on Kenya's flag
+      - 52 executive suites, solar panels and rainwater harvesting
+      - A contender to stage the opening match or the final
+    getting_there:
+      - Ngong Road is the main approach; it is slow at peak times and will be busier on matchdays.
+      - From Kilimani, Kileleshwa and Lavington it is a short ride; from Karen and Lang'ata use the Southern Bypass or Ngong Road.
+      - Matatus run along Ngong Road from the CBD towards Karen and Ngong.
+      - Expect road closures and drop-off zones set by the organisers on matchdays.
+
+  - id: kasarani
+    name: Moi International Sports Centre, Kasarani
+    formerly: Kasarani Stadium
+    capacity: 60000
+    kind: Rebuilt
+    map_id: kasarani-stadium
+    lat: -1.22806
+    lon: 36.89056
+    area: Kasarani, off the Thika Superhighway, about 12 km north-east of the CBD
+    near: Garden City, Thika Road Mall, Roysambu and USIU
+    status: >-
+      Closed in February 2026 for its second phase of upgrades. Works include
+      a hybrid pitch, new drainage, fully replaced seating, a new canopy,
+      2,000-lux floodlights, VAR facilities, big screens, new changing rooms
+      and automated ticketing, taking capacity from about 48,000 to 60,000.
+    highlights:
+      - Kenya's national stadium for big matches since 1987
+      - Hosted Kenya's CHAN 2024 matches, including the 1-0 win over Morocco
+      - Two annex pitches for training
+    getting_there:
+      - The Thika Superhighway is fast off-peak and slow at rush hour; the stadium exit jams after big matches.
+      - Many matatus and buses run along Thika Road from the CBD.
+      - Allow extra time for the walk from drop-off points to the gates.
+      - During CHAN 2024, crowds without tickets forced their way in, and CAF cut the capacity for Kenya's matches. Arrive early and bring your ticket.
+
+  - id: nyayo
+    name: Nyayo National Stadium
+    capacity: 30000
+    kind: Renovated
+    map_id: nyayo-national-stadium
+    lat: -1.30419
+    lon: 36.82447
+    area: Where Lang'ata Road, Mombasa Road and Aerodrome Road meet, just south of the CBD
+    near: The CBD, South B and South C, Madaraka and Nairobi West
+    status: >-
+      Renovated with a new canopy, lighting and track, and used for CHAN 2024
+      (at about 18,000 seats) and for Kenya's AFCON 2027 qualifier against
+      Eritrea in September 2026. Listed with 30,000 seats for AFCON 2027.
+    highlights:
+      - The most central of the three venues
+      - Walkable from parts of the CBD, South B and Madaraka
+      - Close to the Expressway and Mombasa Road
+    getting_there:
+      - The closest venue to the CBD - many fans can walk or take a short ride.
+      - The Expressway and Mombasa Road pass right by; the junction is one of the busiest in Nairobi.
+      - Matatus from the CBD towards Lang'ata and Mombasa Road pass the stadium.
+
+# -----------------------------------------------------------------------------
+# The rest of the tournament.
+# -----------------------------------------------------------------------------
+other_venues:
+  - { name: Benjamin Mkapa Stadium, city: Dar es Salaam, country: Tanzania, capacity: 60000 }
+  - { name: Samia Suluhu Hassan Stadium, city: Arusha, country: Tanzania, capacity: 30000, note: New }
+  - { name: Amaan Stadium, city: Zanzibar, country: Tanzania, capacity: 15000 }
+  - { name: Fumba Stadium, city: Zanzibar, country: Tanzania, capacity: 35000 }
+  - { name: Mandela National Stadium, city: Kampala, country: Uganda, capacity: 64125, note: After renovation }
+  - { name: Hoima City Stadium, city: Hoima, country: Uganda, capacity: 20000 }
+  - { name: Akii Bua Stadium, city: Lira, country: Uganda, capacity: 20000 }
+
+# -----------------------------------------------------------------------------
+# Key dates. `kenya: true` for Harambee Stars fixtures; `tbc: true` where
+# the date is not fixed. Past items stay, so the page shows the road so far.
+# -----------------------------------------------------------------------------
+key_dates:
+  - date: 2026-05-19
+    label: Qualifying draw in Cairo
+    detail: 48 teams drawn into 12 groups. Kenya drawn in Group D with South Africa, Guinea and Eritrea.
+  - date: 2026-09-26
+    label: Kenya 1-1 Eritrea
+    detail: Qualifier at Nyayo National Stadium. Ryan Ogam equalised in the 87th minute.
+    kenya: true
+  - date: 2026-10-01
+    label: Guinea v Kenya
+    detail: Qualifier in Conakry.
+    kenya: true
+  - date: 2026-11-11
+    label: Kenya v South Africa
+    detail: Qualifier in Nairobi. Venue to be confirmed.
+    kenya: true
+  - date: 2026-11-17
+    label: November window closes
+    detail: Matchdays 3 and 4 of qualifying end.
+  - date: 2027-03-22
+    label: Final qualifying window opens
+    detail: Matchdays 5 and 6, from 22 to 30 March 2027. The last qualifiers are decided.
+  - date: 2027-03-30
+    label: Qualifying ends
+    detail: The 24 teams are known.
+  - label: Final tournament draw
+    detail: Groups for the finals. Date and venue to be announced by CAF.
+    tbc: true
+  - label: Ticket sales open
+    detail: Through CAF's official channels. Date and prices to be announced.
+    tbc: true
+  - date: 2027-06-19
+    label: Kick-off
+    detail: The opening match. Venue to be confirmed by CAF.
+  - date: 2027-07-17
+    label: The final
+    detail: Venue to be confirmed by CAF.
+
+# -----------------------------------------------------------------------------
+# Harambee Stars.
+# -----------------------------------------------------------------------------
+kenya:
+  coach: Benni McCarthy
+  coach_since: March 2025
+  qualifying_group: D
+  group_opponents: [South Africa, Guinea, Eritrea]
+  qualified_as: Co-host - Kenya's place at the finals is guaranteed
+  afcon_appearances: [1972, 1988, 1990, 1992, 2004, 2019]
+  best_result: Kenya has never got past the group stage
+  first_win: A 3-0 win over Burkina Faso in 2004
+  chan_2024: >-
+    At CHAN 2024, co-hosted with Uganda and Tanzania in August 2025, Kenya
+    topped their group - including a 1-0 win over Morocco - and lost the
+    quarter-final to Madagascar on penalties at Kasarani.
+
+# -----------------------------------------------------------------------------
+# Where people staying in Nairobi might set off from, for the matchday
+# planner. Coordinates from content/geo/landmarks.yaml, plus JKIA.
+# -----------------------------------------------------------------------------
+stay_areas:
+  - { name: CBD, lat: -1.28636, lon: 36.8217 }
+  - { name: Westlands, lat: -1.2665, lon: 36.8065 }
+  - { name: Kilimani, lat: -1.29601, lon: 36.78178 }
+  - { name: Kileleshwa, lat: -1.27673, lon: 36.7879 }
+  - { name: Lavington, lat: -1.27407, lon: 36.77623 }
+  - { name: Parklands, lat: -1.26306, lon: 36.81063 }
+  - { name: Upper Hill, lat: -1.29412, lon: 36.81291 }
+  - { name: Karen, lat: -1.32837, lon: 36.70497 }
+  - { name: "Lang'ata", lat: -1.31636, lon: 36.78944 }
+  - { name: South B, lat: -1.31417, lon: 36.83767 }
+  - { name: South C, lat: -1.31884, lon: 36.82782 }
+  - { name: Madaraka, lat: -1.3074, lon: 36.81534 }
+  - { name: Gigiri, lat: -1.2325, lon: 36.8073 }
+  - { name: Runda, lat: -1.21821, lon: 36.80899 }
+  - { name: Kasarani, lat: -1.21246, lon: 36.88297 }
+  - { name: Roysambu, lat: -1.21884, lon: 36.88674 }
+  - { name: Eastleigh, lat: -1.27434, lon: 36.84896 }
+  - { name: Buruburu, lat: -1.28619, lon: 36.87743 }
+  - { name: Donholm, lat: -1.29923, lon: 36.88869 }
+  - { name: Embakasi, lat: -1.30761, lon: 36.93416 }
+  - { name: Utawala, lat: -1.28438, lon: 36.96807 }
+  - { name: JKIA (airport hotels), lat: -1.3192, lon: 36.9278 }
+
+sources:
+  - { title: "2027 Africa Cup of Nations - Wikipedia", url: "https://en.wikipedia.org/wiki/2027_Africa_Cup_of_Nations" }
+  - { title: "AFCON 2027 dates confirmed - Eastleigh Voice", url: "https://eastleighvoice.co.ke/football/328026/afcon-2027-dates-confirmed-as-kenya-uganda-and-tanzania-prepare-for-historic-co-hosting" }
+  - { title: "Raila Odinga International Stadium - Wikipedia", url: "https://en.wikipedia.org/wiki/Raila_Odinga_International_Stadium" }
+  - { title: "Raila Odinga Stadium nears completion - The Star", url: "https://www.the-star.co.ke/news/2026-06-19-raila-odinga-stadium-nears-completion-for-afcon-2027" }
+  - { title: "Kasarani overhaul - Kawowo Sports", url: "https://kawowo.com/2026/08/24/kasarani-overhaul-exposes-depth-of-kenyas-afcon-2027-infrastructure-push/" }
+  - { title: "The qualifier draw - CAF", url: "https://www.cafonline.com/afcon2025/news/the-road-to-east-africa-mapped-out-the-qualifier-draw-for-the-totalenergies-caf-africa-cup-of-nations-pamoja-2027-concluded/" }
+  - { title: "Harambee Stars held by Eritrea - Daily Nation", url: "https://nation.africa/kenya/sports/football/harambee-stars-held-by-eritrea-in-2027-afcon-qualifier-5610364" }
+  - { title: "Kenya at the Africa Cup of Nations - Wikipedia", url: "https://en.wikipedia.org/wiki/Kenya_at_the_Africa_Cup_of_Nations" }
+  - { title: "CAF cuts Kenyan crowd numbers at Kasarani - Inside World Football", url: "https://www.insideworldfootball.com/2025/08/13/caf-cuts-kenyan-crowd-numbers-fans-force-way-kasarani-stadium/" }
+  - { title: "Uganda announces AFCON 2027 visa waiver - New Vision", url: "https://www.newvision.co.ug/category/sports/uganda-announces-visa-waiver-for-afcon-2027-v-NV_231409_042026" }

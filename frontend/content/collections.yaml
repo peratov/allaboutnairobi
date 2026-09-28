@@ -2,6 +2,22 @@
 # page at /collections/<id>, and every guide listed gets a "Related guides"
 # block pointing back at its collection.
 
+- id: afcon-2027
+  type: guides
+  title: AFCON 2027 in Nairobi
+  short_title: AFCON 2027
+  symbol: football
+  description: The Africa Cup of Nations comes to Nairobi in June 2027 - stadiums, tickets, travel and the Harambee Stars.
+  entries:
+    - uri: guides/afcon-2027-in-nairobi.md
+    - uri: guides/afcon-2027-stadiums-in-nairobi.md
+    - uri: guides/afcon-2027-tickets-and-fan-id.md
+    - uri: guides/visiting-nairobi-for-afcon-2027.md
+    - uri: guides/travelling-between-afcon-2027-host-cities.md
+    - uri: guides/harambee-stars-and-afcon.md
+    - uri: guides/watching-afcon-2027-in-nairobi.md
+    - uri: guides/afcon-2027-for-nairobi-businesses.md
+
 - id: arriving
   type: guides
   title: Arriving in Nairobi
@@ -233,3 +249,5 @@
     - uri: tools/turnover-tax-calculator.md
     - uri: tools/withholding-tax-calculator.md
     - uri: tools/rental-yield-calculator.md
+    - uri: tools/afcon-matchday-planner.md
+    - uri: tools/afcon-trip-budget.md

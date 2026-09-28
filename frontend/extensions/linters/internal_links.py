@@ -26,6 +26,8 @@ TEMPLATE_PAGES = {
     "events",
     # Live radio: a template page, with a CSP of its own in vercel.json.
     "radio",
+    # The AFCON 2027 hub: a template page reading content/geo/afcon.yaml.
+    "afcon",
     "offline",
     "newsletter",
     # Generated at the root by the feed renderer rather than by a template.

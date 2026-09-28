@@ -8,5 +8,6 @@
 {% block postFooter %}
 	{{ super() }}
 	<script type="application/json" id="site-constants">{{ TOOL_CONSTANTS|tojson }}</script>
+	{% if entry.tool_data|default == "afcon" %}<script type="application/json" id="afcon-data">{{ AFCON_DATA|tojson }}</script>{% endif %}
 	{% if entry.tool|default %}<script type="module" src="/js/tools/{{ entry.tool }}.mjs"></script>{% endif %}
 {% endblock %}

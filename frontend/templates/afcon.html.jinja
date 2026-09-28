@@ -1,0 +1,261 @@
+{% extends "_layout.html" %}
+{% set canonical_path = "/afcon" %}
+{% set A = AFCON %}
+{% set M = A.meta %}
+{% set metatitle = "AFCON 2027 in Nairobi: stadiums, dates, tickets and fan guide" %}
+{% set metadescription = "Everything about AFCON 2027 in Nairobi: Raila Odinga Stadium, Kasarani and Nyayo, key dates, Harambee Stars, tickets, a matchday planner and a live countdown." %}
+{% set today = now.date() %}
+{% set afconCollection = get_entries('collections')|selectattr('id', 'equalto', 'afcon-2027')|list %}
+
+{% set phrases = [
+	("Goli!", "Goal! Shouted, sung and repeated for as long as your voice lasts."),
+	("Twende Harambee Stars!", "Let's go, Harambee Stars! Twende means let's go."),
+	("Tuko pamoja", "We are together - the spirit of the Pamoja tournament."),
+	("Mashabiki", "Fans. One fan is a shabiki."),
+	("Uwanja", "Stadium or pitch. Twende uwanjani - let's go to the stadium."),
+	("Mechi inaanza saa ngapi?", "What time does the match start? Expect the answer in Swahili time."),
+	("Mlango uko wapi?", "Where is the gate? Mlango is a door or gate; people also say geti."),
+	("Tumeshinda!", "We've won!"),
+	("Hongera!", "Congratulations!"),
+	("Pole sana", "So sorry - for the other side's fans, or after a loss."),
+	("Refa!", "Ref! Usually followed by an opinion."),
+	("Maji, tafadhali", "Water, please. Tafadhali means please."),
+	("Ni bei gani?", "How much is it? Useful for jerseys, flags and snacks outside."),
+	("Asante sana", "Thank you very much."),
+	("Karibu Kenya", "Welcome to Kenya - you will hear it a lot."),
+	("Sawa sawa", "OK, all good. The answer to almost everything."),
+] %}
+
+{% block postHead %}
+	{{ super() }}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SportsEvent",
+		"name": {{ M.name|tojson }},
+		"alternateName": "AFCON 2027",
+		"sport": "Association football",
+		"startDate": "{{ M.starts }}",
+		"endDate": "{{ M.ends }}",
+		"eventStatus": "https://schema.org/EventScheduled",
+		"eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+		"description": {{ M.firsts|tojson }},
+		"organizer": { "@type": "SportsOrganization", "name": "Confederation of African Football", "url": "https://www.cafonline.com" },
+		"location": [
+			{% for v in A.nairobi_venues %}{
+				"@type": "StadiumOrArena",
+				"name": {{ v.name|tojson }},
+				"maximumAttendeeCapacity": {{ v.capacity }},
+				"address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" },
+				"geo": { "@type": "GeoCoordinates", "latitude": {{ v.lat }}, "longitude": {{ v.lon }} }
+			}{% if not loop.last %},{% endif %}
+			{% endfor %}
+		],
+		"url": "{{ CANONICAL_ORIGIN }}/afcon"
+	}
+	</script>
+{% endblock %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<section class="afcon-hero">
+			<p class="afcon-kicker">Pamoja 2027 &middot; Kenya, Uganda &amp; Tanzania</p>
+			<h1>AFCON 2027 comes to Nairobi</h1>
+			<p class="page-intro">
+				Africa's biggest football tournament, co-hosted by Kenya for the first
+				time, from {{ M.starts.day }} {{ M.starts.strftime('%B') }} to
+				{{ M.ends.day }} {{ M.ends.strftime('%B %Y') }}. Three Nairobi stadiums,
+				{{ M.teams }} nations and {{ M.matches }} matches across East Africa.
+				Here is everything we know, and the tools to plan your matchdays.
+			</p>
+
+			<afcon-countdown data-starts="{{ M.starts }}" data-ends="{{ M.ends }}">
+				<p class="afcon-countdown-caption">
+					Kickoff: {{ M.starts.day }} {{ M.starts.strftime('%B %Y') }} &middot;
+					{{ (M.starts - today).days }} days to go when this page was built.
+				</p>
+			</afcon-countdown>
+
+			<div class="afcon-hero-actions">
+				<a class="button" href="{{ SITE_URL }}/tools/afcon-matchday-planner">Plan a matchday</a>
+				<a class="button secondary" href="{{ SITE_URL }}/tools/afcon-trip-budget">Budget a fan trip</a>
+				<a class="button secondary" href="#key-dates">Key dates</a>
+			</div>
+
+			<ul class="stat-row">
+				<li class="stat"><span class="stat-value">{{ M.teams }}</span><span class="stat-label">nations</span></li>
+				<li class="stat"><span class="stat-value">{{ M.matches }}</span><span class="stat-label">matches</span></li>
+				<li class="stat"><span class="stat-value">{{ M.host_countries }}</span><span class="stat-label">host countries, a first</span></li>
+				<li class="stat"><span class="stat-value">{{ M.nairobi_stadiums }}</span><span class="stat-label">stadiums in Nairobi</span></li>
+				<li class="stat"><span class="stat-value">{{ (A.nairobi_venues|sum(attribute='capacity') / 1000)|round|int }}k</span><span class="stat-label">seats across Nairobi's venues</span></li>
+			</ul>
+		</section>
+
+		<article class="section">
+			<h2 id="what-we-know">What we know, and what we don't yet</h2>
+			<p class="page-intro">
+				Checked on {{ A.meta.checked_on.day }} {{ A.meta.checked_on.strftime('%B %Y') }}.
+				We only state what CAF, the federations or the governments have
+				announced; the rest is marked as waiting.
+			</p>
+			<div class="afcon-status">
+				<div class="confirmed">
+					<h3>Confirmed</h3>
+					<ul>
+						<li>Dates: {{ M.starts.day }} June to {{ M.ends.day }} July {{ M.ends.year }}.</li>
+						<li>{{ M.teams }} teams, {{ M.matches }} matches, {{ M.stadiums }} stadiums in {{ M.host_cities }} cities.</li>
+						<li>Kenya, Uganda and Tanzania qualify automatically as hosts.</li>
+						<li>Nairobi's venues: {{ or_list(A.nairobi_venues|map(attribute='name')|list)|replace(' or ', ' and ') }}.</li>
+						<li>{{ M.defending_champions }} are the defending champions.</li>
+					</ul>
+				</div>
+				<div class="pending">
+					<h3>Still to be announced</h3>
+					<ul>
+						<li>Which stadiums host the opening match and the final.</li>
+						<li>The draw for the finals, and the match schedule.</li>
+						<li>Ticket prices and when sales open.</li>
+						<li>Whether fans will need a Fan ID, and any joint East African visa.</li>
+						<li>Official fan zones in Nairobi.</li>
+					</ul>
+				</div>
+			</div>
+			<p>{{ M.firsts }}</p>
+		</article>
+
+		<article class="section">
+			<h2 id="stadiums">Nairobi's three stadiums</h2>
+			<ul class="afcon-venues">
+				{% for v in A.nairobi_venues %}
+				<li>
+					<div class="afcon-venue">
+						<p class="afcon-venue-meta">{{ v.kind }}{% if v.formerly|default %} &middot; formerly {{ v.formerly }}{% endif %}</p>
+						<h3>{{ v.name }}</h3>
+						<p class="afcon-venue-capacity">{{ v.capacity|count }} <small>seats</small></p>
+						<p>{{ v.area }}.</p>
+						<ul>
+							{% for h in v.highlights %}<li>{{ h }}</li>{% endfor %}
+						</ul>
+						<p class="afcon-venue-links">
+							<a href="{{ SITE_URL }}/map#place/{{ v.map_id }}">On the map</a> &middot;
+							<a href="{{ SITE_URL }}/guides/afcon-2027-stadiums-in-nairobi#{{ v.name|slug }}">Getting there</a>
+						</p>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+			<p>
+				The rest of the tournament is played at
+				{% for v in A.other_venues %}{{ v.name }} ({{ v.city }}){% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %}.
+				See <a href="{{ SITE_URL }}/guides/travelling-between-afcon-2027-host-cities">travelling between the host cities</a>.
+			</p>
+		</article>
+
+		<article class="section">
+			<h2 id="key-dates">Key dates</h2>
+			{% set next_index = namespace(value=-1) %}
+			{% for item in A.key_dates %}{% if next_index.value < 0 and item.date is defined and item.date >= today %}{% set next_index.value = loop.index0 %}{% endif %}{% endfor %}
+			<afcon-calendar>
+				<script type="application/json">{{ AFCON_DATA.key_dates|tojson }}</script>
+				<ol class="afcon-timeline">
+					{% for item in A.key_dates %}
+					{% set past = item.date is defined and item.date < today %}
+					<li class="{% if past %}is-past{% endif %}{% if item.kenya|default %} is-kenya{% endif %}{% if item.tbc|default %} is-tbc{% endif %}{% if loop.index0 == next_index.value %} is-next{% endif %}"{% if item.date is defined %} data-ics-index="{{ loop.index0 }}"{% endif %}>
+						{% if item.date is defined %}
+						<time datetime="{{ item.date }}">{{ item.date.day }} {{ item.date.strftime('%b %Y') }}</time>
+						{% else %}
+						<span class="afcon-tbc">To be announced</span>
+						{% endif %}
+						<strong>{{ item.label }}</strong>
+						{% if item.kenya|default %}<span class="afcon-tag">Harambee Stars</span>{% endif %}
+						{% if loop.index0 == next_index.value %}<span class="afcon-tag">Next</span>{% endif %}
+						<span class="afcon-detail">{{ item.detail }}</span>
+					</li>
+					{% endfor %}
+				</ol>
+			</afcon-calendar>
+		</article>
+
+		<article class="section">
+			<h2 id="harambee-stars">Harambee Stars</h2>
+			<p>
+				Kenya are in the finals as co-hosts, coached by <strong>{{ A.kenya.coach }}</strong>
+				since {{ A.kenya.coach_since }}. They still play qualifying Group
+				{{ A.kenya.qualifying_group }} against {{ or_list(A.kenya.group_opponents)|replace(' or ', ' and ') }}
+				for competitive practice. This will be Kenya's
+				{{ A.kenya.afcon_appearances|length + 1 }}th AFCON, after
+				{{ or_list(A.kenya.afcon_appearances|map('string')|list)|replace(' or ', ' and ') }}.
+				{{ A.kenya.best_result }}. {{ A.kenya.chan_2024 }}
+			</p>
+			<p><a href="{{ SITE_URL }}/guides/harambee-stars-and-afcon">The Harambee Stars and AFCON: history, the squad's road and how to support &#8658;</a></p>
+		</article>
+
+		<article class="section">
+			<h2 id="tools">Plan it</h2>
+			<ul class="afcon-tools">
+				<li>
+					<a href="{{ SITE_URL }}/tools/afcon-matchday-planner">
+						<h3>Matchday planner</h3>
+						<p>When to leave for Raila Odinga Stadium, Kasarani or Nyayo from where you are staying, what the trip costs your group, and kickoff in Swahili time.</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/tools/afcon-trip-budget">
+						<h3>Fan trip budget</h3>
+						<p>Rooms, tickets, getting around, food, the eTA and a safari between matches - totalled in shillings and dollars.</p>
+					</a>
+				</li>
+				<li>
+					<a href="{{ SITE_URL }}/map#place/raila-odinga-international-stadium">
+						<h3>The stadiums on the map</h3>
+						<p>See all three venues against Nairobi's neighbourhoods, rents and landmarks.</p>
+					</a>
+				</li>
+			</ul>
+		</article>
+
+		<article class="section">
+			<h2 id="guides">The AFCON 2027 guides</h2>
+			{% if afconCollection %}
+				{% with collections=afconCollection %}
+					{% include "_blocks/collections.html" %}
+				{% endwith %}
+			{% endif %}
+		</article>
+
+		<article class="section">
+			<h2 id="phrasebook">Fan Kiswahili</h2>
+			<p class="page-intro">
+				Sixteen words and phrases for match days. Tap one to see what it means.
+				<strong>Swahili time</strong>: hours count from sunrise, so <em>saa moja</em>
+				(the first hour) is 7 o'clock and a 9pm kickoff is <em>saa tatu usiku</em>.
+			</p>
+			<div class="afcon-phrases">
+				{% for phrase, meaning in phrases %}
+				<details>
+					<summary lang="sw">{{ phrase }}</summary>
+					<p>{{ meaning }}</p>
+				</details>
+				{% endfor %}
+			</div>
+			<p><a href="{{ SITE_URL }}/guides/swahili-for-daily-life">More Swahili for daily life &#8658;</a></p>
+		</article>
+
+		<article class="section">
+			<h2 id="sources">Sources</h2>
+			<ul>
+				{% for s in A.sources %}<li><a href="{{ s.url }}" rel="noopener">{{ s.title }}</a></li>{% endfor %}
+			</ul>
+			<p class="tool-note">
+				AFCON is organised by the Confederation of African Football (CAF). This
+				is an independent guide, not an official AFCON, CAF or government
+				site. For tickets, use only CAF's official channels.
+			</p>
+		</article>
+	</main>
+
+	<script type="module">
+		import '{{ SITE_URL }}/js/components/afcon-countdown.mjs';
+		import '{{ SITE_URL }}/js/components/afcon-calendar.mjs';
+	</script>
+{% endblock %}

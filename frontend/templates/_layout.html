@@ -192,7 +192,9 @@
 					aria-expanded="false">Guides</button>
 				<a href="{{ SITE_URL }}/tools" title="Calculators and document templates"
 					{% if section in ('/tools', '/docs') %}aria-current="page"{% endif %}>Tools</a>
-				<a href="{{ SITE_URL }}/events" title="What is on in Nairobi"
+				<a class="nav-afcon" href="{{ SITE_URL }}/afcon" title="AFCON 2027 in Nairobi: stadiums, dates and fan guide"
+					{% if section == '/afcon' %}aria-current="page"{% endif %}>AFCON</a>
+				<a class="no-small" href="{{ SITE_URL }}/events" title="What is on in Nairobi"
 					{% if section == '/events' %}aria-current="page"{% endif %}>Events</a>
 				<a href="{{ SITE_URL }}/map" title="Constituencies, neighbourhoods and landmarks of Nairobi"
 					{% if section == '/map' %}aria-current="page"{% endif %}>Map</a>
