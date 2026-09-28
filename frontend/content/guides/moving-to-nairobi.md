@@ -96,6 +96,7 @@ street machine at night.
 ## Fitting in
 
 See [Culture and etiquette in Kenya](/guides/culture-and-etiquette-in-kenya) and [Setting up your home](/guides/setting-up-your-home).
+Shipping furniture? See [Shipping belongings to Kenya](/guides/shipping-belongings-to-kenya).
 
 ## Common mistakes
 

@@ -33,7 +33,8 @@ and popular with young professionals: close to Westlands, Upper Hill and the
 CBD, with shops and cafés along Argwings Kodhek and Ngong roads. **Lavington**
 is leafier, with more houses and townhouses. See
 [Living in Kilimani](/guides/living-in-kilimani) and
-[Kilimani vs Westlands vs Lavington](/guides/kilimani-vs-westlands-vs-lavington).
+[Kilimani vs Westlands vs Lavington](/guides/kilimani-vs-westlands-vs-lavington)
+and [Living in Lavington and Kileleshwa](/guides/living-in-lavington-and-kileleshwa).
 
 ## Upper Hill
 
@@ -44,20 +45,22 @@ the CBD. A short commute for people who work there.
 
 North of the centre, in [Westlands constituency](/map#constituency/westlands).
 Big houses, embassies, the UN offices at Gigiri, Village Market and Two
-Rivers. Quiet and green, with long commutes into town on Limuru Road.
+Rivers. Quiet and green, with long commutes into town on Limuru Road. See
+[Living in Runda, Gigiri and Muthaiga](/guides/living-in-runda-gigiri-and-muthaiga).
 
 ## Karen and Lang'ata
 
 South-west, in [Lang'ata](/map#constituency/langata). **Karen** has large
 plots, forest, riding and the Giraffe Centre; it feels semi-rural, and most
 residents drive. **Lang'ata** is more mixed, with estates close to Wilson
-Airport, Bomas and the national park.
+Airport, Bomas and the national park. See
+[Living in Karen and Lang'ata](/guides/living-in-karen-and-langata).
 
 ## South B, South C, Nairobi West and Madaraka
 
 Established middle-class estates south of the centre. Good value, close to
 Mombasa Road, Strathmore University and the Industrial Area, and a reasonable
-run to the airport.
+run to the airport. See [Living in South B and South C](/guides/living-in-south-b-and-south-c).
 
 ## Eastlands
 
@@ -74,7 +77,8 @@ long. Utawala and Embakasi are handy for JKIA.
 [Kasarani](/map#constituency/kasarani), with Garden City, the Kasarani
 stadium, USIU and Kenyatta University. The Thika Superhighway made the area
 popular with students and young families. Traffic at the Muthaiga and Pangani
-end is bad at peak times.
+end is bad at peak times. See
+[Living in Ruaka and along Thika Road](/guides/living-in-ruaka-and-thika-road).
 
 ## Kibera and Mathare
 
@@ -90,4 +94,5 @@ someone who lives there or a community-run tour, not as a spectator.
 Many Nairobi workers live in satellite towns with lower rents: Ruaka and
 Kikuyu to the north-west, Syokimau and Kitengela to the south-east, and Rongai
 to the south. They are good value if your commute runs against the rush-hour
-flow, and a hard slog if it runs with it.
+flow, and a hard slog if it runs with it. See
+[Living in Syokimau, Mlolongo and Kitengela](/guides/living-in-syokimau-mlolongo-and-kitengela).

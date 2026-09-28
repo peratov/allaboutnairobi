@@ -106,6 +106,7 @@ claims up to KES 1 million without a lawyer.
 
 ## Next
 
+- [Moving house in Nairobi](/guides/moving-house-in-nairobi)
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
 - [Utilities in Nairobi](/guides/utilities-in-nairobi)
 - [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)

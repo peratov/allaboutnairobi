@@ -659,6 +659,20 @@ constants:
     last_verified: 2026-09-28
     fail_on: 2027-07-01
 
+  RETURNING_RESIDENT_CAR_MAX_AGE:
+    value: 8
+    unit: integer
+    description: Maximum age in years from manufacture of a car a returning resident may import duty-free. KRA guidelines for returning residents.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  CAR_INSURANCE_MIN_PREMIUM:
+    value: 37500
+    unit: shillings
+    description: Typical minimum annual premium insurers apply to comprehensive private car cover, as reported in 2026.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
   CLASS_D_PROCESSING_FEE:
     value: 20000
     unit: shillings

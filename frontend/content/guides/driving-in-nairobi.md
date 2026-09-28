@@ -68,5 +68,6 @@ against drivers.
 
 ## Next
 
+- [Car insurance in Kenya](/guides/car-insurance-in-kenya)
 - [Getting around Nairobi](/guides/getting-around-nairobi)
 - [Safety in Nairobi](/guides/safety-in-nairobi)

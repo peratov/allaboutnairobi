@@ -25,6 +25,8 @@
     - uri: guides/esims-and-sim-cards-for-visitors.md
     - uri: guides/class-d-work-permit.md
     - uri: guides/dependant-passes.md
+    - uri: guides/class-n-digital-nomad-permit.md
+    - uri: guides/shipping-belongings-to-kenya.md
     - uri: guides/applying-for-a-kenyan-passport.md
     - uri: guides/certificate-of-good-conduct.md
     - uri: guides/getting-a-birth-certificate.md
@@ -39,8 +41,15 @@
     - uri: guides/neighbourhoods-of-nairobi.md
     - uri: guides/kilimani-vs-westlands-vs-lavington.md
     - uri: guides/serviced-apartments-in-nairobi.md
+    - uri: guides/moving-house-in-nairobi.md
     - uri: guides/living-in-kilimani.md
     - uri: guides/living-in-westlands.md
+    - uri: guides/living-in-lavington-and-kileleshwa.md
+    - uri: guides/living-in-karen-and-langata.md
+    - uri: guides/living-in-runda-gigiri-and-muthaiga.md
+    - uri: guides/living-in-south-b-and-south-c.md
+    - uri: guides/living-in-ruaka-and-thika-road.md
+    - uri: guides/living-in-syokimau-mlolongo-and-kitengela.md
     - uri: guides/finding-housing.md
     - uri: guides/tenant-rights-in-kenya.md
     - uri: guides/utilities-in-nairobi.md
@@ -114,6 +123,7 @@
     - uri: guides/getting-a-kenyan-driving-licence.md
     - uri: guides/importing-a-car-to-kenya.md
     - uri: guides/transferring-a-car-logbook.md
+    - uri: guides/car-insurance-in-kenya.md
     - uri: guides/travelling-around-kenya.md
 
 - id: health-and-safety
