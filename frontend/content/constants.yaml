@@ -568,6 +568,20 @@ constants:
     last_verified: 2026-09-28
     fail_on: 2027-01-01
 
+  CLASS_D_PROCESSING_FEE:
+    value: 20000
+    unit: shillings
+    description: Class D (employment) work permit processing fee, non-refundable. immigration.go.ke.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  CLASS_D_PERMIT_FEE:
+    value: 500000
+    unit: shillings
+    description: Class D work permit issuance fee per year. Free for citizens of EAC partner states. immigration.go.ke.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
   LATE_FILING_PENALTY:
     value: 2000
     unit: shillings

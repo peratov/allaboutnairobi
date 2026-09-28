@@ -23,6 +23,7 @@
     - uri: guides/kenya-eta-step-by-step.md
     - uri: guides/jkia-airport-guide.md
     - uri: guides/esims-and-sim-cards-for-visitors.md
+    - uri: guides/class-d-work-permit.md
     - uri: guides/applying-for-a-kenyan-passport.md
     - uri: guides/certificate-of-good-conduct.md
 
@@ -38,7 +39,10 @@
     - uri: guides/living-in-kilimani.md
     - uri: guides/living-in-westlands.md
     - uri: guides/finding-housing.md
+    - uri: guides/tenant-rights-in-kenya.md
     - uri: guides/utilities-in-nairobi.md
+    - uri: guides/kenya-power-tokens.md
+    - uri: guides/home-internet-in-nairobi.md
     - uri: guides/nairobi-county-services.md
     - uri: guides/setting-up-your-home.md
     - uri: guides/buying-property-in-kenya.md
@@ -79,6 +83,7 @@
     - uri: guides/registering-a-business-in-kenya.md
     - uri: guides/freelancing-in-kenya.md
     - uri: guides/clearance-certificates-for-jobs.md
+    - uri: guides/etims-for-small-businesses.md
 
 - id: getting-around
   type: guides
@@ -115,6 +120,8 @@
   description: Schools, shopping and the public holiday calendar.
   entries:
     - uri: guides/schools-in-nairobi.md
+    - uri: guides/international-schools-in-nairobi.md
+    - uri: guides/senior-school-and-grade-10-placement.md
     - uri: guides/nairobi-with-kids.md
     - uri: guides/studying-in-nairobi.md
     - uri: guides/pets-in-nairobi.md

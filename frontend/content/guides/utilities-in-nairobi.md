@@ -20,7 +20,8 @@ You buy [[tokens]] and type the 20-digit code into the meter.
   for anything expensive, and keep a torch or rechargeable lamp.
 
 Electric water heaters and cookers eat tokens. If your balance vanishes
-faster than expected, check the water heater first.
+faster than expected, check the water heater first. For missing tokens and
+meter errors, see [Kenya Power tokens](/guides/kenya-power-tokens).
 
 ## Water
 
@@ -47,7 +48,8 @@ serve your building before you move in.
 - **Satellite:** Starlink is licensed in Kenya and useful on the outskirts.
 
 Installation can take anywhere from a day to a couple of weeks. A mobile hotspot
-covers the gap.
+covers the gap. See [Home internet in Nairobi](/guides/home-internet-in-nairobi)
+for a fuller comparison.
 
 ## Cooking gas
 

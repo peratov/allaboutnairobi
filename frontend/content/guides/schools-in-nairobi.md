@@ -51,7 +51,11 @@ June or July. Well-known Nairobi schools include:
 
 Fees are high and usually come with one-off registration, assessment and
 development charges. Ask every school for its full fee schedule, including
-transport, lunch and trips.
+transport, lunch and trips. See
+[International schools in Nairobi](/guides/international-schools-in-nairobi)
+for curricula, fees and applying, and
+[Senior school and Grade 10 placement](/guides/senior-school-and-grade-10-placement)
+for the Kenyan system's pathways.
 
 ## Choosing a school
 
