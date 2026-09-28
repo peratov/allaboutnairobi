@@ -673,6 +673,44 @@ constants:
     last_verified: 2026-09-28
     fail_on: 2027-07-01
 
+  SGR_FARE_ECONOMY:
+    value: 1500
+    unit: shillings
+    description: Madaraka Express one-way economy fare, Nairobi to Mombasa. Kenya Railways.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  SGR_FARE_FIRST:
+    value: 4500
+    unit: shillings
+    description: Madaraka Express one-way first class fare, Nairobi to Mombasa. Kenya Railways.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  PENSION_DEDUCTION_MONTHLY:
+    value: 30000
+    unit: shillings
+    description: >-
+      Maximum monthly pension contribution deductible from taxable income
+      (KES 360,000 a year, or 30% of pensionable pay if lower). Tax Laws
+      (Amendment) Act 2024, from 27 December 2024.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  PRMF_DEDUCTION_MONTHLY:
+    value: 15000
+    unit: shillings
+    description: Maximum monthly contribution to a registered post-retirement medical fund deductible from taxable income. Tax Laws (Amendment) Act 2024.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  ANNUAL_RETURN_FEE:
+    value: 200
+    unit: shillings
+    description: Business Registration Service fee to file a company's annual return (CR29) online.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
   CLASS_D_PROCESSING_FEE:
     value: 20000
     unit: shillings

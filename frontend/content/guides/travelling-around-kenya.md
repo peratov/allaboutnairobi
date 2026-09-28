@@ -64,5 +64,8 @@ lowlands, unlike in Nairobi. See a travel clinic before you go. See
 
 ## Next
 
+- [Nairobi to Mombasa](/guides/nairobi-to-mombasa)
+- [Weekend getaways from Nairobi](/guides/weekend-getaways-from-nairobi)
+- [Car hire in Nairobi](/guides/car-hire-in-nairobi)
 - [Day trips from Nairobi](/guides/day-trips-from-nairobi)
 - [Where you can fly nonstop from Nairobi](/flights)

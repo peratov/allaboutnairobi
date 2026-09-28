@@ -95,6 +95,8 @@
     - uri: guides/mobile-loans-true-cost.md
     - uri: guides/checking-your-crb-status.md
     - uri: guides/checking-your-nssf-statement.md
+    - uri: guides/pensions-in-kenya.md
+    - uri: guides/life-insurance-in-kenya.md
 
 - id: work-and-business
   type: guides
@@ -119,6 +121,8 @@
     - uri: guides/turnover-tax-vs-income-tax.md
     - uri: guides/hiring-your-first-employee.md
     - uri: guides/coworking-spaces-in-nairobi.md
+    - uri: guides/registering-for-vat.md
+    - uri: guides/company-annual-returns.md
 
 - id: getting-around
   type: guides
@@ -134,6 +138,8 @@
     - uri: guides/transferring-a-car-logbook.md
     - uri: guides/car-insurance-in-kenya.md
     - uri: guides/travelling-around-kenya.md
+    - uri: guides/nairobi-to-mombasa.md
+    - uri: guides/car-hire-in-nairobi.md
 
 - id: health-and-safety
   type: guides
@@ -147,6 +153,8 @@
     - uri: guides/health-insurance-in-kenya.md
     - uri: guides/hospitals-in-nairobi.md
     - uri: guides/giving-birth-in-nairobi.md
+    - uri: guides/therapy-and-mental-health-in-nairobi.md
+    - uri: guides/emergencies-in-nairobi.md
     - uri: guides/safety-in-nairobi.md
     - uri: guides/reporting-a-crime-and-lost-documents.md
 
@@ -166,6 +174,7 @@
     - uri: guides/shopping-in-nairobi.md
     - uri: guides/public-holidays-in-kenya.md
     - uri: guides/getting-married-in-kenya.md
+    - uri: guides/death-and-succession-in-kenya.md
 
 - id: exploring
   type: guides
@@ -178,6 +187,7 @@
     - uri: guides/nairobi-in-48-hours.md
     - uri: guides/nairobi-national-park.md
     - uri: guides/maasai-mara-from-nairobi.md
+    - uri: guides/weekend-getaways-from-nairobi.md
     - uri: guides/choosing-a-safari-company.md
     - uri: guides/where-to-stay-in-nairobi.md
     - uri: guides/is-nairobi-safe-for-tourists.md

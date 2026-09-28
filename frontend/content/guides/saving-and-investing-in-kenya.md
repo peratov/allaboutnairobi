@@ -81,6 +81,8 @@ relief on contributions up to a limit. Pension schemes are regulated by the
 - [Buying Treasury bills and bonds on DhowCSD](/guides/buying-treasury-bills-and-bonds)
 - [Investing on the NSE](/guides/investing-on-the-nse)
 - [SACCOs in Nairobi](/guides/saccos-in-nairobi)
+- [Pensions in Kenya](/guides/pensions-in-kenya)
+- [Life insurance](/guides/life-insurance-in-kenya)
 
 ## Tools
 

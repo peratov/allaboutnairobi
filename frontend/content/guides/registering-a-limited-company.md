@@ -75,6 +75,8 @@ See [Moving to Nairobi](/guides/moving-to-nairobi#if-you-are-coming-to-work).
 
 ## Next
 
+- [Company annual returns](/guides/company-annual-returns)
+- [Registering for VAT](/guides/registering-for-vat)
 - [Registering a business in Kenya](/guides/registering-a-business-in-kenya)
 - [Turnover tax calculator](/tools/turnover-tax-calculator)
 - [VAT calculator](/tools/vat-calculator)

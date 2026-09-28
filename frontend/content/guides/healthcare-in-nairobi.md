@@ -86,6 +86,8 @@ details before treating anything non-critical.
 
 ## Next
 
+- [Therapy and mental health](/guides/therapy-and-mental-health-in-nairobi)
+- [Emergencies in Nairobi](/guides/emergencies-in-nairobi)
 - [Nairobi's main hospitals](/guides/hospitals-in-nairobi)
 - [Giving birth in Nairobi](/guides/giving-birth-in-nairobi)
 - [Safety in Nairobi](/guides/safety-in-nairobi)

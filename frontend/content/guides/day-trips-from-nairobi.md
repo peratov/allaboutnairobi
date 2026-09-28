@@ -72,3 +72,7 @@ For getting further afield, see [Travelling around Kenya](/guides/travelling-aro
   [Healthcare in Nairobi](/guides/healthcare-in-nairobi#staying-healthy).
 - Check the road and the weather in the rainy seasons, when murram roads can
   become impassable.
+
+## Next
+
+- [Weekend getaways from Nairobi](/guides/weekend-getaways-from-nairobi)
