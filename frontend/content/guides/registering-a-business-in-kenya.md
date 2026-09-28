@@ -38,9 +38,11 @@ Registration is through the **Business Registration Service (BRS)** on
 - **eTIMS.** Businesses must issue invoices through KRA's electronic tax
   invoice system, eTIMS, whether or not they are registered for VAT. There is
   a free app and a web version for small traders.
-- **Turnover tax.** Small resident businesses below the VAT threshold usually
-  pay turnover tax at {{ TURNOVER_TAX_RATE|percent }}% of gross sales, filed
-  monthly on [[iTax]].
+- **Turnover tax.** Small resident businesses with a turnover between KES
+  {{ TURNOVER_TAX_LOWER|shillings }} and KES {{ TURNOVER_TAX_UPPER|shillings }}
+  a year can pay turnover tax at {{ TURNOVER_TAX_RATE|percent }}% of gross
+  sales instead of income tax on profit, filed monthly on [[iTax]]. See the
+  [turnover tax calculator](/tools/turnover-tax-calculator).
 - **VAT.** Registration is compulsory once turnover passes KES
   {{ VAT_REGISTRATION_THRESHOLD|shillings }} in twelve months. VAT is
   {{ VAT_RATE|percent }}%; see the [VAT calculator](/tools/vat-calculator).

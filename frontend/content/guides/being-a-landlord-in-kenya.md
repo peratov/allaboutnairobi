@@ -62,6 +62,10 @@ working electrics, secure gates and locks, and clear access in an emergency.
 - The **Small Claims Court** handles unpaid rent up to KES 1 million without a
   lawyer.
 
+## Is it worth it?
+
+Work out the return after costs and tax with the [rental yield calculator](/tools/rental-yield-calculator).
+
 ## Next
 
 - [Rental income tax calculator](/tools/rental-income-tax-calculator)

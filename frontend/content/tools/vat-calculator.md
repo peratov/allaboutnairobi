@@ -14,7 +14,8 @@ include it; quotes between businesses often do not.
 ## Do you need to register?
 
 A business must register for VAT once its turnover passes KES
-{{ VAT_REGISTRATION_THRESHOLD|shillings }} in twelve months. Below that, small
-businesses usually pay turnover tax at {{ TURNOVER_TAX_RATE|percent }}% of
-gross sales instead. See
+{{ VAT_REGISTRATION_THRESHOLD|shillings }} in twelve months. Separately, small businesses
+with a turnover between KES {{ TURNOVER_TAX_LOWER|shillings }} and KES
+{{ TURNOVER_TAX_UPPER|shillings }} a year can pay turnover tax at
+{{ TURNOVER_TAX_RATE|percent }}% of gross sales instead of income tax. See
 [Registering a business in Kenya](/guides/registering-a-business-in-kenya).

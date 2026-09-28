@@ -275,9 +275,11 @@ constants:
     fail_on: 2027-07-01
 
   TURNOVER_TAX_RATE:
-    value: 3
+    value: 1.5
     unit: percent
-    description: Turnover tax on the gross sales of small resident businesses below the VAT threshold.
+    description: >-
+      Turnover tax on the gross sales of small resident businesses, as KRA
+      publishes it. Reduced from 3% by the Tax Laws (Amendment) Act 2024.
     last_verified: 2026-09-23
     fail_on: 2027-07-01
 
@@ -413,4 +415,90 @@ constants:
     unit: integer
     description: Minimum annual income from outside Kenya for a Class N digital nomad permit, as reported in 2026.
     last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  TURNOVER_TAX_LOWER:
+    value: 1000000
+    unit: shillings
+    description: Annual gross turnover above which turnover tax applies.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  TURNOVER_TAX_UPPER:
+    value: 25000000
+    unit: shillings
+    description: Annual gross turnover up to which turnover tax applies.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  WHT_PROFESSIONAL_RESIDENT:
+    value: 5
+    unit: percent
+    description: Withholding tax on management, professional, consultancy and training fees paid to residents.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  WHT_PROFESSIONAL_THRESHOLD:
+    value: 24000
+    unit: shillings
+    description: Monthly aggregate of resident professional fees at or below which no withholding tax is due.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  WHT_PROFESSIONAL_NONRESIDENT:
+    value: 20
+    unit: percent
+    description: Withholding tax on management, professional and consultancy fees paid to non-residents.
+    last_verified: 2026-09-23
+    fail_on: 2027-07-01
+
+  # ===========================================================================
+  # Government fees - eCitizen and agency portals. The invoice on the portal
+  # is authoritative; these are what it showed when last checked.
+  # ===========================================================================
+
+  PASSPORT_FEE:
+    value: 12500
+    unit: shillings
+    description: >-
+      Ordinary 66-page passport, the only booklet offered on eCitizen since
+      early 2026 (the 34- and 50-page booklets were withdrawn).
+    last_verified: 2026-09-28
+    fail_on: 2027-03-01
+
+  GOOD_CONDUCT_FEE:
+    value: 1050
+    unit: shillings
+    description: Certificate of good conduct from the DCI, KES 1,000 plus the KES 50 eCitizen convenience fee.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  LAND_SEARCH_FEE:
+    value: 500
+    unit: shillings
+    description: Official land search on Ardhisasa, Ministry of Lands.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  ETA_FEE_USD:
+    value: 30
+    unit: integer
+    description: Standard Kenya eTA fee in US dollars, etakenya.go.ke.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  LOGBOOK_ESTICKER_FEE:
+    value: 750
+    unit: shillings
+    description: NTSA e-sticker fee charged on every vehicle ownership transfer, on top of the transfer fee.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  LATE_FILING_PENALTY:
+    value: 2000
+    unit: shillings
+    description: >-
+      Minimum penalty for an individual filing an income tax return late -
+      KES 2,000 or 5% of the tax due, whichever is higher. Tax Procedures Act.
+    last_verified: 2026-09-28
     fail_on: 2027-07-01

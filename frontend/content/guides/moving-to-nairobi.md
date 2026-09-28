@@ -52,6 +52,8 @@ copies of everything you submit.
 
 ## Arriving
 
+For where to stay and a day-by-day plan, see [Your first weeks in Nairobi](/guides/your-first-weeks-in-nairobi).
+
 Jomo Kenyatta International Airport (JKIA) is in Embakasi, south-east of the
 city. Getting to Westlands or Kilimani takes 30 minutes on a clear
 [Expressway](/guides/getting-around-nairobi#the-expressway) and well over an
