@@ -68,5 +68,6 @@ Work out the return after costs and tax with the [rental yield calculator](/tool
 
 ## Next
 
+- [Airbnb and short-term rentals](/guides/airbnb-hosting-in-nairobi)
 - [Rental income tax calculator](/tools/rental-income-tax-calculator)
 - [Buying property in Kenya](/guides/buying-property-in-kenya)

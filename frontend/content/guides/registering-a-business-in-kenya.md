@@ -79,6 +79,8 @@ permit - usually a **Class G** permit for investors. See
 
 ## Next
 
+- [Turnover tax vs income tax](/guides/turnover-tax-vs-income-tax)
+- [Hiring your first employee](/guides/hiring-your-first-employee)
 - [Registering a limited company](/guides/registering-a-limited-company)
 - [VAT calculator](/tools/vat-calculator)
 - [Hiring household staff](/guides/hiring-household-staff)

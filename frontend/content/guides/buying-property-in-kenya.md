@@ -90,6 +90,7 @@ total cost, not only the rate; see the
 
 ## Next
 
+- [Buying off-plan](/guides/buying-off-plan-in-kenya)
 - [Mortgages in Kenya](/guides/mortgages-in-kenya)
 - [Buying land around Nairobi](/guides/buying-land-around-nairobi)
 - [Building a house in Kenya](/guides/building-a-house-in-kenya)

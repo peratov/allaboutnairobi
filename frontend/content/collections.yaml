@@ -42,6 +42,8 @@
     - uri: guides/kilimani-vs-westlands-vs-lavington.md
     - uri: guides/serviced-apartments-in-nairobi.md
     - uri: guides/moving-house-in-nairobi.md
+    - uri: guides/solar-and-backup-power.md
+    - uri: guides/home-security-in-nairobi.md
     - uri: guides/living-in-kilimani.md
     - uri: guides/living-in-westlands.md
     - uri: guides/living-in-lavington-and-kileleshwa.md
@@ -50,6 +52,7 @@
     - uri: guides/living-in-south-b-and-south-c.md
     - uri: guides/living-in-ruaka-and-thika-road.md
     - uri: guides/living-in-syokimau-mlolongo-and-kitengela.md
+    - uri: guides/living-in-rongai.md
     - uri: guides/finding-housing.md
     - uri: guides/tenant-rights-in-kenya.md
     - uri: guides/utilities-in-nairobi.md
@@ -63,6 +66,8 @@
     - uri: guides/buying-land-around-nairobi.md
     - uri: guides/building-a-house-in-kenya.md
     - uri: guides/building-from-abroad.md
+    - uri: guides/buying-off-plan-in-kenya.md
+    - uri: guides/airbnb-hosting-in-nairobi.md
     - uri: guides/housing-levy-and-boma-yangu.md
 
 - id: money-and-work
@@ -101,6 +106,7 @@
     - uri: guides/finding-a-job-in-nairobi.md
     - uri: guides/working-in-kenya.md
     - uri: guides/understanding-a-salary-offer.md
+    - uri: guides/un-and-ngo-jobs-in-nairobi.md
     - uri: guides/minimum-wage-in-kenya.md
     - uri: guides/hiring-household-staff.md
     - uri: guides/registering-a-business-in-kenya.md
@@ -110,6 +116,9 @@
     - uri: guides/etims-for-small-businesses.md
     - uri: guides/registering-a-limited-company.md
     - uri: guides/nairobi-business-permit.md
+    - uri: guides/turnover-tax-vs-income-tax.md
+    - uri: guides/hiring-your-first-employee.md
+    - uri: guides/coworking-spaces-in-nairobi.md
 
 - id: getting-around
   type: guides

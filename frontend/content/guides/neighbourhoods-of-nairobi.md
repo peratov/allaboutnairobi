@@ -92,7 +92,7 @@ someone who lives there or a community-run tour, not as a spectator.
 ## Just outside the county
 
 Many Nairobi workers live in satellite towns with lower rents: Ruaka and
-Kikuyu to the north-west, Syokimau and Kitengela to the south-east, and Rongai
-to the south. They are good value if your commute runs against the rush-hour
+Kikuyu to the north-west, Syokimau and Kitengela to the south-east, and
+[Rongai](/guides/living-in-rongai) to the south. They are good value if your commute runs against the rush-hour
 flow, and a hard slog if it runs with it. See
 [Living in Syokimau, Mlolongo and Kitengela](/guides/living-in-syokimau-mlolongo-and-kitengela).
