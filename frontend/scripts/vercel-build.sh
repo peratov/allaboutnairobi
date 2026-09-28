@@ -128,3 +128,11 @@ fi
 
 echo "==> ${URSUS_OUTPUT_DIR}/index.html is present; deploying $(du -sh "${URSUS_OUTPUT_DIR}" | cut -f1)"
 ls -la "${URSUS_OUTPUT_DIR}" | head -12
+
+# Tell Bing and the other IndexNow engines which pages this deploy adds or
+# changes. Production only: preview deploys are not the site anyone searches,
+# and pinging for them would announce URLs that never go live. The script
+# always exits 0, so a failed ping cannot fail the deploy.
+if [ "${VERCEL_ENV:-}" = "production" ]; then
+	python scripts/indexnow.py "${URSUS_OUTPUT_DIR}"
+fi
