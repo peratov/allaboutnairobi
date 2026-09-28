@@ -24,8 +24,10 @@
     - uri: guides/jkia-airport-guide.md
     - uri: guides/esims-and-sim-cards-for-visitors.md
     - uri: guides/class-d-work-permit.md
+    - uri: guides/dependant-passes.md
     - uri: guides/applying-for-a-kenyan-passport.md
     - uri: guides/certificate-of-good-conduct.md
+    - uri: guides/getting-a-birth-certificate.md
 
 - id: housing
   type: guides
@@ -73,6 +75,12 @@
     - uri: guides/buying-treasury-bills-and-bonds.md
     - uri: guides/sending-money-to-kenya.md
     - uri: guides/receiving-paypal-payoneer-and-wise-payments.md
+    - uri: guides/investing-on-the-nse.md
+    - uri: guides/saccos-in-nairobi.md
+    - uri: guides/mortgages-in-kenya.md
+    - uri: guides/mobile-loans-true-cost.md
+    - uri: guides/checking-your-crb-status.md
+    - uri: guides/checking-your-nssf-statement.md
 
 - id: work-and-business
   type: guides
@@ -89,8 +97,10 @@
     - uri: guides/registering-a-business-in-kenya.md
     - uri: guides/freelancing-in-kenya.md
     - uri: guides/clearance-certificates-for-jobs.md
+    - uri: guides/helb-loans-repayment-and-clearance.md
     - uri: guides/etims-for-small-businesses.md
     - uri: guides/registering-a-limited-company.md
+    - uri: guides/nairobi-business-permit.md
 
 - id: getting-around
   type: guides

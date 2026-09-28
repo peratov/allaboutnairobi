@@ -610,6 +610,55 @@ constants:
     last_verified: 2026-09-28
     fail_on: 2027-05-01
 
+  DEPENDANT_PASS_FEE:
+    value: 10000
+    unit: shillings
+    description: Dependant's pass issuance fee for dependants of work permit and permanent residence holders. KES 20,000 for dependants of Kenyan citizens; free for EAC citizens. immigration.go.ke.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  DEPENDANT_PASS_FEE_CITIZEN:
+    value: 20000
+    unit: shillings
+    description: Dependant's pass issuance fee for dependants of Kenyan citizens. immigration.go.ke.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  CRB_CLEARANCE_FEE:
+    value: 2200
+    unit: shillings
+    description: Fee for a clearance certificate from a licensed credit reference bureau.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  HELB_REPAYMENT_PENALTY:
+    value: 5000
+    unit: shillings
+    description: Minimum monthly penalty HELB charges for each month a loan in repayment goes unpaid.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  DIVIDEND_WHT_RATE:
+    value: 5
+    unit: percent
+    description: Withholding tax on dividends paid to resident individuals, including SACCO dividends. Final tax.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  MORTGAGE_RATE_KMRC:
+    value: 9.9
+    unit: decimal
+    description: Approximate lowest interest rate on KMRC-backed affordable home loans in 2026, for households earning up to about KES 150,000 a month.
+    last_verified: 2026-09-28
+    fail_on: 2027-03-01
+
+  MSHWARI_FEE:
+    value: 7.5
+    unit: percent
+    description: M-Shwari facilitation fee on a 30-day loan. Safaricom and NCBA.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
   CLASS_D_PROCESSING_FEE:
     value: 20000
     unit: shillings

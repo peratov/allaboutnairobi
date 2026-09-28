@@ -66,5 +66,7 @@ advert or offer letter.
 
 ## Next
 
+- [HELB loans](/guides/helb-loans-repayment-and-clearance)
+- [Checking your CRB status](/guides/checking-your-crb-status)
 - [Finding a job in Nairobi](/guides/finding-a-job-in-nairobi)
 - [Working in Kenya](/guides/working-in-kenya)

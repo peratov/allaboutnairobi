@@ -61,7 +61,7 @@ the permit is approved - working on a visitor's entry is illegal.
 3. **Register as a foreign national** and get your **foreigner certificate**,
    which you need for a [[KRA PIN]], a bank account and a lease. See
    [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids).
-4. **Apply for dependant passes** for your spouse and children.
+4. **Apply for [dependant passes](/guides/dependant-passes)** for your spouse and children.
 
 ## Renewals and changing jobs
 

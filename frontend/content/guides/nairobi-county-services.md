@@ -62,5 +62,6 @@ Company**, owned by the county. See
 
 ## Next
 
+- [Nairobi business permit](/guides/nairobi-business-permit)
 - [How Kenya is governed](/guides/how-kenya-is-governed)
 - [Utilities in Nairobi](/guides/utilities-in-nairobi)

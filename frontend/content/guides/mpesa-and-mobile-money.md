@@ -74,5 +74,6 @@ business. Safaricom publishes the current tariff on its website.
 
 ## Next
 
+- [Mobile loans and their true cost](/guides/mobile-loans-true-cost)
 - [Opening a bank account](/guides/opening-a-bank-account)
 - [Utilities in Nairobi](/guides/utilities-in-nairobi)
