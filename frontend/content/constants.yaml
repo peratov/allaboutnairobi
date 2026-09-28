@@ -568,6 +568,48 @@ constants:
     last_verified: 2026-09-28
     fail_on: 2027-01-01
 
+  COMPANY_REGISTRATION_FEE:
+    value: 10650
+    unit: shillings
+    description: Business Registration Service fee to register a private limited company on eCitizen, including stamp duty on a standard setup.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  MIN_WAGE_NIGHT_WATCHMAN:
+    value: 20134
+    unit: shillings
+    description: Monthly basic minimum wage for a night watchman in the cities zone (including Nairobi) from 1 May 2026, before housing allowance.
+    last_verified: 2026-09-28
+    fail_on: 2027-05-01
+
+  MIN_WAGE_WAITER_COOK:
+    value: 19491
+    unit: shillings
+    description: Monthly basic minimum wage for waiters, cooks, turnboys and similar in the cities zone from 1 May 2026, as reported.
+    last_verified: 2026-09-28
+    fail_on: 2027-05-01
+
+  MIN_WAGE_RECEPTIONIST:
+    value: 27797
+    unit: shillings
+    description: Monthly basic minimum wage for a telephone operator, receptionist or storekeeper in the cities zone from 1 May 2026.
+    last_verified: 2026-09-28
+    fail_on: 2027-05-01
+
+  MIN_WAGE_DRIVER_MEDIUM:
+    value: 30635
+    unit: shillings
+    description: Monthly basic minimum wage for a tailor or driver of a medium vehicle in the cities zone from 1 May 2026.
+    last_verified: 2026-09-28
+    fail_on: 2027-05-01
+
+  MIN_WAGE_CASHIER:
+    value: 40724
+    unit: shillings
+    description: Monthly basic minimum wage for a cashier, heavy commercial vehicle driver or Grade I artisan in the cities zone from 1 May 2026.
+    last_verified: 2026-09-28
+    fail_on: 2027-05-01
+
   CLASS_D_PROCESSING_FEE:
     value: 20000
     unit: shillings

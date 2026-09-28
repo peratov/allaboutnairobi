@@ -79,5 +79,6 @@ permit - usually a **Class G** permit for investors. See
 
 ## Next
 
+- [Registering a limited company](/guides/registering-a-limited-company)
 - [VAT calculator](/tools/vat-calculator)
 - [Hiring household staff](/guides/hiring-household-staff)

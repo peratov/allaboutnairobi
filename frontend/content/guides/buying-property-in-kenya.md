@@ -90,5 +90,7 @@ total cost, not only the rate; see the
 
 ## Next
 
+- [Buying land around Nairobi](/guides/buying-land-around-nairobi)
+- [Building a house in Kenya](/guides/building-a-house-in-kenya)
 - [Stamp duty calculator](/tools/stamp-duty-calculator)
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)

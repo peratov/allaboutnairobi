@@ -53,5 +53,6 @@ can view flats at different times of day.
 
 ## Next
 
+- [Serviced apartments in Nairobi](/guides/serviced-apartments-in-nairobi)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Culture and etiquette](/guides/culture-and-etiquette-in-kenya)

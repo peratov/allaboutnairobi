@@ -71,5 +71,6 @@ it advises against visiting, and register with your embassy if it offers that.
 
 ## Next
 
+- [Is Nairobi safe for tourists?](/guides/is-nairobi-safe-for-tourists)
 - [Healthcare in Nairobi](/guides/healthcare-in-nairobi)
 - [Getting around Nairobi](/guides/getting-around-nairobi)

@@ -36,6 +36,7 @@
   entries:
     - uri: guides/neighbourhoods-of-nairobi.md
     - uri: guides/kilimani-vs-westlands-vs-lavington.md
+    - uri: guides/serviced-apartments-in-nairobi.md
     - uri: guides/living-in-kilimani.md
     - uri: guides/living-in-westlands.md
     - uri: guides/finding-housing.md
@@ -48,6 +49,9 @@
     - uri: guides/buying-property-in-kenya.md
     - uri: guides/being-a-landlord-in-kenya.md
     - uri: guides/land-search-on-ardhisasa.md
+    - uri: guides/buying-land-around-nairobi.md
+    - uri: guides/building-a-house-in-kenya.md
+    - uri: guides/building-from-abroad.md
     - uri: guides/housing-levy-and-boma-yangu.md
 
 - id: money-and-work
@@ -79,11 +83,14 @@
   entries:
     - uri: guides/finding-a-job-in-nairobi.md
     - uri: guides/working-in-kenya.md
+    - uri: guides/understanding-a-salary-offer.md
+    - uri: guides/minimum-wage-in-kenya.md
     - uri: guides/hiring-household-staff.md
     - uri: guides/registering-a-business-in-kenya.md
     - uri: guides/freelancing-in-kenya.md
     - uri: guides/clearance-certificates-for-jobs.md
     - uri: guides/etims-for-small-businesses.md
+    - uri: guides/registering-a-limited-company.md
 
 - id: getting-around
   type: guides
@@ -109,6 +116,8 @@
     - uri: guides/healthcare-in-nairobi.md
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
+    - uri: guides/hospitals-in-nairobi.md
+    - uri: guides/giving-birth-in-nairobi.md
     - uri: guides/safety-in-nairobi.md
     - uri: guides/reporting-a-crime-and-lost-documents.md
 
@@ -140,6 +149,9 @@
     - uri: guides/nairobi-in-48-hours.md
     - uri: guides/nairobi-national-park.md
     - uri: guides/maasai-mara-from-nairobi.md
+    - uri: guides/choosing-a-safari-company.md
+    - uri: guides/where-to-stay-in-nairobi.md
+    - uri: guides/is-nairobi-safe-for-tourists.md
     - uri: guides/kenyan-food-and-eating-out.md
     - uri: guides/nightlife-in-nairobi.md
     - uri: guides/history-of-nairobi.md

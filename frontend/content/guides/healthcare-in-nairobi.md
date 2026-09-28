@@ -86,5 +86,7 @@ details before treating anything non-critical.
 
 ## Next
 
+- [Nairobi's main hospitals](/guides/hospitals-in-nairobi)
+- [Giving birth in Nairobi](/guides/giving-birth-in-nairobi)
 - [Safety in Nairobi](/guides/safety-in-nairobi)
 - [PAYE, NSSF, SHIF and the Housing Levy](/guides/paye-and-taxes)

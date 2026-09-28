@@ -70,5 +70,6 @@ respond. Give a certificate of service.
 
 ## Next
 
+- [Minimum wage in Kenya](/guides/minimum-wage-in-kenya)
 - [Household staff calculator](/tools/household-staff-calculator)
 - [Working in Kenya](/guides/working-in-kenya)
