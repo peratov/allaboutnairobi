@@ -60,5 +60,7 @@ skip it.
 
 ## Next
 
+- [Planning a wedding in Nairobi](/guides/planning-a-wedding-in-nairobi)
+- [Changing your name](/guides/changing-your-name-in-kenya)
 - [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids)
 - [Moving to Nairobi](/guides/moving-to-nairobi)

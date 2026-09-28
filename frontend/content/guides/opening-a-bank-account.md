@@ -86,5 +86,7 @@ on transaction alerts.
 
 ## Next
 
+- [Credit cards in Kenya](/guides/credit-cards-in-kenya)
+- [Changing money in Nairobi](/guides/changing-money-in-nairobi)
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [PAYE, NSSF, SHIF and the Housing Levy](/guides/paye-and-taxes)

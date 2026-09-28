@@ -60,5 +60,6 @@ have space for children to run around.
 
 ## Next
 
+- [Daycare and preschool](/guides/daycare-and-preschool-in-nairobi)
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
 - [Day trips from Nairobi](/guides/day-trips-from-nairobi)

@@ -65,6 +65,7 @@ collector for a monthly fee, sometimes included in the service charge.
 
 ## Next
 
+- [Water tanks and boreholes](/guides/water-tanks-and-boreholes)
 - [Solar and backup power](/guides/solar-and-backup-power)
 - [Finding housing](/guides/finding-housing)
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)

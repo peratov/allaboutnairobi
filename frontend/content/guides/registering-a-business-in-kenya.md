@@ -79,6 +79,8 @@ permit - usually a **Class G** permit for investors. See
 
 ## Next
 
+- [Small business ideas](/guides/small-business-ideas-in-nairobi)
+- [Importing goods](/guides/importing-goods-into-kenya)
 - [Turnover tax vs income tax](/guides/turnover-tax-vs-income-tax)
 - [Hiring your first employee](/guides/hiring-your-first-employee)
 - [Registering a limited company](/guides/registering-a-limited-company)

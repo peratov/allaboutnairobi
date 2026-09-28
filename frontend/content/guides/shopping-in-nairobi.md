@@ -69,5 +69,6 @@ densest spread of cafés and restaurants.
 
 ## Next
 
+- [Online shopping in Kenya](/guides/online-shopping-in-kenya)
 - [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)

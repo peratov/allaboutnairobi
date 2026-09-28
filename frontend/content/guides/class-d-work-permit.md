@@ -80,6 +80,7 @@ the permit is approved - working on a visitor's entry is illegal.
 
 ## Next
 
+- [Permanent residence and citizenship](/guides/permanent-residence-and-citizenship)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Working in Kenya](/guides/working-in-kenya)
 - [Salary calculator](/tools/salary-calculator)

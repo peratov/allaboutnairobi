@@ -26,10 +26,12 @@
     - uri: guides/class-d-work-permit.md
     - uri: guides/dependant-passes.md
     - uri: guides/class-n-digital-nomad-permit.md
+    - uri: guides/permanent-residence-and-citizenship.md
     - uri: guides/shipping-belongings-to-kenya.md
     - uri: guides/applying-for-a-kenyan-passport.md
     - uri: guides/certificate-of-good-conduct.md
     - uri: guides/getting-a-birth-certificate.md
+    - uri: guides/changing-your-name-in-kenya.md
 
 - id: housing
   type: guides
@@ -44,6 +46,7 @@
     - uri: guides/moving-house-in-nairobi.md
     - uri: guides/solar-and-backup-power.md
     - uri: guides/home-security-in-nairobi.md
+    - uri: guides/water-tanks-and-boreholes.md
     - uri: guides/living-in-kilimani.md
     - uri: guides/living-in-westlands.md
     - uri: guides/living-in-lavington-and-kileleshwa.md
@@ -97,6 +100,8 @@
     - uri: guides/checking-your-nssf-statement.md
     - uri: guides/pensions-in-kenya.md
     - uri: guides/life-insurance-in-kenya.md
+    - uri: guides/credit-cards-in-kenya.md
+    - uri: guides/changing-money-in-nairobi.md
 
 - id: work-and-business
   type: guides
@@ -123,6 +128,8 @@
     - uri: guides/coworking-spaces-in-nairobi.md
     - uri: guides/registering-for-vat.md
     - uri: guides/company-annual-returns.md
+    - uri: guides/importing-goods-into-kenya.md
+    - uri: guides/small-business-ideas-in-nairobi.md
 
 - id: getting-around
   type: guides
@@ -169,11 +176,14 @@
     - uri: guides/international-schools-in-nairobi.md
     - uri: guides/senior-school-and-grade-10-placement.md
     - uri: guides/nairobi-with-kids.md
+    - uri: guides/daycare-and-preschool-in-nairobi.md
     - uri: guides/studying-in-nairobi.md
     - uri: guides/pets-in-nairobi.md
     - uri: guides/shopping-in-nairobi.md
+    - uri: guides/online-shopping-in-kenya.md
     - uri: guides/public-holidays-in-kenya.md
     - uri: guides/getting-married-in-kenya.md
+    - uri: guides/planning-a-wedding-in-nairobi.md
     - uri: guides/death-and-succession-in-kenya.md
 
 - id: exploring
