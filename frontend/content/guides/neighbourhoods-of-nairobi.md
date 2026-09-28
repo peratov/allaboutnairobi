@@ -23,7 +23,7 @@ people choose to live here.
 malls such as Sarit and Westgate, restaurants and most of the nightlife.
 Parklands next door is residential, with a long-established Kenyan Asian
 community, the Aga Khan hospital and City Park. Convenient, busy, and
-expensive for what you get.
+expensive for what you get. See [Living in Westlands](/guides/living-in-westlands).
 
 ## Kilimani, Kileleshwa, Lavington and Hurlingham
 
@@ -31,7 +31,9 @@ These are in [Dagoretti North](/map#constituency/dagoretti-north), just west
 of the centre. **Kilimani** and **Kileleshwa** are dense with apartment blocks
 and popular with young professionals: close to Westlands, Upper Hill and the
 CBD, with shops and cafés along Argwings Kodhek and Ngong roads. **Lavington**
-is leafier, with more houses and townhouses.
+is leafier, with more houses and townhouses. See
+[Living in Kilimani](/guides/living-in-kilimani) and
+[Kilimani vs Westlands vs Lavington](/guides/kilimani-vs-westlands-vs-lavington).
 
 ## Upper Hill
 

@@ -536,6 +536,38 @@ constants:
     last_verified: 2026-09-28
     fail_on: 2027-07-01
 
+  # ===========================================================================
+  # Parks - KWS (paid through KWSPay on eCitizen) and Narok County.
+  # ===========================================================================
+
+  NNP_FEE_NONRESIDENT_USD:
+    value: 80
+    unit: integer
+    description: Nairobi National Park daily conservation fee, non-resident adult, US dollars. KWS 2026 schedule.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  NNP_FEE_CITIZEN:
+    value: 1000
+    unit: shillings
+    description: Nairobi National Park daily conservation fee, Kenyan and East African citizen adult. KWS 2026 schedule.
+    last_verified: 2026-09-28
+    fail_on: 2027-07-01
+
+  MARA_FEE_LOW_USD:
+    value: 100
+    unit: integer
+    description: Maasai Mara National Reserve daily fee, non-resident adult, 1 January to 30 June. Narok County.
+    last_verified: 2026-09-28
+    fail_on: 2027-01-01
+
+  MARA_FEE_PEAK_USD:
+    value: 200
+    unit: integer
+    description: Maasai Mara National Reserve daily fee, non-resident adult, 1 July to 31 December. Narok County.
+    last_verified: 2026-09-28
+    fail_on: 2027-01-01
+
   LATE_FILING_PENALTY:
     value: 2000
     unit: shillings

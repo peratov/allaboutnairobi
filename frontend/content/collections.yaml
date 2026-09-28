@@ -21,6 +21,8 @@
     - uri: guides/kenyans-abroad-managing-things-from-afar.md
     - uri: guides/how-kenya-is-governed.md
     - uri: guides/kenya-eta-step-by-step.md
+    - uri: guides/jkia-airport-guide.md
+    - uri: guides/esims-and-sim-cards-for-visitors.md
     - uri: guides/applying-for-a-kenyan-passport.md
     - uri: guides/certificate-of-good-conduct.md
 
@@ -32,6 +34,9 @@
   description: Where to live, how renting works, and keeping the power and water on.
   entries:
     - uri: guides/neighbourhoods-of-nairobi.md
+    - uri: guides/kilimani-vs-westlands-vs-lavington.md
+    - uri: guides/living-in-kilimani.md
+    - uri: guides/living-in-westlands.md
     - uri: guides/finding-housing.md
     - uri: guides/utilities-in-nairobi.md
     - uri: guides/nairobi-county-services.md
@@ -125,6 +130,9 @@
   description: Wildlife inside the city, museums, markets, nights out and trips beyond.
   entries:
     - uri: guides/things-to-do-in-nairobi.md
+    - uri: guides/nairobi-in-48-hours.md
+    - uri: guides/nairobi-national-park.md
+    - uri: guides/maasai-mara-from-nairobi.md
     - uri: guides/kenyan-food-and-eating-out.md
     - uri: guides/nightlife-in-nairobi.md
     - uri: guides/history-of-nairobi.md
