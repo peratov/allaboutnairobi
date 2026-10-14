@@ -1,0 +1,1156 @@
+// The map frame Accra rebuilt for phones in 2026-10 - the stage, the toolbar,
+// the floating buttons, zoom and the toast - which the flight map now uses.
+// Nairobi's own /map still runs on the earlier _map.scss, so this is its own
+// partial: /flights names it in page_styles instead of 'map'. When /map is
+// rebuilt the same way, the two can become one again.
+
+// =============================================================================
+// The interactive map at /map
+//
+// Everything drawn on the map is sized in --map-unit, which the component sets
+// to the number of map units in one screen pixel at the current zoom. Strokes,
+// labels and pins are multiples of it, so a border stays a hairline and a name
+// stays the same size whether you are looking at the whole country or at one
+// street in Osu. Sized in raw user units instead, a hairline over Ghana becomes
+// a stripe over Ablekuma.
+//
+// The layout was redesigned for phones from measurements - see the header of
+// accra-map.mjs. In short: the controls, the key and the details float over the
+// map instead of stacking above and below it, so the map is the first thing on
+// the screen and the thing it is explaining is never out of sight.
+//
+// Below 960px the details are a sheet floating over the map; from 960px they are
+// a column beside it. Below 720px the map also runs edge to edge. Full screen
+// works at any width.
+// =============================================================================
+
+.accra-map {
+	--map-unit: 20;
+	--map-label-px: 11;
+	--map-stage-h: clamp(460px, 70vh, 760px);
+	--map-fab: 2.75rem; // 44px: the smallest target a thumb hits reliably
+
+	display: block;
+	margin: var(--l) 0 var(--xl);
+}
+
+// --- the frame: map and details together --------------------------------------
+
+.map-frame {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 22rem;
+	gap: var(--m);
+	height: var(--map-stage-h);
+	scroll-margin-top: calc(var(--h-header) + var(--xs));
+}
+
+.map-stage {
+	position: relative;
+	height: 100%;
+	min-height: 0;
+
+	// The ground outside the shapes has to sit clear of BOTH ends of every ramp
+	// drawn on it. Two warm tones were tried and the palest rent band vanished
+	// into each - in dark mode against --c-bg-widget-opaque, and in light mode
+	// against --c-bg-website. A district that matches the background does not
+	// read as a low band, it reads as a hole. Hence a cool token of its own.
+	background: var(--c-map-void);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	overflow: hidden;
+}
+
+.map-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	// Inline, one finger scrolls the page and two move the map, so the browser
+	// keeps vertical panning. Full screen hands every touch to the map.
+	touch-action: pan-y;
+	cursor: grab;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+
+	&:active { cursor: grabbing; }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+}
+
+.map-status {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-content: center;
+	margin: 0;
+	padding: var(--l);
+	text-align: center;
+	color: var(--c-text-light);
+	pointer-events: none;
+}
+
+// --- floating controls ----------------------------------------------------------
+
+.map-icon {
+	width: 1.25rem;
+	height: 1.25rem;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	flex: 0 0 auto;
+}
+
+.map-toolbar {
+	position: absolute;
+	z-index: 6;
+	top: var(--s);
+	inset-inline: var(--s);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--s);
+	// The empty parts of the bar must not block a drag on the map beneath.
+	pointer-events: none;
+
+	> * { pointer-events: auto; }
+}
+
+.map-search {
+	position: relative;
+	flex: 1 1 12rem;
+	max-width: 24rem;
+	min-width: 0;
+
+	> .map-icon {
+		position: absolute;
+		top: 50%;
+		left: 0.8rem;
+		transform: translateY(-50%);
+		color: var(--c-text-light);
+		pointer-events: none;
+	}
+
+	input {
+		width: 100%;
+		min-width: 0;
+		height: var(--map-fab);
+		padding: 0 var(--m) 0 2.6rem;
+		font: inherit;
+		color: var(--c-text);
+		background: var(--c-bg-widget-opaque);
+		border: 1px solid var(--c-border-strong);
+		border-radius: 999px;
+		box-shadow: var(--shadow-card);
+
+		&::placeholder { color: var(--c-text-light); }
+		&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 1px; }
+	}
+}
+
+.map-suggestions {
+	position: absolute;
+	z-index: 20;
+	inset-inline: 0;
+	top: calc(100% + var(--xs));
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	max-height: 18rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.map-suggestion {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	width: 100%;
+	min-height: var(--map-fab);
+	padding: var(--s) var(--m);
+	text-align: left;
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--c-border);
+	cursor: pointer;
+	font: inherit;
+	color: var(--c-text);
+
+	&:last-child { border-bottom: 0; }
+	&:hover, &:focus-visible { background: var(--c-highlight-soft); outline: none; }
+
+	strong { font-weight: 600; }
+	span { font-size: var(--f-xs); color: var(--c-text-light); }
+}
+
+.map-fab {
+	display: inline-grid;
+	place-items: center;
+	flex: 0 0 auto;
+	width: var(--map-fab);
+	height: var(--map-fab);
+	padding: 0;
+	color: var(--c-text);
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 999px;
+	box-shadow: var(--shadow-card);
+	cursor: pointer;
+
+	@media (hover: hover) {
+		&:hover { background: var(--c-highlight-soft); }
+	}
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 1px; }
+}
+
+// Both icons ship in the button; the state picks one, so the button is right
+// on the first paint and never needs its children swapped.
+.map-fullscreen-button {
+	.map-icon:last-child { display: none; }
+
+	&[aria-pressed='true'] {
+		.map-icon:first-child { display: none; }
+		.map-icon:last-child { display: block; }
+	}
+}
+
+.map-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--xs);
+	min-height: 2.25rem;
+	padding: 0 var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text);
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 999px;
+	cursor: pointer;
+}
+
+.map-back {
+	flex-basis: auto;
+	box-shadow: var(--shadow-card);
+}
+
+.map-zooms {
+	position: absolute;
+	z-index: 5;
+	right: var(--s);
+	bottom: calc(var(--sheet-visible, 0px) + var(--s));
+	display: flex;
+	flex-direction: column;
+	gap: var(--xs);
+	transition: bottom 260ms cubic-bezier(.2, .8, .2, 1);
+}
+
+// --- the key, docked on the map -------------------------------------------------
+
+.map-legend {
+	position: absolute;
+	z-index: 5;
+	left: var(--s);
+	bottom: calc(var(--sheet-visible, 0px) + var(--s));
+	max-width: min-content;
+	min-width: 11rem;
+	padding: var(--s) var(--m);
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	transition: bottom 260ms cubic-bezier(.2, .8, .2, 1);
+	pointer-events: none;
+
+	p { margin: 0; }
+}
+
+.map-legend-title {
+	color: var(--c-text);
+	white-space: nowrap;
+	margin-bottom: var(--xs) !important;
+
+	strong { font-weight: 600; }
+}
+
+.map-legend-note { color: var(--c-text-light); font-style: italic; }
+
+.map-ramp {
+	display: flex;
+	gap: 2px;
+	width: 12rem;
+	max-width: 100%;
+
+	.swatch {
+		flex: 1 1 0;
+		width: auto;
+		height: 0.7rem;
+		border-radius: 2px;
+	}
+}
+
+.map-ramp-ends {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--m);
+	margin-top: 2px !important;
+	font-variant-numeric: tabular-nums;
+}
+
+.map-keys {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs) var(--m);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li { display: flex; align-items: center; gap: var(--xs); white-space: nowrap; }
+}
+
+// The caveat travels with the colours rather than sitting in a footnote. A
+// heatmap looks authoritative whether or not it has earned it.
+.map-legend-caveat {
+	margin-top: var(--xs) !important;
+	font-style: italic;
+	white-space: normal;
+	max-width: 13rem;
+}
+
+// --- what the map draws ---------------------------------------------------------
+
+.layer.is-hidden { display: none; }
+
+.shape {
+	stroke: var(--c-bg-page);
+	stroke-width: calc(var(--map-unit) * 1.1);
+	stroke-linejoin: round;
+	cursor: pointer;
+	transition: fill 120ms ease-out;
+
+	&:focus-visible {
+		outline: none;
+		stroke: var(--c-text-heading);
+		stroke-width: calc(var(--map-unit) * 2.5);
+	}
+}
+
+// Regions read as one country, with home picked out. The fill has to differ
+// from the stage behind it, or sixteen regions render perfectly and look like
+// an empty box.
+.region {
+	fill: color-mix(in srgb, var(--c-text-light) 26%, var(--c-bg-page));
+
+	&.is-home { fill: color-mix(in srgb, var(--c-laterite) 60%, var(--c-bg-page)); }
+	&.is-selected { fill: var(--c-laterite); }
+}
+
+// Hover only where hovering exists. On a touchscreen :hover sticks to the last
+// thing tapped, and the previous district stayed painted after the next one
+// was chosen.
+@media (hover: hover) {
+	.region:hover { fill: color-mix(in srgb, var(--c-laterite) 45%, var(--c-bg-page)); }
+	.district:hover { fill: var(--c-highlight-soft); }
+}
+
+// Districts are tinted by what kind of assembly they are, which is three
+// colours rather than twenty-nine - calm enough to read, and it means the
+// colour carries information rather than just separating shapes.
+.shade-type .district {
+	&.type-metropolitan { fill: color-mix(in srgb, var(--c-laterite) 34%, var(--c-bg-page)); }
+	&.type-municipal    { fill: color-mix(in srgb, var(--c-forest) 24%, var(--c-bg-page)); }
+	&.type-district     { fill: color-mix(in srgb, var(--c-gold) 22%, var(--c-bg-page)); }
+}
+
+// The rent heatmap: one hue, five steps. A sequential ramp says "more of the
+// same thing" where a rainbow would say "five unrelated categories", and the
+// ranking is the whole content here.
+.shade-rent .district {
+	&.rent-1 { fill: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); }
+	&.rent-2 { fill: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+	&.rent-3 { fill: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+	&.rent-4 { fill: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+	&.rent-5 { fill: var(--c-laterite); }
+}
+
+// Every census metric shares the rent ramp. One hue in five steps says "more
+// of one thing", which is what a quintile map is; a different palette per
+// metric would just be decoration that has to be relearned each time.
+.shade-quantile .district {
+	fill: var(--c-bg-widget-opaque);
+
+	&[data-bucket="1"] { fill: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); }
+	&[data-bucket="2"] { fill: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+	&[data-bucket="3"] { fill: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+	&[data-bucket="4"] { fill: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+	&[data-bucket="5"] { fill: var(--c-laterite); }
+}
+
+// Ethnicity is the one categorical census layer, so it gets hues rather than
+// steps - these are unordered groups, and a ramp would imply a ranking.
+.shade-ethnicity .district {
+	fill: var(--c-bg-widget-opaque);
+
+	&[data-eth="akan"]         { fill: color-mix(in srgb, var(--c-laterite) 62%, var(--c-bg-page)); }
+	&[data-eth="ga-dangme"]    { fill: color-mix(in srgb, var(--c-forest) 60%, var(--c-bg-page)); }
+	&[data-eth="ewe"]          { fill: color-mix(in srgb, var(--c-gold) 62%, var(--c-bg-page)); }
+	&[data-eth="gurma"]        { fill: color-mix(in srgb, #6b3d64 62%, var(--c-bg-page)); }
+	&[data-eth="guan"]         { fill: color-mix(in srgb, #2f6690 60%, var(--c-bg-page)); }
+	&[data-eth="mole-dagbani"] { fill: color-mix(in srgb, #7a4b9c 58%, var(--c-bg-page)); }
+	&[data-eth="grusi"]        { fill: color-mix(in srgb, #b03a48 58%, var(--c-bg-page)); }
+	&[data-eth="mande"]        { fill: color-mix(in srgb, #2f7d5b 58%, var(--c-bg-page)); }
+	&[data-eth="others"]       { fill: color-mix(in srgb, var(--c-text-light) 40%, var(--c-bg-page)); }
+}
+
+.district.is-selected { fill: var(--c-highlight); stroke: var(--c-text-heading); stroke-width: calc(var(--map-unit) * 2); }
+
+// Names. Which ones are drawn is decided by map-placement.mjs, largest first,
+// so nothing is ever printed over anything else.
+.map-label {
+	display: none;
+	fill: var(--c-text);
+	font-family: var(--font-body);
+	// px, and it matters. A UNITLESS calc is invalid for font-size, so it
+	// silently inherited and the labels were sized in user units - 3px across
+	// the whole region, 13px zoomed in. The trailing 1px is what makes this a
+	// length; stroke-width below is fine unitless because SVG allows it.
+	font-size: calc(var(--map-unit) * var(--map-label-px) * 1px);
+	font-weight: 500;
+	text-anchor: middle;
+	dominant-baseline: middle;
+	pointer-events: none;
+	paint-order: stroke;
+	stroke: var(--c-bg-page);
+	stroke-width: calc(var(--map-unit) * 3);
+	stroke-linejoin: round;
+
+	&.is-placed { display: block; }
+	&.is-region { font-weight: 600; }
+}
+
+.view-ghana .layer-districts,
+.view-ghana .layer-landmarks,
+.view-ghana .layer-clusters { display: none; }
+
+.view-accra .layer-regions { display: none; }
+
+.landmark {
+	cursor: pointer;
+
+	.pin {
+		fill: var(--c-laterite);
+		stroke: var(--c-bg-page);
+		stroke-width: calc(var(--map-unit) * 1.5);
+		r: calc(var(--map-unit) * 5.5);
+	}
+
+	// Decoration only. As a filled circle eleven pixels across it used to
+	// catch taps meant for whatever was underneath it.
+	.pin-halo {
+		fill: var(--c-laterite);
+		opacity: 0;
+		r: calc(var(--map-unit) * 12);
+		pointer-events: none;
+		transition: opacity 140ms ease-out;
+	}
+
+	&.is-selected .pin-halo { opacity: 0.28; }
+	&.is-selected .pin { r: calc(var(--map-unit) * 7.5); }
+
+	&:focus-visible { outline: none; }
+	&:focus-visible .pin-halo { opacity: 0.28; }
+	&.is-hidden,
+	&.is-clustered { display: none; }
+
+	&.cat-government .pin { fill: var(--c-forest); }
+	&.cat-culture .pin    { fill: #6b3d64; }
+	&.cat-market .pin     { fill: var(--c-gold); }
+	&.cat-transport .pin  { fill: #2f6690; }
+	&.cat-education .pin  { fill: #7a4b9c; }
+	&.cat-health .pin     { fill: #b03a48; }
+	&.cat-nature .pin     { fill: #2f7d5b; }
+}
+
+// Several pins that would overlap at this zoom, drawn as one with a count.
+.cluster {
+	cursor: zoom-in;
+
+	.cluster-dot {
+		fill: var(--c-text-heading);
+		stroke: var(--c-bg-page);
+		stroke-width: calc(var(--map-unit) * 2);
+		r: calc(var(--map-unit) * 13);
+	}
+
+	.cluster-count {
+		fill: var(--c-bg-page);
+		font-family: var(--font-body);
+		font-size: calc(var(--map-unit) * 12px);
+		font-weight: 700;
+		text-anchor: middle;
+		dominant-baseline: central;
+		pointer-events: none;
+	}
+}
+
+// --- "which did you mean?" ------------------------------------------------------
+
+.map-chooser {
+	position: absolute;
+	z-index: 8;
+	width: 15rem;
+	max-width: calc(100% - 2 * var(--s));
+	padding: var(--xs);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+}
+
+.map-chooser-title {
+	margin: var(--xs) var(--s) var(--xs) !important;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+.map-chooser-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	min-height: var(--map-fab);
+	padding: var(--xs) var(--s);
+	text-align: left;
+	font: inherit;
+	color: var(--c-text);
+	background: none;
+	border: 0;
+	border-radius: calc(var(--b-radius) - 2px);
+	cursor: pointer;
+
+	strong { font-weight: 600; font-size: var(--f-s); }
+	span { font-size: var(--f-xs); color: var(--c-text-light); }
+
+	&:hover, &:focus-visible { background: var(--c-highlight-soft); outline: none; }
+
+	&.is-zoom {
+		flex-direction: row;
+		align-items: center;
+		gap: var(--s);
+		margin-top: var(--xs);
+		border-top: 1px solid var(--c-border);
+		border-radius: 0 0 calc(var(--b-radius) - 2px) calc(var(--b-radius) - 2px);
+	}
+}
+
+// --- the gesture hint -----------------------------------------------------------
+
+.map-toast {
+	position: absolute;
+	z-index: 7;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: calc(100% - 4rem);
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	text-align: center;
+	color: #fff;
+	background: rgba(20, 16, 12, 0.82);
+	border-radius: 999px;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 200ms ease-out;
+
+	&.is-on { opacity: 1; }
+}
+
+// --- the details: a column beside the map, a sheet over it on a phone -----------
+
+.map-sheet {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	overflow: hidden;
+}
+
+// Only the body gives way when the sheet runs out of height. The tab row has
+// overflow-x set, which makes its minimum size resolve to zero, so without
+// this the flex column squashed the 44px tabs to 19px rather than scrolling
+// the body - and the peek, measured from them, was short by the difference.
+.map-sheet-head,
+.map-tabs {
+	flex: 0 0 auto;
+}
+
+.map-sheet-head {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: start;
+	padding: var(--m) var(--m) var(--s);
+}
+
+.map-sheet-handle {
+	display: none;
+}
+
+.map-sheet-summary {
+	min-width: 0;
+
+	h3 { margin: 0 0 var(--xs); font-size: 1.15rem; line-height: 1.25; }
+	p { margin: 0; }
+}
+
+.map-headline {
+	font-size: var(--f-s);
+	color: var(--c-text);
+}
+
+.map-sheet-close {
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	margin: calc(var(--s) * -1) calc(var(--s) * -1) 0 0;
+	padding: 0;
+	color: var(--c-text-light);
+	background: none;
+	border: 0;
+	border-radius: 999px;
+	cursor: pointer;
+
+	&:hover { background: var(--c-highlight-soft); color: var(--c-text); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); }
+}
+
+.map-tabs {
+	display: flex;
+	padding: 0 var(--s);
+	border-bottom: 1px solid var(--c-border);
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.map-tab {
+	flex: 1 0 auto;
+	min-height: 2.75rem;
+	padding: 0 var(--s);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: none;
+	border: 0;
+	border-bottom: 3px solid transparent;
+	cursor: pointer;
+
+	&[aria-selected='true'] {
+		color: var(--c-text-heading);
+		font-weight: 600;
+		border-bottom-color: var(--c-laterite);
+	}
+
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+}
+
+.map-sheet-body {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: var(--m);
+
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+
+	h4 { margin: var(--m) 0 var(--xs); font-size: var(--f-s); }
+	p { margin: 0 0 var(--s); }
+	> .map-block + .map-block {
+		margin-top: var(--m);
+		padding-top: var(--m);
+		border-top: 1px solid var(--c-border);
+	}
+}
+
+.map-block > :first-child { margin-top: 0; }
+
+.map-facts {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: var(--xs) var(--m);
+	margin: 0 0 var(--m);
+	font-size: var(--f-s);
+
+	dt { color: var(--c-text-light); }
+	dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+}
+
+.map-list {
+	margin: 0 0 var(--m);
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-s);
+
+	li { margin-bottom: 2px; }
+}
+
+// Constituencies are buttons, because they do something. They have no shape of
+// their own to fly to, so selecting one marks it inside its district.
+.constituency {
+	display: block;
+	width: 100%;
+	min-height: 2.5rem;
+	text-align: left;
+	font: inherit;
+	color: var(--c-text);
+	background: none;
+	border: 0;
+	border-radius: var(--b-radius);
+	padding: 0.35em 0.5em;
+	cursor: pointer;
+
+	&::before {
+		content: "";
+		display: inline-block;
+		width: 0.5rem;
+		height: 0.5rem;
+		margin-inline-end: 0.5rem;
+		border-radius: 50%;
+		background: var(--c-border-strong);
+		vertical-align: 0.05em;
+	}
+
+	&:hover { background: var(--c-highlight-soft); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+
+	&.is-current {
+		background: var(--c-highlight-soft);
+		color: var(--c-text-heading);
+		font-weight: 600;
+
+		&::before { background: var(--c-highlight); }
+	}
+}
+
+.map-hint {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+.map-hint-warn { color: var(--c-gold); }
+
+.map-rent h4 {
+	display: flex;
+	align-items: center;
+	gap: var(--xs);
+}
+
+// Not nested under the legend: the same swatches appear in the details and in
+// the table on the page, and scoping them to the legend left those two
+// drawing empty boxes. The base .swatch is in _content.scss, because the
+// calculators' keys use it too.
+.swatch-metropolitan { background: color-mix(in srgb, var(--c-laterite) 34%, var(--c-bg-page)); }
+.swatch-municipal    { background: color-mix(in srgb, var(--c-forest) 24%, var(--c-bg-page)); }
+.swatch-district     { background: color-mix(in srgb, var(--c-gold) 22%, var(--c-bg-page)); }
+
+.swatch-rent-1 { background: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); }
+.swatch-rent-2 { background: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+.swatch-rent-3 { background: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+.swatch-rent-4 { background: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+.swatch-rent-5 { background: var(--c-laterite); }
+
+.swatch-eth-akan         { background: color-mix(in srgb, var(--c-laterite) 62%, var(--c-bg-page)); }
+.swatch-eth-ga-dangme    { background: color-mix(in srgb, var(--c-forest) 60%, var(--c-bg-page)); }
+.swatch-eth-ewe          { background: color-mix(in srgb, var(--c-gold) 62%, var(--c-bg-page)); }
+.swatch-eth-gurma        { background: color-mix(in srgb, #6b3d64 62%, var(--c-bg-page)); }
+.swatch-eth-guan         { background: color-mix(in srgb, #2f6690 60%, var(--c-bg-page)); }
+.swatch-eth-mole-dagbani { background: color-mix(in srgb, #7a4b9c 58%, var(--c-bg-page)); }
+.swatch-eth-grusi        { background: color-mix(in srgb, #b03a48 58%, var(--c-bg-page)); }
+.swatch-eth-mande        { background: color-mix(in srgb, #2f7d5b 58%, var(--c-bg-page)); }
+.swatch-eth-others       { background: color-mix(in srgb, var(--c-text-light) 40%, var(--c-bg-page)); }
+
+.map-bars {
+	list-style: none;
+	margin: 0 0 var(--m);
+	padding: 0;
+	font-size: var(--f-xs);
+
+	li {
+		display: grid;
+		grid-template-columns: 5.5rem 1fr 2.5rem;
+		align-items: center;
+		gap: var(--xs);
+		margin-bottom: 3px;
+	}
+}
+
+.map-bar {
+	display: block;
+	height: 0.6rem;
+	border-radius: 3px;
+	background: var(--c-bg-widget);
+	overflow: hidden;
+}
+
+.map-bar-fill {
+	display: block;
+	height: 100%;
+	border-radius: 3px;
+	background: var(--c-laterite);
+
+	&.eth-akan         { background: color-mix(in srgb, var(--c-laterite) 80%, var(--c-bg-page)); }
+	&.eth-ga-dangme    { background: color-mix(in srgb, var(--c-forest) 75%, var(--c-bg-page)); }
+	&.eth-ewe          { background: color-mix(in srgb, var(--c-gold) 78%, var(--c-bg-page)); }
+	&.eth-gurma        { background: color-mix(in srgb, #6b3d64 78%, var(--c-bg-page)); }
+	&.eth-guan         { background: color-mix(in srgb, #2f6690 75%, var(--c-bg-page)); }
+	&.eth-mole-dagbani { background: color-mix(in srgb, #7a4b9c 72%, var(--c-bg-page)); }
+	&.eth-grusi        { background: color-mix(in srgb, #b03a48 72%, var(--c-bg-page)); }
+	&.eth-mande        { background: color-mix(in srgb, #2f7d5b 72%, var(--c-bg-page)); }
+	&.eth-others       { background: color-mix(in srgb, var(--c-text-light) 55%, var(--c-bg-page)); }
+}
+
+.map-bar-value {
+	text-align: right;
+	color: var(--c-text-light);
+	font-variant-numeric: tabular-nums;
+}
+
+.map-bar-label { color: var(--c-text-light); }
+
+// --- the layers sheet -----------------------------------------------------------
+
+.map-layers {
+	width: 26rem;
+	max-width: calc(100vw - 2 * var(--m));
+	max-height: calc(100vh - 4rem);
+	padding: 0;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 12px;
+	box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+
+	&::backdrop { background: rgba(20, 16, 12, 0.45); }
+}
+
+.map-layers-inner {
+	display: flex;
+	flex-direction: column;
+	max-height: inherit;
+}
+
+.map-layers-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: var(--m) var(--m) var(--s) var(--l);
+	border-bottom: 1px solid var(--c-border);
+
+	h2 { margin: 0; font-size: 1.15rem; }
+	.map-sheet-close { margin: 0; }
+}
+
+.map-layers-body {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: var(--s) var(--l) var(--m);
+}
+
+.map-layers-section {
+	margin: var(--m) 0 0;
+	font-weight: 600;
+}
+
+.map-options {
+	margin: var(--s) 0 0;
+	padding: 0;
+	border: 0;
+
+	legend {
+		padding: 0;
+		margin-bottom: var(--xs);
+		font-size: var(--f-xs);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--c-text-light);
+	}
+}
+
+.map-option,
+.map-switch {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	min-height: var(--map-fab);
+	padding: 0 var(--xs);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+
+	input { width: 1.15rem; height: 1.15rem; margin: 0; accent-color: var(--c-laterite); flex: 0 0 auto; }
+	strong { font-weight: 500; }
+	small { display: block; font-size: var(--f-xs); color: var(--c-text-light); }
+
+	@media (hover: hover) { &:hover { background: var(--c-highlight-soft); } }
+}
+
+.map-option-note { font-style: italic; }
+
+.map-categories .map-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+}
+
+.map-categories .map-chip {
+	min-height: 2.5rem;
+	padding: 0 var(--s);
+
+	input { accent-color: var(--c-laterite); margin: 0; }
+}
+
+.map-layers-foot {
+	padding: var(--s) var(--l) var(--m);
+	border-top: 1px solid var(--c-border);
+}
+
+.map-done {
+	width: 100%;
+	min-height: var(--map-fab);
+	font: inherit;
+	font-weight: 600;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border: 0;
+	border-radius: 999px;
+	cursor: pointer;
+
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// The list under the map is the whole dataset as text. It is what a reader
+// with JavaScript off gets, and what a crawler indexes, so it is not hidden
+// once the map loads - only de-emphasised.
+.map-fallback {
+	margin-top: var(--xl);
+}
+
+// --- full screen, at any width ----------------------------------------------------
+
+html.map-fullscreen-open {
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+
+// Both maps. Written as a list rather than :is(), which libsass does not parse.
+.accra-map.is-fullscreen,
+.flight-map.is-fullscreen {
+	.map-frame {
+		position: fixed;
+		z-index: 70;
+		inset: 0;
+		width: auto;
+		height: auto;
+		margin: 0;
+		padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+		background: var(--c-bg-page);
+	}
+
+	.map-stage { border-radius: 0; border: 0; }
+	.map-canvas,
+	.flight-canvas { touch-action: none; }
+}
+
+// --- below 960px the details float over the map ------------------------------
+//
+// A tablet in portrait is not a phone, but a fixed 22rem column beside its map
+// left the map narrower than its own sidebar: at 760px it was 297px against
+// 352px. So everything up to 960px gets the floating sheet, and only phones
+// also go edge to edge. accra-map.mjs reads which layout it is in from the
+// sheet's computed position rather than from a width, so this is the one place
+// the line is drawn.
+
+@media (max-width: 959px) {
+	.map-frame {
+		display: block;
+		overflow: hidden;
+		border-radius: var(--b-radius);
+	}
+
+	.map-legend {
+		min-width: 0;
+		max-width: calc(100% - var(--map-fab) - 3 * var(--s));
+	}
+
+	.map-legend-caveat { max-width: 15rem; }
+
+	// The sheet floats over the bottom of the map. It is laid out at its full
+	// height and moved with a transform, so its measurements never change
+	// mid-animation: peeking shows the name, one line about the colour under
+	// it, and the tabs; opening shows the rest with the map still above.
+	.map-sheet {
+		position: absolute;
+		z-index: 9;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		max-height: 66%;
+		border-width: 1px 0 0;
+		border-radius: 14px 14px 0 0;
+		box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.16);
+		transform: translateY(var(--sheet-peek, 60%));
+		transition: transform 260ms cubic-bezier(.2, .8, .2, 1), visibility 0s;
+
+		&[data-state='open'] { transform: none; }
+
+		&[data-state='closed'] {
+			transform: translateY(calc(100% + 8px));
+			visibility: hidden;
+			transition: transform 220ms ease-in, visibility 0s linear 220ms;
+		}
+
+		&.is-dragging { transition: none; }
+	}
+
+	.map-frame.is-sheet-open {
+		.map-legend,
+		.map-zooms {
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 160ms ease-out, visibility 0s linear 160ms;
+		}
+	}
+
+	.map-sheet-head {
+		grid-template-areas:
+			"handle handle"
+			"summary close";
+		padding: 0 var(--m) var(--s);
+		touch-action: none;
+	}
+
+	.map-sheet-handle {
+		grid-area: handle;
+		display: grid;
+		place-items: center;
+		height: 1.6rem;
+		margin: 0 calc(var(--m) * -1);
+		padding: 0;
+		background: none;
+		border: 0;
+		cursor: grab;
+
+		&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+	}
+
+	.map-sheet-grip {
+		width: 2.5rem;
+		height: 4px;
+		border-radius: 2px;
+		background: var(--c-border-strong);
+	}
+
+	.map-sheet-summary { grid-area: summary; }
+	.map-sheet-close { grid-area: close; margin-top: 0; }
+}
+
+// --- a phone ----------------------------------------------------------------------
+
+@media (max-width: 719px) {
+	.accra-map {
+		// Tall enough to use, short enough to fit with the heading above it on a
+		// first screen at 393px. Full screen is a tap away for the rest.
+		--map-stage-h: clamp(360px, 118vw, calc(100vh - var(--h-header) - var(--m)));
+		--map-stage-h: clamp(360px, 118vw, calc(100svh - var(--h-header) - var(--m)));
+		margin: var(--m) 0 var(--l);
+	}
+
+	// Edge to edge. Inside the card's padding the map lost a sixth of a phone's
+	// width to margins it had no use for.
+	.map-frame {
+		width: 100vw;
+		margin-inline: calc(50% - 50vw);
+		border-radius: 0;
+		border-block: 1px solid var(--c-border-strong);
+	}
+
+	.map-stage {
+		border: 0;
+		border-radius: 0;
+	}
+
+	.map-search { flex-basis: 0; max-width: none; }
+
+	.map-back { order: 9; }
+
+	// A heading this size above a map this size pushed it off the first screen
+	// at 320px. The words are the same; they take less room.
+	.map-intro {
+		font-size: 1rem;
+		line-height: 1.5;
+		margin-bottom: var(--m);
+	}
+
+	// Below the browser chrome and above the home indicator.
+	.map-layers {
+		width: 100%;
+		max-width: 100%;
+		max-height: 88vh;
+		max-height: 88svh;
+		margin: auto 0 0;
+		border-radius: 14px 14px 0 0;
+		border-width: 1px 0 0;
+
+		.map-layers-foot { padding-bottom: calc(var(--m) + env(safe-area-inset-bottom)); }
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.map-sheet,
+	.map-zooms,
+	.map-legend,
+	.map-toast { transition: none; }
+}
+
+// Without color-mix() every fill above is dropped and the shapes paint black.
+// The same colours at the same strength, as fill-opacity. See _variables.scss.
+@supports not (color: color-mix(in srgb, red, red)) {
+	.region { fill: var(--c-text-light); fill-opacity: 0.26; }
+	.region.is-home { fill: var(--c-laterite); fill-opacity: 0.6; }
+	.region.is-selected, .district.is-selected { fill-opacity: 1; }
+
+	.shade-type .district {
+		&.type-metropolitan { fill: var(--c-laterite); fill-opacity: 0.34; }
+		&.type-municipal    { fill: var(--c-forest); fill-opacity: 0.24; }
+		&.type-district     { fill: var(--c-gold); fill-opacity: 0.22; }
+	}
+
+	.shade-rent .district, .shade-quantile .district[data-bucket] { fill: var(--c-laterite); }
+	.shade-rent .district.rent-1, .shade-quantile .district[data-bucket="1"] { fill-opacity: 0.14; }
+	.shade-rent .district.rent-2, .shade-quantile .district[data-bucket="2"] { fill-opacity: 0.24; }
+	.shade-rent .district.rent-3, .shade-quantile .district[data-bucket="3"] { fill-opacity: 0.44; }
+	.shade-rent .district.rent-4, .shade-quantile .district[data-bucket="4"] { fill-opacity: 0.68; }
+
+	.shade-ethnicity .district {
+		&[data-eth] { fill-opacity: 0.6; }
+		&[data-eth="akan"]         { fill: var(--c-laterite); }
+		&[data-eth="ga-dangme"]    { fill: var(--c-forest); }
+		&[data-eth="ewe"]          { fill: var(--c-gold); }
+		&[data-eth="gurma"]        { fill: #6b3d64; }
+		&[data-eth="guan"]         { fill: #2f6690; }
+		&[data-eth="mole-dagbani"] { fill: #7a4b9c; }
+		&[data-eth="grusi"]        { fill: #b03a48; }
+		&[data-eth="mande"]        { fill: #2f7d5b; }
+		&[data-eth="others"]       { fill: var(--c-text-light); fill-opacity: 0.4; }
+	}
+
+	@media (hover: hover) {
+		.region:hover { fill: var(--c-laterite); fill-opacity: 0.45; }
+	}
+}

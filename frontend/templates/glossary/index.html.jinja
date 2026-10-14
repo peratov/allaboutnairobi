@@ -5,6 +5,12 @@
 
 {% set terms = get_entries('glossary') %}
 {% set groups = glossary_groups(terms) %}
+{# Largest first, so the chips read as the shape of the glossary. #}
+{% set languages = [] %}
+{% for group in terms|groupby('language', default='Other') %}
+	{% set _ = languages.append({'name': group.grouper, 'count': group.list|length}) %}
+{% endfor %}
+{% set languages = languages|sort(attribute='count', reverse=true) %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
@@ -19,28 +25,66 @@
 				Swahili and Sheng that carry most ordinary conversations.
 			</p>
 
+			{#
+				Scripting only - see glossary-index.mjs - so neither is a control
+				that does nothing. Somebody arriving here usually has one word in
+				mind, and the filter finds it from the term, its English meaning or
+				anything in the definition.
+			#}
+			<div class="glossary-tools">
+				<div class="glossary-filter" role="search">
+					<label class="visually-hidden" for="glossary-filter-input">Filter the glossary</label>
+					<input id="glossary-filter-input" type="search" placeholder="Find a word, e.g. matatu or NSSF" autocomplete="off" spellcheck="false">
+					<p class="glossary-filter-status" aria-live="polite"></p>
+				</div>
+				<div class="glossary-langs" role="group" aria-label="Show words from">
+					<button type="button" class="glossary-lang is-on" data-language="" aria-pressed="true">All <span>{{ terms|length }}</span></button>
+					{% for language in languages %}
+						<button type="button" class="glossary-lang" data-language="{{ language.name }}" aria-pressed="false">
+							{{ 'Acronyms' if language.name == 'acronym' else language.name }} <span>{{ language.count }}</span>
+						</button>
+					{% endfor %}
+				</div>
+			</div>
+
 			<nav class="glossary-jump" aria-label="Jump to letter">
 				{% for letter in groups %}
-					<a href="#letter-{{ letter|lower }}">{{ letter }}</a>
+					<a href="#letter-{{ letter|lower }}" data-letter="{{ letter|lower }}">{{ letter }}</a>
 				{% endfor %}
 			</nav>
 
 			<div class="glossary-index">
 				{% for letter, letter_terms in groups.items() %}
-					<section class="glossary-group" id="letter-{{ letter|lower }}">
+					<section class="glossary-group" id="letter-{{ letter|lower }}" data-letter="{{ letter|lower }}">
 						<h2>{{ letter }}</h2>
 						<dl>
 							{% for term in letter_terms %}
-								<dt>
-									<a href="{{ term.url }}">{{ term.local_term }}</a>
-									{%- if term.language|default %}<span class="term-language">{{ term.language }}</span>{% endif -%}
-								</dt>
-								<dd>{{ term.description }}</dd>
+								{# A div per term is valid inside a dl, and lets the filter hide a
+								   term and its definition together. #}
+								<div class="glossary-term" data-language="{{ term.language|default('Other') }}" data-english="{{ term.english_term|default('') }}">
+									<dt>
+										<a href="{{ term.url }}">{{ term.local_term }}</a>
+										{%- if term.language|default %}<span class="term-language">{{ term.language }}</span>{% endif -%}
+									</dt>
+									<dd>{{ term.description }}</dd>
+								</div>
 							{% endfor %}
 						</dl>
 					</section>
 				{% endfor %}
+				<p class="glossary-empty" hidden>
+					Nothing in the glossary matches that.
+					<a class="glossary-empty-search" href="{{ SITE_URL }}/search">Search every guide for it &#10142;</a>
+				</p>
 			</div>
 		</article>
 	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% queueJs %}
+		import initializeGlossaryIndex from '/js/components/glossary-index.mjs';
+		initializeGlossaryIndex();
+	{% endqueueJs %}
+	{{ super() }}
 {% endblock %}

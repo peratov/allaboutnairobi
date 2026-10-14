@@ -1,0 +1,174 @@
+// The reader rating: the score a guide has earned, and the prompt that asks.
+//
+// The prompt floats, which the install card deliberately does not. The reason
+// they differ is what each one is for: an install offer is still true an hour
+// later at the foot of the page, and a question about the guide you just read
+// is only worth asking while you are still on it. Everything here is aimed at
+// floating without becoming the banner _install.scss refuses to be - it starts
+// below the fold, it never spans the reading column on a wide screen, it has a
+// visible close, and guide-rating.mjs only shows it to a sampled minority who
+// reached the end.
+
+.rating-summary {
+	max-width: var(--w-main-column);
+	margin: var(--l) 0 0;
+	padding: var(--m) var(--l);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.rating-summary-score {
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text);
+
+	strong {
+		font-size: 1.35rem;
+		color: var(--c-text-heading);
+	}
+}
+
+.rating-summary-meta {
+	color: var(--c-text-light);
+}
+
+.rating-summary-bar {
+	margin-top: var(--s);
+	height: 6px;
+	background: var(--c-border);
+	border-radius: 3px;
+	overflow: hidden;
+
+	span {
+		display: block;
+		height: 100%;
+		background: var(--c-laterite);
+		border-radius: 3px;
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+.rating-prompt {
+	position: fixed;
+	z-index: 40;
+	right: var(--l);
+	bottom: var(--l);
+	// Never wider than a comfortable question, and never wider than a small
+	// phone minus its gutters. Written as width + max-width rather than with
+	// min(), which libsass treats as its own legacy function and refuses to
+	// pass through - clamp() survives, min() and max() do not.
+	width: 21rem;
+	max-width: calc(100vw - 2 * var(--l));
+	padding: var(--m) var(--l) var(--m) var(--m);
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+
+	animation: rating-prompt-in 260ms ease-out both;
+}
+
+@keyframes rating-prompt-in {
+	from {
+		opacity: 0;
+		transform: translateY(0.75rem);
+	}
+}
+
+// A prompt that slides in is a prompt that moved without being asked to.
+@media (prefers-reduced-motion: reduce) {
+	.rating-prompt {
+		animation: none;
+	}
+}
+
+.rating-prompt-question {
+	margin: 0 0 var(--s);
+	font-weight: 600;
+	color: var(--c-text-heading);
+}
+
+.rating-prompt-note {
+	margin: var(--xs) 0 0;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+.rating-prompt-scale {
+	display: flex;
+	gap: var(--xs);
+}
+
+.rating-prompt-score {
+	flex: 1 1 0;
+	// 44px is the smallest target that is reliably hittable with a thumb, and
+	// this is a one-tap interaction on a phone or it is nothing.
+	min-height: 44px;
+	padding: 0;
+	font: inherit;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: calc(var(--b-radius) / 2);
+	cursor: pointer;
+
+	&:hover {
+		background: var(--c-highlight-soft);
+		border-color: var(--c-laterite);
+	}
+
+	&:active {
+		background: var(--c-laterite);
+		border-color: var(--c-laterite);
+		color: var(--c-bg-on-accent);
+	}
+}
+
+.rating-prompt-legend {
+	display: flex;
+	justify-content: space-between;
+	margin: var(--xs) 0 0;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+.rating-prompt-dismiss {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 2.25rem;
+	height: 2.25rem;
+	font-size: 1.1rem;
+	line-height: 1;
+	color: var(--c-text-light);
+	background: none;
+	border: 0;
+	cursor: pointer;
+
+	&:hover {
+		color: var(--c-text);
+	}
+}
+
+// The radio player docks a bar to the bottom of the viewport on every page, and
+// _support.scss already raises the coffee button out of its way with the same
+// selector. The prompt has to clear it too, or a reader listening to Joy FM
+// gets a rating card sitting on the transport controls.
+body:has(.radio-bar:not([hidden])) .rating-prompt {
+	bottom: calc(var(--l) + 4.5rem);
+}
+
+// On a phone there is no corner to tuck into, so it becomes a bottom sheet
+// across the width. It still only appears after the article has been read to
+// the end, and it still closes.
+@media (max-width: 560px) {
+	.rating-prompt {
+		right: var(--s);
+		left: var(--s);
+		bottom: var(--s);
+		width: auto;
+	}
+}

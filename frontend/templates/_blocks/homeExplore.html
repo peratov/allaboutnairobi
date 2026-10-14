@@ -1,0 +1,208 @@
+{#
+	The home page's way into the things on this site that are not guides:
+	AFCON 2027, the flight map, the constituency map, the radio and the events.
+	Until this, the home page linked to none of them but the map, and that only
+	on a wide screen - the hero map is hidden on a phone.
+
+	A bento grid on a wide screen, a row you swipe on a phone: six full cards
+	stacked would push "Start here" a screen and a half down, and a row costs one
+	card's height with the next one peeking in to say there is more.
+
+	Every visual is drawn here, from data already in the build context - the
+	flight routes from FLIGHTS, the outlines from HERO_MAP - so it costs
+	no request, needs no script, and cannot disagree with the page it links to.
+#}
+
+{# --- the flight starburst: every route from JKIA, equirectangular, 1.6 units
+   a degree from 78W and 55N, which frames New York to Guangzhou and London to
+   Johannesburg. --- #}
+{% macro flightBurst() %}
+	{% set ox = (FLIGHTS.origin.lon + 78) * 1.6 %}
+	{% set oy = (55 - FLIGHTS.origin.lat) * 1.6 %}
+	<svg class="explore-burst" viewBox="0 0 308 180" aria-hidden="true" focusable="false">
+		{% for d in FLIGHTS.destinations %}
+			{% set x = (d.lon + 78) * 1.6 %}
+			{% set y = (55 - d.lat) * 1.6 %}
+			{% set lift = ((x - ox)|abs + (y - oy)|abs) * 0.14 %}
+			<path class="explore-burst-arc" d="M{{ ox|round(1) }} {{ oy|round(1) }} Q{{ ((ox + x) / 2)|round(1) }} {{ ((oy + y) / 2 - lift)|round(1) }} {{ x|round(1) }} {{ y|round(1) }}"/>
+		{% endfor %}
+		{% for d in FLIGHTS.destinations %}
+			<circle class="explore-burst-dot" cx="{{ ((d.lon + 78) * 1.6)|round(1) }}" cy="{{ ((55 - d.lat) * 1.6)|round(1) }}" r="1.8"/>
+		{% endfor %}
+		{# Four cities to anchor the eye, so the burst reads as a map. Placed on
+		   the side away from Nairobi, so no name sits on the knot of lines. #}
+		{% for d in FLIGHTS.destinations if d.iata in ['LHR', 'JFK', 'DXB', 'JNB'] %}
+			{% set x = (d.lon + 78) * 1.6 %}
+			<text class="explore-burst-label" x="{{ (x + (5 if x > ox else -5))|round(1) }}" y="{{ ((55 - d.lat) * 1.6 + 3)|round(1) }}" text-anchor="{{ 'start' if x > ox else 'end' }}">{{ d.city }}</text>
+		{% endfor %}
+		<circle class="explore-burst-ring" cx="{{ ox|round(1) }}" cy="{{ oy|round(1) }}" r="7"/>
+		<circle class="explore-burst-origin" cx="{{ ox|round(1) }}" cy="{{ oy|round(1) }}" r="3.5"/>
+	</svg>
+{% endmacro %}
+
+{% set live_stations = RADIO.stations|selectattr('stream')|list %}
+
+<article class="section explore" aria-labelledby="explore-heading">
+	<div class="explore-head">
+		<h2 id="explore-heading">Explore Nairobi</h2>
+		<p>Things to play with, not just read.</p>
+	</div>
+
+	<ul class="explore-grid{% if LOSTFOUND_LIVE %} has-lostfound{% endif %}">
+		{# The lead card: AFCON 2027, with its own live countdown. #}
+		<li class="explore-card explore-drive explore-afcon">
+			<a href="{{ SITE_URL }}/afcon">
+				<span class="explore-afcon-visual" aria-hidden="true">
+					<svg class="explore-pitch" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" focusable="false">
+						<rect class="explore-pitch-grass" width="320" height="180"/>
+						<path class="explore-pitch-line" d="M20 20h280v140H20zM160 20v140M20 60h40v60H20M300 60h-40v60h40"/>
+						<circle class="explore-pitch-line" cx="160" cy="90" r="26"/>
+						<defs>
+							<linearGradient id="explore-flag" x1="0" x2="1" y1="0" y2="0">
+								<stop offset="0" stop-color="#111"/><stop offset="0.3" stop-color="#111"/>
+								<stop offset="0.3" stop-color="#fff"/><stop offset="0.33" stop-color="#fff"/>
+								<stop offset="0.33" stop-color="#b30f1f"/><stop offset="0.67" stop-color="#b30f1f"/>
+								<stop offset="0.67" stop-color="#fff"/><stop offset="0.7" stop-color="#fff"/>
+								<stop offset="0.7" stop-color="#0a6b35"/><stop offset="1" stop-color="#0a6b35"/>
+							</linearGradient>
+						</defs>
+						<rect class="explore-pitch-flag" x="0" y="0" width="320" height="8"/>
+					</svg>
+				</span>
+				<span class="explore-text">
+					<span class="explore-kicker">AFCON 2027</span>
+					<strong>The Africa Cup of Nations comes to Nairobi</strong>
+					<span>Three stadiums, the key dates, tickets, and a planner for getting to every match.</span>
+					<afcon-countdown data-starts="{{ AFCON.meta.starts }}" data-ends="{{ AFCON.meta.ends }}"></afcon-countdown>
+					<span class="explore-cta">Plan your AFCON &#10142;</span>
+				</span>
+			</a>
+		</li>
+
+		<li class="explore-card explore-flights">
+			<a href="{{ SITE_URL }}/flights">
+				{{ flightBurst() }}
+				<span class="explore-text">
+					<span class="explore-kicker">Flights</span>
+					<strong>{{ FLIGHTS.destinations|length }} places you can fly nonstop</strong>
+					<span>Every route from JKIA on one map, and the airlines that fly it.</span>
+					<span class="explore-cta">See the routes &#10142;</span>
+				</span>
+			</a>
+		</li>
+
+		<li class="explore-card explore-map">
+			<a href="{{ SITE_URL }}/map">
+				{# The 17 constituency shapes, from the same data the hero map draws.
+				   The hero map is hidden on a phone, and this is where a phone sees
+				   Nairobi. #}
+				<span class="explore-visual explore-visual-map" aria-hidden="true">
+					{% if HERO_MAP %}
+						<svg class="explore-districts" viewBox="{{ HERO_MAP.view_box }}" focusable="false">
+							{% for district in HERO_MAP.districts %}<path d="{{ district.d }}"/>{% endfor %}
+						</svg>
+					{% else %}
+						<span class="explore-glyph">{% include "_icons/exploring.svg" %}</span>
+					{% endif %}
+				</span>
+				<span class="explore-text">
+					<span class="explore-kicker">The map</span>
+					<strong>{{ MAP.constituencies|length }} constituencies, {{ MAP.landmarks|length }} landmarks</strong>
+					<span>Who lives where, what rent costs, and where the stadiums are.</span>
+					<span class="explore-cta">Open the map &#10142;</span>
+				</span>
+			</a>
+		</li>
+
+		{# Nairobi Pulse, once it is live: the constituencies' outlines with a
+		   heartbeat across them. No colours on the shapes - a picture in the
+		   map's answer colours would read as results. #}
+		{% if PULSE_LIVE %}
+		<li class="explore-card explore-pulse">
+			<a href="{{ SITE_URL }}/pulse">
+				<span class="explore-visual explore-visual-pulse" aria-hidden="true">
+					{% if HERO_MAP %}
+						<svg class="explore-pulse-map" viewBox="{{ HERO_MAP.view_box }}" focusable="false">
+							{% for district in HERO_MAP.districts %}<path d="{{ district.d }}"/>{% endfor %}
+						</svg>
+					{% endif %}
+					<svg class="explore-pulse-beat" viewBox="0 0 300 100" preserveAspectRatio="none" focusable="false">
+						<polyline points="0,62 92,62 104,62 114,30 126,88 138,14 150,74 160,62 196,62 206,48 214,62 300,62"/>
+					</svg>
+				</span>
+				<span class="explore-text">
+					<span class="explore-kicker"><span class="explore-live" aria-hidden="true"></span> Nairobi Pulse</span>
+					<strong>How does your constituency feel?</strong>
+					<span>Questions about the city, answered only from inside Nairobi, on a live map of all {{ MAP.constituencies|length }} constituencies.</span>
+					<span class="explore-cta">Vote and see the map &#10142;</span>
+				</span>
+			</a>
+		</li>
+		{% endif %}
+
+		<li class="explore-card explore-radio">
+			<a href="{{ SITE_URL }}/radio">
+				<span class="explore-visual" aria-hidden="true"><span class="explore-eq"><i></i><i></i><i></i><i></i><i></i></span></span>
+				<span class="explore-text">
+					<span class="explore-kicker">Live radio</span>
+					<strong>{{ live_stations|length }} Nairobi stations</strong>
+					<span>{{ live_stations|map(attribute='name')|list|batch(3)|first|join(', ') }} and more, in your browser.</span>
+					<span class="explore-cta">Listen live &#10142;</span>
+				</span>
+			</a>
+		</li>
+		<li class="explore-card explore-events">
+			<a href="{{ SITE_URL }}/events">
+				{# A calendar page, as decoration only: a real date here would go
+				   stale between builds, and the Coming up section further down
+				   carries the real ones, checked against the reader's clock. #}
+				<span class="explore-visual" aria-hidden="true">
+					<svg class="explore-calendar" viewBox="0 0 120 96" focusable="false">
+						<rect class="explore-calendar-page" x="4" y="8" width="112" height="84" rx="8"/>
+						<rect class="explore-calendar-top" x="4" y="8" width="112" height="20" rx="8"/>
+						<rect class="explore-calendar-top" x="4" y="18" width="112" height="10"/>
+						{% for row in range(4) %}{% for col in range(7) %}
+							<rect class="explore-calendar-day{% if (row, col) in [(1, 5), (2, 2), (3, 6)] %} is-on{% endif %}" x="{{ 10 + col * 15 }}" y="{{ 34 + row * 14 }}" width="11" height="10" rx="2"/>
+						{% endfor %}{% endfor %}
+					</svg>
+				</span>
+				<span class="explore-text">
+					<span class="explore-kicker">What's on</span>
+					<strong>Festivals, matches and holidays</strong>
+					<span>Soonest first. Past dates drop off by themselves.</span>
+					<span class="explore-cta">See what's on &#10142;</span>
+				</span>
+			</a>
+		</li>
+
+		{# Lost and found, once it is live: two luggage tags, lost in laterite and
+		   found in forest, the colours they carry on every listing. #}
+		{% if LOSTFOUND_LIVE %}
+		<li class="explore-card explore-lostfound">
+			<a href="{{ SITE_URL }}/lost-and-found">
+				<span class="explore-visual" aria-hidden="true">
+					<svg class="explore-tags" viewBox="0 0 120 96" focusable="false">
+						<path class="explore-tag-string" d="M60 4C40 6 30 14 26 34M60 4c8 10 10 26 6 46"/>
+						<g transform="translate(18 26) rotate(-12)">
+							<path class="explore-tag-lost" d="M14 0h46a6 6 0 0 1 6 6v26a6 6 0 0 1-6 6H14L0 25V13z"/>
+							<circle class="explore-tag-hole" cx="9" cy="19" r="3"/>
+							<text class="explore-tag-text" x="39" y="23" text-anchor="middle">LOST</text>
+						</g>
+						<g transform="translate(50 48) rotate(9)">
+							<path class="explore-tag-found" d="M14 0h46a6 6 0 0 1 6 6v26a6 6 0 0 1-6 6H14L0 25V13z"/>
+							<circle class="explore-tag-hole" cx="9" cy="19" r="3"/>
+							<text class="explore-tag-text" x="39" y="23" text-anchor="middle">FOUND</text>
+						</g>
+					</svg>
+				</span>
+				<span class="explore-text">
+					<span class="explore-kicker">Lost and found</span>
+					<strong>Lost something? Found something?</strong>
+					<span>List it free. Your number is never shown, and malls and stations list what is handed in.</span>
+					<span class="explore-cta">Search or list &#10142;</span>
+				</span>
+			</a>
+		</li>
+		{% endif %}
+	</ul>
+</article>

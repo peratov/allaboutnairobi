@@ -1,9 +1,43 @@
 {% extends "_layout.html" %}
+{% set page_styles = ['tool-index'] %}
 {% set canonical_path = "/tools" %}
 {% set metatitle = "Calculators and templates" %}
 {% set metadescription = "Free Kenyan calculators - take-home pay, household staff, move-in costs, loans, stamp duty and VAT - plus tenancy, receipt and resignation templates." %}
 {% set docs = get_entries('docs', sort_by='title') %}
-{% set calculators = (get_entries('collections')|selectattr('id', 'equalto', 'calculators')|first).entries %}
+{% set collections = get_entries('collections')|selectattr('type', 'equalto', 'tools')|list %}
+
+{#
+	The interactive pages that are not calculators. They are standalone
+	templates, so no collection lists them, and this page - where somebody
+	looking for something to use rather than read ends up - never linked to any
+	of them. Counts come from the same data the pages draw.
+#}
+{% set live_pages = [
+	{'url': '/afcon', 'title': 'AFCON 2027 in Nairobi',
+	 'text': 'A live countdown, the three stadiums, key dates you can add to your calendar, and a fan phrasebook.'},
+	{'url': '/map', 'title': 'Map of Nairobi',
+	 'text': 'All ' ~ MAP.constituencies|length ~ ' constituencies and ' ~ MAP.landmarks|length ~ ' landmarks, shaded by population, wealth and rent.'},
+	{'url': '/flights', 'title': 'Nonstop flights from Nairobi',
+	 'text': 'All ' ~ FLIGHTS.destinations|length ~ ' destinations from JKIA on one map, with the airlines that fly each route.'},
+	{'url': '/radio', 'title': 'Nairobi radio, live',
+	 'text': 'Listen to ' ~ RADIO.stations|selectattr('stream')|list|length ~ ' Nairobi stations in your browser, with their frequencies.'},
+	{'url': '/events', 'title': 'Events in Nairobi',
+	 'text': 'Festivals, matches, public holidays and the fixtures that come round every year.'},
+] %}
+{# Nairobi Pulse joins the list on its launch day, with the rest of its links. #}
+{% if PULSE_LIVE %}
+	{% set live_pages = [{'url': '/pulse', 'title': 'Nairobi Pulse',
+		'text': 'Vote on questions about the city from inside Nairobi, and see on a live map how each of the ' ~ MAP.constituencies|length ~ ' constituencies answers.'}] + live_pages %}
+{% endif %}
+
+{% macro toolCard(url, title, text) %}
+	<li>
+		<a class="tool-card" href="{{ url }}">
+			<span class="tool-card-title">{{ title }}</span>
+			{% if text %}<span class="tool-card-text">{{ text }}</span>{% endif %}
+		</a>
+	</li>
+{% endmacro %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
@@ -18,36 +52,57 @@
 				happens on your own device.
 			</p>
 
-			<h2 id="calculators">Calculators</h2>
-			<ul class="card-grid">
-				{% for item in calculators %}
-					{% set tool = entries[item.uri] %}
-					<li>
-						<a class="card" href="{{ tool.url }}">
-							<span class="icon-stamp">{% include "_icons/money.svg" %}</span>
-							<h3>{{ tool.short_title|default(tool.title) }}</h3>
-							<p>{{ tool.description }}</p>
-						</a>
-					</li>
-				{% endfor %}
-			</ul>
+			{#
+				Each tool says what it does. The list was sixteen bare names, and
+				"withholding tax calculator" means nothing to somebody who has not
+				yet been told they owe one.
+			#}
+			{% for collection in collections %}
+				<section class="tool-group" id="{{ collection.id }}">
+					<h2 class="tool-group-title">
+						<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>
+						{{ collection.title }}
+					</h2>
+					{% if collection.description|default %}<p class="tool-group-description">{{ collection.description }}</p>{% endif %}
+					<ul class="tool-cards">
+						{% for item in collection.entries %}
+							{% set target = entries.get(item.uri) if item.uri|default else None %}
+							{# A uri with no entry is scheduled for later; see release.py. #}
+							{% if target %}
+								{{ toolCard(target.url, item.title|default(target.short_title|default(target.title)), target.description) }}
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</section>
+			{% endfor %}
 
-			<h2 id="templates">Templates and checklists</h2>
-			<ul class="card-grid">
-				{% for doc in docs %}
-					<li>
-						<a class="card" href="{{ doc.url }}">
-							<span class="icon-stamp">{% include "_icons/accuracy.svg" %}</span>
-							<h3>{{ doc.short_title|default(doc.title) }}</h3>
-							<p>{{ doc.description }}</p>
-						</a>
-					</li>
-				{% endfor %}
-			</ul>
+			{% if docs %}
+			<section class="tool-group" id="templates">
+				<h2 class="tool-group-title">
+					<span class="icon-stamp">{% include "_icons/accuracy.svg" %}</span>
+					Templates and checklists
+				</h2>
+				<p class="tool-group-description">Documents to copy, adapt and use.</p>
+				<ul class="tool-cards">
+					{% for doc in docs %}
+						{{ toolCard(doc.url, doc.short_title|default(doc.title), doc.description) }}
+					{% endfor %}
+				</ul>
+			</section>
+			{% endif %}
 
-			<p>
-				&mdash; <a href="{{ SITE_URL }}/map">The interactive map of Nairobi &#8658;</a>
-			</p>
+			<section class="tool-group" id="maps-and-live-pages">
+				<h2 class="tool-group-title">
+					<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
+					Maps, data and live pages
+				</h2>
+				<p class="tool-group-description">Things to explore rather than calculate.</p>
+				<ul class="tool-cards">
+					{% for page in live_pages %}
+						{{ toolCard(SITE_URL ~ page.url, page.title, page.text) }}
+					{% endfor %}
+				</ul>
+			</section>
 		</article>
 	</main>
 {% endblock %}

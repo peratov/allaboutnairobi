@@ -40,6 +40,28 @@ NOINDEX_PATHS = {
     # about it is the indexable surface; the game itself is an application, and
     # a WebGL page was never going to rank on its text.
     "/drive",
+    # Lost and found's private and per-place pages: a manage link and a
+    # place's portal carry a key in the #fragment, and the place page is one
+    # shell filled from ?p=. None of them is content to index.
+    "/lost-and-found/manage",
+    "/lost-and-found/portal",
+    "/lost-and-found/place",
+    # The owner's admin, behind Google sign-in.
+    "/admin",
+    # Noindex until LOSTFOUND_LIVE=1 at build time (see ursus_config.py), so
+    # they are linked but not yet in the sitemap. Once live they are in the
+    # sitemap as well, which is harmless.
+    "/lost-and-found",
+    "/lost-and-found/join",
+    "/lost-and-found/report",
+    # The same for Accra Pulse, until PULSE_LIVE=1: /terms#pulse links to it
+    # from the first build, because the terms must describe it before it opens.
+    "/pulse",
+    # Where the newsletter's emails and its no-script form land: a token in
+    # the #fragment, or one answer to one form.
+    "/newsletter/confirm",
+    "/newsletter/unsubscribe",
+    "/newsletter/check",
 }
 
 

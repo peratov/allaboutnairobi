@@ -18,17 +18,23 @@ It has to rewrite the modules too, not only the HTML. `accra-map.mjs` imports
 `/js/utils/format.mjs` by an absolute path of its own; version the entry point
 alone and the dependencies keep coming from the poisoned cache.
 
+It also strips the modules' comments and indentation on the way past - see
+extensions/jsstrip.py - unless STRIP_JS=0, for reading them in a browser.
+
 Runs last, and returns no files: every path it touches is already owned by the
 renderer that wrote it, so nothing here should affect stale-file collection.
 """
 
 import logging
+import os
 import re
 from pathlib import Path
 
 from ursus.config import config
 from ursus.context_processors import Context
 from ursus.renderers import Renderer
+
+from extensions.jsstrip import strip_js
 
 logger = logging.getLogger(__name__)
 
@@ -47,14 +53,37 @@ class AssetVersionRenderer(Renderer):
         version = str(context.get("commit_id") or "dev")[:12]
         replacement = r"\1?v=" + version
 
+        strip = os.environ.get("STRIP_JS", "1") != "0"
         patched = 0
+        before = after = 0
         for pattern in ("**/*.html", "js/**/*.mjs"):
             for path in config.output_path.glob(pattern):
-                text = path.read_text(encoding="utf-8")
-                stamped, count = VERSIONED.subn(replacement, text)
-                if count:
-                    path.write_text(stamped, encoding="utf-8")
-                    patched += count
+                text = original = path.read_text(encoding="utf-8")
+                if strip and path.suffix == ".mjs":
+                    text = stripped(text, path)
+                    before += len(original.encode())
+                    after += len(text.encode())
+                text, count = VERSIONED.subn(replacement, text)
+                patched += count
+                if text != original:
+                    path.write_text(text, encoding="utf-8")
 
         logger.info("Stamped %d asset URLs with v=%s", patched, version)
+        if strip:
+            logger.info("Stripped the modules from %d to %d bytes", before, after)
         return set()
+
+
+def stripped(text: str, path: Path) -> str:
+    """The module without comments or indentation, or as it was if the
+    stripper cannot vouch for its own result - a file it cannot tokenise, or
+    one a second pass would change again. A module shipped with its comments
+    costs bytes; a module shipped wrong breaks a page."""
+    try:
+        result = strip_js(text)
+        if strip_js(result) == result:
+            return result
+        logger.warning("Not stripping %s: a second pass changes it", path.name)
+    except ValueError as error:
+        logger.warning("Not stripping %s: %s", path.name, error)
+    return text

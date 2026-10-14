@@ -1,0 +1,73 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['events', 'lostfound'] %}
+{#
+	Organisers send an event; a person checks it; only then is it on /events.
+
+	The form is built by event-submit.mjs, because it posts JSON to
+	/api/lost-found?r=event (the function lost and found already runs, with its
+	limits and its honeypot), and nothing on this page is published by sending
+	it. Without scripting, the page says how to send an event by email instead.
+#}
+{% set canonical_path = "/events/submit" %}
+{% set metatitle = "List your event in Nairobi, free" %}
+{% set metadescription = "Running a concert, festival, meetup or market in Nairobi? Send it to the All About Nairobi events calendar. Free, checked by a person, listed within days." %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section lf-page event-submit-page">
+			<p class="lf-crumb"><a href="{{ SITE_URL }}/events">&larr; Events in Nairobi</a></p>
+			<div class="section-heading">
+				<span class="icon-stamp">{% include "_icons/culture.svg" %}</span>
+				<h1>List your event</h1>
+			</div>
+			<p class="page-intro">
+				Running something in Nairobi - a concert, a festival, a meetup, a
+				market, a race? Send it here and it can go on the
+				<a href="{{ SITE_URL }}/events">events calendar</a>. It is free.
+			</p>
+
+			<ul class="event-submit-intro">
+				<li><span><strong>Checked by a person</strong> before it is listed, so a reader who travels to it finds it on. Usually a day or two.</span></li>
+				<li><span><strong>You hear by email</strong> when it is on the site, or if it cannot be.</span></li>
+				<li><span><strong>Your details stay private.</strong> Your name, email and phone are for checking, never shown, and erased thirty days after the decision.</span></li>
+				<li><span><strong>It drops off by itself</strong> the day after it ends, so the calendar never shows a date that has passed.</span></li>
+			</ul>
+
+			{#
+				The form on the left; on a wide screen the preview and the
+				checklist sit on the right and stay in view while it is filled in.
+				event-submit.mjs puts them there, or above the send button on a
+				phone.
+			#}
+			<div class="event-submit-layout">
+				<div data-event-submit>
+					<noscript>
+						<p class="lf-notice">
+							This form needs JavaScript. You can also send the event's name, date,
+							venue, a short description and a link to
+							<a href="mailto:{{ CONTACT_EMAIL }}?subject=An%20event%20for%20the%20calendar">{{ CONTACT_EMAIL }}</a>.
+						</p>
+					</noscript>
+				</div>
+				<aside class="event-submit-aside" data-event-submit-aside aria-label="Preview"></aside>
+			</div>
+
+			<p class="event-submit-small">
+				What we list: events open to the public in Nairobi, with a date.
+				What we do not: private parties, recurring classes with no particular
+				date, and anything we cannot confirm is happening. How we handle what
+				you send is in <a href="{{ SITE_URL }}/terms#events">the terms</a>.
+			</p>
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/events">See what is already listed &#8658;</a>
+			</p>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% queueJs %}
+		import '/js/components/event-submit.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

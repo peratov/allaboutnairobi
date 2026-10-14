@@ -1,0 +1,26 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['lostfound'] %}
+{% set page_robots = "noindex, follow" %}
+{% set metatitle = "Lost and found" %}
+{% set metadescription = "Items handed in at a place in Nairobi, and where to collect them." %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section lf-page">
+			<p class="lf-crumb"><a href="{{ SITE_URL }}/lost-and-found">&larr; Lost and found</a></p>
+			<h1>Lost and found</h1>
+			
+			<div data-lf-place>
+				<noscript><p class="lf-notice">This page needs JavaScript.</p></noscript>
+			</div>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% include "_blocks/lostFoundVocab.html" %}
+	{% queueJs %}
+		import '/js/lostfound/place.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

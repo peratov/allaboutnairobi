@@ -1,17 +1,33 @@
-// The events page.
+// The events page, the home page's "Coming up", and listing an event.
 //
 // A calendar-page convention: a fixed date block on the left, everything else
 // to the right of it. The date is the thing a reader scans for, so it gets the
 // strongest position and the tabular figures.
+//
+// Each category has its own accent - the edge of the card, the tint of the date
+// block, the tag - so a page of music reads differently from a page of sport
+// before a word is read. The word is always there too; colour only helps.
+
+.event {
+	--event-accent: var(--c-laterite);
+}
+
+.event[data-category="music"] { --event-accent: var(--c-rain); }
+.event[data-category="tech"] { --event-accent: var(--c-forest); }
+.event[data-category="business"] { --event-accent: var(--c-gold); }
+.event[data-category="sport"] { --event-accent: color-mix(in srgb, var(--c-forest) 55%, var(--c-rain)); }
+.event[data-category="food"] { --event-accent: color-mix(in srgb, var(--c-gold) 70%, var(--c-laterite)); }
+.event[data-category="family"] { --event-accent: color-mix(in srgb, var(--c-laterite) 55%, var(--c-gold)); }
+.event[data-category="civic"] { --event-accent: var(--c-text-light); }
+
+// --- the filter chips ---------------------------------------------------------------
 
 .event-filters {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--s) var(--m);
-	margin: var(--l) 0 var(--xl);
-	padding-bottom: var(--m);
-	border-bottom: 1px solid var(--c-border);
+	margin: var(--l) 0 var(--m);
 }
 
 .event-filters-label {
@@ -26,36 +42,50 @@
 }
 
 .event-chip {
-	padding: var(--xs) var(--m);
+	min-height: 2.5rem;
+	padding: 0 var(--m);
 	font: inherit;
 	font-size: var(--f-s);
-	color: var(--c-text-light);
-	background: transparent;
-	border: 1px solid var(--c-border);
+	font-weight: 600;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
 	border-radius: 2rem;
 	cursor: pointer;
+	transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+
+	&:hover { border-color: var(--c-text-heading); }
+	&.is-on { color: var(--c-bg-on-accent); background: var(--c-text-heading); border-color: var(--c-text-heading); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
 }
 
-.event-chip:hover {
-	color: var(--c-text);
-	border-color: var(--c-border-strong);
+.event-chip-count {
+	font-size: var(--f-xs);
+	font-weight: 600;
+	opacity: 0.7;
+	font-variant-numeric: tabular-nums;
 }
 
-.event-chip.is-on {
-	color: var(--c-bg-on-accent);
-	background: var(--c-laterite);
-	border-color: var(--c-laterite);
-}
+// --- months and lists ------------------------------------------------------------------
 
 .event-month-heading {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
 	margin: var(--xl) 0 var(--m);
-	padding-bottom: var(--xs);
-	font-size: 1.1rem;
-	color: var(--c-text-light);
-	border-bottom: 1px solid var(--c-border);
+	font-size: 1.05rem;
+	color: var(--c-text-heading);
 	// The month is a signpost, not a title competing with the h1.
 	font-variant-caps: all-small-caps;
 	letter-spacing: 0.06em;
+
+	// A rule that runs from the month to the edge, like a calendar's.
+	&::after {
+		content: "";
+		flex: 1;
+		height: 1px;
+		background: var(--c-border);
+	}
 }
 
 .event-list {
@@ -67,13 +97,54 @@
 	list-style: none;
 }
 
+// Two across on a wide screen: one column of 1,100px cards was mostly air.
+@media (min-width: 60rem) {
+	.events-page .event-month-group .event-list,
+	.events-annual .event-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: start;
+	}
+}
+
+// --- the card -----------------------------------------------------------------------------
+
 .event {
+	position: relative;
 	display: flex;
 	gap: var(--m);
-	padding: var(--m);
+	padding: var(--m) var(--m) var(--m) calc(var(--m) + 4px);
 	background: var(--c-bg-page);
 	border: 1px solid var(--c-border);
-	border-radius: var(--b-radius);
+	border-radius: 10px;
+	box-shadow: var(--shadow-card);
+	transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+
+	// The category's edge.
+	&::before {
+		content: "";
+		position: absolute;
+		top: -1px;
+		bottom: -1px;
+		left: -1px;
+		width: 5px;
+		background: var(--event-accent);
+		border-radius: 10px 0 0 10px;
+	}
+
+	&:hover {
+		transform: translateY(-2px);
+		border-color: color-mix(in srgb, var(--event-accent) 45%, var(--c-border));
+		box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.5);
+	}
+}
+
+.event-side {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 0 0 3.75rem;
+	align-self: flex-start;
 }
 
 .event-date {
@@ -81,24 +152,37 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	align-self: flex-start;
 	flex: 0 0 3.75rem;
-	padding: var(--xs) 0;
+	width: 100%;
+	padding: var(--xs) 0 0.35rem;
 	text-align: center;
-	background: var(--c-highlight-soft);
-	border-radius: var(--b-radius);
+	background: color-mix(in srgb, var(--event-accent) 12%, var(--c-bg-page));
+	border: 1px solid color-mix(in srgb, var(--event-accent) 28%, var(--c-bg-page));
+	border-radius: 8px;
 	// Dates line up down the column only if the digits are the same width.
 	font-variant-numeric: tabular-nums;
 }
 
-.event-day {
-	font-size: 1.5rem;
+.event-weekday {
+	font-size: 0.7rem;
 	font-weight: 700;
-	line-height: 1.1;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--event-accent);
+}
+
+.event-day {
+	// The body face: the heading face's old-style figures sit a 1 and a 7 low.
+	font-size: 1.6rem;
+	font-weight: 700;
+	line-height: 1.05;
 	color: var(--c-text-heading);
 }
 
 .event-month {
-	font-size: 0.75rem;
+	font-size: 0.72rem;
+	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
 	color: var(--c-text-light);
@@ -110,15 +194,16 @@
 	line-height: 1;
 }
 
-.event-body { min-width: 0; }
+.event-body { flex: 1; min-width: 0; }
 
 .event-title {
 	margin: 0 0 var(--xs);
-	font-size: 1.05rem;
-}
+	font-size: 1.12rem;
+	line-height: 1.3;
 
-.event-title a { text-decoration: none; }
-.event-title a:hover { text-decoration: underline; }
+	a { color: var(--c-text-heading); text-decoration: none; }
+	a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+}
 
 .event-meta {
 	display: flex;
@@ -130,20 +215,14 @@
 	color: var(--c-text-light);
 }
 
-// Separate the meta items with a dot, but never lead with one.
-.event-meta > * + *::before {
-	content: "·";
-	margin-inline-end: var(--s);
-	color: var(--c-border-strong);
-}
-
 .event-tag {
 	padding: 0.1rem var(--s);
-	font-size: 0.75rem;
+	font-size: 0.72rem;
+	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
-	color: var(--c-text);
-	background: var(--c-highlight-soft);
+	color: var(--c-text-heading);
+	background: color-mix(in srgb, var(--event-accent) 16%, transparent);
 	border-radius: 2rem;
 }
 
@@ -155,11 +234,48 @@
 	color: var(--c-text-light);
 }
 
+// How far away, against the reader's clock. Added by events-filter.mjs.
+.event-relative {
+	padding: 0.1rem var(--s);
+	font-size: 0.78rem;
+	font-weight: 700;
+	color: var(--c-text-heading);
+	background: var(--c-bg-widget-opaque);
+	border-radius: 2rem;
+
+	&.is-soon { color: var(--c-bg-on-accent); background: var(--c-laterite); }
+}
+
+// Where and how much, as running text. The dot follows an item rather than
+// leading the next, so a wrapped line ends with one instead of starting with
+// one - it used to put "· Paid entry" on a line by itself.
+.event-where {
+	margin: 0 0 var(--xs);
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text);
+
+	> span:not(:last-child)::after {
+		content: " \00b7";
+		color: var(--c-border-strong);
+	}
+}
+
 .event-description {
 	margin: 0;
 	font-size: var(--f-s);
+	line-height: 1.55;
 	color: var(--c-text-light);
 	max-width: 62ch;
+}
+
+.event-links {
+	margin: var(--s) 0 0;
+	font-size: var(--f-s);
+	font-weight: 700;
+
+	a { text-decoration: none; }
+	a:hover { text-decoration: underline; }
 }
 
 .event-empty {
@@ -167,12 +283,546 @@
 	color: var(--c-text-light);
 }
 
-@media (max-width: 30rem) {
-	.event {
-		gap: var(--s);
-		padding: var(--s);
+// Add to calendar: in the card's corner, so it costs no height. An icon with a
+// word, because a calendar icon alone is not obviously "add this to mine".
+.event-calendar {
+	position: absolute;
+	top: var(--s);
+	right: var(--s);
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.1rem;
+	width: 2.9rem;
+	min-height: 2.9rem;
+	padding: var(--xs) 0;
+	font: inherit;
+	font-size: 0.68rem;
+	font-weight: 700;
+	color: var(--c-text-link);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 8px;
+	cursor: pointer;
+	transition: border-color 160ms ease, background 160ms ease;
+
+	svg {
+		width: 1.15rem;
+		height: 1.15rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.8;
+		stroke-linecap: round;
+		stroke-linejoin: round;
 	}
 
-	.event-date { flex-basis: 3rem; }
-	.event-day { font-size: 1.25rem; }
+	&:hover { border-color: var(--event-accent); background: color-mix(in srgb, var(--event-accent) 10%, var(--c-bg-page)); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// Room beside the title and the first line for the button. Not :has(), which
+// older Android browsers lack; without scripting the button stays hidden and
+// this leaves a little spare, which is the cheaper failure.
+.js .event:not(.event-annual) {
+	.event-title, .event-meta { padding-inline-end: 3.1rem; }
+}
+
+// --- public holidays: a row, not a card ---------------------------------------------------
+
+.event-holiday {
+	gap: var(--s) var(--m);
+
+	&::before { width: 3px; background: var(--c-border-strong); }
+
+	align-items: center;
+	padding-block: var(--s);
+	background: var(--c-bg-widget);
+	box-shadow: none;
+
+	&:hover { transform: none; box-shadow: none; }
+
+	.event-side { flex-basis: 3rem; }
+	.event-date { padding: 2px 0 3px; }
+	.event-weekday { font-size: 0.62rem; }
+	.event-day { font-size: 1.2rem; }
+	.event-month { font-size: 0.62rem; }
+	.event-title { margin: 0; font-size: 1rem; }
+	.event-meta { margin: 2px 0 0; }
+	.event-where { display: none; }
+	.event-description { margin-top: 2px; font-size: 0.85rem; }
+	.event-calendar { top: 50%; transform: translateY(-50%); width: 2.5rem; min-height: 2.5rem; font-size: 0.62rem; }
+}
+
+// The button is centred down a holiday's row, so all of its text keeps clear.
+.js .event-holiday .event-body { padding-inline-end: 3rem; }
+.js .event-holiday .event-title, .js .event-holiday .event-meta { padding-inline-end: 0; }
+
+// --- next up -------------------------------------------------------------------------------
+
+.event-next {
+	margin: var(--l) 0 var(--m);
+
+	.event-list { display: block; }
+}
+
+.event-next-label {
+	margin: 0 0 var(--s);
+	font-size: var(--f-xs);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-laterite);
+}
+
+.event.is-next {
+	gap: var(--l);
+	padding: var(--l) var(--l) var(--l) calc(var(--l) + 5px);
+	background:
+		radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--event-accent) 14%, transparent), transparent 55%),
+		var(--c-bg-page);
+	border-color: color-mix(in srgb, var(--event-accent) 40%, var(--c-border));
+
+	&::before { width: 6px; }
+
+	.event-side { flex-basis: 5rem; }
+	.event-date { padding: var(--s) 0; }
+	.event-weekday { font-size: 0.8rem; }
+	.event-day { font-size: 2.4rem; }
+	.event-month { font-size: 0.85rem; }
+	.event-title { font-size: 1.5rem; }
+	.event-where { font-size: 1rem; }
+	.event-description { font-size: 1rem; color: var(--c-text); }
+	.event-calendar { top: var(--m); right: var(--m); }
+}
+
+// --- the way in for organisers ---------------------------------------------------------------
+
+.event-submit-banner {
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+	margin: var(--l) 0;
+	padding: var(--m) var(--l);
+	background: color-mix(in srgb, var(--c-laterite) 8%, var(--c-bg-page));
+	border: 1px solid color-mix(in srgb, var(--c-laterite) 30%, var(--c-bg-page));
+	border-radius: 12px;
+
+	p {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		gap: 0.15rem;
+		margin: 0;
+		min-width: 0;
+	}
+
+	strong { font-family: var(--font-heading); font-size: 1.1rem; color: var(--c-text-heading); }
+	span { font-size: var(--f-s); color: var(--c-text-light); }
+}
+
+.event-submit-banner-icon {
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	width: 2.75rem;
+	height: 2.75rem;
+	color: var(--c-laterite);
+	background: var(--c-bg-page);
+	border-radius: 50%;
+
+	svg { width: 1.4rem; height: 1.4rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+}
+
+a.event-submit-button,
+a.event-submit-button:visited {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+	padding: 0 var(--l);
+	font-weight: 700;
+	color: var(--c-bg-on-accent);
+	text-decoration: none;
+	background: var(--c-laterite);
+	border-radius: 2rem;
+	transition: transform 160ms ease, box-shadow 160ms ease;
+
+	&:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.5); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// =============================================================================
+// A phone
+//
+// Measured at 393x851: 7.5 screens; the chips and a "Show" label wrapped over
+// 120px before the first event; the first card was 268px with its date block
+// stretched into a beige column down the whole of it; and the yearly fixtures
+// were three screens of infinity signs.
+// =============================================================================
+
+@media (max-width: 40rem) {
+	// One row of chips that scrolls sideways, edge to edge.
+	.event-filters {
+		margin: var(--m) calc(var(--m) * -1) var(--s);
+		padding: 0 var(--m) var(--s);
+	}
+
+	.event-filter-chips {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		scrollbar-width: none;
+		&::-webkit-scrollbar { display: none; }
+	}
+
+	.event-chip { flex: 0 0 auto; white-space: nowrap; }
+
+	// The month stays in view while its events scroll under it, so a card
+	// halfway down a long list is never without its month.
+	.event-month-heading {
+		position: sticky;
+		top: var(--h-header);
+		z-index: 2;
+		margin: var(--l) calc(var(--m) * -1) var(--s);
+		padding: var(--s) var(--m) var(--xs);
+		background: var(--c-bg-page);
+	}
+
+	.event-list { gap: var(--s); }
+
+	.event {
+		gap: var(--s) var(--m);
+		padding: var(--m) var(--m) var(--m) calc(var(--m) + 2px);
+		box-shadow: none;
+
+		&:hover { transform: none; box-shadow: none; }
+	}
+
+	.event-side { flex-basis: 3.25rem; }
+	.event-date { flex-basis: 3.25rem; }
+	.event-day { font-size: 1.4rem; }
+	.event-title { font-size: 1.05rem; }
+
+	// A yearly fixture has no date to show. The block said so with an infinity
+	// sign; its tag and its "when" note already say it in words.
+	.event-annual .event-date { display: none; }
+	.event-annual .event-side { display: none; }
+
+	.event-holiday .event-side { flex-basis: 2.75rem; }
+
+	.event.is-next {
+		gap: var(--m);
+		padding: var(--m) var(--m) var(--m) calc(var(--m) + 4px);
+
+		.event-side { flex-basis: 4rem; }
+		.event-day { font-size: 1.9rem; }
+		.event-title { font-size: 1.25rem; }
+		.event-description { font-size: var(--f-s); }
+	}
+
+	.event-submit-banner {
+		flex-wrap: wrap;
+		padding: var(--m);
+
+		.event-submit-banner-icon { display: none; }
+		p { flex-basis: 100%; }
+	}
+
+	a.event-submit-button { width: 100%; justify-content: center; }
+}
+
+// =============================================================================
+// Listing an event: /events/submit
+//
+// The form borrows lost and found's fields (.lf-field, .lf-chips, .lf-private),
+// so a reader who has used one has used the other. What is its own: the
+// grouping, the pair of dates and their one-tap days, and the preview - the
+// card exactly as the events page draws it, from the same classes - with a
+// checklist of what is still missing. On a wide screen the preview sits beside
+// the form and stays there while it is filled in.
+// =============================================================================
+
+.event-submit-intro {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--s) var(--l);
+	margin: var(--l) 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		gap: var(--s);
+		margin: 0;
+		font-size: var(--f-s);
+		color: var(--c-text);
+	}
+
+	li::before {
+		content: "";
+		flex: 0 0 auto;
+		width: 0.55rem;
+		height: 0.55rem;
+		margin-top: 0.45rem;
+		background: var(--c-forest);
+		border-radius: 50%;
+	}
+
+	strong { display: block; color: var(--c-text-heading); }
+}
+
+.event-submit-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--xl);
+}
+
+@media (min-width: 60rem) {
+	.event-submit-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 22rem); align-items: start; }
+	.event-submit-layout.is-done { grid-template-columns: minmax(0, 1fr); }
+
+	.event-submit-aside {
+		position: sticky;
+		top: calc(var(--h-header) + var(--m));
+	}
+}
+
+.event-submit-group {
+	min-width: 0;
+	margin: 0 0 var(--l);
+	padding: var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 12px;
+
+	legend {
+		float: left;
+		width: 100%;
+		margin: 0 0 var(--m);
+		padding: 0;
+		font-family: var(--font-heading);
+		font-size: 1.2rem;
+		font-weight: 700;
+		color: var(--c-text-heading);
+	}
+
+	// After a floated legend the first field must clear it.
+	legend + * { clear: both; }
+
+	.lf-field:last-child, .lf-chips:last-child { margin-bottom: 0; }
+}
+
+.event-submit-step {
+	display: inline-grid;
+	place-items: center;
+	width: 1.6rem;
+	height: 1.6rem;
+	margin-right: var(--s);
+	font-family: var(--font-body);
+	font-size: 0.85rem;
+	color: var(--c-bg-on-accent);
+	background: var(--c-text-heading);
+	border-radius: 50%;
+	vertical-align: 0.15em;
+}
+
+.event-submit-pair {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: start;
+	gap: 0 var(--m);
+}
+
+// This Saturday, this Sunday, next Saturday: the days most events are.
+.event-submit-quick {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	margin: calc(var(--s) * -1) 0 var(--m);
+
+	button {
+		min-height: 2.25rem;
+		padding: 0 var(--m);
+		font: inherit;
+		font-size: var(--f-s);
+		font-weight: 600;
+		color: var(--c-text);
+		background: var(--c-bg-widget);
+		border: 1px solid var(--c-border);
+		border-radius: 2rem;
+		cursor: pointer;
+
+		&[aria-pressed="true"] { color: var(--c-bg-on-accent); background: var(--c-text-heading); border-color: var(--c-text-heading); }
+		&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+	}
+}
+
+.event-submit-count { display: block; text-align: right; }
+
+.event-submit-preview-box {
+	padding: var(--m);
+	background: var(--c-bg-widget);
+	border: 1px dashed var(--c-border-strong);
+	border-radius: 12px;
+}
+
+.event-submit-preview-label {
+	margin: 0 0 var(--s);
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+ul.event-submit-preview {
+	margin: 0 0 var(--m);
+	padding: 0;
+	list-style: none;
+
+	.event { margin: 0; }
+	.event:hover { transform: none; }
+}
+
+// What is still missing, ticked off as it is filled in.
+.event-submit-checks {
+	display: grid;
+	gap: 0.3rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		align-items: center;
+		gap: var(--s);
+		margin: 0;
+		font-size: var(--f-s);
+		color: var(--c-text-light);
+	}
+
+	li::before {
+		content: "";
+		flex: 0 0 auto;
+		width: 1rem;
+		height: 1rem;
+		border: 2px solid var(--c-border-strong);
+		border-radius: 50%;
+		transition: background 160ms ease, border-color 160ms ease;
+	}
+
+	li.is-done { color: var(--c-text-heading); }
+
+	li.is-done::before {
+		background: var(--c-forest) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+		border-color: var(--c-forest);
+	}
+}
+
+.event-submit-send {
+	margin-top: var(--m);
+
+	.lf-primary { width: 100%; min-height: 3.25rem; font-size: 1.05rem; }
+}
+
+.event-submit-small {
+	margin-top: var(--l);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+// The thank-you, with what happens next.
+.event-submit-done {
+	text-align: center;
+
+	h2 { margin-top: var(--s); }
+}
+
+.event-submit-tick {
+	width: 4rem;
+	height: 4rem;
+
+	circle { fill: color-mix(in srgb, var(--c-forest) 16%, transparent); }
+	path {
+		fill: none;
+		stroke: var(--c-forest);
+		stroke-width: 3.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 40;
+		stroke-dashoffset: 40;
+		animation: event-tick 520ms 120ms ease forwards;
+	}
+}
+
+@keyframes event-tick { to { stroke-dashoffset: 0; } }
+
+.event-submit-next {
+	display: grid;
+	gap: var(--s);
+	max-width: 30rem;
+	margin: var(--l) auto;
+	padding: 0;
+	text-align: left;
+	list-style: none;
+	counter-reset: next;
+
+	li {
+		display: flex;
+		gap: var(--m);
+		margin: 0;
+		padding: var(--s) var(--m);
+		background: var(--c-bg-widget);
+		border-radius: 8px;
+		counter-increment: next;
+
+		&::before {
+			content: counter(next);
+			display: grid;
+			place-items: center;
+			flex: 0 0 auto;
+			width: 1.6rem;
+			height: 1.6rem;
+			font-weight: 700;
+			color: var(--c-bg-on-accent);
+			background: var(--c-forest);
+			border-radius: 50%;
+		}
+	}
+}
+
+// The thank-you is scrolled to; keep its heading clear of the sticky header.
+.event-submit-page .lf-success { scroll-margin-top: calc(var(--h-header) + var(--m)); }
+
+@media (max-width: 40rem) {
+	.event-submit-intro { grid-template-columns: minmax(0, 1fr); }
+
+	// Each group a band edge to edge on a phone, like every other card here.
+	.event-submit-group {
+		margin-left: calc(var(--m) * -1);
+		margin-right: calc(var(--m) * -1);
+		padding: var(--m);
+		border-width: 1px 0;
+		border-radius: 0;
+	}
+}
+
+@media (max-width: 22rem) {
+	.event-submit-pair { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.event, .event-chip, .event-calendar, a.event-submit-button { transition: none; }
+	.event:hover { transform: none; }
+	.event-submit-tick path { animation: none; stroke-dashoffset: 0; }
+}
+
+// Without color-mix() three categories lose their accent and the tick's disc
+// paints black. See _variables.scss.
+@supports not (color: color-mix(in srgb, red, red)) {
+	.event[data-category="sport"] { --event-accent: var(--c-forest); }
+	.event[data-category="food"] { --event-accent: var(--c-gold); }
+	.event[data-category="family"] { --event-accent: var(--c-laterite); }
+	.event-submit-tick circle { fill: var(--c-forest); fill-opacity: 0.16; }
 }

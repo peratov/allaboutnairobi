@@ -1,4 +1,13 @@
 {% extends "_layout.html" %}
+{#
+	Guides, tools and documents - the last two extend this template. Every one
+	carries the rating prompt; the calculator styles come only with a body that
+	mounts a calculator, which is about one guide in seven.
+#}
+{% set page_styles = ['rating'] %}
+{% if '% tool "' in entry.body %}{% set page_styles = page_styles + ['tools'] %}{% endif %}
+{% if (entry.tool|default('')|string).startswith('afcon-') %}{% set page_styles = page_styles + ['afcon'] %}{% endif %}
+{% if NEWSLETTER_LIVE %}{% set page_styles = page_styles + ['subscribe'] %}{% endif %}
 {% set metatitle = entry.title %}
 {% set metadescription = entry.description %}
 
@@ -18,6 +27,16 @@
 			</div>
 
 			{% include "_blocks/verifiedNotice.html" %}
+			{% include "_blocks/guideRating.html" %}
+
+			{#
+				With the site's own list running, every guide ends with a way to
+				hear when the rules move - the reason most people would want the
+				newsletter at all. The page it was on is kept with the sign-up.
+			#}
+			{% if NEWSLETTER_LIVE %}
+				{% with compact=true %}{% include "_blocks/subscribeForm.html" %}{% endwith %}
+			{% endif %}
 		</article>
 
 		{% if entry.collections|default %}

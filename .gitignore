@@ -11,3 +11,7 @@ frontend/public/
 *.log
 vercel-schema.tmp.json
 frontend/scripts/.cache/
+
+# Lost and found: the local stand-in for the database.
+frontend/.lostfound-dev.json
+frontend/.lostfound-dev.json.*.tmp

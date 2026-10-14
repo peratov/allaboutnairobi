@@ -12,6 +12,7 @@
 	<main id="main" class="single-column" aria-label="Main page">
 		<article class="section">
 			<header class="term-header">
+				<a class="term-eyebrow" href="{{ SITE_URL }}/glossary">&larr; Glossary</a>
 				<h1>{{ metatitle }}</h1>
 				<p class="term-english">
 					{{ entry.english_term|default(entry.description) }}
@@ -23,6 +24,10 @@
 			<div class="article-body">
 				{{ entry.body|render|safe }}
 			</div>
+
+			<p class="term-browse no-print">
+				<a href="{{ SITE_URL }}/glossary">All {{ get_entries('glossary')|length }} words in the glossary &#10142;</a>
+			</p>
 		</article>
 
 		{% if entry.related_guides|default %}

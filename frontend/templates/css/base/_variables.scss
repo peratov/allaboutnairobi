@@ -62,6 +62,7 @@ $width-desktop: 1180px;
 	--c-laterite-dark: #8a3510;   // 7.82:1 - links
 	--c-forest: #185c3c;
 	--c-gold: #8a5f0f;
+	--c-rain: #2f6690;            // the rainy months on /seasons
 
 	--c-highlight: var(--c-laterite);
 	--c-highlight-soft: #9c411322;
@@ -116,6 +117,7 @@ $width-desktop: 1180px;
 	--c-laterite-dark: #f2a76f;   // 8.49:1 - links
 	--c-forest: #5cbb8b;
 	--c-gold: #e0ae52;
+	--c-rain: #7fb4dc;
 
 	--c-highlight-soft: #ec905226;
 
@@ -155,3 +157,16 @@ $width-desktop: 1180px;
 //    the page rather than the operating system.
 :root[data-theme="dark"] { color-scheme: dark; }
 :root[data-theme="light"] { color-scheme: light; }
+
+// Browsers without color-mix() - Chrome before 111, Safari before 16.2, which
+// is as far as an iPhone 7 goes - reject every colour built with it. Through a
+// variable the failure spreads to whatever reads it, and an SVG shape left
+// with no fill paints black: on those phones the home page's map would be a
+// black blot. The partials that mix colours for a fill each end with a block
+// like this, giving the plain colour at the mix's strength instead. Nothing
+// reads these in a current browser.
+@supports not (color: color-mix(in srgb, red, red)) {
+	// As specific as the dark palette's own selectors, or dark mode keeps the
+	// broken value. --c-highlight-soft is itself per theme.
+	:root, :root:not([data-theme="light"]), :root[data-theme="dark"] { --c-hero-map-fill: var(--c-highlight-soft); }
+}

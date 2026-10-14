@@ -1,4 +1,4 @@
-## All About Accra - task runner
+## All About Nairobi - task runner
 ##
 ## Mirrors the task layout of All About Berlin, which this project is modelled
 ## on. Every task assumes the virtualenv at ./.venv.
@@ -52,10 +52,65 @@ description = "Check the live site is serving the commit you are on"
 dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/check_deploy.py"
 
+[tasks.nightlife-data]
+description = "Re-verify the nightlife venues behind /tools/night-out-planner"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_nightlife_data.py"
+
+[tasks.ratings-data]
+description = "Refetch reader ratings from GA4 and rewrite content/ratings.yaml"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_ratings_data.py"
+
 [tasks.check-crawl]
 description = "Check the built site for orphan pages and sitemap problems"
 dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/check_crawlability.py"
+
+[tasks.check-js]
+description = "Prove the built modules parse to the same code as their sources, after a build (needs Node)"
+dir = "frontend"
+run = "node --expose-internals scripts/check_js_strip.mjs"
+
+[tasks.check-lostfound]
+description = "Lost and found's API end to end, against a throwaway file and a stand-in Firestore held to its index rules (needs Node)"
+dir = "frontend"
+run = "node scripts/check_lostfound.mjs"
+
+[tasks.check-pulse]
+description = "Nairobi Pulse end to end: the geography, location checks, votes, tallies, privacy and the admin, on both stores (needs Node)"
+dir = "frontend"
+run = "node scripts/check_pulse.mjs"
+
+[tasks.check-prompts]
+description = "How often the Pulse card and the rating prompt are shown and answered: what a report counts, the function on both stores, the admin view (needs Node)"
+dir = "frontend"
+run = "node scripts/check_prompts.mjs"
+
+[tasks.check-goals]
+description = "The admin's goals: what counts as winnable, how each goal is measured and judged, and the route against stand-ins for Search Console and GA4 (needs Node)"
+dir = "frontend"
+run = "node scripts/check_goals.mjs"
+
+[tasks.check-newsletter]
+description = "The newsletter end to end: sign-up, confirmation, leaving, the webhook, the admin's list and sending an issue, on both stores, against a stand-in Resend (needs Node)"
+dir = "frontend"
+run = "node scripts/check_newsletter.mjs"
+
+[tasks.pulse-districts]
+description = "Rewrite the constituency outlines Nairobi Pulse's function checks positions against, after the map is rebuilt"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_pulse_districts.py"
+
+[tasks.lostfound-firestore]
+description = "Print the Cloud Shell commands that set up lost and found's Firestore: mise lostfound-firestore <project-id>"
+dir = "frontend"
+run = "node scripts/lostfound_firestore_setup.mjs"
+
+[tasks.lostfound-dev]
+description = "Serve the built site with lost and found working, on :8816, data in a local file (needs Node)"
+dir = "frontend"
+run = "node scripts/lostfound-dev.mjs 8816"
 
 [tasks.census-data]
 description = "Refetch the 2021 census figures behind the map's demographic layers"
@@ -72,6 +127,11 @@ description = "Re-check every stream on /radio against the NCA register, and reb
 dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/build_radio_data.py"
 
+[tasks.food-photos]
+description = "Resize the photos behind /seasons and fetch their credits from Wikimedia Commons (--source DIR)"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/build_food_photos.py"
+
 [tasks.dashboard-data]
 description = "Refetch the World Bank series and census counts behind /data"
 dir = "frontend"
@@ -85,7 +145,7 @@ run = "../.venv/Scripts/python.exe scripts/fetch_noise_data.py"
 [tasks.map-data]
 description = "Refetch boundaries and rebuild the data behind /map"
 dir = "frontend"
-run = "../.venv/Scripts/python.exe scripts/build_map_data.py"
+run = "../.venv/Scripts/python.exe scripts/build_nairobi_map.py"
 
 [tasks.build-og-image]
 description = "Redraw the social card at templates/staticimages/og-image.png"

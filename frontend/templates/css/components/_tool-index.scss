@@ -1,0 +1,103 @@
+// =============================================================================
+// The /tools index
+//
+// Sixteen bare names at 22px each, and nothing to say what a withholding tax
+// calculator is for. Each tool is now a card with its description: a grid on a
+// wide screen, full-width rows on a phone.
+// =============================================================================
+
+.tool-group { margin-top: var(--xxl); }
+.tool-group:first-of-type { margin-top: var(--xl); }
+
+.tool-group-title {
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+	margin: 0 0 var(--xs);
+	font-size: 1.3rem;
+}
+
+.tool-group-description {
+	margin: 0 0 var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.tool-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tool-cards > li { margin: 0; }
+
+.tool-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--xs);
+	height: 100%;
+	padding: var(--m) calc(var(--m) + 1.5rem) var(--m) var(--m);
+	color: inherit;
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	transition: border-color 120ms ease-out, background-color 120ms ease-out;
+
+	// The arrow, so a card reads as a way in rather than a box of text.
+	&::after {
+		content: "\2192";
+		position: absolute;
+		top: var(--m);
+		right: var(--m);
+		color: var(--c-text-light);
+		transition: transform 120ms ease-out;
+	}
+
+	&:hover {
+		border-color: var(--c-highlight);
+		background: var(--c-highlight-soft);
+		&::after { color: var(--c-highlight); transform: translateX(2px); }
+	}
+
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.tool-card-title {
+	font-family: var(--font-heading);
+	font-size: 1.05rem;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--c-text-heading);
+}
+
+.tool-card-text {
+	font-size: var(--f-s);
+	line-height: 1.45;
+	color: var(--c-text-light);
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+@media (max-width: 40rem) {
+	.tool-group { margin-top: var(--xl); }
+	.tool-group-title { font-size: 1.15rem; }
+
+	// One column of rows, two lines of description each, so twelve
+	// calculators are a list you can scan rather than a wall.
+	.tool-cards { grid-template-columns: 1fr; gap: var(--xs); }
+	.tool-card { padding-block: var(--s); }
+	.tool-card::after { top: 50%; transform: translateY(-50%); }
+	.tool-card:hover::after { transform: translate(2px, -50%); }
+	.tool-card-text { -webkit-line-clamp: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.tool-card, .tool-card::after { transition: none; }
+}

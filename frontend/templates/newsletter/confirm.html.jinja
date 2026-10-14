@@ -1,0 +1,26 @@
+{% extends "_layout.html" %}
+{#
+	Where the link in a confirmation email lands. It confirms nothing by being
+	opened: the address is added only when the reader presses the button, because
+	link scanners in company inboxes follow every URL in an email. The token is
+	in the #fragment, so it never reaches a server log; newsletter.mjs takes it
+	out of the address bar at once.
+#}
+{% set page_styles = ['subscribe'] %}
+{% set page_robots = "noindex, nofollow" %}
+{% set private_page = true %}
+{% set metatitle = "Confirm your subscription" %}
+{% set metadescription = "Confirm your subscription to the monthly All About Nairobi newsletter." %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page" data-clarity-mask="true">
+		<article class="section newsletter-action" data-newsletter-page="confirm">
+			<p class="map-eyebrow"><a href="{{ SITE_URL }}/newsletter">The monthly Nairobi newsletter</a></p>
+			<h1>Confirm your subscription</h1>
+			<div data-newsletter-body>
+				<p>One tap and you are on the list. Nothing is added until you press the button.</p>
+				<noscript><p>This page needs JavaScript to confirm. Without it, subscribe again from <a href="{{ SITE_URL }}/newsletter">the newsletter page</a>.</p></noscript>
+			</div>
+		</article>
+	</main>
+{% endblock %}

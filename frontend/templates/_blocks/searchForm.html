@@ -15,10 +15,9 @@
 		data-search-input>
 
 	{#
-		type="submit" on purpose. Without JavaScript this submits to /search,
-		where there is a full-width field with autofocus - so search still works
-		on a phone with scripts off. With JavaScript, search-toggle.mjs
-		intercepts the first tap and expands the field in place instead.
+		type="submit" on purpose: it submits to /search, where there is a
+		full-width field with autofocus and the results, so search works the same
+		with scripts off.
 	#}
 	<button type="submit" aria-label="Search" data-search-button>
 		{% include "_icons/search.svg" %}

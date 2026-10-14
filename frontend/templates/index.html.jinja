@@ -1,4 +1,5 @@
 {% extends "_layout.html" %}
+{% set page_styles = ['tool-index', 'hero-map', 'events', 'home', 'afcon'] %}
 
 {% set canonical_path = "/" %}
 {% set metatitle = SITE_NAME + " - " + SITE_TAGLINE %}
@@ -8,6 +9,23 @@
 {% set glossary = get_entries('glossary') %}
 {% set constituencies = MAP.constituencies|default([]) %}
 {% set collections = get_entries('collections') %}
+{% set tools = get_entries('tools') %}
+{% from "_blocks/eventCard.html" import event_card %}
+
+{# Dated events in date order, flattened from the months the events page uses. #}
+{% set upcoming = [] %}
+{% for month in EVENTS.months %}{% for event in month.events %}{% set _ = upcoming.append(event) %}{% endfor %}{% endfor %}
+
+{# The calculators people reach for first. Titles and descriptions come from
+   each tool's own front matter, so they cannot drift from its page. #}
+{% set home_tools = [
+	'tools/salary-calculator.md',
+	'tools/move-in-cost-calculator.md',
+	'tools/rental-income-tax-calculator.md',
+	'tools/mortgage-affordability-calculator.md',
+	'tools/afcon-matchday-planner.md',
+	'tools/budget-planner.md',
+] %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
@@ -47,20 +65,9 @@
 			</ul>
 		</section>
 
+		{% include "_blocks/homeExplore.html" %}
+
 		<article class="section">
-			<div class="afcon-promo">
-				<p>
-					<a href="{{ SITE_URL }}/afcon"><strong>AFCON 2027 comes to Nairobi.</strong>
-					Stadiums, key dates, tickets and a matchday planner &#8658;</a>
-				</p>
-				<afcon-countdown data-starts="{{ AFCON.meta.starts }}" data-ends="{{ AFCON.meta.ends }}"></afcon-countdown>
-			</div>
-
-			<p class="radio-promo">
-				<a href="{{ SITE_URL }}/radio"><strong>Listen live</strong> to
-				{{ or_list(RADIO.stations|map(attribute='name')|list)|replace(' or ', ' and ') }} &#8658;</a>
-			</p>
-
 			<h2 id="start-here">Start here</h2>
 			<p class="page-intro">
 				The things that block everything else. Until these are done, you cannot
@@ -127,6 +134,46 @@
 			</ul>
 		</article>
 
+		{% if upcoming %}
+		{#
+			The next few dated events, drawn by the same card as /events and
+			checked by the same script: anything that has finished by the
+			reader's clock is removed, so a home page cached for a fortnight
+			still shows nothing past. Six are rendered and three shown, so the
+			list stays three long after expiry takes some away.
+		#}
+		<article class="section home-events" aria-labelledby="coming-up">
+			<div class="home-section-head">
+				<h2 id="coming-up">Coming up in Nairobi</h2>
+				<a class="home-more" href="{{ SITE_URL }}/events">All events &#10142;</a>
+			</div>
+			<ul class="event-list">
+				{% for event in upcoming[:6] %}{{ event_card(event) }}{% endfor %}
+			</ul>
+		</article>
+		{% endif %}
+
+		<article class="section home-tools" aria-labelledby="work-it-out">
+			<div class="home-section-head">
+				<h2 id="work-it-out">Work it out</h2>
+				<a class="home-more" href="{{ SITE_URL }}/tools">All {{ tools|length }} calculators &#10142;</a>
+			</div>
+			<p class="page-intro">The same figures as the guides, worked out on your own device. Nothing you type is sent anywhere.</p>
+			<ul class="tool-cards">
+				{% for uri in home_tools %}
+					{% set tool = entries.get(uri) %}
+					{% if tool %}
+						<li>
+							<a class="tool-card" href="{{ tool.url }}">
+								<span class="tool-card-title">{{ tool.short_title|default(tool.title) }}</span>
+								<span class="tool-card-text">{{ tool.description }}</span>
+							</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</article>
+
 		<article class="section">
 			<h2 id="numbers">The numbers, today</h2>
 			<p class="page-intro">
@@ -182,13 +229,24 @@
 
 		<article class="section">
 			<h2 id="browse">Browse everything</h2>
-			{% with collections=collections %}
-				{% include "_blocks/collections.html" %}
-			{% endwith %}
+			<div class="browse-collections">
+				{% with collections=collections, browse=true %}
+					{% include "_blocks/collections.html" %}
+				{% endwith %}
+			</div>
 		</article>
 	</main>
 
 	<script type="module">
 		import '{{ SITE_URL }}/js/components/afcon-countdown.mjs';
 	</script>
+{% endblock %}
+
+{% block postFooter %}
+	{# Expiry against the reader's clock, "in 3 weeks", and Add to calendar,
+	   for the Coming up cards - the events page's own script. #}
+	{% queueJs %}
+		import '/js/components/events-filter.mjs';
+	{% endqueueJs %}
+	{{ super() }}
 {% endblock %}

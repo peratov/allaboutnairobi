@@ -1,0 +1,26 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['lostfound'] %}
+{% set page_robots = "noindex, nofollow" %}
+{% set metatitle = "Lost and found portal" %}
+{% set metadescription = "The private portal for a place on lost and found." %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page" data-clarity-mask="true">
+		<article class="section lf-page">
+			<p class="lf-crumb"><a href="{{ SITE_URL }}/lost-and-found">&larr; Lost and found</a></p>
+			<h1>Lost and found portal</h1>
+			
+			<div data-lf-portal>
+				<noscript><p class="lf-notice">This page needs JavaScript.</p></noscript>
+			</div>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% include "_blocks/lostFoundVocab.html" %}
+	{% queueJs %}
+		import '/js/lostfound/portal.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

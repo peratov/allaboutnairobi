@@ -1,0 +1,476 @@
+// =============================================================================
+// The home page beyond the hero: Explore Nairobi, Coming up, Work it out.
+//
+// Until these, the home page linked to none of the site's interactive pages
+// but the map, and that only on a wide screen. Explore is a bento grid on a
+// wide screen and a row you swipe on a phone - six cards stacked would push
+// "Start here" a screen and a half down. See _blocks/homeExplore.html.
+// =============================================================================
+
+.explore-head,
+.home-section-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--xs) var(--m);
+
+	h2 { margin: 0; }
+	p { margin: 0; color: var(--c-text-light); }
+}
+
+.home-more {
+	font-size: var(--f-s);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+// --- the grid -------------------------------------------------------------------
+
+.explore-grid {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: var(--m);
+	margin: var(--l) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.explore-card { margin: 0; min-width: 0; }
+
+// AFCON 2027 leads: half the width, two rows. Flights and the map stacked
+// beside it, then radio and events across the bottom in halves - and lost and
+// found with them, in thirds, once it is live. Twelve columns so the bottom
+// row can be halves or thirds.
+.explore-drive { grid-column: span 6; grid-row: span 2; }
+.explore-flights,
+.explore-map { grid-column: span 6; }
+.explore-radio,
+.explore-events { grid-column: span 6; }
+.has-lostfound .explore-radio,
+.has-lostfound .explore-events,
+.explore-lostfound { grid-column: span 4; }
+// Nairobi Pulse, once live, is a band across the whole grid between the two.
+.explore-pulse { grid-column: 1 / -1; }
+
+.explore-card > a {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+	color: inherit;
+	text-decoration: none;
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	transition: border-color 120ms ease-out, transform 120ms ease-out;
+
+	&:hover { border-color: var(--c-highlight); }
+	&:hover .explore-cta { text-decoration: underline; }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.explore-text {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	gap: 0.2rem;
+	padding: var(--m);
+
+	strong {
+		font-family: var(--font-heading);
+		font-size: 1.1rem;
+		line-height: 1.25;
+		color: var(--c-text-heading);
+	}
+
+	> span:not(.explore-kicker):not(.explore-cta):not(.explore-note) {
+		font-size: var(--f-s);
+		line-height: 1.45;
+		color: var(--c-text-light);
+	}
+}
+
+.explore-kicker {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: var(--c-highlight);
+}
+
+.explore-note {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	font-style: italic;
+}
+
+.explore-cta {
+	// To the foot of the card, so a row of cards ends on one line of actions.
+	margin-top: auto;
+	padding-top: var(--xs);
+	font-size: var(--f-s);
+	font-weight: 700;
+	color: var(--c-text-link);
+}
+
+.explore-drive .explore-text strong { font-size: 1.45rem; }
+
+// --- the visuals ------------------------------------------------------------------
+
+.explore-road,
+.explore-burst,
+.explore-spark,
+.explore-pitch {
+	display: block;
+	width: 100%;
+}
+
+// The AFCON card: a pitch from above, in fixed colours like an illustration,
+// with the Kenyan flag's stripe along the top. The countdown sits in its text.
+.explore-afcon-visual {
+	display: block;
+	flex: 1 1 auto;
+	min-height: 11rem;
+}
+
+.explore-pitch {
+	height: 100%;
+	min-height: 11rem;
+}
+
+.explore-pitch-grass { fill: #2f7a3e; }
+.explore-pitch-line { fill: none; stroke: #e9f3e4; stroke-width: 2; opacity: 0.85; }
+.explore-pitch-flag { fill: url(#explore-flag); }
+
+.explore-afcon afcon-countdown { margin: var(--s) 0 0; }
+.explore-afcon .afcon-countdown-grid { grid-template-columns: repeat(4, minmax(0, 4.5rem)); gap: var(--xs); }
+.explore-afcon .afcon-countdown-unit { padding: var(--xs); }
+.explore-afcon .afcon-countdown-value { font-size: 1.5rem; }
+.explore-afcon .afcon-countdown-caption { display: none; }
+
+// The road is an illustration with its own colours, like a photograph would
+// be: a late-afternoon sky over laterite earth, in either colour scheme.
+.explore-road {
+	flex: 1 1 auto;
+	min-height: 11rem;
+	height: 100%;
+}
+
+.explore-road-sky { fill: #f4b26b; }
+.explore-road-sun { fill: #ffe39a; }
+.explore-road-skyline { fill: #9c4a22; opacity: 0.85; }
+.explore-road-ground { fill: #c4743a; }
+.explore-road-tarmac { fill: #3a3431; }
+.explore-road-verge { fill: none; stroke: #f1e3cf; stroke-width: 1.5; opacity: 0.7; }
+.explore-road-dash { fill: #f6efe3; }
+.explore-road-bus { fill: #f2c230; }
+.explore-road-glass { fill: #2a2522; }
+.explore-road-light { fill: #d9452b; }
+.explore-road-tyre { fill: #1e1a18; }
+
+.explore-burst {
+	height: 9.5rem;
+	padding: var(--s) var(--s) 0;
+	background: var(--c-map-void, var(--c-bg-widget-opaque));
+}
+
+.explore-burst-arc {
+	fill: none;
+	stroke: var(--c-laterite);
+	stroke-width: 1.3;
+	opacity: 0.75;
+}
+
+.explore-burst-dot { fill: var(--c-text-heading); }
+
+.explore-burst-label {
+	font-family: var(--font-body);
+	font-size: 10px;
+	font-weight: 600;
+	fill: var(--c-text-heading);
+	paint-order: stroke;
+	stroke: var(--c-map-void, var(--c-bg-widget));
+	stroke-width: 3px;
+	stroke-linejoin: round;
+}
+.explore-burst-origin { fill: var(--c-laterite); }
+.explore-burst-ring { fill: none; stroke: var(--c-laterite); stroke-width: 1.2; opacity: 0.5; }
+
+.explore-spark {
+	height: 5.5rem;
+	padding: var(--m) var(--m) 0;
+}
+
+.explore-spark-area { fill: var(--c-highlight-soft); stroke: none; }
+.explore-spark-line { fill: none; stroke: var(--c-laterite); stroke-width: 2.2; stroke-linejoin: round; }
+.explore-spark-dot { fill: var(--c-bg-widget); stroke: var(--c-laterite); stroke-width: 1.6; }
+
+// A panel for each picture, the same height in a row, so the cards line up.
+.explore-visual {
+	display: grid;
+	place-items: center;
+	height: 9rem;
+	padding: var(--s);
+	background: var(--c-map-void, var(--c-bg-widget-opaque));
+
+	> svg { width: 100%; height: 100%; }
+	.explore-spark { padding: 0; }
+	.explore-eq { margin: 0; height: 4.5rem; }
+}
+
+.explore-districts path {
+	fill: var(--c-hero-map-fill, var(--c-highlight-soft));
+	stroke: var(--c-map-void, var(--c-bg-page));
+	stroke-width: 4;
+	stroke-linejoin: round;
+}
+
+.explore-calendar-page { fill: var(--c-bg-page); stroke: var(--c-border-strong); stroke-width: 1.5; }
+.explore-calendar-top { fill: var(--c-laterite); }
+.explore-calendar-day { fill: var(--c-border); }
+.explore-calendar-day.is-on { fill: var(--c-laterite); }
+
+.explore-tags { max-width: 9rem; }
+
+.explore-harvest { max-width: 10rem; }
+.explore-harvest-dot { fill: var(--c-forest); }
+.explore-harvest-rain { fill: var(--c-rain); }
+.explore-harvest-dry { fill: var(--c-gold); }
+.explore-harvest-month { font-size: 7px; font-weight: 700; fill: var(--c-text-light); }
+.explore-tag-string { fill: none; stroke: var(--c-text-light); stroke-width: 1.2; stroke-linecap: round; }
+.explore-tag-lost { fill: var(--c-laterite); }
+.explore-tag-found { fill: var(--c-forest); }
+.explore-tag-hole { fill: var(--c-map-void, var(--c-bg-widget-opaque)); }
+.explore-tag-text {
+	font: 700 9px/1 var(--font-heading);
+	letter-spacing: 0.08em;
+	fill: var(--c-bg-on-accent);
+}
+
+// The fallback symbol, if the map data is missing.
+.explore-glyph {
+	display: grid;
+	place-items: center;
+	width: 3.25rem;
+	height: 3.25rem;
+	margin: var(--m) var(--m) 0;
+	border-radius: var(--b-radius);
+	color: var(--c-highlight);
+	background: var(--c-highlight-soft);
+
+	svg { width: 1.9rem; height: 1.9rem; fill: currentColor; }
+}
+
+// Radio: bars that move, gently, like a level meter.
+.explore-eq {
+	display: flex;
+	align-items: flex-end;
+	gap: 4px;
+	height: 3.25rem;
+	margin: var(--m) var(--m) 0;
+
+	i {
+		width: 7px;
+		height: 100%;
+		background: var(--c-laterite);
+		border-radius: 2px;
+		transform-origin: bottom;
+		animation: explore-eq 1.1s ease-in-out infinite alternate;
+
+		&:nth-child(1) { animation-delay: -0.2s; }
+		&:nth-child(2) { animation-delay: -0.7s; }
+		&:nth-child(3) { animation-delay: -0.4s; }
+		&:nth-child(4) { animation-delay: -0.9s; }
+		&:nth-child(5) { animation-delay: -0.1s; }
+	}
+}
+
+@keyframes explore-eq {
+	from { transform: scaleY(0.25); }
+	to { transform: scaleY(1); }
+}
+
+// The bottom row on a wide screen: picture beside the words.
+.explore-radio > a,
+.explore-events > a,
+.explore-seasons > a,
+.explore-lostfound > a {
+	flex-direction: row;
+	align-items: stretch;
+
+	.explore-visual { flex: 0 0 38%; height: auto; min-height: 8rem; }
+}
+
+// --- a tablet --------------------------------------------------------------------
+
+@media (max-width: 60rem) and (min-width: 40.01rem) {
+	.explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.explore-drive { grid-column: span 2; grid-row: span 1; }
+	.explore-grid > .explore-card:not(.explore-drive) { grid-column: span 1; }
+	// Seven cards after the game: the last takes the row rather than half of it.
+	.explore-grid.has-lostfound > .explore-lostfound { grid-column: span 2; }
+	.explore-grid > .explore-pulse { grid-column: span 2; }
+	.explore-road { min-height: 12rem; }
+}
+
+// --- a phone: rows you swipe ---------------------------------------------------------
+
+@media (max-width: 40rem) {
+	.explore-grid,
+	.home-tools .tool-cards {
+		display: flex;
+		gap: var(--s);
+		margin-inline: calc(var(--m) * -1);
+		padding: 0 var(--m) var(--xs);
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--m);
+		overscroll-behavior-x: contain;
+		scrollbar-width: none;
+		&::-webkit-scrollbar { display: none; }
+	}
+
+	.explore-grid { margin-top: var(--m); }
+
+	// Each card most of the screen, the next one peeking in to say there is
+	// more.
+	.explore-card {
+		flex: 0 0 82%;
+		scroll-snap-align: start;
+	}
+
+	.explore-card > a { flex-direction: column; }
+
+	// Pulse leads the row on a phone: it costs almost nothing to load, where
+	// the game streams photos, and it is the one card that asks something of
+	// the reader.
+	.explore-grid > .explore-pulse { order: -1; }
+	.explore-pulse .explore-visual { flex: 0 0 auto; height: 9rem; min-height: 0; }
+
+	// Every card's picture the same height, so the row is one even band.
+	.explore-road,
+	.explore-burst,
+	.explore-afcon-visual,
+	.explore-pitch { height: 9rem; min-height: 0; flex: 0 0 auto; }
+	.explore-spark { height: 6.25rem; }
+	.explore-radio > a,
+	.explore-events > a,
+	.explore-seasons > a,
+	.explore-lostfound > a { flex-direction: column; }
+	.explore-radio .explore-visual,
+	.explore-events .explore-visual,
+	.explore-seasons .explore-visual,
+	.explore-lostfound .explore-visual { flex: 0 0 auto; height: 9rem; min-height: 0; }
+
+	.explore-drive .explore-text strong { font-size: 1.2rem; }
+
+	.home-tools .tool-cards > li {
+		flex: 0 0 78%;
+		scroll-snap-align: start;
+	}
+
+	.home-tools .tool-card-text { -webkit-line-clamp: 3; }
+}
+
+// --- Coming up -------------------------------------------------------------------------
+//
+// Six rendered, three shown: events-filter.mjs removes any that have finished
+// by the reader's clock, and the next ones move up into the three.
+
+.home-events .event-list { margin-top: var(--m); }
+.home-events .event-list > .event:nth-child(n+4) { display: none; }
+
+// Three across on a wide screen, where stacked they were three tall rows.
+@media (min-width: 60rem) {
+	.home-events .event-list {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--m);
+	}
+}
+
+.home-tools .tool-cards { margin-top: var(--m); }
+.home-tools .page-intro { margin: var(--s) 0 0; font-size: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+	.explore-eq i { animation: none; }
+	.explore-eq i:nth-child(1) { transform: scaleY(0.5); }
+	.explore-eq i:nth-child(2) { transform: scaleY(0.9); }
+	.explore-eq i:nth-child(3) { transform: scaleY(0.65); }
+	.explore-eq i:nth-child(4) { transform: scaleY(1); }
+	.explore-eq i:nth-child(5) { transform: scaleY(0.4); }
+	.explore-card > a { transition: none; }
+}
+
+// --- Nairobi Pulse's card --------------------------------------------------------------
+
+.explore-visual-pulse {
+	position: relative;
+	overflow: hidden;
+	background: var(--c-map-void);
+}
+
+.explore-pulse-map {
+	position: absolute;
+	inset: 8% 6%;
+	width: 88%;
+	height: 84%;
+
+	path {
+		fill: var(--c-hero-map-fill, var(--c-highlight-soft));
+		stroke: var(--c-map-void);
+		stroke-width: 6;
+		stroke-linejoin: round;
+	}
+}
+
+.explore-pulse-beat {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+
+	polyline {
+		fill: none;
+		stroke: var(--c-highlight);
+		stroke-width: 3px;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+		vector-effect: non-scaling-stroke;
+		stroke-dasharray: 520;
+		stroke-dashoffset: 520;
+		animation: explore-beat 3.2s ease-in-out infinite;
+	}
+}
+
+@keyframes explore-beat {
+	0% { stroke-dashoffset: 520; }
+	55%, 70% { stroke-dashoffset: 0; }
+	100% { stroke-dashoffset: -520; }
+}
+
+.explore-live {
+	display: inline-block;
+	width: 0.5rem;
+	height: 0.5rem;
+	margin-right: 0.3em;
+	vertical-align: 0.05em;
+	border-radius: 50%;
+	background: var(--c-highlight);
+	box-shadow: 0 0 0 3px var(--c-highlight-soft);
+}
+
+.explore-pulse .explore-text strong { font-size: 1.35rem; }
+
+// Beside each other above a phone, like the bottom row: the map and its
+// heartbeat on the left, the invitation on the right.
+@media (min-width: 40.01rem) {
+	.explore-pulse > a { flex-direction: row; align-items: stretch; min-height: 12rem; }
+	.explore-pulse .explore-visual { flex: 0 0 46%; height: auto; min-height: 12rem; }
+	.explore-pulse .explore-text { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.explore-pulse-beat polyline { animation: none; stroke-dashoffset: 0; }
+}

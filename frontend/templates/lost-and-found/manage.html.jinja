@@ -1,0 +1,26 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['lostfound'] %}
+{% set page_robots = "noindex, nofollow" %}
+{% set metatitle = "Your lost and found listing" %}
+{% set metadescription = "The private page for a lost and found listing: replies, and closing it." %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page" data-clarity-mask="true">
+		<article class="section lf-page">
+			<p class="lf-crumb"><a href="{{ SITE_URL }}/lost-and-found">&larr; Lost and found</a></p>
+			<h1>Your listing</h1>
+			<p class="page-intro">This page is private: it opens from the link you were given when you listed the item. Do not share the link - anyone with it can close your listing.</p>
+			<div data-lf-manage>
+				<noscript><p class="lf-notice">This page needs JavaScript.</p></noscript>
+			</div>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% include "_blocks/lostFoundVocab.html" %}
+	{% queueJs %}
+		import '/js/lostfound/manage.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

@@ -1,4 +1,5 @@
 {% extends "_layout.html" %}
+{% set page_styles = ['radio'] %}
 {% set canonical_path = "/radio" %}
 {% set stations = RADIO.stations %}
 {% set fm = stations|selectattr('frequency')|list %}
@@ -44,8 +45,8 @@
 
 			<p class="page-intro">
 				{{ stations|length }} stations broadcasting in Nairobi, playable right
-				here. Press a station to listen; press it again to stop. Every stream
-				was tested on {{ RADIO.meta.checked_on }}.
+				here. Tap a station to listen; tap it again to stop. Every stream
+				was checked on {{ RADIO.meta.checked_on }}.
 			</p>
 
 			<radio-player>
@@ -57,15 +58,22 @@
 						data-name="{{ s.name }}"
 						data-freq="{{ s.frequency or '' }}"
 						data-group="{{ group }}"
+						{% if s.bitrate %}data-kbps="{{ s.bitrate }}"{% endif %}
 						data-stream="{{ s.stream }}">
 						<div class="radio-station-body">
 							<h2 class="radio-station-name">
 								{{ s.name }}{% if s.frequency %}<span class="radio-station-freq">{{ s.frequency }} FM</span>{% else %}<span class="radio-station-freq">online</span>{% endif %}
 							</h2>
 							<p class="radio-station-about">
-								{{ s.about }}{% if s.language %} &middot; {{ s.language }}{% endif %}{% if s.owner %} &middot; {{ s.owner }}{% endif %}{% if s.homepage %} &middot; <a href="{{ s.homepage }}" rel="noopener">website</a>{% endif %}
+								{{ s.about }}{% if s.language %} &middot; {{ s.language }}{% endif %}{% if s.owner %} &middot; {{ s.owner }}{% endif %}
 							</p>
 						</div>
+						{#
+							On a phone this is an icon at the row's edge; as a line of text it
+							made every row a line taller. The label still names the station,
+							for a screen reader and for anyone without scripting.
+						#}
+						{% if s.homepage %}<a class="radio-station-site" href="{{ s.homepage }}" rel="noopener" aria-label="{{ s.name }}'s own site"><span class="radio-station-site-text">Station site</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>{% endif %}
 					</li>
 					{% endfor %}
 				</ul>
@@ -102,10 +110,12 @@
 			</p>
 
 			<p>
-				<strong>Keep listening while you read.</strong> Press <em>Pop out</em>
-				in the player and the station keeps playing in a small window of its
-				own while you use the rest of the site. On a phone, the controls appear
-				on your lock screen.
+				<strong>Keep listening while you read.</strong> On a computer, press
+				<em>Pop out</em> in the player and the station keeps playing in a small
+				window of its own while you use the rest of the site. On a phone, open
+				anything else in a new tab and leave this one playing; the controls
+				appear on your lock screen, and its next and previous buttons change
+				station.
 			</p>
 
 			<h2 id="where-this-comes-from">Where this comes from</h2>
@@ -121,7 +131,11 @@
 		</article>
 	</main>
 
-	<script type="module">
-		import '{{ SITE_URL }}/js/components/radio-player.mjs';
-	</script>
+{% endblock %}
+
+{% block postFooter %}
+	{% queueJs %}
+		import '/js/components/radio-player.mjs';
+	{% endqueueJs %}
+	{{ super() }}
 {% endblock %}

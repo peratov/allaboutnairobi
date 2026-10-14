@@ -1,62 +1,187 @@
 {% extends "_layout.html" %}
+{% set page_styles = ['guide-index'] %}
 {% set canonical_path = "/guides" %}
 {% set metatitle = "All guides" %}
 {% set metadescription = "Every All About Nairobi guide, grouped by subject and ordered the way you need them: arriving, housing, money and work, getting around, health, daily life and exploring." %}
 {% set collections = get_entries('collections')|selectattr('type', 'equalto', 'guides')|list %}
+{% set guides = get_entries('guides') %}
+{% set guide_count = guides|length %}
+
+{#
+	The nine places most readers start. These were the header's Guides
+	dropdown; the header now links straight here, and they lead the page.
+#}
+{% set starts = [
+	('moving', 'moving-to-nairobi', 'Move to Nairobi', 'The eTA, work permits and your first fortnight'),
+	('housing', 'finding-housing', 'Find a place to live', 'Neighbourhoods, deposits, leases and scams'),
+	('money', 'paye-and-taxes', 'Money and tax', 'PAYE, NSSF, SHIF, M-Pesa and bank accounts'),
+	('transport', 'getting-around-nairobi', 'Get around', 'Matatus, ride-hailing, boda bodas and trains'),
+	('health', 'healthcare-in-nairobi', 'Stay healthy', 'SHA, hospitals, pharmacies and emergencies'),
+	('education', 'schools-in-nairobi', 'Schools and study', 'CBE, international schools and universities'),
+	('shopping', 'shopping-in-nairobi', 'Shop and eat', 'Supermarkets, markets, malls and mitumba'),
+	('identity', 'ecitizen-kra-pin-and-ids', 'Government paperwork', 'eCitizen, KRA PIN, IDs and good conduct'),
+	('exploring', 'things-to-do-in-nairobi', 'Explore', 'Wildlife, forests, museums and day trips'),
+] %}
+
+{# The newest or most recently updated guides, by their own dates. #}
+{% set dated = [] %}
+{% for e in guides %}{% set d = e.date_updated|default(none) or e.date_created|default(none) %}{% if d %}{% set _ = dated.append({'d': d, 'e': e, 'updated': e.date_updated|default(none) is not none}) %}{% endif %}{% endfor %}
+{% set recent = (dated|sort(attribute='d', reverse=true))[:6] %}
 
 {% block main %}
-	<main id="main" class="wide-column" aria-label="Main page">
-		<article class="section">
+	<main id="main" class="wide-column guide-index" aria-label="Main page">
+		<article class="section guide-index-head">
 			<div class="section-heading">
 				<span class="icon-stamp">{% include "_icons/guides.svg" %}</span>
-				<h1>All guides</h1>
+				<h1>Guides to living in Nairobi</h1>
 			</div>
 			<p class="page-intro">
-				{{ get_entries('guides')|length }} guides to living in Nairobi, in the order
-				you are likely to need them &mdash; arrive, get legal, get housed, sort
-				the money, then earn.
+				{{ get_entries('guides')|length }} plain answers to the things nobody
+				tells you, in the order you are likely to need them &mdash; arrive, get
+				legal, get housed, sort the money, earn, then enjoy the city.
 			</p>
 
+			<ul class="guide-index-stats" aria-label="What is here">
+				<li><strong>{{ guide_count }}</strong> guides</li>
+				<li><strong>{{ collections|length }}</strong> subjects</li>
+				<li>Updated <strong><time datetime="{{ CONTENT_LAST_UPDATED.strftime('%Y-%m-%d') }}">{{ CONTENT_LAST_UPDATED.day }} {{ CONTENT_LAST_UPDATED.strftime('%B %Y') }}</time></strong></li>
+			</ul>
+
 			{#
-				A jump list, because sixteen sections in one column is a page you
-				scroll rather than read. Real links to real anchors, so it works
-				with no JavaScript and a crawler sees the structure too.
+				Filters the guides already on the page, by title and summary, so it
+				needs no index and no request. Scripting only - see guide-index.mjs -
+				so it is hidden without it rather than being a field that does
+				nothing. While it filters, the sections above the subjects step
+				aside so the matches are what you see.
 			#}
-			<nav class="guide-jump" aria-label="Jump to a subject">
-				<ul>
-					{% for collection in collections %}
+			<div class="guide-filter" role="search">
+				<label class="visually-hidden" for="guide-filter-input">Find a guide</label>
+				<svg class="guide-filter-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+				<input id="guide-filter-input" type="search" placeholder="Find a guide - rent, KRA PIN, SHA..." autocomplete="off" spellcheck="false" enterkeyhint="search" data-clarity-mask="true">
+				<p class="guide-filter-status" aria-live="polite"></p>
+			</div>
+		</article>
+
+		<section class="section guide-start" aria-labelledby="guide-start-title">
+			<h2 id="guide-start-title">Start here</h2>
+			<ul class="guide-start-grid">
+				{% for symbol, slug, title, text in starts %}
+					<li>
+						<a class="guide-start-card" href="{{ SITE_URL }}/guides/{{ slug }}">
+							<span class="icon-stamp">{% include "_icons/" + symbol + ".svg" %}</span>
+							<span class="guide-start-text">
+								<strong>{{ title }}</strong>
+								<span>{{ text }}</span>
+							</span>
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</section>
+
+		{% if recent %}
+			<section class="section guide-new" aria-labelledby="guide-new-title">
+				<h2 id="guide-new-title">New and updated</h2>
+				<ul class="guide-new-list">
+					{% for r in recent %}
 						<li>
-							<a href="#{{ collection.id }}">
-								{{ collection.short_title|default(collection.title) }}
-								<span class="guide-jump-count">{{ collection.entry_count }}</span>
+							<a class="guide-new-card" href="{{ r.e.url }}">
+								<span class="guide-new-date">{{ 'Updated' if r.updated else 'New' }} &middot; <time datetime="{{ r.d.strftime('%Y-%m-%d') }}">{{ r.d.day }} {{ r.d.strftime('%B') }}</time></span>
+								<strong>{{ r.e.short_title|default(r.e.title) }}</strong>
+								{% if r.e.description|default %}<span class="guide-new-description">{{ r.e.description }}</span>{% endif %}
 							</a>
 						</li>
 					{% endfor %}
 				</ul>
-			</nav>
-		</article>
+			</section>
+		{% endif %}
 
-		{#
-			Each subject is its own card rather than one long list, and they sit
-			two-up on a wide screen. The heading carries the anchor the jump list
-			points at.
-		#}
-		<div class="guide-grid">
-			{% for collection in collections %}
-				<article class="guide-group" id="{{ collection.id }}">
-					<h2 class="guide-group-title">
-						<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>
-						<a href="{{ collection.url }}">{{ collection.title }}</a>
-						<span class="guide-group-count">{{ collection.entry_count }} guides</span>
-					</h2>
-					{% if collection.description|default %}
-						<p class="guide-group-description">{{ collection.description }}</p>
-					{% endif %}
-					{% with collections=[collection], bare=true %}
-						{% include "_blocks/collections.html" %}
-					{% endwith %}
-				</article>
-			{% endfor %}
-		</div>
+		<section class="guide-browse" aria-labelledby="guide-browse-title">
+			<div class="section guide-browse-head">
+				<h2 id="guide-browse-title">Every guide, by subject</h2>
+				{#
+					A jump list, because sixteen subjects in one column is a page you
+					scroll rather than read. Real links to real anchors, so it works
+					with no JavaScript and a crawler sees the structure too. On a phone
+					with scripting the subjects below are the overview, so this goes.
+				#}
+				<nav class="guide-jump" aria-label="Jump to a subject">
+					<ul>
+						{% for collection in collections %}
+							<li>
+								<a href="#{{ collection.id }}">
+									{{ collection.short_title|default(collection.title) }}
+									<span class="guide-jump-count">{{ collection.entry_count }}</span>
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</nav>
+			</div>
+
+			{#
+				Each subject is its own card rather than one long list, and they sit
+				two-up on a wide screen. The heading carries the anchor the jump list
+				points at.
+
+				On a phone each subject is a row that opens: sixteen subjects fit on
+				one screen, where the open lists were twelve. The heading holds both a
+				link (the wide layout) and a button (the phone one); CSS shows one, and
+				stretches the button over the row so the symbol is part of the target
+				without being drawn twice - the symbols are a third of this page.
+				The lists are in the HTML either way, so every guide stays linked.
+			#}
+			<div class="guide-grid">
+				{% for collection in collections %}
+					<article class="guide-group" id="{{ collection.id }}">
+						<h2 class="guide-group-title">
+							<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>
+							<a class="guide-group-link" href="{{ collection.url }}">{{ collection.title }}</a>
+							<span class="guide-group-count">{{ collection.entry_count }} guides</span>
+							<button type="button" class="guide-group-toggle" aria-expanded="false" aria-controls="{{ collection.id }}-guides">
+								<span class="guide-group-toggle-text">
+									<span class="guide-group-toggle-title">{{ collection.title }}</span>
+									<span class="guide-group-toggle-meta">{{ collection.entry_count }} guides</span>
+								</span>
+								<svg class="guide-group-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+							</button>
+						</h2>
+						<div class="guide-group-body" id="{{ collection.id }}-guides">
+							{% if collection.description|default %}
+								<p class="guide-group-description">{{ collection.description }}</p>
+							{% endif %}
+							{% with collections=[collection], bare=true %}
+								{% include "_blocks/collections.html" %}
+							{% endwith %}
+							<a class="guide-group-more" href="{{ collection.url }}">{{ collection.title }}, the overview &#10142;</a>
+						</div>
+					</article>
+				{% endfor %}
+				<p class="guide-filter-empty" hidden>
+					No guide's title or summary mentions that.
+					<a class="guide-filter-search" href="{{ SITE_URL }}/search">Search the text of every guide &#10142;</a>
+				</p>
+			</div>
+		</section>
+
+		<section class="section guide-beyond" aria-labelledby="guide-beyond-title">
+			<h2 id="guide-beyond-title">Beyond the guides</h2>
+			<ul class="guide-beyond-grid">
+				<li><a href="{{ SITE_URL }}/tools"><strong>Calculators and templates</strong><span>Take-home pay, rental tax, VAT, import duty and more</span></a></li>
+				<li><a href="{{ SITE_URL }}/afcon"><strong>AFCON 2027</strong><span>Stadiums, dates and a matchday planner</span></a></li>
+				<li><a href="{{ SITE_URL }}/events"><strong>Events in Nairobi</strong><span>What is on, soonest first</span></a></li>
+				<li><a href="{{ SITE_URL }}/map"><strong>The map</strong><span>Every constituency, and who lives there</span></a></li>
+				<li><a href="{{ SITE_URL }}/glossary"><strong>The glossary</strong><span>Kenyan words and acronyms, explained</span></a></li>
+				<li><a href="{{ SITE_URL }}/search"><strong>Search</strong><span>The text of every page</span></a></li>
+			</ul>
+		</section>
 	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% queueJs %}
+		import initializeGuideIndex from '/js/components/guide-index.mjs';
+		initializeGuideIndex();
+	{% endqueueJs %}
+	{{ super() }}
 {% endblock %}

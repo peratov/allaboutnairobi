@@ -5,3 +5,7 @@
 # Reads the NCA's register of authorised FM stations, which is published as a
 # PDF, in scripts/build_radio_data.py.
 PyMuPDF~=1.28
+
+# scripts/build_ratings_data.py only. Never in requirements.txt: the deploy
+# must not download an analytics client it never calls.
+google-analytics-data

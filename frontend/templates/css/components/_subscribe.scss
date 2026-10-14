@@ -2,9 +2,9 @@
 // Newsletter sign-up and the issue archive
 //
 // The form is one row on a wide screen and two on a phone, which is the whole
-// responsive story. No JavaScript: it is a plain form POST to whichever
-// provider runs the list, so it works with scripts off and needs nothing
-// widened in the CSP.
+// responsive story. It is a plain form POST - to the site's own list with
+// NEWSLETTER_LIVE, to a provider otherwise - so it works with scripts off and
+// needs nothing widened in the CSP; newsletter.mjs answers it in place.
 // =============================================================================
 
 .subscribe {
@@ -53,6 +53,8 @@
 		// The shared input styling leaves this at 39px, under the 44px floor
 		// and 10px shorter than the button beside it.
 		min-height: 2.75rem;
+		// And at 14.4px, under the 16px below which iOS zooms the page on focus.
+		font-size: 1rem;
 	}
 
 	button {
@@ -75,6 +77,67 @@
 }
 
 .subscribe-form-mailto { display: block; }
+
+// The honeypot. Off screen rather than display: none, which some bots read
+// as "skip this field".
+.subscribe-trap {
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.subscribe-status {
+	margin: 0 0 var(--s);
+	padding: var(--s) var(--m);
+	border-radius: var(--b-radius);
+	border-left: 3px solid var(--c-forest);
+	background: var(--c-bg-widget-opaque);
+	font-weight: 600;
+
+	&.is-error { border-left-color: var(--c-laterite); }
+}
+
+.section .subscribe-status { background: var(--c-bg-widget); }
+
+.subscribe-form.is-busy button { opacity: 0.6; cursor: progress; }
+
+// The page an email's link opens: one question, one button.
+.newsletter-action {
+	max-width: 34rem;
+
+	.newsletter-reasons {
+		border: 0;
+		margin: 0 0 var(--m);
+		padding: 0;
+
+		legend { font-weight: 600; margin-bottom: var(--s); }
+
+		label {
+			display: flex;
+			align-items: center;
+			gap: var(--s);
+			min-height: 2.75rem;
+			cursor: pointer;
+		}
+	}
+
+	.newsletter-button {
+		min-height: 2.75rem;
+		padding: 0.55em 1.4em;
+		font-size: var(--f-body);
+		font-weight: 600;
+		color: var(--c-bg-on-accent);
+		background: var(--c-laterite);
+		border: 1px solid var(--c-laterite);
+		border-radius: var(--b-radius);
+		cursor: pointer;
+
+		&:hover { background: var(--c-laterite-dark); border-color: var(--c-laterite-dark); }
+		&[disabled] { opacity: 0.6; cursor: progress; }
+	}
+}
 
 .subscribe-note {
 	margin: 0;

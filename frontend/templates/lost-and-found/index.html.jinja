@@ -1,0 +1,80 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['lostfound'] %}
+{# Indexable only once the service is live - see LOSTFOUND_LIVE in ursus_config.py. #}
+{% if LOSTFOUND_LIVE %}{% set canonical_path = "/lost-and-found" %}{% else %}{% set page_robots = "noindex, follow" %}{% endif %}
+{% set metatitle = "Lost and found in Nairobi" %}
+{% set metadescription = "Lost a phone, wallet or ID in Nairobi, or found one? List it free, search what others have found, and reach the owner without sharing your number." %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section lf-hub">
+			<div class="section-heading">
+				<span class="icon-stamp">{% include "_icons/help.svg" %}</span>
+				<h1>Lost and found in Nairobi</h1>
+			</div>
+			<p class="page-intro">
+				Lost something in Nairobi, or found something that is not yours? List it
+				here, free. Phones, wallets, IDs, keys and bags - from matatus to
+				malls. Your number is never shown to anyone.
+			</p>
+
+			<div class="lf-actions">
+				<a class="lf-action lf-action-lost" href="{{ SITE_URL }}/lost-and-found/report?kind=lost">
+					<strong>I lost something</strong>
+					<span>List it, and see if someone has found it</span>
+				</a>
+				<a class="lf-action lf-action-found" href="{{ SITE_URL }}/lost-and-found/report?kind=found">
+					<strong>I found something</strong>
+					<span>Help it get back to its owner</span>
+				</a>
+			</div>
+
+			{#
+				Search, filters and the listings: lost-found-hub.mjs. The listings
+				live in the database behind /api/lost-found, so without scripting
+				there is nothing to show - said plainly rather than left blank.
+			#}
+			<div class="lf-browse" data-lf-hub>
+				<noscript>
+					<p class="lf-notice">Searching the listings needs JavaScript. The two links above still work.</p>
+				</noscript>
+			</div>
+		</article>
+
+		<article class="section" aria-labelledby="lf-places-heading">
+			<h2 id="lf-places-heading">Malls, stations and offices</h2>
+			<p>
+				Places that hold what people leave behind, and list it here. Each has a
+				page with what it is holding and where to collect it.
+			</p>
+			<div data-lf-places></div>
+			<p class="lf-join-line">
+				Run a mall, a station, a market or a business? Get a free portal to list
+				what is handed in to you. <a href="{{ SITE_URL }}/lost-and-found/join">Ask for a portal &#10142;</a>
+			</p>
+		</article>
+
+		<article class="section lf-page" aria-labelledby="lf-how">
+			<h2 id="lf-how">How it keeps you safe</h2>
+			<ul class="lf-rules">
+				<li><strong>Your number and email are never shown.</strong> When someone replies to your listing, their message comes to your private link, with how to reach them. You decide who to call.</li>
+				<li><strong>Finders keep one detail back.</strong> Describe what you found, but not everything. Ask anyone who says it is theirs to tell you the rest.</li>
+				<li><strong>No card or account numbers.</strong> Listings that carry a long number are refused, because an ID or bank card number is enough to impersonate its owner. A found ID card should also go to the nearest police station or Huduma Centre.</li>
+				<li><strong>Never pay before you see it.</strong> Nobody needs a "transport fee" or "reward" up front to return a phone. Meet in daylight, somewhere busy - a mall, a bank, a police station.</li>
+				<li><strong>Listings close by themselves</strong> after {{ LOSTFOUND.limits.itemDays }} days, and three reports take one down until it is checked.</li>
+			</ul>
+			<p class="tool-note">
+				What is stored, who can see it and how long it is kept is in the
+				<a href="{{ SITE_URL }}/terms#lost-and-found">terms</a>.
+			</p>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% include "_blocks/lostFoundVocab.html" %}
+	{% queueJs %}
+		import '/js/lostfound/hub.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

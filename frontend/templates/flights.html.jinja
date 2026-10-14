@@ -1,4 +1,5 @@
 {% extends "_layout.html" %}
+{% set page_styles = ['map-frame', 'flight-map'] %}
 {% set canonical_path = "/flights" %}
 {% set metatitle = "Where you can fly nonstop from Nairobi" %}
 {% set metadescription = "Every nonstop destination from Jomo Kenyatta International Airport, by airline and region, on a map and as a list. " ~ FLIGHTS.destinations|length ~ " destinations." %}
@@ -14,7 +15,7 @@
 				<h1>Where you can fly nonstop from Nairobi</h1>
 			</div>
 
-			<p class="page-intro">
+			<p class="page-intro map-intro">
 				{{ FLIGHTS.destinations|length }} destinations, {{ airlines|length }} airlines,
 				from {{ FLIGHTS.origin.name }} &mdash; {{ FLIGHTS.origin.iata }}. Every line
 				on the map is a flight you can take without changing planes.
@@ -56,7 +57,12 @@
 							<tbody>
 								{% for destination in in_region|sort(attribute='km') %}
 									<tr>
-										<th scope="row">{{ destination.city }}<br><small>{{ destination.country }}</small></th>
+										{#
+											Into the map, the way /map's constituency names are. A city
+											in a table that does nothing when tapped, beside a map that
+											could show its route, reads as broken.
+										#}
+										<th scope="row"><a href="#to={{ destination.iata|lower }}">{{ destination.city }}</a><br><small>{{ destination.country }}</small></th>
 										<td>{{ destination.iata }}</td>
 										<td>{{ '{:,}'.format(destination.km) }}&nbsp;km</td>
 										<td>

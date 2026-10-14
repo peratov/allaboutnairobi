@@ -1,65 +1,219 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "bash frontend/scripts/vercel-build.sh",
-  "installCommand": "echo 'Dependencies are installed inside frontend/scripts/vercel-build.sh'",
-  "outputDirectory": "frontend/public",
-  "framework": null,
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "allaboutnairobi.com"
-        }
-      ],
-      "destination": "https://www.allaboutnairobi.com/",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "allaboutnairobi.com"
-        }
-      ],
-      "destination": "https://www.allaboutnairobi.com/:path*",
-      "permanent": true
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "geolocation=(self), microphone=(), camera=()"
-        }
-      ]
-    },
-    {
-      "source": "/sw.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
-      ]
-    }
-  ]
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"buildCommand": "bash frontend/scripts/vercel-build.sh",
+	"installCommand": "echo 'Dependencies are installed inside frontend/scripts/vercel-build.sh'",
+	"outputDirectory": "frontend/public",
+	"framework": null,
+	"cleanUrls": true,
+	"regions": [
+		"lhr1"
+	],
+	"functions": {
+		"api/lost-found.mjs": {
+			"maxDuration": 10
+		},
+		"api/admin.mjs": {
+			"maxDuration": 15
+		},
+		"api/pulse.mjs": {
+			"maxDuration": 10
+		},
+		"api/prompts.mjs": {
+			"maxDuration": 10
+		},
+		"api/news.mjs": {
+			"maxDuration": 15
+		}
+	},
+	"crons": [
+		{
+			"path": "/api/lost-found?r=purge",
+			"schedule": "30 2 * * *"
+		},
+		{
+			"path": "/api/pulse?r=purge",
+			"schedule": "45 2 * * *"
+		},
+		{
+			"path": "/api/news?r=purge",
+			"schedule": "0 3 * * *"
+		}
+	],
+	"trailingSlash": false,
+	"redirects": [
+		{
+			"source": "/",
+			"has": [
+				{
+					"type": "host",
+					"value": "allaboutnairobi.com"
+				}
+			],
+			"destination": "https://www.allaboutnairobi.com/",
+			"permanent": true
+		},
+		{
+			"source": "/:path*",
+			"has": [
+				{
+					"type": "host",
+					"value": "allaboutnairobi.com"
+				}
+			],
+			"destination": "https://www.allaboutnairobi.com/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/lost-and-found/admin",
+			"destination": "/admin",
+			"permanent": true
+		}
+	],
+	"headers": [
+		{
+			"source": "/radio",
+			"headers": [
+				{
+					"key": "X-Content-Type-Options",
+					"value": "nosniff"
+				},
+				{
+					"key": "Referrer-Policy",
+					"value": "strict-origin-when-cross-origin"
+				},
+				{
+					"key": "Content-Security-Policy",
+					"value": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; media-src 'self' http://dreamsiteradiocp5.com:8069 http://stream.zeno.fm https://atunwadigital.streamguys1.com https://kamemefm-atunwadigital.streamguys1.com https://streaming.shoutcast.com; frame-ancestors 'none'"
+				},
+				{
+					"key": "Permissions-Policy",
+					"value": "geolocation=(self), microphone=(), camera=()"
+				}
+			]
+		},
+		{
+			"source": "/((?!radio).*)",
+			"headers": [
+				{
+					"key": "X-Content-Type-Options",
+					"value": "nosniff"
+				},
+				{
+					"key": "Referrer-Policy",
+					"value": "strict-origin-when-cross-origin"
+				},
+				{
+					"key": "Content-Security-Policy",
+					"value": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; frame-ancestors 'none'"
+				},
+				{
+					"key": "Permissions-Policy",
+					"value": "geolocation=(self), microphone=(), camera=()"
+				}
+			]
+		},
+		{
+			"source": "/feed.xml",
+			"headers": [
+				{
+					"key": "Content-Type",
+					"value": "application/atom+xml; charset=utf-8"
+				},
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=3600"
+				}
+			]
+		},
+		{
+			"source": "/geo/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=3600, stale-while-revalidate=86400"
+				}
+			]
+		},
+		{
+			"source": "/js/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=3600, stale-while-revalidate=86400"
+				}
+			]
+		},
+		{
+			"source": "/js/(.*)",
+			"has": [
+				{
+					"type": "query",
+					"key": "v"
+				}
+			],
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=31536000, immutable"
+				}
+			]
+		},
+		{
+			"source": "/staticimages/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=604800"
+				}
+			]
+		},
+		{
+			"source": "/fonts/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=31536000, immutable"
+				}
+			]
+		},
+		{
+			"source": "/sw.js",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "no-cache, no-store, must-revalidate"
+				},
+				{
+					"key": "Content-Type",
+					"value": "text/javascript; charset=utf-8"
+				},
+				{
+					"key": "Service-Worker-Allowed",
+					"value": "/"
+				}
+			]
+		},
+		{
+			"source": "/manifest.webmanifest",
+			"headers": [
+				{
+					"key": "Content-Type",
+					"value": "application/manifest+json; charset=utf-8"
+				},
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=3600"
+				}
+			]
+		},
+		{
+			"source": "/offline",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=0, must-revalidate"
+				}
+			]
+		}
+	]
 }

@@ -37,6 +37,18 @@
 
 .hero h1 { margin-bottom: var(--m); max-width: 20ch; }
 
+// A band on a phone, like every .section - see _main.scss.
+@media (max-width: 40rem) {
+	.hero {
+		margin-inline: calc(var(--m) * -1);
+		padding: var(--xl) var(--m);
+		border-width: 1px 0;
+		border-radius: 0;
+		box-shadow: none;
+		margin-bottom: var(--m);
+	}
+}
+
 .hero p {
 	font-size: 1.15rem;
 	color: var(--c-text-light);
@@ -44,10 +56,40 @@
 }
 
 .hero .search-form {
+	display: flex;
 	max-width: 30rem;
 	margin-top: var(--l);
 	font-size: 1.05rem;
 	background: var(--c-bg-page);
+
+	// One control, field and button joined, at a thumb's height. It was a
+	// 230px input beside a separate 34px button, which on a phone read as two
+	// small things rather than the way in.
+	input[type="search"] {
+		flex: 1 1 auto;
+		min-height: 3rem;
+		padding: 0 var(--m);
+		font-size: 1rem;
+		border-radius: var(--b-radius) 0 0 var(--b-radius);
+	}
+
+	button {
+		display: grid;
+		place-items: center;
+		flex: 0 0 3rem;
+		min-height: 3rem;
+		padding: 0;
+		color: var(--c-bg-on-accent);
+		background: var(--c-laterite);
+		border: 1px solid var(--c-laterite);
+		border-radius: 0 var(--b-radius) var(--b-radius) 0;
+		cursor: pointer;
+
+		&:hover { filter: brightness(1.08); }
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+	}
+
+	.line-icon { width: 1.3rem; height: 1.3rem; fill: currentColor; }
 }
 
 .card-grid {
@@ -74,6 +116,23 @@
 
 .card h3 { margin: 0 0 var(--xs); font-size: 1.05rem; }
 .card p { margin: 0; font-size: var(--f-s); color: var(--c-text-light); }
+
+// On a phone a card is a row - symbol beside the title, not above it - which
+// halves its height. Eight stacked cards were 1,400px of the home page.
+@media (max-width: 40rem) {
+	.card-grid { gap: var(--s); }
+
+	.card {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		column-gap: var(--m);
+		align-items: start;
+		padding: var(--m);
+
+		> .icon-stamp { grid-row: 1 / span 3; margin: 0; }
+		> :not(.icon-stamp) { grid-column: 2; }
+	}
+}
 
 .stat-row {
 	display: grid;
@@ -106,4 +165,30 @@
 	font-size: var(--f-xs);
 	color: var(--c-text-light);
 	margin-top: var(--xs);
+}
+
+// On a phone the four figures are one quiet row rather than four boxes: they
+// are reassurance, not content, and as boxes they took 230px of the first
+// screen.
+@media (max-width: 40rem) {
+	.stat-row {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0;
+		margin: var(--l) 0 0;
+		padding-top: var(--m);
+		border-top: 1px solid var(--c-border);
+	}
+
+	.stat {
+		padding: 0 var(--xs);
+		border: 0;
+		border-radius: 0;
+		background: none;
+		text-align: center;
+
+		& + .stat { border-inline-start: 1px solid var(--c-border); }
+	}
+
+	.stat-value { font-size: 1.25rem; }
+	.stat-label { font-size: 0.7rem; line-height: 1.25; }
 }

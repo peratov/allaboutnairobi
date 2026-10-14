@@ -1,0 +1,1228 @@
+// =============================================================================
+// Nairobi Pulse, at /pulse.
+//
+// A question, a vote, and a map of how each of the 29 districts answers. Built
+// phone first: the question and its answers come first and fill the screen,
+// the map follows edge to edge, and on a wide screen the question sits beside
+// the map and stays in view while the map is read.
+//
+// Colour carries the answers, so it is never the only carrier: every share is
+// also written, every district also named in the table, and a district with too
+// few votes is hatched - a pattern, not a pale colour that could be mistaken for
+// a weak result. Nothing here uses color-mix(), so older phones see what
+// everyone sees (see "Older browsers" in CLAUDE.md).
+// =============================================================================
+
+// The answers' colours. A choice's answers take hues in order; a scale's are
+// coloured by meaning (compute.mjs, toneOf): good, a softer good, the middle,
+// a softer bad, bad. The dialog is inside the page, so it inherits these.
+.pulse-page {
+	--pulse-1: var(--c-forest);
+	--pulse-2: var(--c-laterite);
+	--pulse-3: var(--c-gold);
+	--pulse-4: var(--c-rain);
+	--pulse-5: #7a4b9c;
+	--pulse-6: #2b7a78;
+	--pulse-good2: #4f8f6a;
+	--pulse-bad2: #c46a3c;
+	--pulse-radius: 14px;
+}
+
+@mixin pulse-dark {
+	--pulse-5: #b48ad6;
+	--pulse-6: #6cc4c0;
+	--pulse-good2: #3f8c66;
+	--pulse-bad2: #b5683b;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .pulse-page { @include pulse-dark; }
+}
+:root[data-theme="dark"] .pulse-page { @include pulse-dark; }
+
+// Scoped to the page so a tone always beats a component's own default colour,
+// whichever is declared later.
+.pulse-page {
+	.tone-o1 { --pulse-c: var(--pulse-1); }
+	.tone-o2 { --pulse-c: var(--pulse-2); }
+	.tone-o3 { --pulse-c: var(--pulse-3); }
+	.tone-o4 { --pulse-c: var(--pulse-4); }
+	.tone-o5 { --pulse-c: var(--pulse-5); }
+	.tone-o6 { --pulse-c: var(--pulse-6); }
+	.tone-good { --pulse-c: var(--c-forest); }
+	.tone-good2 { --pulse-c: var(--pulse-good2); }
+	.tone-mid, .tone-split { --pulse-c: var(--c-gold); }
+	.tone-bad2 { --pulse-c: var(--pulse-bad2); }
+	.tone-bad { --pulse-c: var(--c-laterite); }
+	.tone-turnout { --pulse-c: var(--c-rain); }
+}
+
+// --- the hero ------------------------------------------------------------------------------------
+
+.pulse-hero {
+	padding: var(--l) 0 var(--m);
+
+	h1 {
+		margin: var(--xs) 0 var(--s);
+		font-size: clamp(2rem, 6vw, 3.25rem);
+		line-height: 1.05;
+		letter-spacing: -0.01em;
+		text-wrap: balance;
+	}
+
+	// The page is the map, so the hero is only its title and its numbers.
+	&.is-slim {
+		padding: var(--m) 0 var(--s);
+
+		h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); }
+		.pulse-lede { margin: 0 0 var(--s); }
+	}
+}
+
+.pulse-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55em;
+	margin: 0;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-highlight);
+}
+
+// The heartbeat: a dot that beats while the page is open. Off under reduced
+// motion, where it is simply a dot.
+.pulse-beat {
+	position: relative;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 50%;
+	background: var(--c-highlight);
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: -0.35rem;
+		border-radius: 50%;
+		border: 2px solid var(--c-highlight);
+		opacity: 0;
+		animation: pulse-ring 2.4s ease-out infinite;
+	}
+}
+
+@keyframes pulse-ring {
+	0% { transform: scale(0.4); opacity: 0.7; }
+	70%, 100% { transform: scale(1.5); opacity: 0; }
+}
+
+.pulse-lede {
+	max-width: 38rem;
+	margin: 0 0 var(--m);
+	font-size: 1.15rem;
+	line-height: 1.5;
+	color: var(--c-text);
+}
+
+.pulse-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs) var(--l);
+	margin: 0 0 var(--m);
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+
+	li { margin: 0; }
+	strong {
+		display: inline-block;
+		min-width: 1ch;
+		font-family: var(--font-body);
+		font-size: 1.15rem;
+		font-variant-numeric: tabular-nums;
+		color: var(--c-text-heading);
+	}
+}
+
+// Where this browser votes from, and the way to check again.
+.pulse-where {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55em;
+	min-height: 2.5rem;
+	padding: 0 1rem;
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-heading);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	&:hover { border-color: var(--c-highlight); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.pulse-where-dot {
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 50%;
+	background: var(--c-border-strong);
+
+	.pulse-where.is-in & { background: var(--c-forest); box-shadow: 0 0 0 3px var(--c-highlight-soft); }
+}
+
+// --- topics, in the list of every question ---------------------------------------------------------
+
+.pulse-topics {
+	display: flex;
+	gap: var(--xs);
+	margin-bottom: var(--xs);
+	padding: 2px 2px var(--xs);
+	overflow-x: auto;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+	&::-webkit-scrollbar { display: none; }
+}
+
+.pulse-topic {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	min-height: 2.75rem;
+	padding: 0 0.95rem;
+	scroll-snap-align: start;
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text);
+	background: none;
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	&:hover { border-color: var(--c-border-strong); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+	&[aria-pressed="true"] { color: var(--c-bg-page); background: var(--c-text-heading); border-color: var(--c-text-heading); }
+}
+
+.pulse-topic-count {
+	font-size: var(--f-xs);
+	font-variant-numeric: tabular-nums;
+	opacity: 0.75;
+}
+
+// --- between questions: "Question 2 of 8", the list, the bar at the thumb -------------------------
+
+.pulse-qnav {
+	display: grid;
+	grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+	align-items: center;
+	gap: var(--xs);
+	margin: 0 0 var(--m);
+	padding-bottom: var(--s);
+	border-bottom: 1px solid var(--c-border);
+
+	&.is-closed { grid-template-columns: minmax(0, 1fr); }
+}
+
+.pulse-qnav-step {
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	font: inherit;
+	font-size: 1.6rem;
+	line-height: 1;
+	color: var(--c-text-heading);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 50%;
+	cursor: pointer;
+
+	&:hover { border-color: var(--c-border-strong); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.pulse-qnav-all {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.75rem;
+	padding: 0 var(--s);
+	font: inherit;
+	line-height: 1.2;
+	color: var(--c-text-heading);
+	background: none;
+	border: 0;
+	border-radius: 10px;
+	cursor: pointer;
+
+	&:hover { background: var(--c-bg-page); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 0; }
+}
+
+.pulse-qnav-count { font-weight: 700; font-variant-numeric: tabular-nums; }
+.pulse-qnav-sub { font-size: var(--f-xs); color: var(--c-text-link); text-decoration: underline; text-underline-offset: 0.15em; }
+
+// The list of every question, in the sheet.
+.pulse-list-sheet {
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.pulse-list-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--m);
+
+	h2 { margin: 0; }
+}
+
+ol.pulse-list {
+	display: grid;
+	gap: var(--xs);
+	margin: var(--s) 0 0;
+	padding: 0;
+	list-style: none;
+
+	li { margin: 0; }
+}
+
+.pulse-list-subhead {
+	margin: var(--l) 0 0;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.pulse-list-item {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--s);
+	width: 100%;
+	min-height: 3.5rem;
+	padding: var(--s) var(--m) var(--s) var(--s);
+	font: inherit;
+	text-align: left;
+	color: var(--c-text);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: 12px;
+	cursor: pointer;
+
+	.icon-stamp { width: 2.1rem; height: 2.1rem; border-radius: 50%; }
+	&:hover { border-color: var(--c-border-strong); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+	&.is-on { border-color: var(--c-highlight); box-shadow: inset 0 0 0 1px var(--c-highlight); }
+}
+
+.pulse-list-text {
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--c-text-heading);
+}
+
+.pulse-list-meta {
+	font-size: var(--f-xs);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+	color: var(--c-text-light);
+
+	.is-voted & { font-weight: 700; color: var(--c-forest); }
+	.is-voted &::before { content: "✓ "; }
+}
+
+// The bar at the thumb exists on a phone's layout only (see below).
+.pulse-dock { display: none; }
+
+// --- the layout -----------------------------------------------------------------------------------
+
+.pulse-board {
+	display: grid;
+	gap: var(--l);
+	grid-template-columns: minmax(0, 1fr);
+	align-items: start;
+}
+
+@media (min-width: 60rem) {
+	.pulse-board { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
+
+	// The city's answer stays beside the map while the map is read.
+	.pulse-board .pulse-city {
+		position: sticky;
+		top: calc(var(--h-header) + var(--m));
+		margin-top: 0;
+	}
+}
+
+// --- the question ------------------------------------------------------------------------------------
+
+// --- the question on the map ---------------------------------------------------------------------
+
+.pulse-qbar {
+	padding: 0 0 var(--s);
+}
+
+.pulse-qbar-text {
+	margin: 0 0 var(--xs);
+	font-size: clamp(1.35rem, 4.2vw, 1.75rem);
+	line-height: 1.22;
+	text-wrap: balance;
+	border-radius: 6px;
+	outline: none;
+
+	&.is-changed { animation: pulse-changed 700ms ease-out; }
+}
+
+.pulse-qbar-context {
+	margin: 0 0 var(--s);
+	color: var(--c-text-light);
+}
+
+.pulse-qbar-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s) var(--m);
+	margin-top: var(--s);
+
+	.pulse-button { min-height: 2.9rem; }
+}
+
+.pulse-qbar-meta {
+	font-size: var(--f-s);
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-light);
+}
+
+.pulse-question-topic {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s);
+	margin: 0 0 var(--s);
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-light);
+
+	.icon-stamp { width: 2.25rem; height: 2.25rem; }
+}
+
+.pulse-tag {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.15rem 0.6rem;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--c-bg-on-accent);
+	background: var(--c-highlight);
+	border-radius: 2rem;
+
+	&.is-closed { color: var(--c-text); background: var(--c-bg-widget-opaque); }
+	&.is-you { color: var(--c-bg-on-accent); background: var(--c-forest); }
+}
+
+.pulse-note {
+	margin: var(--s) 0 0;
+	font-size: var(--f-s);
+	line-height: 1.5;
+	color: var(--c-text-light);
+}
+
+.pulse-message {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--xs) var(--m);
+	margin: var(--m) 0 0;
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	line-height: 1.45;
+	border-radius: 10px;
+	background: var(--c-note-bg);
+	border-left: 3px solid var(--c-note-border);
+
+	&.is-error { background: var(--c-danger-bg); border-left-color: var(--c-danger-border); }
+	&.is-good { border-left-color: var(--c-forest); }
+	&.is-info { border-left-color: var(--c-rain); }
+}
+
+button.pulse-link {
+	min-height: 2.25rem;
+	padding: 0;
+	font: inherit;
+	font-weight: 600;
+	color: var(--c-text-link);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+	background: none;
+	border: 0;
+	cursor: pointer;
+}
+
+.pulse-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 3rem;
+	padding: 0 1.4rem;
+	font: inherit;
+	font-weight: 700;
+	color: var(--c-text-heading);
+	background: var(--c-bg-page);
+	border: 1.5px solid var(--c-border-strong);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	&.is-primary { color: var(--c-bg-on-accent); background: var(--c-highlight); border-color: var(--c-highlight); }
+	&:disabled { opacity: 0.7; cursor: progress; }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// --- the map -------------------------------------------------------------------------------------
+
+.pulse-mapcard {
+	min-width: 0;
+}
+
+.pulse-modes-row {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	min-width: 0;
+	margin-bottom: var(--s);
+
+	.pulse-modes { flex: 1 1 auto; min-width: 0; }
+}
+
+.pulse-modes-label {
+	flex: 0 0 auto;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+// Under "What Nairobi says" and "Every district": the question they count.
+.pulse-section-q {
+	margin: calc(var(--s) * -0.5) 0 var(--m);
+	font-size: var(--f-s);
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--c-text-light);
+}
+
+@keyframes pulse-changed {
+	from { background: var(--c-highlight-soft); box-shadow: 0 0 0 6px var(--c-highlight-soft); }
+	to { background: transparent; box-shadow: 0 0 0 6px transparent; }
+}
+
+// Room above an element scrolled to, for the header.
+.pulse-mapcard { scroll-margin-top: calc(var(--h-header) + var(--s)); }
+
+.pulse-modes {
+	display: flex;
+	gap: var(--xs);
+	overflow-x: auto;
+	padding: 2px;
+	scrollbar-width: none;
+	&::-webkit-scrollbar { display: none; }
+}
+
+.pulse-mode {
+	--pulse-c: var(--c-highlight);
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	min-height: 2.5rem;
+	padding: 0 0.9rem;
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	&:hover { border-color: var(--c-border-strong); }
+	&.is-on { color: var(--c-text-heading); border-color: var(--c-text-heading); box-shadow: inset 0 0 0 1px var(--c-text-heading); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.pulse-swatch {
+	display: inline-block;
+	width: 0.85rem;
+	height: 0.85rem;
+	border-radius: 3px;
+	background: var(--pulse-c, var(--c-border-strong));
+
+	&.is-hatch {
+		background: repeating-linear-gradient(135deg, var(--c-border-strong) 0 2px, var(--c-bg-widget-opaque) 2px 5px);
+		border: 1px solid var(--c-border-strong);
+	}
+}
+
+.pulse-map {
+	position: relative;
+	margin: 0;
+}
+
+.pulse-stage { position: relative; }
+
+.pulse-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 76vh;
+	background: var(--c-map-void);
+	border: 1px solid var(--c-border);
+	border-radius: var(--pulse-radius);
+	touch-action: manipulation;
+}
+
+// Strokes are drawn in screen pixels, not map units, so an outline is a
+// hairline at every size (see "px in a sizing calc" in CLAUDE.md for the trap
+// this avoids).
+.pulse-district {
+	fill: var(--pulse-c, var(--c-bg-widget-opaque));
+	stroke: var(--c-bg-page);
+	stroke-width: 1.25px;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+	cursor: pointer;
+	outline: none;
+	transition: fill-opacity 500ms ease, fill 500ms ease;
+
+	&.tone-empty { fill: var(--c-bg-widget-opaque); fill-opacity: 0.8; }
+	&.tone-thin { fill: url(#pulse-hatch); }
+
+	&:hover { stroke: var(--c-text-heading); stroke-width: 2px; }
+	&:focus-visible { stroke: var(--c-highlight); stroke-width: 3px; }
+
+	&.is-selected { stroke: var(--c-text-heading); stroke-width: 3px; }
+
+	// This browser's own district: an outline that moves, so it can be found
+	// without a pin that would cover a small district.
+	&.is-you {
+		stroke: var(--c-highlight);
+		stroke-width: 3px;
+		stroke-dasharray: 6 4;
+		animation: pulse-march 1.4s linear infinite;
+	}
+
+	&.is-flash { animation: pulse-flash 1.5s ease-out; }
+}
+
+.pulse-hatch-ground { fill: var(--c-bg-widget-opaque); }
+.pulse-hatch-line { fill: var(--c-border-strong); opacity: 0.55; }
+
+@keyframes pulse-march {
+	to { stroke-dashoffset: -20; }
+}
+
+@keyframes pulse-flash {
+	0% { fill-opacity: 1; stroke-width: 8px; stroke: var(--c-highlight); }
+	100% { stroke-width: 3px; }
+}
+
+.pulse-legend {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--xs) var(--m);
+	margin-top: var(--s);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.pulse-key {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs) var(--m);
+}
+
+.pulse-key-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+	color: var(--c-text);
+}
+
+.pulse-legend-note { font-size: var(--f-xs); }
+
+.pulse-ramp, .pulse-diverge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.pulse-ramp-bar {
+	display: inline-block;
+	width: 7rem;
+	height: 0.7rem;
+	border-radius: 4px;
+	background: linear-gradient(90deg, transparent, var(--pulse-c));
+	border: 1px solid var(--c-border);
+
+	&.tone-diverge { background: linear-gradient(90deg, var(--c-laterite), var(--c-gold) 50%, var(--c-forest)); }
+}
+
+// One district, opened: over the map's corner on a wide screen, under it on
+// a phone, where it would otherwise cover the district it describes.
+.pulse-district-card {
+	margin-top: var(--s);
+	padding: var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--pulse-radius);
+	box-shadow: var(--shadow-card);
+	animation: pulse-rise 220ms ease-out;
+
+	h3 { margin: 0; font-size: 1.15rem; }
+}
+
+@media (min-width: 60rem) {
+	.pulse-district-card {
+		position: absolute;
+		top: var(--s);
+		right: var(--s);
+		width: 20rem;
+		max-width: 60%;
+		margin: 0;
+	}
+}
+
+@keyframes pulse-rise {
+	from { opacity: 0; transform: translateY(6px); }
+}
+
+.pulse-card-head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--s);
+
+	> div { display: flex; flex-wrap: wrap; align-items: center; gap: var(--xs) var(--s); }
+}
+
+.pulse-card-close {
+	flex: 0 0 auto;
+	width: 2.25rem;
+	height: 2.25rem;
+	font-size: 1.4rem;
+	line-height: 1;
+	color: var(--c-text-light);
+	background: none;
+	border: 1px solid var(--c-border);
+	border-radius: 50%;
+	cursor: pointer;
+
+	&:hover { color: var(--c-text-heading); border-color: var(--c-border-strong); }
+}
+
+.pulse-card-count {
+	margin: var(--xs) 0 var(--s);
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-light);
+}
+
+// --- bars ----------------------------------------------------------------------------------------
+
+ul.pulse-bars {
+	display: grid;
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.pulse-bar {
+	--pulse-c: var(--c-highlight);
+	display: grid;
+	grid-template-columns: minmax(5rem, 9rem) minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--s);
+	margin: 0;
+	font-size: var(--f-s);
+
+	&.is-yours .pulse-bar-label { font-weight: 700; }
+	&.is-yours .pulse-bar-label::after { content: ' · yours'; font-weight: 400; color: var(--c-text-light); }
+}
+
+.pulse-bar-label {
+	overflow: hidden;
+	color: var(--c-text);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.pulse-bar-track {
+	position: relative;
+	height: 0.8rem;
+	background: var(--c-bg-widget-opaque);
+	border-radius: 6px;
+}
+
+.pulse-bar-fill {
+	display: block;
+	height: 100%;
+	min-width: 2px;
+	background: var(--pulse-c);
+	border-radius: 6px;
+	transition: width 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+// Nairobi as a whole, as a tick on a district's bar.
+.pulse-bar-city {
+	position: absolute;
+	top: -3px;
+	bottom: -3px;
+	width: 2px;
+	margin-left: -1px;
+	background: var(--c-text-heading);
+	border-radius: 1px;
+}
+
+.pulse-bar-value {
+	min-width: 2.75rem;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-heading);
+
+	span { color: var(--c-text-light); }
+}
+
+.pulse-bars.is-large {
+	gap: var(--m);
+	.pulse-bar { grid-template-columns: minmax(6rem, 12rem) minmax(0, 1fr) auto; font-size: 1rem; }
+	.pulse-bar-track { height: 1.1rem; }
+	.pulse-bar-value { min-width: 4.5rem; }
+}
+
+// --- the city -------------------------------------------------------------------------------------
+
+.pulse-city, .pulse-table-section, .pulse-archive {
+	margin-top: var(--xl);
+	padding: var(--l);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--pulse-radius);
+
+	> h2 { margin-top: 0; }
+}
+
+.pulse-city-wait {
+	margin: 0;
+	font-size: 1.1rem;
+
+	strong { font-size: 1.4rem; color: var(--c-text-heading); }
+}
+
+.pulse-gauge {
+	margin: 0 0 var(--l);
+}
+
+.pulse-gauge-word {
+	margin: 0 0 var(--s);
+	font-family: var(--font-heading);
+	font-size: 1.4rem;
+	font-weight: 700;
+	color: var(--c-text-heading);
+}
+
+.pulse-gauge-track {
+	position: relative;
+	height: 0.9rem;
+	border-radius: 0.45rem;
+	background: linear-gradient(90deg, var(--c-laterite), var(--c-gold) 50%, var(--c-forest));
+}
+
+.pulse-gauge-mark {
+	position: absolute;
+	top: -0.4rem;
+	width: 1.7rem;
+	height: 1.7rem;
+	margin-left: -0.85rem;
+	background: var(--c-bg-page);
+	border: 3px solid var(--c-text-heading);
+	border-radius: 50%;
+	box-shadow: var(--shadow-card);
+	transition: left 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.pulse-gauge-ends {
+	display: flex;
+	justify-content: space-between;
+	margin: var(--s) 0 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+ul.pulse-insights {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	gap: var(--s);
+	margin: var(--l) 0 0;
+	padding: 0;
+	list-style: none;
+
+	li { margin: 0; }
+}
+
+.pulse-insight {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	width: 100%;
+	height: 100%;
+	padding: var(--m);
+	font: inherit;
+	text-align: left;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-left: 4px solid var(--c-highlight);
+	border-radius: 10px;
+	cursor: pointer;
+
+	&.is-divided { border-left-color: var(--c-gold); }
+	&.is-united, &.is-best { border-left-color: var(--c-forest); }
+	&.is-worst { border-left-color: var(--c-laterite); }
+	&.is-outlier { border-left-color: var(--c-rain); }
+	&:hover { border-color: var(--c-border-strong); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.pulse-insight-title {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.pulse-insight-text {
+	font-weight: 600;
+	color: var(--c-text-heading);
+}
+
+// --- every district --------------------------------------------------------------------------------
+
+.pulse-table {
+	width: 100%;
+	font-size: var(--f-s);
+
+	th, td { padding: 0.25rem 0.6rem; }
+	td.numeric { text-align: right; font-variant-numeric: tabular-nums; }
+	tbody tr.is-selected { background: var(--c-highlight-soft); }
+	tbody th { font-weight: 400; }
+	.pulse-link { min-height: 1.9rem; text-align: left; }
+}
+
+// --- the archive ------------------------------------------------------------------------------------
+
+ul.pulse-archive-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li { margin: 0; }
+}
+
+a.pulse-archive-card, a.pulse-archive-card:visited {
+	display: flex;
+	flex-direction: column;
+	gap: var(--xs);
+	height: 100%;
+	padding: var(--m);
+	color: var(--c-text);
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 12px;
+
+	&:hover { border-color: var(--c-border-strong); }
+	&.is-on { border-color: var(--c-highlight); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.pulse-archive-meta {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+
+	.icon-stamp { width: 1.75rem; height: 1.75rem; }
+}
+
+.pulse-archive-text {
+	font-family: var(--font-heading);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--c-text-heading);
+}
+
+.pulse-archive-result {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	margin-top: auto;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text);
+}
+
+// --- how it works ---------------------------------------------------------------------------------
+
+.pulse-how {
+	margin-top: var(--xxl);
+
+	h3 { margin: 0 0 var(--xs); font-size: 1.05rem; }
+	p { margin: 0; color: var(--c-text); }
+}
+
+.pulse-how-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+	gap: var(--l) var(--xl);
+	margin: var(--m) 0 var(--l);
+}
+
+// --- the sheet: every question ---------------------------------------------------------------------
+//
+// A bottom sheet on a phone, a card in the middle above that. Its open class
+// is added a frame after showModal so the slide is seen, and by a timer too:
+// a tab that is not painting never gets the frame (see "The sheet's open class"
+// under lost and found in CLAUDE.md).
+
+.pulse-sheet {
+	width: 32rem;
+	max-width: 100%;
+	max-height: 92vh;
+	margin: auto auto 0;
+	padding: 0;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 0;
+	border-radius: 20px 20px 0 0;
+	box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+	transform: translateY(100%);
+	transition: transform 220ms ease-out;
+
+	&.is-open { transform: none; }
+	&::backdrop { background: rgba(20, 14, 8, 0.5); }
+
+	h2 { margin: 0 0 var(--s); font-size: 1.4rem; }
+	p { margin: 0 0 var(--s); }
+}
+
+.pulse-sheet-inner {
+	padding: var(--m) var(--l) calc(var(--l) + env(safe-area-inset-bottom, 0px));
+}
+
+.pulse-sheet-grip {
+	width: 2.75rem;
+	height: 0.3rem;
+	margin: 0 auto var(--m);
+	border-radius: 1rem;
+	background: var(--c-border-strong);
+}
+
+@media (min-width: 40rem) {
+	.pulse-sheet {
+		margin: auto;
+		border-radius: 20px;
+		transform: translateY(12px);
+		opacity: 0;
+		transition: transform 200ms ease-out, opacity 200ms ease-out;
+
+		&.is-open { transform: none; opacity: 1; }
+	}
+
+	.pulse-sheet-grip { display: none; }
+}
+
+// --- one column: the question above the map -----------------------------------------------------
+
+@media (max-width: 59.99rem) {
+	.pulse-page { padding-bottom: 5.5rem; }
+
+	.pulse-dock {
+		position: fixed;
+		left: var(--s);
+		right: var(--s);
+		bottom: calc(var(--s) + env(safe-area-inset-bottom, 0px));
+		z-index: 40;
+		display: grid;
+		grid-template-columns: 3rem minmax(0, 1fr) 3rem;
+		align-items: center;
+		gap: var(--xs);
+		max-width: 34rem;
+		margin: 0 auto;
+		padding: var(--xs);
+		color: var(--c-bg-on-accent);
+		background: var(--c-text-heading);
+		border-radius: 1.75rem;
+		box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.5);
+		transform: translateY(calc(100% + 2rem));
+		transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+		&.is-shown { transform: none; }
+		&.is-changed { animation: pulse-dock-changed 700ms ease-out; }
+	}
+
+	.pulse-dock-step, .pulse-dock-now {
+		min-height: 3rem;
+		font: inherit;
+		color: inherit;
+		background: none;
+		border: 0;
+		border-radius: 1.5rem;
+		cursor: pointer;
+
+		&:active { background: rgba(255, 255, 255, 0.14); }
+		&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+	}
+
+	.pulse-dock-step {
+		padding: 0;
+		font-size: 1.7rem;
+		line-height: 1;
+
+		&[hidden] { display: block; visibility: hidden; }
+	}
+
+	.pulse-dock-now {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		min-width: 0;
+		padding: 0.2rem var(--s);
+		text-align: left;
+	}
+
+	.pulse-dock-label {
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		opacity: 0.8;
+	}
+
+	.pulse-dock-text {
+		display: -webkit-box;
+		overflow: hidden;
+		font-size: 0.95rem;
+		font-weight: 600;
+		line-height: 1.25;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+}
+
+@keyframes pulse-dock-changed {
+	from { box-shadow: 0 0 0 0 var(--c-highlight), 0 10px 30px -8px rgba(0, 0, 0, 0.5); }
+	to { box-shadow: 0 0 0 12px transparent, 0 10px 30px -8px rgba(0, 0, 0, 0.5); }
+}
+
+// --- a phone ------------------------------------------------------------------------------------
+
+@media (max-width: 40rem) {
+	.pulse-hero { padding-top: var(--m); }
+	.pulse-lede { font-size: 1.05rem; }
+
+	// The map on the first screen. The hero keeps its title, its numbers and
+	// the check-in; the question keeps where it is in the list, its words and
+	// the button. The topic and the note under a question are in the card that
+	// opens to answer it.
+	.pulse-hero.is-slim {
+		padding: var(--s) 0 var(--xs);
+
+		h1 { margin-bottom: var(--xs); font-size: 1.6rem; }
+		.pulse-lede { display: none; }
+		.pulse-stats { gap: 0 var(--m); margin-bottom: var(--s); }
+	}
+
+	.pulse-qbar .pulse-question-topic,
+	.pulse-qbar-context { display: none; }
+	.pulse-qbar .pulse-qnav { margin-bottom: var(--s); padding-bottom: var(--xs); }
+	.pulse-qbar-text { font-size: 1.3rem; }
+	.pulse-qbar-row { margin-top: var(--xs); }
+
+	// The map runs edge to edge: inside two paddings it lost a fifth of a 393px
+	// screen.
+	.pulse-svg {
+		width: calc(100% + 2 * var(--m));
+		max-width: none;
+		margin: 0 calc(var(--m) * -1);
+		border-width: 1px 0;
+		border-radius: 0;
+	}
+
+	.pulse-city, .pulse-table-section, .pulse-archive {
+		margin-left: calc(var(--m) * -1);
+		margin-right: calc(var(--m) * -1);
+		padding: var(--m);
+		border-width: 1px 0;
+		border-radius: 0;
+	}
+
+	.pulse-bar { grid-template-columns: minmax(4.5rem, 7rem) minmax(0, 1fr) auto; }
+	.pulse-bars.is-large .pulse-bar { grid-template-columns: minmax(5rem, 8rem) minmax(0, 1fr) auto; }
+	.pulse-bars.is-large .pulse-bar-value span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.pulse-beat::after,
+	.pulse-district.is-you,
+	.pulse-district.is-flash { animation: none; }
+	.pulse-bar-fill, .pulse-gauge-mark, .pulse-district, .pulse-sheet, .pulse-dock { transition: none; }
+	.pulse-dock.is-changed, .pulse-qbar-text.is-changed { animation: none; }
+	.pulse-district-card { animation: none; }
+}
+
+// The map's own control: the city centre or the whole region.
+// Bottom left is the sea in both framings, so the control covers no district.
+.pulse-zoom {
+	position: absolute;
+	bottom: var(--s);
+	left: var(--s);
+	display: flex;
+	padding: 3px;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 2rem;
+	box-shadow: var(--shadow-card);
+
+	button {
+		min-height: 2.1rem;
+		padding: 0 0.8rem;
+		font: inherit;
+		font-size: var(--f-xs);
+		font-weight: 700;
+		color: var(--c-text-light);
+		background: none;
+		border: 0;
+		border-radius: 2rem;
+		cursor: pointer;
+
+		&[aria-pressed="true"] { color: var(--c-bg-on-accent); background: var(--c-text-heading); }
+		&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+	}
+}

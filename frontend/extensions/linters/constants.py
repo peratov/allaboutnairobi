@@ -93,10 +93,25 @@ class StaleDataFilesLinter(Linter):
         "census.yaml": "mise census-data",
         "noise.yaml": "mise noise-data",
         "flights-summary.yaml": "mise flight-data",
+        "nightlife.yaml": "mise nightlife-data",
+        "ratings.yaml": "mise ratings-data",
+        "radio.yaml": "mise radio-data",
+        # Hand-kept: re-check it against its sources, ideally the 2017/18
+        # agricultural census, and move the dates.
+        "agriculture.yaml": "a re-check of content/geo/agriculture.yaml against its sources",
     }
 
+    # Generated data files that live at the content root rather than in geo/.
+    # Named explicitly rather than by scanning the root, because constants.yaml,
+    # collections.yaml, adinkra.yaml and events-calendar.yaml are also there and
+    # are not generated - a blanket rule would start making claims about files
+    # whose dates mean something else.
+    ROOT_FILES = {"ratings.yaml"}
+
     def lint(self, file_path: Path) -> LinterResult:
-        if file_path.suffix not in (".yaml", ".yml") or file_path.parent.name != "geo":
+        if file_path.suffix not in (".yaml", ".yml"):
+            return
+        if file_path.parent.name != "geo" and file_path.name not in self.ROOT_FILES:
             return
 
         # Ursus hands linters a path RELATIVE to content_path, which is why
@@ -211,6 +226,10 @@ class UndefinedConstantsLinter(RegexLinter):
                 "RADIO_TYPICAL_KBPS",
                 "RADIO_MB_PER_HOUR",
                 "RADIO_GB_PER_MONTH",
+                "AGRICULTURE_COMPILED_ON",
+                "AGRICULTURE_BY_TONNAGE",
+                "AGRICULTURE_ITEM",
+                "AGRICULTURE_MONTHS",
                 "TYPICAL_ONE_BED_ADVANCE_TOTAL",
                 "LEGAL_ONE_BED_ADVANCE_TOTAL",
                 "RENT_ADVANCE_EXCESS_MONTHS",

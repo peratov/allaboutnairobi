@@ -1,9 +1,17 @@
 {#
 	The newsletter sign-up.
 
-	Two shapes, chosen by whether NEWSLETTER_ACTION is configured:
+	Three shapes:
 
-	  * a real form that posts straight to whichever provider runs the list. No
+	  * with NEWSLETTER_LIVE, the site's own list (api/news.mjs). A plain form
+	    POST to /api/news?r=subscribe, answered with a redirect to
+	    /newsletter/check, so it works with scripts off; newsletter.mjs turns it
+	    into a request that answers in place. The source is the page it was on,
+	    which is how the admin can say which pages bring readers in. `website`
+	    is a honeypot: hidden from people, filled in by bots, and a sign-up
+	    carrying it is answered and ignored.
+	  * failing that, with NEWSLETTER_ACTION, a real form that posts straight
+	    to whichever provider runs the list. No
 	    JavaScript, no fetch - a plain form POST works with scripts off and does
 	    not need connect-src widening in the CSP.
 	  * failing that, a mailto: link. Not a placeholder: for a list of a few
@@ -34,7 +42,37 @@
 		</p>
 	{% endif %}
 
-	{% if NEWSLETTER_ACTION %}
+	{% if NEWSLETTER_LIVE %}
+		<form
+			class="subscribe-form"
+			action="{{ SITE_URL }}/api/news?r=subscribe"
+			method="post"
+			data-newsletter-form>
+			<input type="hidden" name="source" value="{{ page_path|default('', true) or '' }}">
+			<label class="visually-hidden" for="subscribe-email-{{ uid }}">Your email address</label>
+			<input
+				id="subscribe-email-{{ uid }}"
+				type="email"
+				name="email"
+				placeholder="you@example.com"
+				autocomplete="email"
+				spellcheck="false"
+				maxlength="254"
+				required
+				data-clarity-mask="true">
+			<span class="subscribe-trap" aria-hidden="true">
+				<label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+			</span>
+			<button type="submit">Subscribe</button>
+		</form>
+		<p class="subscribe-status" role="status" aria-live="polite" hidden></p>
+
+		<p class="subscribe-note">
+			Free. We email once to check the address is yours; unsubscribe from the
+			link at the bottom of any issue.
+			&mdash; <a href="{{ SITE_URL }}/terms#newsletter">What happens to your address</a>
+		</p>
+	{% elif NEWSLETTER_ACTION %}
 		<form
 			class="subscribe-form"
 			action="{{ NEWSLETTER_ACTION }}"

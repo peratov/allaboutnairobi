@@ -113,6 +113,11 @@ self.addEventListener('fetch', (event) => {
 	// Mapillary. Its own deployment sets its own cache headers; leave it alone.
 	if (url.pathname === '/drive' || url.pathname.startsWith('/drive/')) return;
 
+	// The admin and the functions: answers that carry private data, live
+	// counts that are wrong the moment they are cached, and a page that is
+	// useless offline. Nothing here goes near a cache, not even as a fallback.
+	if (url.pathname === '/admin' || url.pathname.startsWith('/api/admin') || url.pathname.startsWith('/api/lost-found') || url.pathname.startsWith('/api/pulse') || url.pathname.startsWith('/api/play') || url.pathname.startsWith('/api/prompts') || url.pathname === '/api/news') return;
+
 	if (request.mode === 'navigate') {
 		event.respondWith(pageFromNetwork(request));
 		return;

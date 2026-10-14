@@ -9,7 +9,10 @@ main {
 	justify-content: center;
 	max-width: var(--w-page);
 	margin: 0 auto;
-	padding: var(--xl) var(--m) var(--xxxl);
+	// A custom property, because the contents bar on a narrow screen pulls
+	// itself up by exactly this much to sit against the header.
+	--main-pad-top: var(--xl);
+	padding: var(--main-pad-top) var(--m) var(--xxxl);
 }
 
 main > * { grid-column: 1; min-width: 0; }
@@ -41,6 +44,23 @@ main.wide-column { grid-template-columns: minmax(0, var(--w-page)); }
 	box-shadow: var(--shadow-card);
 	padding: var(--xl) clamp(var(--m), 4vw, var(--xxl)) var(--xxl);
 	margin-bottom: var(--xl);
+}
+
+// On a phone the card is a band, edge to edge. Inside the page gutter and its
+// own padding the text ran 327px wide on a 393px screen, about 38 characters
+// a line; as a band it gets 361. The bands still read as separate sections
+// against the page ground between them.
+@media (max-width: 40rem) {
+	main { --main-pad-top: var(--m); }
+
+	.section {
+		margin-inline: calc(var(--m) * -1);
+		padding: var(--l) var(--m) var(--xl);
+		border-width: 1px 0;
+		border-radius: 0;
+		box-shadow: none;
+		margin-bottom: var(--m);
+	}
 }
 
 .section > h1:first-child,

@@ -1,7 +1,22 @@
 {% if entry.table_of_contents|default %}
+	{#
+		On a wide screen this is a list in the rail. Below 1100px, with
+		scripting, it collapses into a bar that sticks under the header, names the
+		section being read and opens the list on a tap - see
+		_table-of-contents.scss. The button ships in the HTML rather than being
+		added by the script, so the collapsed bar is what paints first.
+	#}
 	<nav class="table-of-contents no-print" aria-label="Table of contents">
-		<h2>On this page</h2>
-		<ol>
+		<h2 class="toc-title">On this page</h2>
+		<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="toc-list">
+			<svg class="toc-toggle-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+			<span class="toc-toggle-text">
+				<span class="toc-toggle-label">On this page</span>
+				<span class="toc-current"></span>
+			</span>
+			<svg class="toc-toggle-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+		</button>
+		<ol id="toc-list">
 			{%- for heading in entry.table_of_contents -%}
 				<li>
 					<a href="#{{ heading.id }}">{{ heading.name }}</a>
@@ -18,5 +33,6 @@
 				<li><a href="#related">Related guides</a></li>
 			{%- endif -%}
 		</ol>
+		<span class="toc-progress" aria-hidden="true"></span>
 	</nav>
 {% endif %}

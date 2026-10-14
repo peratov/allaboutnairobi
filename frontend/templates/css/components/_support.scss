@@ -24,7 +24,24 @@
 
 // Set by support.mjs while the sidebar's own support card is on screen, so the
 // reader is never asked twice in the same corner.
-.support-float.is-superseded {
+// is-yielding-map is set by accra-map.mjs while the map fills a phone screen or
+// is in full screen - the button sat on the zoom controls and on the sheet.
+// is-yielding is set by guide-rating.mjs while the rating prompt is open. It is
+// a separate class from is-superseded on purpose: support.mjs toggles that one
+// from an IntersectionObserver on the sidebar card, so anything else writing to
+// it would be wiped out the next time the card crossed the threshold.
+// is-yielding-glossary is set by glossary-tooltip.mjs while a definition card
+// is open at the bottom of a phone screen.
+// is-yielding-tool is set by a calculator that pins its answer to the bottom
+// of a phone screen - the night out planner's summary bar.
+// is-yielding-radio is set by radio-player.mjs once the now-playing bar is up;
+// it only hides the button on a phone (see _radio.scss), where it sat on the
+// station list above the bar.
+.support-float.is-superseded,
+.support-float.is-yielding,
+.support-float.is-yielding-map,
+.support-float.is-yielding-glossary,
+.support-float.is-yielding-tool {
 	opacity: 0;
 	pointer-events: none;
 	transform: translateY(0.5rem);

@@ -1,4 +1,4 @@
-{% macro renderEntries(items, currentUrl) %}
+{% macro renderEntries(items, currentUrl, terms=false) %}
 	<ol>
 		{% for item in items %}
 			{% set target = entries.get(item.uri) if item.uri|default else None %}
@@ -10,18 +10,30 @@
 			{% if target or not item.uri|default %}
 			<li>
 				{% if target %}
-					<a href="{{ target.url }}"{% if target.url == currentUrl %} aria-current="page"{% endif %}>{{ item.title|default(target.short_title|default(target.title)) }}</a>
+					<a href="{{ target.url }}"{% if target.url == currentUrl %} aria-current="page"{% endif %}{% if terms %} data-terms="{{ target.title }} {{ target.description|default('') }}"{% endif %}>{{ item.title|default(target.short_title|default(target.title)) }}</a>
 				{% else %}
 					<span class="collection-heading">{{ item.title|default('') }}</span>
 				{% endif %}
 				{% if item.entries|default %}
-					{{ renderEntries(item.entries, currentUrl) }}
+					{{ renderEntries(item.entries, currentUrl, terms) }}
 				{% endif %}
 			</li>
 			{% endif %}
 		{% endfor %}
 	</ol>
 {% endmacro %}
+
+{# One "x" per guide that renderEntries would link, skipping scheduled pages and
+   their children the same way, so the count on a link matches the list. #}
+{% macro tally(items) -%}
+	{%- for item in items -%}
+		{%- set target = entries.get(item.uri) if item.uri|default else None -%}
+		{%- if target or not item.uri|default -%}
+			{%- if target %}x{% endif -%}
+			{%- if item.entries|default %}{{ tally(item.entries) }}{% endif -%}
+		{%- endif -%}
+	{%- endfor -%}
+{%- endmacro %}
 
 {#
 	`bare` renders the list alone, for a caller that has already drawn its own
@@ -30,7 +42,9 @@
 #}
 {% for collection in collections %}
 	{% if bare|default(false) %}
-		{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '') }}
+		{#- The guides index filters on these: the full title and the description,
+		    since "tax" is in far more of them than in the short titles. -#}
+		{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '', terms=true) }}
 	{% else %}
 		<section class="collection">
 			<h3>
@@ -39,6 +53,15 @@
 			</h3>
 			{% if collection.description|default %}<p class="collection-description">{{ collection.description }}</p>{% endif %}
 			{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '') }}
+			{#
+				`browse` is the home page. On a phone it shows each subject's
+				heading and description with this link instead of the full list,
+				which was 175 links and ten screens; the list stays in the HTML.
+			#}
+			{% if browse|default(false) %}
+				{% set count = tally(collection.entries)|trim|length %}
+				<a class="collection-more" href="{{ collection.url }}">{{ count }} guide{{ 's' if count != 1 }} &#10142;</a>
+			{% endif %}
 		</section>
 	{% endif %}
 {% endfor %}

@@ -9,6 +9,18 @@
 	margin: var(--xl) 0;
 }
 
+// On a phone a calculator is a band across the screen, like the section it
+// sits in, rather than a box inside the box: inside both paddings its form and
+// results lost 64px of a 393px screen.
+@media (max-width: 40rem) {
+	.tool, [data-tool] {
+		margin-inline: calc(var(--m) * -1);
+		padding-inline: var(--m);
+		border-inline: 0;
+		border-radius: 0;
+	}
+}
+
 .tool-placeholder h4 { margin-top: 0; }
 .tool-placeholder p { font-size: var(--f-s); color: var(--c-text-light); margin-bottom: 0; }
 
@@ -53,6 +65,22 @@
 .tool-results > .tool-section-heading:first-child { margin-top: 0; }
 
 .tool-breakdown { width: 100%; font-size: var(--f-s); }
+
+// A row label is a th, so it was picking up the 2px underline meant for column
+// headers while the value beside it had 1px - every line stepped halfway
+// across. Same line, same weight, for both; the total row keeps its rule and
+// its bold.
+.tool-breakdown th,
+.tool-breakdown td {
+	padding-block: 0.55rem;
+	border-bottom: 1px solid var(--c-border);
+}
+
+.tool-breakdown th[scope="row"] { font-weight: 400; }
+
+// The wrapper's right border says "this table scrolls", and a breakdown never
+// does; inside a calculator it was a stray line down the edge.
+.tool-results .table-wrapper { border-right: 0; }
 .tool-breakdown td:last-child, .tool-breakdown th:last-child {
 	text-align: right;
 	font-variant-numeric: tabular-nums;
@@ -99,13 +127,323 @@
 .tool-legend .swatch.seg-tax { background: var(--c-laterite); }
 .tool-legend .swatch.seg-pension { background: var(--c-gold); }
 
-.tool-note {
-	font-size: var(--f-xs);
-	color: var(--c-text-light);
-	margin: var(--m) 0 0;
+// ── The answer first: salary and rent advance ──────────────────────────────
+//
+// .tool-answer, .money-field and .tool-stepper are shared by the calculators
+// that take a number and give one back. The answer comes before the fields,
+// because on a phone the number keyboard covers the bottom half of the screen
+// and the result used to be there. On a phone it also pins under the header
+// and contents bar, so it stays in view through the breakdown too.
+
+.tool-answer {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0.1rem;
+	margin: var(--s) 0 var(--l);
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--c-forest);
+	border-radius: var(--b-radius);
 }
 
-.currency { border-bottom: 1px dotted var(--c-border-strong); cursor: help; }
+.tool-answer-label {
+	font-size: var(--f-xs);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--c-text-light);
+}
+
+.tool-answer-value {
+	font-family: var(--font-heading);
+	font-size: clamp(1.9rem, calc(1.4rem + 2vw), 2.4rem);
+	line-height: 1.1;
+	color: var(--c-text-heading);
+	font-variant-numeric: tabular-nums;
+}
+
+.tool-answer-detail {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	font-variant-numeric: tabular-nums;
+}
+
+// A rent advance over the legal limit: the edge and the line under the figure
+// say so, in the colour the site uses for "this is the part to argue with".
+.tool-answer.is-over { border-inline-start-color: var(--c-laterite); }
+.tool-answer.is-over .tool-answer-detail { color: var(--c-laterite); font-weight: 600; }
+
+// A whole number with − and + either side, like the night out planner's group
+// size, at a thumb's height and 16px+ type.
+.tool-stepper {
+	display: grid;
+	grid-template-columns: 3rem minmax(0, 6rem) auto 3rem;
+	align-items: stretch;
+	max-width: 22rem;
+
+	button {
+		min-height: 3rem;
+		font: inherit;
+		font-size: 1.3rem;
+		line-height: 1;
+		color: var(--c-text);
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border-strong);
+		cursor: pointer;
+
+		&:first-child { border-radius: var(--b-radius) 0 0 var(--b-radius); }
+		&:last-child { border-radius: 0 var(--b-radius) var(--b-radius) 0; }
+		&:hover { background: var(--c-highlight-soft); }
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 1px; position: relative; }
+	}
+
+	input[type="number"] {
+		width: 100%;
+		min-width: 0;
+		min-height: 3rem;
+		font-size: 1.1rem;
+		font-variant-numeric: tabular-nums;
+		text-align: center;
+		border-radius: 0;
+		border-inline: 0;
+		-moz-appearance: textfield;
+		appearance: textfield;
+
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+	}
+}
+
+.tool-stepper-unit {
+	display: grid;
+	place-items: center;
+	padding: 0 var(--s) 0 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	background: var(--c-bg-page);
+	border-block: 1px solid var(--c-border-strong);
+}
+
+// Two choices as two equal halves of one control - the VAT calculator's
+// "add VAT" or "find the VAT". A pair of 33px buttons of different widths
+// read as two unrelated buttons rather than one switch.
+.tool-segmented {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin-bottom: var(--m);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	overflow: hidden;
+
+	button {
+		min-height: 2.75rem;
+		padding: var(--xs) var(--s);
+		font: inherit;
+		font-size: var(--f-s);
+		line-height: 1.25;
+		color: var(--c-text);
+		background: var(--c-bg-page);
+		border: 0;
+		cursor: pointer;
+
+		& + button { border-inline-start: 1px solid var(--c-border-strong); }
+		&:hover { background: var(--c-highlight-soft); }
+		&[aria-pressed="true"] { color: var(--c-bg-on-accent); background: var(--c-laterite); font-weight: 600; }
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+	}
+}
+
+// The stepper's label sits above it, and its hint below, in every form.
+.pension-form .form-group > .label,
+.pension-form .form-group > label,
+.vehicle-form .form-group > label,
+.import-form .form-group > .label,
+.import-form .form-group > label { display: block; margin-bottom: var(--xs); }
+.pension-form .input-instructions,
+.vehicle-form .input-instructions,
+.import-form .input-instructions { display: block; margin-top: var(--xs); font-size: var(--f-xs); }
+
+// Two short fields side by side - freight and insurance.
+.tool-pair {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0 var(--m);
+	max-width: 22rem;
+
+	.form-group { margin-bottom: 0; }
+}
+
+.import-form .tool-pair + .input-instructions { margin: var(--xs) 0 var(--m); }
+
+// A choice among a few options that each need their words - the tariff bands.
+// A list of rows, rate first, rather than a menu that hides all but one.
+.tool-options {
+	display: grid;
+	gap: var(--xs);
+	max-width: 30rem;
+}
+
+.tool-option {
+	display: grid;
+	grid-template-columns: 3.25rem minmax(0, 1fr);
+	align-items: baseline;
+	column-gap: var(--s);
+	min-height: 2.75rem;
+	padding: var(--s) var(--m);
+	font: inherit;
+	text-align: start;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+
+	&:hover { border-color: var(--c-border-strong); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+	&.is-on {
+		border-color: var(--c-laterite);
+		box-shadow: inset 3px 0 0 var(--c-laterite);
+		.tool-option-value { color: var(--c-laterite); }
+	}
+}
+
+.tool-option-value {
+	font-size: 1.05rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-heading);
+}
+
+.tool-option-label { font-size: var(--f-s); }
+
+.tool-option-note {
+	grid-column: 2;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+// A yes or no as a row the width of the form, the box at a size you can hit.
+.tool-switch {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: start;
+	gap: var(--s);
+	max-width: 30rem;
+	padding: var(--s) var(--m);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+
+	input {
+		width: 1.35rem;
+		height: 1.35rem;
+		margin: 0.1rem 0 0;
+		accent-color: var(--c-laterite);
+		cursor: pointer;
+	}
+
+	> span { display: grid; gap: 0.1rem; }
+	strong { font-size: var(--f-s); }
+	span span { font-size: var(--f-xs); color: var(--c-text-light); }
+
+	&:has(input:focus-visible) { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// A hint that has become a warning - a vehicle over the age limit.
+.input-instructions.is-warning { color: var(--c-laterite); font-weight: 600; }
+
+// The demands people actually meet, one tap each.
+.tool-presets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	margin-top: var(--s);
+}
+
+.tool-preset {
+	min-height: 2.5rem;
+	padding: 0 var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text);
+	background: transparent;
+	border: 1px solid var(--c-border-strong);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	&:hover { border-color: var(--c-laterite); }
+	&.is-on { color: var(--c-bg-on-accent); background: var(--c-laterite); border-color: var(--c-laterite); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// Fields: the cedi sign inside the box, the input the full width, and type at
+// 16px so iOS does not zoom the page on focus.
+.money-field .input-group {
+	position: relative;
+	display: block;
+	max-width: 22rem;
+
+	> span {
+		position: absolute;
+		left: var(--m);
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--c-text-light);
+		pointer-events: none;
+	}
+
+	input {
+		width: 100%;
+		min-height: 3rem;
+		padding-inline-start: calc(var(--m) + 1.1rem);
+		font-size: 1.1rem;
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+.money-field .input-instructions {
+	display: block;
+	margin-top: var(--xs);
+	font-size: var(--f-xs);
+}
+
+@media (max-width: 40rem) {
+	.money-field .input-group,
+	.tool-stepper,
+	.tool-pair,
+	.tool-options,
+	.tool-switch { max-width: none; }
+	.salary-form .form-group,
+	.rent-advance-form .form-group,
+	.vat-form .form-group,
+	.pension-form .form-group,
+	.vehicle-form .form-group,
+	.import-form .form-group { margin-bottom: var(--m); }
+
+	.tool-stepper { grid-template-columns: 3rem minmax(0, 1fr) auto 3rem; }
+
+	.tool-answer {
+		position: sticky;
+		top: calc(var(--h-header) + var(--toc-bar-h, 0px));
+		z-index: 4;
+		margin-inline: calc(var(--m) * -1);
+		padding: var(--s) var(--m);
+		border-width: 0 0 1px;
+		border-radius: 0;
+		border-inline-start: 4px solid var(--c-forest);
+		box-shadow: 0 0.5rem 1rem -0.75rem rgba(0, 0, 0, 0.35);
+	}
+
+	.tool-answer-value { font-size: 1.75rem; }
+
+	.tool-answer-detail {
+		overflow: hidden;
+		font-size: var(--f-xs);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+}
 
 // ── The night out planner ──────────────────────────────────────────────────
 //
@@ -145,6 +483,9 @@
 }
 
 .night-vibe:has(input:focus-visible) { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+// A chosen pill is laterite, and so was the radio dot inside it - invisible.
+.night-vibe:has(input:checked) input { accent-color: var(--c-bg-page); }
 
 .night-tabs {
 	display: flex;

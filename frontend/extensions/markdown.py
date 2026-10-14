@@ -1,11 +1,12 @@
 """
-Custom Python-Markdown extensions for All About Accra.
+Custom Python-Markdown extensions for All About Nairobi.
 """
 
 import re
 from xml.etree.ElementTree import Element
 
 from markdown.extensions import Extension
+from markdown.postprocessors import Postprocessor
 from markdown.treeprocessors import Treeprocessor
 
 
@@ -42,6 +43,35 @@ class WrappedTableProcessor(Treeprocessor):
                     parent.insert(index, wrapper)
 
 
+class RawTableWrapper(Postprocessor):
+    """
+    Wrap the tables written as raw HTML, which the tree processor never sees.
+
+    Python-Markdown stashes a raw HTML block before its tree processors run and
+    puts it back afterwards, so a `<table>` written by hand - the way a table
+    built from a Jinja loop has to be - came out unwrapped. On a phone the
+    night out planner's venue table ran 452px wide in a 361px column with its
+    last two columns cut off, and seven other pages had the same shape.
+    """
+
+    TABLE = re.compile(r"<table\b.*?</table>", re.S)
+
+    def __init__(self, md, wrapper_class: str):
+        super().__init__(md)
+        self.wrapper_class = wrapper_class
+
+    def run(self, text):
+        opening = f'<div class="{self.wrapper_class}">'
+
+        def wrap(match):
+            # Already wrapped by the tree processor: leave it alone.
+            if text[: match.start()].rstrip().endswith(opening):
+                return match.group(0)
+            return f"{opening}{match.group(0)}</div>"
+
+        return self.TABLE.sub(wrap, text)
+
+
 class WrappedTableExtension(Extension):
     def __init__(self, **kwargs):
         self.config = {"wrapper_class": ["table-wrapper", "CSS class of the wrapper div"]}
@@ -50,6 +80,10 @@ class WrappedTableExtension(Extension):
     def extendMarkdown(self, md):
         md.treeprocessors.register(
             WrappedTableProcessor(md, self.getConfig("wrapper_class")), "wrapped-tables", 5
+        )
+        # After raw HTML is restored, which is registered at priority 30.
+        md.postprocessors.register(
+            RawTableWrapper(md, self.getConfig("wrapper_class")), "wrapped-raw-tables", 25
         )
 
 

@@ -28,26 +28,45 @@
 <head>
 	<meta charset="utf-8">
 
-	{% if GA_MEASUREMENT_ID and IS_PRODUCTION %}
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
+	{#
+		Analytics are fetched after the page has loaded, not beside it.
+
+		gtag.js is 181KB compressed - eight times a whole guide - and Clarity's
+		recorder another 26KB. Both were requested from the first lines of
+		<head>; async keeps them from blocking the parser, not from sharing a
+		slow phone connection with the guide the reader came for. Each queue
+		exists at once, exactly as in Google's and Microsoft's own snippets, so
+		the page view and anything sent before the scripts arrive - the rating
+		prompt's gtag events - are kept and delivered. Only a visit that leaves
+		before the page finishes loading goes uncounted.
+
+		Production only (IS_PRODUCTION), so local builds and preview deploys
+		never record sessions.
+	#}
+	{% set analytics = IS_PRODUCTION and not private_page|default(false) %}
+	{% if analytics and (GA_MEASUREMENT_ID or CLARITY_PROJECT_ID) %}
 		<script>
+			function afterLoad(src) {
+				function load() {
+					var script = document.createElement("script");
+					script.async = true;
+					script.src = src;
+					document.head.appendChild(script);
+				}
+				if (document.readyState === "complete") load();
+				else window.addEventListener("load", function () { setTimeout(load, 0); });
+			}
+			{% if GA_MEASUREMENT_ID %}
 			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-
-			gtag('config', '{{ GA_MEASUREMENT_ID }}');
-		</script>
-	{% endif %}
-
-	{% if CLARITY_PROJECT_ID and IS_PRODUCTION %}
-		<!-- Microsoft Clarity -->
-		<script type="text/javascript">
-			(function(c,l,a,r,i,t,y){
-				c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-				t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-				y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-			})(window, document, "clarity", "script", "{{ CLARITY_PROJECT_ID }}");
+			function gtag() { dataLayer.push(arguments); }
+			gtag("js", new Date());
+			gtag("config", "{{ GA_MEASUREMENT_ID }}");
+			afterLoad("https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}");
+			{% endif %}
+			{% if CLARITY_PROJECT_ID %}
+			window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+			afterLoad("https://www.clarity.ms/tag/{{ CLARITY_PROJECT_ID }}");
+			{% endif %}
 		</script>
 	{% endif %}
 
@@ -177,19 +196,19 @@
 				a screen reader announces it with.
 
 				The section is matched on the path prefix, so /guides/rent-advance
-				lights up Guides. The Guides item is a button rather than a link,
-				so it carries the class alone - aria-current on a control that
-				opens a menu would be a claim about the menu, not the page.
+				lights up Guides.
+
+				Guides is a link to /guides, like every other item. It used to be
+				a button opening a nine-item dropdown, which meant the one word
+				readers click most did not go anywhere; the nine starting points
+				now lead the guides page itself.
 			#}
 			{% set section = ('/' ~ page_path.lstrip('/').split('/')[0]) if page_path and page_path != '/' else '/' %}
 			<div class="site-nav-links">
-				<button
-					{# /collections/housing is a guides topic page, and the
-					   breadcrumbs already file it under Guides. #}
-					class="menu-toggle{% if section in ('/guides', '/collections') %} is-current{% endif %}"
-					aria-label="Show guides menu"
-					aria-controls="menu-guides"
-					aria-expanded="false">Guides</button>
+				{# /collections/housing is a guides topic page, and the
+				   breadcrumbs already file it under Guides. #}
+				<a href="{{ SITE_URL }}/guides" title="Every guide, by subject"
+					{% if section in ('/guides', '/collections') %}aria-current="page"{% endif %}>Guides</a>
 				<a href="{{ SITE_URL }}/tools" title="Calculators and document templates"
 					{% if section in ('/tools', '/docs') %}aria-current="page"{% endif %}>Tools</a>
 				<a class="nav-afcon" href="{{ SITE_URL }}/afcon" title="AFCON 2027 in Nairobi: stadiums, dates and fan guide"
@@ -236,75 +255,6 @@
 			</div>
 		</nav>
 
-		<nav aria-label="Guides menu" class="submenu" id="menu-guides" hidden>
-			<ul>
-				<li>
-					<a href="{{ SITE_URL }}/guides/moving-to-nairobi">
-						<span class="icon-stamp">{% include "_icons/moving.svg" %}</span>
-						<h4>Move to Nairobi</h4>
-						<p>The eTA, work permits and your first fortnight</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/finding-housing">
-						<span class="icon-stamp">{% include "_icons/housing.svg" %}</span>
-						<h4>Find a place to live</h4>
-						<p>Neighbourhoods, deposits, leases and scams</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/paye-and-taxes">
-						<span class="icon-stamp">{% include "_icons/money.svg" %}</span>
-						<h4>Money and tax</h4>
-						<p>PAYE, NSSF, SHIF, M-Pesa and bank accounts</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/getting-around-nairobi">
-						<span class="icon-stamp">{% include "_icons/transport.svg" %}</span>
-						<h4>Get around</h4>
-						<p>Matatus, ride-hailing, boda bodas and trains</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/healthcare-in-nairobi">
-						<span class="icon-stamp">{% include "_icons/health.svg" %}</span>
-						<h4>Stay healthy</h4>
-						<p>SHA, hospitals, pharmacies and emergencies</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/schools-in-nairobi">
-						<span class="icon-stamp">{% include "_icons/education.svg" %}</span>
-						<h4>Schools and study</h4>
-						<p>CBE, international schools and universities</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/shopping-in-nairobi">
-						<span class="icon-stamp">{% include "_icons/shopping.svg" %}</span>
-						<h4>Shop and eat</h4>
-						<p>Supermarkets, markets, malls and mitumba</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/ecitizen-kra-pin-and-ids">
-						<span class="icon-stamp">{% include "_icons/identity.svg" %}</span>
-						<h4>Government paperwork</h4>
-						<p>eCitizen, KRA PIN, IDs and good conduct</p>
-					</a>
-				</li>
-				<li>
-					<a href="{{ SITE_URL }}/guides/things-to-do-in-nairobi">
-						<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
-						<h4>Explore</h4>
-						<p>Wildlife, forests, museums and day trips</p>
-					</a>
-				</li>
-			</ul>
-			{% set guideCount = get_entries('guides')|length %}
-			<a class="next-link" href="{{ SITE_URL }}/guides">See all {{ guideCount }} guides</a>
-		</nav>
 	</header>
 
 	{% block main %}
@@ -317,7 +267,8 @@
 		</main>
 	{% endblock %}
 
-	{% include "_blocks/supportButton.html" %}
+	{# A private page - the admin - asks nobody for a coffee. #}
+	{% if not private_page|default(false) %}{% include "_blocks/supportButton.html" %}{% endif %}
 
 	{% block footer %}
 		{% include "_blocks/installPrompt.html" %}
@@ -332,8 +283,10 @@
 					<a href="{{ SITE_URL }}/about">About</a>
 					<a href="{{ SITE_URL }}/contact">Contact</a>
 					<a href="{{ SITE_URL }}/events">Events</a>
+					{% if PULSE_LIVE %}<a href="{{ SITE_URL }}/pulse">Nairobi Pulse</a>{% endif %}
 					<a href="{{ SITE_URL }}/radio">Live radio</a>
 					<a href="{{ SITE_URL }}/map">Map</a>
+					{% if LOSTFOUND_LIVE %}<a href="{{ SITE_URL }}/lost-and-found">Lost and found</a>{% endif %}
 					<a href="{{ SITE_URL }}/glossary">Glossary</a>
 					<a href="{{ SITE_URL }}/terms">Terms</a>
 					<a href="{{ SITE_URL }}/newsletter">Newsletter</a>
@@ -351,25 +304,46 @@
 {% endblock %}
 
 {% block postFooter %}
-
 	<script type="module">
-		import initializeMenu from '/js/components/menu.mjs';
-		import initializeTableOfContents from '/js/components/table-of-contents.mjs';
-		import initializeGlossaryTooltips from '/js/components/glossary-tooltip.mjs';
-		import initializeChecklists from '/js/components/checklist.mjs';
-		import initializeSupportButton from '/js/components/support.mjs';
-		import initializeThemeToggle from '/js/components/theme-toggle.mjs';
-		import initializeInstallPrompt from '/js/components/install-prompt.mjs';
-		import initializeHeroMapGlow from '/js/components/hero-map-glow.mjs';
+		{% queueJs %}
+			import initializeTableOfContents from '/js/components/table-of-contents.mjs';
+			import initializeGlossaryTooltips from '/js/components/glossary-tooltip.mjs';
+			import initializeSupportButton from '/js/components/support.mjs';
+			import initializeThemeToggle from '/js/components/theme-toggle.mjs';
+			import initializeInstallPrompt from '/js/components/install-prompt.mjs';
 
-		initializeMenu();
-		initializeTableOfContents();
-		initializeGlossaryTooltips();
-		initializeChecklists();
-		initializeSupportButton();
-		initializeThemeToggle();
-		initializeInstallPrompt();
-		initializeHeroMapGlow();
+			initializeTableOfContents();
+			initializeGlossaryTooltips();
+			initializeSupportButton();
+			initializeThemeToggle();
+			initializeInstallPrompt();
+			{% if LOSTFOUND_LIVE or PULSE_LIVE or NEWSLETTER_LIVE %}
+			// The owner's site-wide notice comes from the API, so it is asked for
+			// only once a backend feature is live; before that every page view
+			// would call a function that can only answer "not set up".
+			import('/js/components/site-notice.mjs').then((loaded) => loaded.default());
+			{% endif %}
+
+			// Fetched only by a page that has what they work on, rather than every
+			// page downloading all of them.
+			for (const [selector, module] of [
+				['li.checkbox input[type="checkbox"]', '/js/components/checklist.mjs'],
+				['.hero-map', '/js/components/hero-map-glow.mjs'],
+				['[data-rating-prompt]', '/js/components/guide-rating.mjs'],
+				['[data-newsletter-form], [data-newsletter-page]', '/js/components/newsletter.mjs'],
+			]) {
+				if (document.querySelector(selector)) import(module).then((loaded) => loaded.default());
+			}
+			{% if PULSE_LIVE and not private_page|default(false) %}
+
+			// Nairobi Pulse asks readers in Nairobi a question now and then. The
+			// module decides whether and when, once the page has loaded and gone
+			// quiet, and costs a reader it will never ask one small request a day.
+			import('/js/components/pulse-prompt.mjs').then((loaded) => loaded.default());
+			{% endif %}
+		{% endqueueJs %}
+
+		{% alljs %}
 	</script>
 
 	<script type="module">

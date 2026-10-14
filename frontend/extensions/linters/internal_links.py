@@ -24,12 +24,25 @@ TEMPLATE_PAGES = {
     # built by Ursus - so it is a real URL that will never be in the sitemap.
     "drive",
     "events",
+    # Organisers send events here; a person approves them in the admin.
+    "events/submit",
     # Live radio: a template page, with a CSP of its own in vercel.json.
     "radio",
     # The AFCON 2027 hub: a template page reading content/geo/afcon.yaml.
     "afcon",
+    # Nairobi Pulse: a template page driven by /api/pulse.
+    "pulse",
+    # Lost and found: template pages driven by /api/lost-found.
+    "lost-and-found",
+    "lost-and-found/report",
+    "lost-and-found/join",
+    "lost-and-found/place",
     "offline",
     "newsletter",
+    # Where the newsletter's emails and its no-script form land.
+    "newsletter/confirm",
+    "newsletter/unsubscribe",
+    "newsletter/check",
     # Generated at the root by the feed renderer rather than by a template.
     "feed.xml",
     "sitemap.xml",

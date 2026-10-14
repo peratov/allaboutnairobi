@@ -1,0 +1,26 @@
+{% extends "_layout.html" %}
+{#
+	Where the unsubscribe link at the foot of every email lands. It asks before
+	it acts, for the same reason the confirmation page does: a link scanner that
+	opens every URL in an inbox must not take anyone off the list. A mail app's
+	own "Unsubscribe" button does not come here; it posts to the API directly
+	(List-Unsubscribe-Post), and that is one click.
+#}
+{% set page_styles = ['subscribe'] %}
+{% set page_robots = "noindex, nofollow" %}
+{% set private_page = true %}
+{% set metatitle = "Unsubscribe" %}
+{% set metadescription = "Leave the monthly All About Nairobi newsletter." %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page" data-clarity-mask="true">
+		<article class="section newsletter-action" data-newsletter-page="unsubscribe">
+			<p class="map-eyebrow"><a href="{{ SITE_URL }}/newsletter">The monthly Nairobi newsletter</a></p>
+			<h1>Unsubscribe</h1>
+			<div data-newsletter-body>
+				<p>Checking the link&hellip;</p>
+				<noscript><p>This page needs JavaScript. Your mail app's own Unsubscribe button works without it, or write to <a href="mailto:{{ CONTACT_EMAIL }}?subject=Unsubscribe">{{ CONTACT_EMAIL }}</a> and you will be taken off by hand.</p></noscript>
+			</div>
+		</article>
+	</main>
+{% endblock %}

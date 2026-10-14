@@ -103,3 +103,17 @@ input:focus, select:focus, textarea:focus {
 	.form-group { grid-template-columns: 1fr; gap: var(--xs); }
 	.input-instructions { grid-column: 1; }
 }
+
+// A button that reads as a link: "Show everything" on /seasons, and
+// throughout lost and found.
+.lf-link {
+	min-height: 2.75rem;
+	padding: 0;
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text-link);
+	text-decoration: underline;
+	background: none;
+	border: 0;
+	cursor: pointer;
+}

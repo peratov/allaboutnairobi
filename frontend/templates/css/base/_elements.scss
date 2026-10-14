@@ -7,7 +7,7 @@ h1, h2, h3, h4, h5, h6 {
 	text-wrap: balance;
 }
 
-h1 { font-size: clamp(1.85rem, calc(1.3rem + 2.2vw), 2.6rem); letter-spacing: -0.015em; }
+h1 { font-size: clamp(1.7rem, calc(1.15rem + 2.4vw), 2.6rem); letter-spacing: -0.015em; }
 h2 { font-size: clamp(1.4rem, calc(1.15rem + 1.1vw), 1.75rem); margin-top: var(--xxl); }
 h3 { font-size: 1.2rem; margin-top: var(--xl); }
 h4 { font-size: 1.05rem; margin-top: var(--l); }
@@ -66,8 +66,13 @@ table th {
 	font-family: var(--font-body);
 	font-weight: 650;
 	color: var(--c-text-heading);
-	border-bottom: 2px solid var(--c-border-strong);
 }
+
+// The heavy rule is for the header row only. On every th it also landed under
+// row labels in the body - a 2px line beside the 1px under their values, so
+// each line stepped halfway across the table, on the home page and in every
+// guide with a row-headed table.
+table thead th { border-bottom: 2px solid var(--c-border-strong); }
 
 // Money has to line up on the right or it cannot be compared at a glance.
 table td.numeric, table th.numeric {

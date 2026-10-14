@@ -44,3 +44,167 @@
 	color: var(--c-highlight);
 	font-weight: 650;
 }
+
+// The collapsed bar's parts. Hidden in the rail, and without scripting, where
+// the list is shown whole instead.
+.toc-toggle,
+.toc-progress { display: none; }
+
+// =============================================================================
+// Below the rail: a bar under the header
+//
+// The full list above the article put the title of every guide half a phone
+// screen down - 497px at 393x851 on the rent advance guide - so a reader
+// arriving from a search result met a list of headings first. Collapsed, the
+// title starts about 130px down, and the bar keeps the list one tap away from
+// anywhere in the article rather than only at its top.
+//
+// Scoped to `.js` because the button needs the script. The class is set by the
+// blocking script in <head>, so the bar is what paints first, with no shift.
+// =============================================================================
+
+@media (max-width: 1100px) {
+	.js main > .sidebar {
+		position: sticky;
+		top: var(--h-header);
+		z-index: 15;
+		margin: calc(var(--main-pad-top) * -1) calc(var(--m) * -1) var(--m);
+	}
+
+	.js .table-of-contents {
+		position: relative;
+		margin: 0;
+		padding: 0;
+		border-width: 0 0 1px;
+		border-radius: 0;
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+
+		.toc-title { display: none; }
+
+		> ol { display: none; }
+	}
+
+	.js .toc-toggle {
+		display: flex;
+		align-items: center;
+		gap: var(--s);
+		width: 100%;
+		min-height: 2.75rem;
+		padding: var(--xs) var(--m);
+		font: inherit;
+		color: var(--c-text);
+		text-align: start;
+		background: none;
+		border: 0;
+		cursor: pointer;
+
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+	}
+
+	.toc-toggle-icon,
+	.toc-toggle-chevron {
+		flex: 0 0 auto;
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		color: var(--c-text-light);
+	}
+
+	.toc-toggle-chevron { margin-inline-start: auto; transition: transform 150ms ease-out; }
+	.is-open .toc-toggle-chevron { transform: rotate(180deg); }
+
+	.toc-toggle-text {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		line-height: 1.2;
+	}
+
+	.toc-toggle-label {
+		font-size: var(--f-s);
+		font-weight: 600;
+	}
+
+	.toc-current {
+		overflow: hidden;
+		font-size: var(--f-xs);
+		color: var(--c-text-light);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+
+		&:empty { display: none; }
+	}
+
+	// Once the reader is in a section, that is what the bar says, with the label
+	// shrunk to a caption above it.
+	.has-current {
+		.toc-toggle-label {
+			font-size: 0.7rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+			color: var(--c-text-light);
+		}
+
+		.toc-current {
+			font-size: var(--f-s);
+			font-weight: 600;
+			color: var(--c-text);
+		}
+	}
+
+	.js .toc-progress {
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -1px;
+		height: 2px;
+		background: var(--c-highlight);
+		transform: scaleX(0);
+		transform-origin: left;
+	}
+
+	// The list, dropped down over the article.
+	.js .table-of-contents.is-open > ol {
+		display: block;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		max-height: calc(100vh - var(--h-header) - 5rem);
+		max-height: calc(100dvh - var(--h-header) - 5rem);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding: var(--xs) var(--m) var(--m);
+		background: var(--c-bg-page);
+		border-bottom: 1px solid var(--c-border);
+		box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.18);
+
+		// Thumb-sized rows.
+		a { padding: 0.55rem 0; }
+		li { margin: 0; }
+		ol { margin: 0; }
+	}
+
+	// An anchor lands below the header and the bar, not under them.
+	html.js { scroll-padding-top: calc(var(--h-header) + 3.75rem); }
+
+	// The bar's height, for anything else that pins itself under the header.
+	html.has-toc-bar { --toc-bar-h: 2.8rem; }
+}
+
+// With the rail gone, a page wider than a phone keeps the bar the width of the
+// reading column rather than stretching it across the gutter.
+@media (min-width: 40.01rem) and (max-width: 1100px) {
+	.js main > .sidebar { margin-inline: 0; }
+	.js .table-of-contents { border-inline-width: 1px; border-radius: 0 0 var(--b-radius) var(--b-radius); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.toc-toggle-chevron { transition: none; }
+}

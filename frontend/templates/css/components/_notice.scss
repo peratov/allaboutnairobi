@@ -1,0 +1,43 @@
+// =============================================================================
+// The site-wide notice, set from the admin (js/components/site-notice.mjs)
+//
+// A strip under the header, in normal flow: it pushes the page down rather
+// than covering what is being read, and it scrolls away with everything else.
+// It arrives after first paint, so it is kept short - one or two lines on a
+// phone - to keep the shift it causes small.
+// =============================================================================
+
+.site-notice {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--s);
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	line-height: 1.45;
+	color: var(--c-text);
+	background: var(--c-note-bg);
+	border-bottom: 1px solid var(--c-note-border);
+
+	p { flex: 1 1 auto; max-width: var(--w-page); margin: 0 auto; }
+	a { font-weight: 600; white-space: nowrap; }
+
+	&.is-warning { background: var(--c-warning-bg); border-color: var(--c-warning-border); }
+	&.is-good { background: var(--c-highlight-soft); border-color: var(--c-forest); }
+}
+
+.site-notice-close {
+	flex: none;
+	width: 2rem;
+	height: 2rem;
+	margin: -0.25rem -0.25rem -0.25rem 0;
+	font-size: 1.3rem;
+	line-height: 1;
+	color: var(--c-text-light);
+	background: none;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+
+	&:hover { color: var(--c-text-heading); background: var(--c-bg-widget); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 1px; }
+}

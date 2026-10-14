@@ -128,3 +128,403 @@
 	font-weight: 600;
 	color: var(--c-text-heading);
 }
+
+// --- the filter ----------------------------------------------------------------
+//
+// Scripting only: without it the field would be a box that does nothing.
+
+.guide-filter { display: none; }
+
+.js .guide-filter {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	margin-top: var(--l);
+
+	input[type="search"] {
+		flex: 1 1 auto;
+		max-width: 26rem;
+		min-height: 2.75rem;
+		padding: 0 var(--m);
+		font-size: 1rem;
+	}
+}
+
+.guide-filter-status {
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.guide-filter-empty {
+	padding: var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.guide-filter-empty a { display: inline-block; margin-top: var(--xs); font-weight: 600; }
+
+// The phone-only parts of a subject, hidden in the wide layout.
+.guide-group-toggle,
+.guide-group-more { display: none; }
+
+// --- a phone ---------------------------------------------------------------------
+//
+// Measured at 393x851: 11.8 screens, 180 links at 22px each, and 240px of
+// wrapped chips before the first guide. Each subject is now a row that opens,
+// all sixteen on about one screen, with thumb-sized rows inside.
+
+@media (max-width: 40rem) {
+	.guide-index-head { margin-bottom: 0; }
+
+	.js .guide-jump { display: none; }
+
+	.js .guide-grid {
+		margin: 0 calc(var(--m) * -1);
+		background: var(--c-bg-page);
+		border-block: 1px solid var(--c-border);
+	}
+
+	.js .guide-group {
+		display: block;
+		margin: 0;
+		padding: 0;
+		background: none;
+		border: 0;
+		border-radius: 0;
+
+		& + .guide-group { border-top: 1px solid var(--c-border); }
+	}
+
+	.js .guide-group-title {
+		position: relative;
+		flex-wrap: nowrap;
+		gap: var(--m);
+		min-height: 4rem;
+		margin: 0;
+		padding: var(--s) var(--m);
+		scroll-margin-top: var(--h-header);
+
+		> .guide-group-link,
+		> .guide-group-count { display: none; }
+	}
+
+	.js .guide-group-toggle {
+		display: flex;
+		flex: 1 1 auto;
+		align-items: center;
+		gap: var(--m);
+		min-width: 0;
+		padding: 0;
+		font: inherit;
+		color: var(--c-text-heading);
+		text-align: start;
+		background: none;
+		border: 0;
+		cursor: pointer;
+
+		// The whole row, symbol included, is the target.
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+		}
+
+		&:focus-visible { outline: none; }
+		&:focus-visible::before { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+	}
+
+	.guide-group-toggle-text {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		gap: 0.1rem;
+	}
+
+	.guide-group-toggle-title {
+		font-family: var(--font-heading);
+		font-size: 1.05rem;
+		font-weight: 700;
+		line-height: 1.25;
+	}
+
+	.guide-group-toggle-meta {
+		font-family: var(--font-body);
+		font-size: var(--f-xs);
+		font-weight: 400;
+		color: var(--c-text-light);
+	}
+
+	.guide-group-chevron {
+		flex: 0 0 auto;
+		width: 1.25rem;
+		height: 1.25rem;
+		margin-inline-start: auto;
+		fill: none;
+		stroke: var(--c-text-light);
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		transition: transform 150ms ease-out;
+	}
+
+	.guide-group.is-open .guide-group-chevron { transform: rotate(180deg); }
+
+	.js .guide-group:not(.is-open) .guide-group-body { display: none; }
+
+	// An open subject keeps its heading in view, so closing it - or knowing
+	// which of sixteen you are in - is never a scroll back up through twenty
+	// guides.
+	.js .guide-group.is-open .guide-group-title {
+		position: sticky;
+		top: var(--h-header);
+		z-index: 2;
+		background: var(--c-bg-page);
+		border-bottom: 1px solid var(--c-border);
+	}
+
+	.js .guide-group-body {
+		padding: 0 var(--m) var(--m);
+		// Line the lists up under the title, not under the symbol - except on
+		// the narrowest phones, where that indent costs a quarter of the line.
+		padding-inline-start: calc(var(--m) * 2 + 2.75rem);
+	}
+
+	.js .guide-group.is-open .guide-group-body { padding-top: var(--s); }
+
+	.js .guide-group-description { margin-top: 0; }
+
+	// Thumb-sized rows. Twenty-two pixels with four between was a list you
+	// could read but not reliably tap.
+	.js .guide-group {
+		li { margin: 0; }
+		li a { display: block; padding: 0.55rem 0; line-height: 1.35; }
+		ol ol { margin: 0; }
+		.collection-heading { display: block; padding: var(--s) 0 var(--xs); }
+	}
+
+	.js .guide-group-more {
+		display: inline-block;
+		margin-top: var(--s);
+		padding: var(--xs) 0;
+		font-size: var(--f-s);
+		font-weight: 600;
+	}
+
+	.js .guide-filter input[type="search"] { max-width: none; }
+
+	.js .guide-filter-empty {
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+	}
+}
+
+@media (max-width: 24rem) {
+	.js .guide-group-body { padding-inline-start: var(--m); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.guide-group-chevron { transition: none; }
+}
+
+// =============================================================================
+// The page around the subjects
+//
+// The header's Guides item opened a dropdown of nine starting points and never
+// reached this page. It is a link now, and the page leads with what the
+// dropdown held - "Start here" - then what is new, then every subject, then
+// the rest of the site.
+// =============================================================================
+
+.guide-index-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs) var(--l);
+	margin: var(--m) 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+
+	li { margin: 0; }
+	strong { color: var(--c-text-heading); font-variant-numeric: tabular-nums; }
+}
+
+// The filter is the fastest way in for anyone who knows roughly what they
+// want, so it is the size of a search box rather than a form field.
+.js .guide-filter {
+	position: relative;
+	flex-wrap: wrap;
+
+	input[type="search"] {
+		max-width: 36rem;
+		min-height: 3.25rem;
+		padding-left: 2.9rem;
+		font-size: 1.05rem;
+		border: 1px solid var(--c-border-strong);
+		border-radius: 2rem;
+	}
+}
+
+.guide-filter-icon {
+	position: absolute;
+	top: 1.6rem;
+	left: 1rem;
+	width: 1.15rem;
+	height: 1.15rem;
+	transform: translateY(-50%);
+	fill: none;
+	stroke: var(--c-text-light);
+	stroke-width: 2;
+	stroke-linecap: round;
+	pointer-events: none;
+}
+
+// While the filter has words in it, the matches are the page.
+main.is-filtering .guide-start,
+main.is-filtering .guide-new,
+main.is-filtering .guide-beyond,
+main.is-filtering .guide-jump { display: none; }
+
+// --- start here ----------------------------------------------------------------
+
+.guide-start-grid,
+.guide-new-list,
+.guide-beyond-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+	gap: var(--m);
+	margin: var(--m) 0 0;
+	padding: 0;
+	list-style: none;
+
+	li { margin: 0; }
+}
+
+a.guide-start-card {
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+	height: 100%;
+	padding: var(--m);
+	color: var(--c-text);
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 10px;
+	transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+
+	.icon-stamp { flex: 0 0 auto; }
+	strong { display: block; font-family: var(--font-heading); font-size: 1.08rem; color: var(--c-text-heading); }
+	.guide-start-text > span { display: block; margin-top: 0.15rem; font-size: var(--f-s); color: var(--c-text-light); }
+
+	&:hover { border-color: var(--c-laterite); transform: translateY(-2px); box-shadow: var(--shadow-card); }
+	&:hover .icon-stamp { background: var(--c-highlight); color: var(--c-bg-on-accent); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// --- new and updated ------------------------------------------------------------
+
+a.guide-new-card {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	height: 100%;
+	padding: var(--m);
+	color: var(--c-text);
+	text-decoration: none;
+	background: var(--c-bg-widget);
+	border-radius: 10px;
+	border-top: 3px solid var(--c-forest);
+	transition: transform 160ms ease, box-shadow 160ms ease;
+
+	strong { font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.3; color: var(--c-text-heading); }
+	&:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+	&:hover strong { text-decoration: underline; }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.guide-new-date {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--c-forest);
+}
+
+.guide-new-description {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+// --- every guide, by subject -------------------------------------------------------
+
+.guide-browse-head {
+	h2 { margin: 0; }
+	.guide-jump { margin-top: var(--m); }
+}
+
+// --- beyond the guides -----------------------------------------------------------------
+
+.guide-beyond-grid a {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	height: 100%;
+	padding: var(--m);
+	color: var(--c-text);
+	text-decoration: none;
+	border: 1px solid var(--c-border);
+	border-radius: 10px;
+
+	strong { color: var(--c-text-heading); }
+	span { font-size: var(--f-s); color: var(--c-text-light); }
+	&:hover { border-color: var(--c-laterite); }
+	&:hover strong { text-decoration: underline; }
+}
+
+@media (max-width: 40rem) {
+	// Two to a row, the title alone: one to a row with the summary was nine
+	// screens' worth of cards before anything new. The title is the choice.
+	.guide-start-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s); }
+	.guide-start-grid li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+	a.guide-start-card {
+		gap: var(--s);
+		min-height: 3.5rem;
+		padding: var(--s);
+
+		.icon-stamp { width: 2.1rem; height: 2.1rem; }
+		strong { font-size: 0.95rem; line-height: 1.25; }
+		.guide-start-text > span { display: none; }
+	}
+
+	// What is new: a row to swipe, the next card peeking in.
+	.guide-new-list {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		margin-left: calc(var(--m) * -1);
+		margin-right: calc(var(--m) * -1);
+		padding: 0 var(--m) var(--xs);
+
+		&::-webkit-scrollbar { display: none; }
+		li { flex: 0 0 78%; scroll-snap-align: start; }
+	}
+
+	.guide-beyond-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s); }
+	.guide-beyond-grid a { padding: var(--s) var(--m); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	a.guide-start-card, a.guide-new-card { transition: none; }
+	a.guide-start-card:hover, a.guide-new-card:hover { transform: none; }
+}

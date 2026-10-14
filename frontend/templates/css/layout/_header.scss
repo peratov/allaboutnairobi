@@ -90,7 +90,6 @@
 
 .site-nav-links > a:hover,
 .site-nav-links > button:hover,
-.site-nav-links > button[aria-expanded="true"],
 .site-nav-links > [aria-current="page"],
 .site-nav-links > .is-current {
 	color: var(--c-highlight);
@@ -99,7 +98,6 @@
 
 .site-nav-links > a:hover::after,
 .site-nav-links > button:hover::after,
-.site-nav-links > button[aria-expanded="true"]::after,
 .site-nav-links > [aria-current="page"]::after,
 .site-nav-links > .is-current::after {
 	transform: scaleX(1);
@@ -174,44 +172,6 @@
 	opacity: 0.85;
 }
 
-.submenu {
-	background: var(--c-bg-widget-opaque);
-	border-top: 1px solid var(--c-border);
-}
-
-.submenu ul {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-	gap: var(--s);
-	max-width: var(--w-page);
-	margin: 0 auto;
-	padding: var(--m);
-	list-style: none;
-}
-
-.submenu li a {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	grid-template-areas: "icon title" "icon text";
-	gap: 0 var(--s);
-	padding: var(--s);
-	border-radius: var(--b-radius);
-	text-decoration: none;
-	color: inherit;
-}
-
-.submenu li a:hover { background: var(--c-highlight-soft); }
-.submenu li a .icon-stamp { grid-area: icon; align-self: center; }
-.submenu li a h4 { grid-area: title; margin: 0; font-size: 0.98rem; }
-.submenu li a p { grid-area: text; margin: 0; font-size: var(--f-xs); color: var(--c-text-light); }
-
-.submenu > .next-link {
-	display: block;
-	max-width: var(--w-page);
-	margin: 0 auto;
-	padding: 0 var(--m) var(--m);
-	font-size: var(--f-s);
-}
 
 // Below this the wordmark and five links no longer leave room for a centred
 // group, so the gutter is dropped and the links simply follow the wordmark.

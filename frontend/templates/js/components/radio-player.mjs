@@ -91,6 +91,16 @@ class RadioPlayer extends HTMLElement {
 			button.addEventListener('click', () => this.toggle(row));
 			row.prepend(button);
 			row.button = button;
+
+			// The whole row is the station, the way a radio's preset is: a 44px
+			// circle was the only thing that played, on rows 130px tall. The
+			// button stays the accessible control; the row is a bigger target
+			// for the same action, and the station's own link still works.
+			row.classList.add('is-playable');
+			row.addEventListener('click', (event) => {
+				if (event.target.closest('a, button')) return;
+				this.toggle(row);
+			});
 		}
 	}
 
@@ -98,8 +108,12 @@ class RadioPlayer extends HTMLElement {
 		this.bar = document.createElement('div');
 		this.bar.className = 'radio-bar';
 		this.bar.hidden = true;
+		// Previous and next turn the dial without scrolling back to the list,
+		// which on a phone is the only other way to change station.
 		this.bar.innerHTML = `
+			<button type="button" class="radio-bar-step" data-step="-1" aria-label="Previous station"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14"/><path d="M18 5 9 12l9 7z"/></svg></button>
 			<button type="button" class="radio-bar-toggle" aria-label="Pause"><span class="radio-play-icon" aria-hidden="true"></span></button>
+			<button type="button" class="radio-bar-step" data-step="1" aria-label="Next station"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5v14"/><path d="M6 5l9 7-9 7z"/></svg></button>
 			<div class="radio-bar-now">
 				<strong class="radio-bar-name"></strong>
 				<span class="radio-bar-status" role="status" aria-live="polite"></span>
@@ -117,6 +131,9 @@ class RadioPlayer extends HTMLElement {
 		const popoutButton = this.bar.querySelector('.radio-bar-popout');
 
 		this.toggleButton.addEventListener('click', () => this.current && this.toggle(this.current));
+		for (const stepButton of this.bar.querySelectorAll('[data-step]')) {
+			stepButton.addEventListener('click', () => this.step(Number(stepButton.dataset.step)));
+		}
 		this.volumeInput.addEventListener('input', () => {
 			this.audio.volume = Number(this.volumeInput.value);
 			store.set(KEY_VOLUME, String(this.audio.volume));
@@ -257,6 +274,9 @@ class RadioPlayer extends HTMLElement {
 			? `${row.dataset.name} · ${row.dataset.freq} FM`
 			: row.dataset.name;
 		this.bar.hidden = false;
+		// On a phone the coffee button would sit on the station list above the
+		// bar; it steps aside while the bar is up. See _support.scss.
+		document.querySelector('.support-float')?.classList.add('is-yielding-radio');
 		store.set(KEY_STATION, row.dataset.id);
 		if (!play) this.setState('paused', 'Press play to listen');
 	}
@@ -329,9 +349,13 @@ class RadioPlayer extends HTMLElement {
 		this.state = state;
 		if (state !== 'loading') clearTimeout(this.stallTimer);
 		const row = this.current;
+		// What an hour costs, from the stream's own bitrate - on a data bundle
+		// that is the thing worth knowing while it plays.
+		const kbps = Number(row?.dataset.kbps);
+		const perHour = kbps ? ` · ${Math.round(kbps * 3600 / 8 / 1000)} MB an hour` : '';
 		const text = message || {
 			loading: 'Connecting…',
-			playing: 'Live',
+			playing: `Live${perHour}`,
 			paused: 'Paused',
 			error: 'This stream is not answering right now. Try again, or listen on the station’s own site.',
 		}[state];

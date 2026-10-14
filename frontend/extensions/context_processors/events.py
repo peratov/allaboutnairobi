@@ -160,10 +160,9 @@ class EventsProcessor(ContextProcessor):
                 "category": "civic",
                 "category_label": CATEGORIES["civic"],
                 "area": "Nationwide",
-                "description": HOLIDAY_NOTES.get(
-                    name.replace(" (estimated)", "").replace(" (observed)", ""),
-                    "A public holiday.",
-                ),
+                # No note rather than a filler one: "A statutory public holiday"
+                # repeated the card's own tag and cost every card a line.
+                "description": HOLIDAY_NOTES.get(name),
                 "computed": True,
             })
 

@@ -1,0 +1,27 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['lostfound'] %}
+{# Indexable only once the service is live - see LOSTFOUND_LIVE in ursus_config.py. #}
+{% if LOSTFOUND_LIVE %}{% set canonical_path = "/lost-and-found/join" %}{% else %}{% set page_robots = "noindex, follow" %}{% endif %}
+{% set metatitle = "A lost and found portal for your mall, station or business" %}
+{% set metadescription = "Malls, stations, markets and businesses in Nairobi can list what is handed in to them, free, and point people to collect it." %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page">
+		<article class="section lf-page">
+			<p class="lf-crumb"><a href="{{ SITE_URL }}/lost-and-found">&larr; Lost and found</a></p>
+			<h1>A lost and found portal for your place</h1>
+			<p class="page-intro">For malls, stations, markets, hospitals, schools, churches and businesses in Nairobi. List what people leave behind in seconds, get a public page showing what you are holding, and let owners describe their item before they come to collect. Free.</p>
+			<div data-lf-join>
+				<noscript><p class="lf-notice">This page needs JavaScript.</p></noscript>
+			</div>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% include "_blocks/lostFoundVocab.html" %}
+	{% queueJs %}
+		import '/js/lostfound/join.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

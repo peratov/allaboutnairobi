@@ -1,0 +1,177 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['admin', 'lostfound'] %}
+{#
+	The admin, for the site owner only. The page itself is a shell and safe to
+	serve to anyone: everything in it comes from /api/admin, which checks the
+	owner's session on every call. See api/admin.mjs.
+
+	It is an application rather than a page of the site, so it replaces the
+	site's header and footer with its own frame: a sidebar on a wide screen, an
+	icon rail on a tablet, and a bottom tab bar on a phone. The frame is HTML,
+	so it paints before any script runs; admin.mjs fills it.
+
+	A private page: no analytics, no session recording and no coffee button -
+	the owner's clicks are not readership - and the whole of <main> is masked
+	besides, because a place's contact details are shown in it.
+#}
+{% set page_robots = "noindex, nofollow" %}
+{% set private_page = true %}
+{% set metatitle = "Admin" %}
+{% set metadescription = "All About Nairobi administration." %}
+
+{% macro icon(name) -%}
+	<svg class="ai" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+		{%- if name == 'overview' -%}<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="4.5" rx="1.5"/><rect x="13.5" y="11" width="7" height="9.5" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/>
+		{%- elif name == 'goals' -%}<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+		{%- elif name == 'traffic' -%}<path d="M3.5 19.5h17"/><path d="M5 15.5l4.5-5 4 3.5L20 6.5"/><circle cx="20" cy="6.5" r="1.2"/>
+		{%- elif name == 'search' -%}<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/>
+		{%- elif name == 'ratings' -%}<path d="M12 3.8l2.5 5.1 5.6.8-4 4 .9 5.6L12 16.6 7 19.3l.9-5.6-4-4 5.6-.8z"/>
+		{%- elif name == 'trends' -%}<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>
+		{%- elif name == 'prompts' -%}<path d="M4.5 5.5h15v10h-8l-4.5 4v-4h-2.5z"/><path d="M9.5 9.5h5M9.5 12h3"/>
+		{%- elif name == 'game' -%}<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2"/><path d="M12 14v6.5M10.2 11 4 9M13.8 11 20 9"/>
+		{%- elif name == 'listings' -%}<path d="M8.5 6.5h12M8.5 12h12M8.5 17.5h12"/><circle cx="4.2" cy="6.5" r="1.1"/><circle cx="4.2" cy="12" r="1.1"/><circle cx="4.2" cy="17.5" r="1.1"/>
+		{%- elif name == 'places' -%}<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>
+		{%- elif name == 'reports' -%}<path d="M5 21V4M5 4.5h11.5l-2 4 2 4H5"/>
+		{%- elif name == 'events' -%}<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>
+		{%- elif name == 'pulse' -%}<path d="M2.5 12.5h4l2-5 3.5 10 3-8 2 3h4.5"/>
+		{%- elif name == 'newsletter' -%}<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6.5L20.5 7"/>
+		{%- elif name == 'settings' -%}<circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/>
+		{%- elif name == 'activity' -%}<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>
+		{%- elif name == 'site' -%}<path d="M3 12h4l2.5-6 5 12 2.5-6h4"/>
+		{%- elif name == 'more' -%}<circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/>
+		{%- elif name == 'analytics' -%}<path d="M4 20V13M9.5 20V8M15 20v-5M20.5 20V4"/>
+		{%- elif name == 'refresh' -%}<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4v4.5H15"/>
+		{%- elif name == 'command' -%}<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/>
+		{%- elif name == 'external' -%}<path d="M14 4h6v6M20 4l-9 9M18 14v5.5H4.5V6H10"/>
+		{%- elif name == 'signout' -%}<path d="M14.5 8V5H4.5v14h10v-3M10 12h10.5M17.5 9l3 3-3 3"/>
+		{%- elif name == 'close' -%}<path d="M6 6l12 12M18 6L6 18"/>
+		{%- endif -%}
+	</svg>
+{%- endmacro %}
+
+{% set nav = [
+	('', [('overview', 'Overview')]),
+	('Analytics', [('goals', 'Goals'), ('traffic', 'Traffic'), ('search', 'Search'), ('ratings', 'Ratings'), ('prompts', 'Prompts'), ('trends', 'Lost & found')]),
+	('Manage', [('listings', 'Listings'), ('places', 'Places'), ('reports', 'Reports'), ('events', 'Events'), ('pulse', 'Pulse'), ('newsletter', 'Newsletter')]),
+	('Site', [('settings', 'Settings'), ('activity', 'Activity'), ('site', 'Health')]),
+] %}
+
+{% block body %}
+	<div class="aa" data-admin>
+		<a class="skip-link" href="#admin-main">Skip to content</a>
+
+		<aside class="aa-side" aria-label="Admin">
+			<a class="aa-brand" href="#overview">
+				<span class="aa-brand-mark" aria-hidden="true">aa</span>
+				<span class="aa-brand-text"><strong>allaboutnairobi</strong><span>admin</span></span>
+			</a>
+			<nav class="aa-nav" aria-label="Admin sections">
+				{% for group, items in nav %}
+					{% if group %}<p class="aa-nav-group">{{ group }}</p>{% endif %}
+					{% for id, label in items %}
+						<a href="#{{ id }}" data-tab="{{ id }}" title="{{ label }}">{{ icon(id) }}<span>{{ label }}</span><b class="aa-badge" data-badge="{{ id }}" hidden></b></a>
+					{% endfor %}
+				{% endfor %}
+			</nav>
+			<div class="aa-side-foot">
+				<button type="button" class="aa-side-button" data-palette-open title="Search and commands (Ctrl+K)">{{ icon('command') }}<span>Search</span><kbd>Ctrl K</kbd></button>
+				<a class="aa-side-button" href="{{ SITE_URL }}/" target="_blank" rel="noopener" title="Open the site">{{ icon('external') }}<span>Open the site</span></a>
+				<div class="aa-who">
+					<span class="aa-avatar" aria-hidden="true">A</span>
+					<span class="aa-who-text"><strong>Owner</strong><span data-admin-email></span></span>
+					<button
+						class="theme-toggle aa-icon-button"
+						data-theme-toggle
+						type="button"
+						title="Switch between light and dark"
+						aria-label="Switch between light and dark theme">
+						<svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+							<circle cx="12" cy="12" r="4.4"/>
+							<g stroke-linecap="round">
+								<path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6"/>
+								<path d="M5.4 5.4l1.9 1.9M16.7 16.7l1.9 1.9M18.6 5.4l-1.9 1.9M7.3 16.7l-1.9 1.9"/>
+							</g>
+						</svg>
+						<svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+							<path d="M20 14.2A8.4 8.4 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/>
+						</svg>
+					</button>
+					<button type="button" class="aa-icon-button" data-sign-out title="Sign out" aria-label="Sign out">{{ icon('signout') }}</button>
+				</div>
+			</div>
+		</aside>
+
+		<div class="aa-body">
+			<header class="aa-bar">
+				<div class="aa-bar-title">
+					<p class="aa-bar-eyebrow" data-admin-eyebrow></p>
+					<h1 data-admin-title>Admin</h1>
+				</div>
+				<div class="aa-bar-actions">
+					<span class="aa-updated" data-admin-updated aria-live="polite"></span>
+					<button type="button" class="aa-icon-button" data-admin-refresh title="Refresh" aria-label="Refresh">{{ icon('refresh') }}</button>
+					<button type="button" class="aa-icon-button aa-only-narrow" data-palette-open title="Search and commands" aria-label="Search and commands">{{ icon('command') }}</button>
+				</div>
+			</header>
+
+			<main id="admin-main" class="aa-main" aria-label="Admin" data-clarity-mask="true" tabindex="-1">
+				<div class="aa-view" data-admin-view>
+					<noscript><p class="admin-notice is-error">The admin needs JavaScript.</p></noscript>
+				</div>
+			</main>
+		</div>
+
+		{# The phone's way round: five places, the rest in a sheet. #}
+		<nav class="aa-tabbar" aria-label="Admin sections">
+			<a href="#overview" data-tab="overview">{{ icon('overview') }}<span>Overview</span></a>
+			<a href="#goals" data-tab="analytics">{{ icon('analytics') }}<span>Analytics</span></a>
+			<a href="#listings" data-tab="listings">{{ icon('listings') }}<span>Listings</span><b class="aa-badge" data-badge="listings" hidden></b></a>
+			<a href="#events" data-tab="events">{{ icon('events') }}<span>Events</span><b class="aa-badge" data-badge="events" hidden></b></a>
+			<button type="button" data-more-open data-tab="more">{{ icon('more') }}<span>More</span><b class="aa-badge" data-badge="more" hidden></b></button>
+		</nav>
+
+		<div class="aa-sheet" data-more hidden>
+			<div class="aa-sheet-panel" role="dialog" aria-modal="true" aria-label="More">
+				<div class="aa-sheet-grip" aria-hidden="true"></div>
+				<nav class="aa-sheet-grid" aria-label="Everything else">
+					{% for group, items in nav %}{% for id, label in items %}
+						<a href="#{{ id }}" data-tab="{{ id }}">{{ icon(id) }}<span>{{ label }}</span><b class="aa-badge" data-badge="{{ id }}" hidden></b></a>
+					{% endfor %}{% endfor %}
+				</nav>
+				<a class="aa-sheet-link" href="{{ SITE_URL }}/" target="_blank" rel="noopener">{{ icon('external') }} Open the site</a>
+			</div>
+		</div>
+
+		{# One thing at a time: a listing or a place, over the list it came from. #}
+		<div class="aa-drawer" data-drawer hidden>
+			<div class="aa-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="aa-drawer-title">
+				<header class="aa-drawer-head">
+					<h2 id="aa-drawer-title" data-drawer-title></h2>
+					<button type="button" class="aa-icon-button" data-drawer-close aria-label="Close">{{ icon('close') }}</button>
+				</header>
+				<div class="aa-drawer-body" data-drawer-body></div>
+			</div>
+		</div>
+
+		<div class="aa-palette" data-palette hidden>
+			<div class="aa-palette-panel" role="dialog" aria-modal="true" aria-label="Search and commands">
+				<div class="aa-palette-search">
+					{{ icon('command') }}
+					<input type="search" data-palette-input placeholder="Go to, or find a listing or place…" autocomplete="off" spellcheck="false" data-clarity-mask="true" aria-controls="aa-palette-list" aria-label="Search and commands">
+					<kbd>Esc</kbd>
+				</div>
+				<ul class="aa-palette-list" id="aa-palette-list" role="listbox" data-palette-list></ul>
+			</div>
+		</div>
+
+		<div class="aa-toasts" data-toasts aria-live="polite"></div>
+	</div>
+{% endblock %}
+
+{% block postFooter %}
+	{% include "_blocks/lostFoundVocab.html" %}
+	{% queueJs %}
+		import '/js/admin/admin.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

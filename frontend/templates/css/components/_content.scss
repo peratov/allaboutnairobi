@@ -136,6 +136,74 @@
 .admonition.note, .admonition.tip { background: var(--c-note-bg); border-left-color: var(--c-note-border); }
 .admonition.danger { background: var(--c-danger-bg); border-left-color: var(--c-danger-border); }
 
+// A card for something useful that someone else built - an independent
+// service the site points to and does not run. It says plainly whose it is
+// and what it is not, so a reader never mistakes it for an official channel.
+.partner-card {
+	margin: var(--xl) 0;
+	padding: var(--l);
+	background: color-mix(in srgb, var(--c-forest) 7%, var(--c-bg-page));
+	border: 1px solid color-mix(in srgb, var(--c-forest) 35%, var(--c-bg-page));
+	border-radius: 12px;
+
+	p { margin: 0 0 var(--s); }
+}
+
+.partner-card-kicker {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--c-forest);
+}
+
+.partner-card-title {
+	font-family: var(--font-heading);
+	font-size: 1.35rem;
+	line-height: 1.25;
+	color: var(--c-text-heading);
+}
+
+ul.partner-card-points {
+	margin: var(--s) 0 var(--m);
+	padding-left: 1.2rem;
+
+	li { margin-bottom: var(--xs); }
+}
+
+.partner-card-note {
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border-left: 3px solid var(--c-gold);
+	border-radius: 0 var(--b-radius) var(--b-radius) 0;
+}
+
+.partner-card-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s) var(--l);
+	margin: var(--m) 0 0 !important;
+}
+
+a.partner-card-button,
+a.partner-card-button:visited {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+	padding: 0 var(--l);
+	font-weight: 700;
+	color: var(--c-bg-on-accent);
+	text-decoration: none;
+	background: var(--c-forest);
+	border-radius: 2rem;
+
+	&:hover { filter: brightness(1.08); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
 // A link that pushes the reader onward, written as "Do the thing ➞" in Markdown.
 .next-link {
 	display: inline-block;
@@ -157,3 +225,37 @@
 }
 .footnote ol { padding-left: 1.2em; }
 sup a { text-decoration: none; padding: 0 0.15em; }
+
+// Amounts the markdown processor tags in the guides; hovering one shows it in
+// the other currency. Lived with the calculators until the stylesheet was split.
+.currency { border-bottom: 1px dotted var(--c-border-strong); cursor: help; }
+
+// A small capitalised line above a heading - /map, /flights and every
+// newsletter issue.
+.map-eyebrow {
+	font-size: var(--f-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--c-text-light);
+	margin: 0 0 var(--xs) !important;
+}
+
+// A key's colour square - the maps' legends and the calculators' bars. The
+// colours themselves stay with each feature.
+.swatch {
+	display: inline-block;
+	width: 0.9rem;
+	height: 0.9rem;
+	border-radius: 3px;
+	border: 1px solid var(--c-border-strong);
+	vertical-align: -1px;
+	flex: 0 0 auto;
+}
+
+// Small print under a calculator, a map, a chart or a list - the source, the
+// date, what it cannot see. Every calculator and half the standalone pages.
+.tool-note {
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	margin: var(--m) 0 0;
+}

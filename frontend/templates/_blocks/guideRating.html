@@ -1,0 +1,76 @@
+{#
+	The rating a guide has earned, and the prompt that collects it.
+
+	Two separate things, deliberately in one file because they must not
+	disagree about what a rating means.
+
+	The score is only rendered once enough readers have answered. A guide
+	showing "5.0 from 1 rating" is the same failure as a hole in a heatmap
+	looking like data, or a nightlife venue carrying confidence 0.98 on a price
+	nobody checked: a number presented as a finding when it is noise. Below the
+	threshold this block renders nothing at all, which on three hundred pages
+	is quieter than three hundred "no ratings yet" lines.
+
+	There is no schema.org aggregateRating here, and that is on purpose. Google
+	treats review markup a site applies to its own content as self-serving, and
+	it is a documented reason for a manual action rather than a route to stars
+	in the SERP. The figure is for the reader.
+#}
+
+{% set rating = entry.rating|default(none) %}
+
+{% if rating %}
+	<div class="rating-summary" data-nosnippet>
+		<p class="rating-summary-score">
+			<strong>{{ rating.mean }}</strong> out of 5
+			<span class="rating-summary-meta">
+				&mdash; from {{ rating.count|count }} {{ "reader" if rating.count == 1 else "readers" }},
+				as of {{ rating.as_of.strftime('%d %B %Y') }}
+			</span>
+		</p>
+		<div class="rating-summary-bar" role="img"
+			aria-label="Rated {{ rating.mean }} out of 5 by {{ rating.count|count }} readers">
+			<span style="width: {{ (rating.mean / 5 * 100)|round(1) }}%"></span>
+		</div>
+	</div>
+{% endif %}
+
+{#
+	The prompt. Hidden until guide-rating.mjs decides this reader is one of the
+	sampled minority who has actually read the page. With scripting off it is
+	never shown at all, which is correct: there would be nowhere for the answer
+	to go.
+#}
+<aside class="rating-prompt no-print" data-rating-prompt="{{ entry.rating_slug }}"
+	aria-label="Rate this guide" hidden>
+	<div data-rating-question>
+		<p class="rating-prompt-question" id="rating-question-label">Was this guide useful?</p>
+		<div class="rating-prompt-scale" role="group" aria-labelledby="rating-question-label">
+			{% for score, label in [
+				(1, "Not at all useful"),
+				(2, "Slightly useful"),
+				(3, "Moderately useful"),
+				(4, "Very useful"),
+				(5, "Extremely useful"),
+			] %}
+				<button type="button" class="rating-prompt-score" data-rating-score="{{ score }}"
+					title="{{ label }}" aria-label="{{ label }}">{{ score }}</button>
+			{% endfor %}
+		</div>
+		<p class="rating-prompt-legend" aria-hidden="true">
+			<span>not at all</span><span>very</span>
+		</p>
+	</div>
+
+	<div data-rating-thanks role="status" hidden>
+		<p class="rating-prompt-question">Thank you.</p>
+		<p class="rating-prompt-note" data-rating-followup hidden>
+			If something was missing or wrong, <a href="{{ SITE_URL }}/contact">tell us</a> &mdash;
+			corrections are made the day they arrive.
+		</p>
+	</div>
+
+	<button type="button" class="rating-prompt-dismiss" data-rating-dismiss aria-label="Close">
+		&times;
+	</button>
+</aside>

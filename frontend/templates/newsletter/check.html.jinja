@@ -1,0 +1,25 @@
+{% extends "_layout.html" %}
+{#
+	Where the sign-up form lands when it was sent without JavaScript: the API
+	answers a plain form post with a redirect here. With JavaScript the form
+	answers in place and nobody sees this page. `?subscribed=1` means double
+	opt-in is off and the address is already on the list; `?error=<code>`
+	means the API refused, and newsletter.mjs says why.
+#}
+{% set page_styles = ['subscribe'] %}
+{% set page_robots = "noindex, nofollow" %}
+{% set metatitle = "Check your inbox" %}
+{% set metadescription = "The last step of subscribing to the monthly All About Nairobi newsletter." %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page">
+		<article class="section newsletter-action" data-newsletter-page="check">
+			<p class="map-eyebrow"><a href="{{ SITE_URL }}/newsletter">The monthly Nairobi newsletter</a></p>
+			<h1 data-newsletter-title>Check your inbox</h1>
+			<div data-newsletter-body>
+				<p>If the address was typed right, an email asking you to confirm it is on its way. Tap the button in it and you are on the list. It can take a minute, and sometimes lands in spam or Promotions.</p>
+				<p>Nothing arrived after ten minutes? <a href="{{ SITE_URL }}/newsletter">Try again</a>, checking the address.</p>
+			</div>
+		</article>
+	</main>
+{% endblock %}

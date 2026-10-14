@@ -1,0 +1,254 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['pulse'] %}
+{#
+	Nairobi Pulse: questions about the city, answered only by people in it, on a
+	map of how each district answers.
+
+	The page is the map: the question it shows sits on top of it, and answering
+	opens the card that readers in Nairobi are asked with on every page
+	(pulse-prompt.mjs). The questions and the counts change by the minute and
+	come from /api/pulse in the browser; this page is the frame they arrive into, and everything that
+	does not change - the map's 29 outlines, how it works, what is kept - is
+	here in the HTML, so it paints at once and is what a crawler reads. The
+	outlines are the hero map's (HERO_MAP), already simplified for a screen.
+
+	nairobi-pulse.mjs does the rest: the questions, the vote, the location check,
+	the map's colours, and the polling. The arithmetic behind what the map says
+	is in js/pulse/compute.mjs.
+#}
+{% if PULSE_LIVE %}{% set canonical_path = "/pulse" %}{% else %}{% set page_robots = "noindex, follow" %}{% endif %}
+{% set metatitle = "Nairobi Pulse: how Nairobi feels, constituency by constituency" %}
+{% set metadescription = "Questions about the city, answered only from inside Nairobi, on a live map of how each of the 17 constituencies answers. Vote, then see where you stand." %}
+
+{% block main %}
+	<main id="main" class="wide-column pulse-page" aria-label="Main page">
+		<section class="pulse-hero is-slim" aria-labelledby="pulse-title">
+			<p class="pulse-eyebrow"><span class="pulse-beat" aria-hidden="true"></span> Nairobi Pulse</p>
+			<h1 id="pulse-title">How Nairobi feels, constituency by&nbsp;constituency</h1>
+			<p class="pulse-lede">
+				Questions about the city, answered only by people in it. Tap a
+				constituency to see how it answered.
+			</p>
+			<ul class="pulse-stats" data-pulse-stats aria-live="polite">
+				<li><strong data-stat="open">&nbsp;</strong> <span>open questions</span></li>
+				<li><strong data-stat="votes">&nbsp;</strong> <span>votes</span></li>
+				<li><strong data-stat="districts">&nbsp;</strong> <span>of {{ PULSE_DISTRICTS|length }} constituencies heard</span></li>
+			</ul>
+			{# Masked from session recording, like the vote: where someone votes from
+			   and what they answered are theirs (see /terms#pulse). #}
+			<button type="button" class="pulse-where" data-pulse-where data-clarity-mask="true" hidden>
+				<span class="pulse-where-dot" aria-hidden="true"></span>
+				<span data-pulse-where-text>Not checked in</span>
+			</button>
+		</section>
+
+		{# The whole of it masked from session recording: the vote, the district a
+		   reader checks in from, and the card that says "You are here" are theirs
+		   (see /terms#pulse). The results it shows are public anyway. #}
+		<nairobi-pulse class="pulse-app" data-pulse data-clarity-mask="true">
+			<p class="pulse-paused" data-pulse-paused role="status" hidden></p>
+
+			<div class="pulse-board">
+				<section class="pulse-mapcard" aria-labelledby="pulse-map-title">
+					{# The question the map shows, on top of it: where it is among the
+					   open ones, its words, and "Add your answer". Filled by the
+					   script; without it, this heading is all there is. #}
+					<div class="pulse-qbar" data-pulse-qbar aria-live="polite">
+						<div class="pulse-qbar-inner">
+							<h2 class="pulse-qbar-text" id="pulse-map-title">How Nairobi answers</h2>
+						</div>
+					</div>
+					<div class="pulse-modes-row">
+						<span class="pulse-modes-label" id="pulse-modes-label">Colour by</span>
+						<div class="pulse-modes" role="radiogroup" aria-labelledby="pulse-modes-label" data-pulse-modes></div>
+					</div>
+
+					{% if HERO_MAP %}
+						<figure class="pulse-map" data-pulse-map>
+							<div class="pulse-stage">
+								<svg class="pulse-svg" viewBox="{{ HERO_MAP.view_box }}" role="group" aria-label="Nairobi's 17 constituencies. Choose one to see how it answered." focusable="false">
+									<defs>
+										<pattern id="pulse-hatch" patternUnits="userSpaceOnUse" width="34" height="34" patternTransform="rotate(45)">
+											<rect class="pulse-hatch-ground" width="34" height="34"/>
+											<rect class="pulse-hatch-line" width="9" height="34"/>
+										</pattern>
+									</defs>
+									{% for district in HERO_MAP.districts %}
+										<path
+											class="pulse-district is-empty"
+											data-district="{{ district.id }}"
+											d="{{ district.d }}"
+											tabindex="0"
+											role="button"
+											aria-label="{{ district.name }}"/>
+									{% endfor %}
+								</svg>
+								{# The whole region is a long thin strip, and on a phone the city's
+								   small districts are specks in it. "City centre" frames the urban
+								   districts, where most people - and most votes - are. #}
+								<div class="pulse-zoom" role="group" aria-label="How much of the map to show" data-pulse-zoom hidden>
+									<button type="button" data-zoom="city" aria-pressed="false">City centre</button>
+									<button type="button" data-zoom="all" aria-pressed="true">All of Nairobi</button>
+								</div>
+							</div>
+							<div class="pulse-district-card" data-pulse-district hidden></div>
+							<figcaption class="pulse-legend" data-pulse-legend></figcaption>
+						</figure>
+					{% endif %}
+				</section>
+
+				<section class="pulse-city" aria-labelledby="pulse-city-title" data-pulse-city hidden>
+					<h2 id="pulse-city-title">What Nairobi says</h2>
+					<p class="pulse-section-q" data-pulse-qname hidden></p>
+					<div data-pulse-city-body></div>
+					<ul class="pulse-insights" data-pulse-insights></ul>
+				</section>
+			</div>
+
+			<section class="pulse-table-section" aria-labelledby="pulse-table-title" data-pulse-table-section hidden>
+				<h2 id="pulse-table-title">Every constituency</h2>
+				<p class="pulse-section-q" data-pulse-qname hidden></p>
+				<p class="pulse-note">
+					A district's answers appear once it has {{ PULSE.minDistrictVotes }} votes. Turnout is per
+					100,000 residents, from the census-based population estimates on the map, so a small constituency is not drowned out by a big one.
+				</p>
+				<div class="table-wrapper">
+					<table class="pulse-table" data-pulse-table>
+						<thead>
+							<tr><th scope="col">Constituency</th><th scope="col">Votes</th><th scope="col">Top answer</th><th scope="col">Turnout</th></tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</section>
+
+			<section class="pulse-archive" aria-labelledby="pulse-archive-title" data-pulse-archive hidden>
+				<h2 id="pulse-archive-title">Closed questions</h2>
+				<ul class="pulse-archive-list" data-pulse-archive-list></ul>
+			</section>
+
+			{# Every question, to pick one from: "See all" on the question above
+			   the map opens it. #}
+			<dialog class="pulse-sheet pulse-list-sheet" data-pulse-list aria-labelledby="pulse-list-title">
+				<div class="pulse-sheet-inner">
+					<div class="pulse-sheet-grip" aria-hidden="true"></div>
+					<div class="pulse-list-head">
+						<h2 id="pulse-list-title">Open questions</h2>
+						<button type="button" class="pulse-card-close" data-pulse-list-close aria-label="Close">×</button>
+					</div>
+					<p class="pulse-note" data-pulse-list-progress></p>
+					<div data-pulse-list-topics></div>
+					<ol class="pulse-list" data-pulse-list-items></ol>
+					<div data-pulse-list-closed></div>
+				</div>
+			</dialog>
+
+			{# While the map and the counts are on screen and the question is not,
+			   this names the question they show and steps to the next. A phone's
+			   layout only; on a wide screen the question sits beside the map. #}
+			<div class="pulse-dock" data-pulse-dock role="group" aria-label="The question on the map" hidden>
+				<button type="button" class="pulse-dock-step" data-dock-step="-1" aria-label="Previous question"><span aria-hidden="true">‹</span></button>
+				<button type="button" class="pulse-dock-now" data-dock-now>
+					<span class="pulse-dock-label" data-dock-label>On the map</span>
+					<span class="pulse-dock-text" data-dock-text aria-live="polite"></span>
+				</button>
+				<button type="button" class="pulse-dock-step" data-dock-step="1" aria-label="Next question"><span aria-hidden="true">›</span></button>
+			</div>
+
+			{# Each topic's symbol, cloned by the script beside a question. #}
+			<template data-pulse-icons>
+				{% for topic in PULSE.topics %}
+					<span class="icon-stamp" data-topic="{{ topic.id }}" title="{{ topic.label }}">{% include "_icons/" + topic.symbol + ".svg" %}</span>
+				{% endfor %}
+			</template>
+
+			<noscript>
+				<p class="pulse-paused">
+					Nairobi Pulse needs JavaScript to show the questions and to vote. Everything
+					about how it works is below.
+				</p>
+			</noscript>
+		</nairobi-pulse>
+
+		<section class="section pulse-how" id="how-it-works" aria-labelledby="pulse-how-title">
+			<h2 id="pulse-how-title">How Nairobi Pulse works</h2>
+			<div class="pulse-how-grid">
+				<div>
+					<h3>Only from inside Nairobi</h3>
+					<p>
+						Before your first vote, your phone is asked where it is. That position is
+						checked against the outlines of Nairobi's 17 constituencies,
+						once, and used for nothing else: it is not stored, not logged and not
+						sent anywhere but here. What comes back is your constituency, for
+						{{ PULSE.passDays }} days. A connection from outside Kenya is refused,
+						VPNs included.
+					</p>
+				</div>
+				<div>
+					<h3>Counted where you are, not where you live</h3>
+					<p>
+						Your vote counts in the constituency your phone was in when you checked in. Vote
+						from the office and it counts where the office is. Check in again from
+						somewhere else and change your vote, and it moves with you.
+					</p>
+				</div>
+				<div>
+					<h3>One vote a phone, and you can change it</h3>
+					<p>
+						Your browser keeps a random code that lets this site recognise a second
+						vote from the same phone as a change, not a new vote. Nothing ties it to
+						you. While a question is open you can change your answer - up to
+						{{ PULSE.limits.maxChanges }} times.
+					</p>
+				</div>
+				<div>
+					<h3>Nothing shown from a handful of votes</h3>
+					<p>
+						A constituency's answers appear on the map only once it has
+						{{ PULSE.minDistrictVotes }} votes, and Nairobi's once the city does. Below
+						that the map says how many more it needs. A share of three votes is noise,
+						and in a small constituency it could say how one person voted.
+					</p>
+				</div>
+				<div>
+					<h3>Who voted, not what Nairobi thinks</h3>
+					<p>
+						This is not a survey. Nobody chose who answers: the people who answer are
+						the people who found the question and cared to. Read it as the pulse of
+						those who showed up, and look at the vote counts beside every share.
+					</p>
+				</div>
+				<div>
+					<h3>It can be fooled</h3>
+					<p>
+						A determined person can fake where their phone is, or vote from several
+						browsers. The checks keep out most people who are not here and most
+						accidental double votes; they cannot stop someone set on cheating. A
+						constituency whose numbers jump overnight is worth reading with that in mind.
+					</p>
+				</div>
+			</div>
+			<p class="pulse-note">
+				Individual votes are deleted {{ PULSE.keepVotesDays }} days after a question closes;
+				the totals stay. The details are in <a href="{{ SITE_URL }}/terms#pulse">the terms</a>.
+			</p>
+		</section>
+	</main>
+
+	<script type="application/json" id="pulse-data">
+		{{ {
+			'districts': PULSE_DISTRICTS,
+			'topics': PULSE.topics,
+			'min': PULSE.minDistrictVotes,
+			'passDays': PULSE.passDays,
+		}|tojson }}
+	</script>
+{% endblock %}
+
+{% block postFooter %}
+	{% queueJs %}
+		import initializePulse from '/js/components/nairobi-pulse.mjs';
+		initializePulse();
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

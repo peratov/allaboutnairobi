@@ -1,6 +1,18 @@
 // All About Nairobi stylesheet.
 // Inlined into every page by the scss tag in _layout.html, so there is no
 // render-blocking request. Mobile data is expensive and often slow.
+//
+// Only the core is on every page. Each feature's styles are inlined only on
+// the pages that name the feature in `page_styles` - a list a template sets at
+// its top level, beside `canonical_path` - because inlining all of it put
+// every feature's CSS on every page: the map, the admin, lost and found and
+// AFCON included. Imports stay in this one order, so the cascade between
+// whatever is included is exactly what it was.
+//
+// Guides, tools and documents set their own list in guides/entry.html.jinja,
+// from what their body mounts. A new feature partial goes here as a guarded
+// import, and its pages name it.
+{%- set styles = page_styles|default([]) %}
 
 @import "css/base/variables";
 @import "css/base/reset";
@@ -15,18 +27,26 @@
 @import "css/components/table-of-contents";
 @import "css/components/collections";
 @import "css/components/glossary";
-@import "css/components/tools";
+{% if 'tools' in styles %}@import "css/components/tools";{% endif %}
+{% if 'tool-index' in styles %}@import "css/components/tool-index";{% endif %}
 @import "css/components/forms";
 @import "css/components/cards";
 @import "css/components/icons";
 @import "css/components/support";
-@import "css/components/map";
-@import "css/components/hero-map";
-@import "css/components/subscribe";
-@import "css/components/events";
+{% if 'map' in styles %}@import "css/components/map";{% endif %}
+{% if 'map-frame' in styles %}@import "css/components/map-frame";{% endif %}
+{% if 'hero-map' in styles %}@import "css/components/hero-map";{% endif %}
+{% if 'subscribe' in styles %}@import "css/components/subscribe";{% endif %}
+{% if 'events' in styles %}@import "css/components/events";{% endif %}
 @import "css/components/theme-toggle";
 @import "css/components/install";
-@import "css/components/guide-index";
-@import "css/components/flight-map";
-@import "css/components/radio";
-@import "css/components/afcon";
+{% if 'guide-index' in styles %}@import "css/components/guide-index";{% endif %}
+{% if 'flight-map' in styles %}@import "css/components/flight-map";{% endif %}
+{% if 'radio' in styles %}@import "css/components/radio";{% endif %}
+{% if 'rating' in styles %}@import "css/components/rating";{% endif %}
+{% if 'home' in styles %}@import "css/components/home";{% endif %}
+{% if 'lostfound' in styles %}@import "css/components/lostfound";{% endif %}
+{% if 'pulse' in styles %}@import "css/components/pulse";{% endif %}
+{% if 'admin' in styles %}@import "css/components/admin";{% endif %}
+{% if 'afcon' in styles %}@import "css/components/afcon";{% endif %}
+@import "css/components/notice";

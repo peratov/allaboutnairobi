@@ -1,0 +1,27 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['lostfound'] %}
+{# Indexable only once the service is live - see LOSTFOUND_LIVE in ursus_config.py. #}
+{% if LOSTFOUND_LIVE %}{% set canonical_path = "/lost-and-found/report" %}{% else %}{% set page_robots = "noindex, follow" %}{% endif %}
+{% set metatitle = "Report something lost or found in Nairobi" %}
+{% set metadescription = "List something you lost or found in Nairobi, free, in two minutes. Your number stays private; replies come to a private link." %}
+
+{% block main %}
+	<main id="main" class="single-column" aria-label="Main page">
+		<article class="section lf-report">
+			<p class="lf-crumb"><a href="{{ SITE_URL }}/lost-and-found">&larr; Lost and found</a></p>
+			<h1>List something lost or found</h1>
+			<p class="page-intro">Two minutes. Your phone number and email are never shown - replies come to a private link you get at the end.</p>
+			<div data-lf-report>
+				<noscript><p class="lf-notice">Listing needs JavaScript.</p></noscript>
+			</div>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% include "_blocks/lostFoundVocab.html" %}
+	{% queueJs %}
+		import '/js/lostfound/report.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

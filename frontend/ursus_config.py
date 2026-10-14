@@ -128,9 +128,50 @@ ctx["MAP"] = load_yaml("geo/map-summary.yaml", {})
 ctx["HERO_MAP"] = build_hero_map()
 ctx["FLIGHTS"] = load_yaml("geo/flights-summary.yaml", {"destinations": [], "airlines": []})
 ctx["RADIO"] = load_yaml("geo/radio.yaml", {"stations": [], "meta": {}})
+# Templates run under StrictUndefined, so fill the optional station fields once
+# here rather than guarding every use.
+for _station in ctx["RADIO"]["stations"]:
+    for _field in ("frequency", "owner", "language", "homepage", "bitrate", "stream"):
+        _station.setdefault(_field, None)
 ctx["AFCON"] = load_yaml("geo/afcon.yaml", {"meta": {}, "nairobi_venues": [], "key_dates": [], "stay_areas": []})
 # The same data with dates as ISO strings, for pages that hand it to JavaScript.
 ctx["AFCON_DATA"] = json.loads(json.dumps(ctx["AFCON"], default=str))
+
+# Lost and found's vocabulary - categories, kinds of place, limits. One file,
+# api/_lostfound/vocab.mjs, read by both the pages (here) and the serverless
+# function that enforces it, so a category the form offers is always one the
+# server accepts. Its "districts" are Nairobi's 17 constituencies, from MAP.
+# Until LOSTFOUND_LIVE=1 the pages exist but are noindex and linked from
+# nowhere, and the API answers "not set up yet" until the database is connected.
+def _vocab(relative: str) -> dict:
+    text = (Path(__file__).parent / "api" / relative).read_text(encoding="utf-8")
+    # The code's own line, not the words in the comment above it.
+    return json.loads(text.split("\nexport default ", 1)[1].strip().rstrip(";"))
+
+
+_constituencies = ctx["MAP"].get("constituencies", [])
+ctx["LOSTFOUND_LIVE"] = env_str("LOSTFOUND_LIVE") == "1"
+ctx["LOSTFOUND"] = {
+    **_vocab("_lostfound/vocab.mjs"),
+    "districts": sorted(({"id": c["id"], "name": c["name"]} for c in _constituencies), key=lambda d: d["name"]),
+}
+
+# Nairobi Pulse. Topics, presets and the threshold below which a
+# constituency's answers stay unpublished come from api/_pulse/vocab.mjs, so the
+# page explains exactly the rule the function enforces. Until PULSE_LIVE=1,
+# /pulse works but is noindex and linked from nowhere.
+ctx["PULSE_LIVE"] = env_str("PULSE_LIVE") == "1"
+ctx["PULSE"] = _vocab("_pulse/vocab.mjs")
+ctx["PULSE_DISTRICTS"] = {
+    c["id"]: {"name": c["name"], "short": c["name"], "population": c.get("population") or 0}
+    for c in _constituencies
+}
+
+# The site's own newsletter list (api/news.mjs, sending through Resend, managed
+# in the admin). A build-time switch like LOSTFOUND_LIVE; while it is off, the
+# NEWSLETTER_ACTION / mailto: sign-up is used instead.
+ctx["NEWSLETTER_LIVE"] = env_str("NEWSLETTER_LIVE") == "1"
+ctx["API_URL"] = env_str("API_URL", "/api")
 
 ctx["glossary_groups"] = glossary_groups
 ctx["random_id"] = random_id
@@ -176,10 +217,29 @@ config.renderers.remove("ursus.renderers.sass.SassRenderer")
 config.renderers[config.renderers.index("ursus.renderers.jinja.JinjaRenderer")] = (
     "extensions.renderers.portable_jinja.PortableJinjaRenderer"
 )
+# The site's copy of static files, without the ones only the build reads. See
+# extensions/renderers/static_assets.py.
+config.renderers[config.renderers.index("ursus.renderers.static.StaticAssetRenderer")] = (
+    "extensions.renderers.static_assets.PublicAssetRenderer"
+)
+# search-index.json without the Lunr index the search page never loads. See
+# extensions/renderers/search_index.py.
+config.renderers[config.renderers.index("ursus.renderers.lunr.LunrIndexRenderer")] = (
+    "extensions.renderers.search_index.SearchDocumentsRenderer"
+)
 config.renderers.append("extensions.renderers.glossary_json.GlossaryJsonRenderer")
 config.renderers.append("extensions.renderers.feed.AtomFeedRenderer")
-# Last: it reads the HTML the Jinja renderer just wrote.
+# Each published newsletter issue as email, for the admin to send.
+config.renderers.append("extensions.renderers.newsletter_issues.NewsletterIssuesRenderer")
+# Constants and data files by expiry date, for the admin's Site page.
+config.renderers.append("extensions.renderers.site_status.SiteStatusRenderer")
+# Last but one: it reads the HTML the Jinja renderer just wrote.
 config.renderers.append("extensions.renderers.sitemap.SitemapRenderer")
+# Dead last: it rewrites files the other renderers have already written,
+# stamping a version on every JavaScript URL (vercel.json serves /js/ as
+# immutable, so without this a deploy would never reach a returning browser)
+# and stripping the modules' comments. See extensions/renderers/asset_version.py.
+config.renderers.append("extensions.renderers.asset_version.AssetVersionRenderer")
 
 # libsass emits a BOM that silently kills the first CSS rule. See the class.
 config.jinja_extensions[
@@ -198,6 +258,7 @@ config.context_processors.extend([
     "extensions.context_processors.collections.CollectionsProcessor",
     "extensions.context_processors.glossary.GlossaryProcessor",
     "extensions.context_processors.site_dates.SiteDatesProcessor",
+    "extensions.context_processors.ratings.RatingsProcessor",
     "extensions.context_processors.events.EventsProcessor",
 ])
 

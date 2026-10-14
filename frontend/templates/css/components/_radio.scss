@@ -145,7 +145,22 @@
 .radio-station-site {
 	font-size: var(--f-s);
 	white-space: nowrap;
+
+	svg {
+		display: none;
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
 }
+
+// The row plays when tapped, so it says so to a pointer.
+.radio-station.is-playable { cursor: pointer; }
+.radio-station.is-playable:hover { border-color: var(--c-border-strong); }
 
 // The play button. Only exists once the script has run; without it each row
 // is a plain entry with a link to the station's own site.
@@ -276,6 +291,34 @@ body:has(.radio-bar:not([hidden])) .support-float {
 	color: var(--c-text);
 }
 
+// Previous and next, either side of play: the dial, in the bar.
+.radio-bar-step {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	color: var(--c-text);
+	background: transparent;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+
+	svg {
+		width: 1.2rem;
+		height: 1.2rem;
+		fill: currentColor;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	&:hover { background: var(--c-bg-widget); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
 .radio-bar-volume input {
 	width: 7rem;
 	accent-color: var(--c-laterite);
@@ -318,38 +361,90 @@ radio-player.is-ready {
 	padding-top: var(--m);
 }
 
-// The home page's pointer to /radio, between the hero and "Start here".
-.radio-promo {
-	margin: 0 0 var(--l);
-	padding: var(--s) var(--m);
-	background: var(--c-bg-widget);
-	border: 1px solid var(--c-border);
-	border-left: 4px solid var(--c-laterite);
-	border-radius: var(--b-radius);
-}
+// =============================================================================
+// A phone
+//
+// Measured at 393x851: 5.9 screens; the chips wrapped over 124px; each station
+// was 134-158px, a line of it the words "Station site"; only the 44px circle
+// played; and with something playing, changing station meant scrolling back up
+// the list. Pop out opened a tab, which on a phone is not what it says.
+// =============================================================================
 
-.radio-promo a {
-	text-decoration: none;
-}
-
-// On a phone the "Station site" link took a column of its own and squeezed the
-// station's name into a strip two words wide. Put it under the description
-// instead. Only once the script has added the play buttons; without them the
-// row is two items and the flex layout above suits it.
 @media (max-width: 560px) {
-	radio-player.is-ready .radio-station {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		column-gap: var(--m);
-		row-gap: var(--xs);
-		align-items: start;
+	// The chips are one row that scrolls sideways, edge to edge.
+	.radio-filters-wrap { margin: var(--m) calc(var(--m) * -1) var(--s); }
+
+	.radio-filters {
+		flex-wrap: nowrap;
+		padding: 0 var(--m);
+		overflow-x: auto;
+		scrollbar-width: none;
+		&::-webkit-scrollbar { display: none; }
 	}
 
-	radio-player.is-ready .radio-play {
-		grid-row: span 2;
+	.radio-filter { flex: 0 0 auto; white-space: nowrap; }
+	.radio-filter-result { padding: 0 var(--m); font-size: var(--f-xs); }
+
+	// Stations are rows on the band with a hairline between: play, the name
+	// and what it is, and the station's own site as an icon at the edge.
+	.radio-list { gap: 0; margin-inline: calc(var(--m) * -1); }
+
+	radio-player.is-ready .radio-station {
+		gap: var(--m);
+		padding: var(--s) var(--m);
+		background: none;
+		border: 0;
+		border-left: 4px solid transparent;
+		border-radius: 0;
+
+		& + .radio-station { border-top: 1px solid var(--c-border); }
+		&.is-current { border-left-color: var(--c-laterite); background: var(--c-highlight-soft); }
+	}
+
+	.radio-station-name { font-size: 1rem; }
+
+	.radio-station-about {
+		margin-top: 0.1rem;
+		font-size: var(--f-xs);
+		line-height: 1.45;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	radio-player.is-ready .radio-station-site {
-		grid-column: 2;
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.5rem;
+		height: 2.5rem;
+		color: var(--c-text-light);
+		border-radius: 50%;
+
+		svg { display: block; }
+		&:hover { color: var(--c-text-link); background: var(--c-bg-widget); }
+	}
+
+	radio-player.is-ready .radio-station-site-text {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	// A phone has no pop-up windows: "Pop out" opened a tab. The lock screen
+	// and the bar's previous and next do that job here.
+	.radio-bar-popout { display: none; }
+
+	.radio-bar { gap: var(--xs); padding-inline: var(--s); }
+	.radio-bar-now { margin-inline-start: var(--xs); }
+
+	.support-float.is-yielding-radio {
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(0.5rem);
 	}
 }

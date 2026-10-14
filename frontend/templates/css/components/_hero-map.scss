@@ -136,3 +136,8 @@
 @media (prefers-reduced-motion: reduce) {
 	.hero-map-district { transition: none; }
 }
+
+// The lit district, without color-mix(). See _variables.scss.
+@supports not (color: color-mix(in srgb, red, red)) {
+	.hero-map-district.is-lit { fill: var(--c-laterite); fill-opacity: 0.72; }
+}

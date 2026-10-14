@@ -1,61 +1,14 @@
 {% extends "_layout.html" %}
+{% set page_styles = ['events'] %}
 {% set canonical_path = "/events" %}
 {% set metatitle = "Events in Nairobi" %}
 {% set metadescription = "What is on in Nairobi - festivals, music, public holidays and the annual fixtures. Past dates drop off by themselves." %}
 
-{% macro event_card(event) %}
-	{#
-		Every date the browser needs is on the element, in ISO form, so
-		events-filter.mjs can re-check expiry against the reader's own clock
-		rather than against whenever this page was last built.
-	#}
-	<li class="event"
-		data-category="{{ event.category }}"
-		{% if event.get('ends') %}data-ends="{{ event.ends.isoformat() }}"{% endif %}
-		{% if event.get('starts') %}data-starts="{{ event.starts.isoformat() }}"{% endif %}>
-
-		{% if event.get('starts') %}
-			<time class="event-date" datetime="{{ event.starts.isoformat() }}">
-				<span class="event-day">{{ event.starts.day }}</span>
-				<span class="event-month">{{ event.starts.strftime('%b') }}</span>
-			</time>
-		{% else %}
-			<div class="event-date event-date-annual" aria-hidden="true">
-				<span class="event-day">&#8734;</span>
-				<span class="event-month">yearly</span>
-			</div>
-		{% endif %}
-
-		<div class="event-body">
-			<h3 class="event-title">
-				{% if event.get('url') %}
-					<a href="{{ event.url }}" rel="noopener">{{ event.title }}</a>
-				{% else %}
-					{{ event.title }}
-				{% endif %}
-			</h3>
-
-			<p class="event-meta">
-				<span class="event-tag event-tag-{{ event.category }}">{{ event.category_label }}</span>
-				{% if event.get('is_multi_day') %}
-					<span class="event-when">until {{ event.ends.day }} {{ event.ends.strftime('%b') }}</span>
-				{% endif %}
-				{% if event.get('when') %}<span class="event-when">{{ event.when }}</span>{% endif %}
-				{% if event.get('venue') %}<span class="event-venue">{{ event.venue }}</span>{% endif %}
-				{% if event.get('area') and not event.get('venue') %}<span class="event-venue">{{ event.area }}</span>{% endif %}
-				{% if event.get('price') %}<span class="event-price">{{ event.price }}</span>{% endif %}
-			</p>
-
-			{% if event.get('description') %}
-				<p class="event-description">{{ event.description }}</p>
-			{% endif %}
-		</div>
-	</li>
-{% endmacro %}
+{% from "_blocks/eventCard.html" import event_card %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
-		<article class="section">
+		<article class="section events-page">
 			<div class="section-heading">
 				<span class="icon-stamp">{% include "_icons/culture.svg" %}</span>
 				<h1>Events in Nairobi</h1>
@@ -67,9 +20,32 @@
 				your browser cached weeks ago.
 			</p>
 
+			{# Organisers can send their own; a person checks each before it is here. #}
+			<aside class="event-submit-banner" aria-label="List your event">
+				<span class="event-submit-banner-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 12.5v5M9.5 15h5"/></svg>
+				</span>
+				<p>
+					<strong>Running something in Nairobi?</strong>
+					<span>List it here, free. A person checks every event, usually within a day or two.</span>
+				</p>
+				<a class="event-submit-button" href="{{ SITE_URL }}/events/submit">List your event</a>
+			</aside>
+
+			{#
+				The next real event, large. Filled by events-filter.mjs from the
+				first card still to come - against the reader's clock, so it is
+				never one that has passed - and left out without scripting, when
+				the list below says the same thing.
+			#}
+			<section class="event-next" data-event-next hidden aria-labelledby="event-next-label">
+				<p class="event-next-label" id="event-next-label">Next up</p>
+				<ul class="event-list" data-event-next-list></ul>
+			</section>
+
 			{% if EVENTS.categories %}
 				<div class="event-filters" data-event-filters hidden>
-					<span class="event-filters-label" id="event-filter-label">Show</span>
+					<span class="event-filters-label visually-hidden" id="event-filter-label">Show</span>
 					<div class="event-filter-chips" role="group" aria-labelledby="event-filter-label">
 						<button type="button" class="event-chip is-on" data-filter="all" aria-pressed="true">
 							Everything
@@ -85,6 +61,11 @@
 
 			<p class="event-empty" data-event-empty hidden>
 				Nothing in that category is coming up. Try another.
+			</p>
+			{# Shown when a category has no dated events but some yearly ones. #}
+			<p class="event-empty" data-event-annual-only hidden>
+				Nothing in that category has a date yet.
+				<a href="#every-year" data-event-annual-link></a>
 			</p>
 
 			{% if EVENTS.months %}
@@ -105,7 +86,7 @@
 		</article>
 
 		{% if EVENTS.annual %}
-			<article class="section">
+			<article class="section events-annual">
 				<h2 id="every-year">Every year in Nairobi</h2>
 				<p class="page-intro">
 					Fixtures that come round annually and whose dates for the next
@@ -150,7 +131,11 @@
 		</article>
 	</main>
 
-	<script type="module">
-		import '{{ SITE_URL }}/js/components/events-filter.mjs';
-	</script>
+{% endblock %}
+
+{% block postFooter %}
+	{% queueJs %}
+		import '/js/components/events-filter.mjs';
+	{% endqueueJs %}
+	{{ super() }}
 {% endblock %}

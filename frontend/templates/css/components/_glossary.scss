@@ -28,33 +28,204 @@
 	font-style: italic;
 }
 
+// The definition card: a glossary link tapped on a touchscreen. It sits at the
+// bottom of the screen, where a thumb is, rather than under the link, where a
+// finger is covering it. See glossary-tooltip.mjs.
+.glossary-card {
+	position: fixed;
+	left: var(--s);
+	right: var(--s);
+	bottom: calc(var(--s) + env(safe-area-inset-bottom));
+	z-index: 60;
+	max-width: 32rem;
+	margin: 0 auto;
+	padding: var(--s) var(--m) var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-top: 3px solid var(--c-highlight);
+	border-radius: var(--b-radius);
+	box-shadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.25);
+	animation: glossary-card-up 180ms ease-out;
+
+	p {
+		margin: var(--xs) 0 var(--s);
+		font-size: var(--f-s);
+		line-height: 1.5;
+	}
+}
+
+.glossary-card-head {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+
+	.term-language { margin: 0; }
+}
+
+.glossary-card-term {
+	font-family: var(--font-heading);
+	font-size: 1.1rem;
+	color: var(--c-text-heading);
+}
+
+.glossary-card-close {
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	margin: calc(var(--xs) * -1) calc(var(--s) * -1) calc(var(--xs) * -1) auto;
+	font: inherit;
+	font-size: 1.5rem;
+	line-height: 1;
+	color: var(--c-text-light);
+	background: none;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+
+	&:focus-visible { outline: 2px solid var(--c-highlight); }
+}
+
+.glossary-card-more {
+	display: inline-block;
+	padding: var(--xs) 0;
+	font-size: var(--f-s);
+	font-weight: 600;
+}
+
+@keyframes glossary-card-up {
+	from { transform: translateY(1rem); opacity: 0; }
+	to { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.glossary-card { animation: none; }
+}
+
+// =============================================================================
 // The A-Z index
-.glossary-index { display: grid; gap: var(--xl); }
+//
+// Measured at 393x851: 18 screens, every definition indented 40px by the
+// browser's own dd margin, and a sticky letter block of three wrapped rows -
+// 114px, 27px targets, with a 7px gap above it where the text showed through.
+// Now the filter and language chips come first, the letters are one row that
+// follows the scroll, and definitions use the full width.
+// =============================================================================
+
+.glossary-index { display: grid; gap: var(--xl); margin-top: var(--l); }
+
+// Scripting only, like the guides filter.
+.glossary-tools { display: none; }
+
+.js .glossary-tools {
+	display: grid;
+	gap: var(--s);
+	margin-top: var(--l);
+}
+
+.glossary-filter {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+
+	input[type="search"] {
+		flex: 1 1 auto;
+		max-width: 26rem;
+		min-height: 2.75rem;
+		padding: 0 var(--m);
+		font-size: 1rem;
+	}
+}
+
+.glossary-filter-status {
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.glossary-langs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+}
+
+.glossary-lang {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+	flex: 0 0 auto;
+	min-height: 2.25rem;
+	padding: 0 var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	color: var(--c-text);
+	white-space: nowrap;
+	background: transparent;
+	border: 1px solid var(--c-border);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	span {
+		font-size: var(--f-xs);
+		color: var(--c-text-light);
+		font-variant-numeric: tabular-nums;
+	}
+
+	&:hover { border-color: var(--c-border-strong); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+	&.is-on {
+		color: var(--c-bg-page);
+		background: var(--c-text-heading);
+		border-color: var(--c-text-heading);
+		span { color: inherit; opacity: 0.75; }
+	}
+}
 
 .glossary-jump {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--xs);
 	position: sticky;
-	top: calc(var(--h-header) + var(--s));
-	background: var(--c-bg-page);
-	padding: var(--s) 0;
+	top: var(--h-header);
 	z-index: 5;
+	margin-top: var(--m);
+	padding: var(--s) 0;
+	background: var(--c-bg-page);
+	border-bottom: 1px solid var(--c-border);
 }
 
 .glossary-jump a {
 	display: grid;
 	place-items: center;
-	min-width: 1.9em;
-	padding: 0.15em 0.4em;
+	min-width: 2.25rem;
+	min-height: 2.25rem;
+	padding: 0 0.4em;
 	border: 1px solid var(--c-border);
 	border-radius: var(--b-radius);
 	text-decoration: none;
 	font-size: var(--f-s);
 	font-weight: 600;
+
+	&:hover { background: var(--c-highlight-soft); border-color: var(--c-highlight); }
+
+	&.is-current {
+		color: var(--c-bg-page);
+		background: var(--c-highlight);
+		border-color: var(--c-highlight);
+	}
+
+	// Its group was filtered away.
+	&.is-empty {
+		opacity: 0.3;
+		pointer-events: none;
+	}
 }
 
-.glossary-jump a:hover { background: var(--c-highlight-soft); border-color: var(--c-highlight); }
+// A letter jumped to lands below the header and the strip.
+.glossary-group { scroll-margin-top: calc(var(--h-header) + 4.5rem); }
 
 .glossary-group h2 {
 	font-size: 1.5rem;
@@ -63,10 +234,50 @@
 }
 
 .glossary-group dl { margin: 0; }
-.glossary-group dt { margin-top: var(--m); }
-.glossary-group dt a { text-decoration: none; }
+.glossary-term + .glossary-term { margin-top: var(--m); }
+.glossary-group dt a { text-decoration: none; font-weight: 600; }
 .glossary-group dt a:hover { text-decoration: underline; }
-.glossary-group dd { color: var(--c-text-light); font-size: var(--f-s); }
+
+.glossary-group dd {
+	margin: var(--xs) 0 0;
+	color: var(--c-text-light);
+	font-size: var(--f-s);
+	line-height: 1.5;
+}
+
+.glossary-empty a { display: inline-block; margin-top: var(--xs); font-weight: 600; }
+
+@media (max-width: 40rem) {
+	.js .glossary-filter input[type="search"] { max-width: none; }
+
+	// The chips and the letters are each one row that scrolls sideways, edge to
+	// edge, rather than blocks that wrap down the first screen.
+	.glossary-langs,
+	.glossary-jump {
+		flex-wrap: nowrap;
+		margin-inline: calc(var(--m) * -1);
+		padding-inline: var(--m);
+		overflow-x: auto;
+		scrollbar-width: none;
+		&::-webkit-scrollbar { display: none; }
+	}
+
+	.glossary-jump a { flex: 0 0 auto; min-width: 2.5rem; min-height: 2.5rem; }
+
+	.glossary-index { gap: var(--l); }
+	.glossary-group h2 { font-size: 1.25rem; margin-bottom: var(--xs); }
+
+	// Each word a row with a hairline between: the term is the target, and the
+	// definition reads at the full width.
+	.glossary-term + .glossary-term {
+		margin-top: 0;
+		border-top: 1px solid var(--c-border);
+	}
+
+	.glossary-term { padding: 0.6rem 0; }
+	.glossary-group dt a { display: inline-block; padding: 0.15rem 0; }
+	.glossary-group dd { margin-top: 0; }
+}
 
 .term-language {
 	display: inline-block;
@@ -82,6 +293,27 @@
 }
 
 .term-header { margin-bottom: var(--l); }
+
+// "Glossary" above a term's title. A reader who arrived from a search result
+// had no way back to the other 112 words but the header's Glossary link, which
+// a phone drops below 560px.
+.term-eyebrow {
+	display: inline-block;
+	margin-bottom: var(--xs);
+	font-size: var(--f-s);
+	font-weight: 600;
+	text-decoration: none;
+	letter-spacing: 0.02em;
+
+	&:hover { text-decoration: underline; }
+}
+
+.term-browse {
+	margin: var(--l) 0 0;
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+	font-size: var(--f-s);
+}
 .term-english {
 	font-size: 1.15rem;
 	color: var(--c-text-light);
