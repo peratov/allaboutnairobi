@@ -1,0 +1,1167 @@
+// =============================================================================
+// What's in season, at /seasons
+//
+// Cards to scan, a sheet to read, a table for the whole year. Without
+// scripting the cards show their twelve months and open their facts in place;
+// with it (`food-seasons.is-live`) they are grouped by where they stand in the
+// reader's month, and open in a sheet.
+//
+// The colours say one thing each: forest is in season, a deep forest the best
+// months, gold coming soon, nothing out of season, and a hatch not confirmed.
+// Every status is also a word on the card, so none of it rests on colour.
+// =============================================================================
+
+// The sheet is appended to <body>, outside the page, so it needs them too.
+.seasons-page, .season-sheet {
+	--season-best: var(--c-forest);
+	--season-in: color-mix(in srgb, var(--c-forest) 38%, var(--c-bg-page));
+	--season-soon: var(--c-gold);
+	--season-off: var(--c-bg-widget-opaque);
+	--season-hatch: repeating-linear-gradient(135deg, var(--c-border) 0 2px, transparent 2px 5px);
+}
+
+food-seasons { display: block; }
+
+// --- this month ------------------------------------------------------------
+
+.seasons-now { margin: var(--l) 0 var(--m); }
+
+// The title breaks where it reads, not where it runs out of room.
+.seasons-page h1 { text-wrap: balance; }
+
+.seasons-ribbon {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 2px;
+	padding: 3px;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 10px;
+}
+
+.seasons-month {
+	position: relative;
+	min-width: 0;
+	min-height: 2.75rem;
+	padding: 0 0 0.3rem;
+	font: inherit;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--c-text);
+	background: transparent;
+	border: 0;
+	border-radius: 7px;
+	cursor: pointer;
+	transition: background 160ms ease, color 160ms ease;
+
+	.m1 { display: none; }
+
+	// The month's rain, as an underline: the key sits beneath the control.
+	&::after {
+		content: "";
+		position: absolute;
+		left: 24%;
+		right: 24%;
+		bottom: 0.32rem;
+		height: 3px;
+		border-radius: 2px;
+		background: var(--c-gold);
+	}
+
+	&.rain-major::after { background: var(--c-rain); }
+	&.rain-minor::after { background: color-mix(in srgb, var(--c-rain) 55%, var(--c-bg-page)); }
+	&.rain-break::after { background: color-mix(in srgb, var(--c-rain) 30%, var(--c-bg-page)); }
+
+	// This month: a dot, inside the cell rather than a badge over its edge.
+	small {
+		position: absolute;
+		top: 0.3rem;
+		left: 50%;
+		width: 5px;
+		height: 5px;
+		margin-left: -2.5px;
+		background: var(--c-laterite);
+		border-radius: 50%;
+	}
+
+	&:hover { background: var(--c-bg-widget); }
+	&[aria-pressed="true"] {
+		color: var(--c-bg-on-accent);
+		background: var(--c-text-heading);
+
+		small { background: var(--c-bg-on-accent); }
+	}
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -1px; z-index: 1; }
+}
+
+.seasons-ribbon-key {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.15rem var(--m);
+	font-size: 0.78rem;
+	color: var(--c-text-light);
+
+	span { display: inline-flex; align-items: center; gap: 0.35rem; }
+
+	i { display: inline-block; width: 0.9rem; height: 3px; border-radius: 2px; background: var(--c-gold); }
+	i.rain-major { background: var(--c-rain); }
+	i.rain-minor { background: color-mix(in srgb, var(--c-rain) 55%, var(--c-bg-page)); }
+
+	.seasons-ribbon-today { margin-left: auto; }
+	.seasons-ribbon-today i { width: 5px; height: 5px; border-radius: 50%; background: var(--c-laterite); }
+}
+
+.seasons-month-card {
+	display: grid;
+	gap: var(--s);
+	padding: var(--m) var(--l) var(--m);
+	background: var(--c-bg-widget);
+	border-radius: var(--b-radius);
+	border-left: 4px solid var(--c-forest);
+
+	p { margin: 0; }
+}
+
+.seasons-month-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--xs) var(--m);
+}
+
+.seasons-rain {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-light);
+
+	&::before {
+		content: "";
+		width: 0.75rem;
+		height: 0.75rem;
+		border-radius: 50%;
+		background: var(--c-gold);
+	}
+
+	&.rain-major::before { background: var(--c-rain); }
+	&.rain-minor::before { background: color-mix(in srgb, var(--c-rain) 55%, var(--c-bg-page)); }
+	&.rain-break::before { background: color-mix(in srgb, var(--c-rain) 30%, var(--c-bg-page)); }
+}
+
+.seasons-month-title {
+	margin: 0;
+	font-size: 1.6rem;
+}
+
+// Three counts that are also three ways in.
+.seasons-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li { margin: 0; }
+}
+
+.seasons-stat {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	min-height: 3.6rem;
+	padding: var(--s) var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	line-height: 1.25;
+	text-align: left;
+	color: var(--c-text-light);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+	transition: border-color 160ms ease, transform 160ms ease;
+
+	strong {
+		font-family: var(--font-heading);
+		font-size: 1.5rem;
+		line-height: 1.1;
+		color: var(--c-text-heading);
+		font-variant-numeric: tabular-nums;
+	}
+
+	&.is-in strong { color: var(--c-forest); }
+	&.is-soon strong { color: var(--c-gold); }
+	&:hover { border-color: var(--c-border-strong); transform: translateY(-1px); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// What the farms are doing. Two lines on a phone, with More.
+.seasons-farm-text {
+	color: var(--c-text);
+
+	strong { color: var(--c-text-heading); }
+}
+
+.seasons-farm-more {
+	min-height: 2.25rem;
+	padding: 0;
+	font: inherit;
+	font-weight: 600;
+	color: var(--c-text-link);
+	background: none;
+	border: 0;
+	cursor: pointer;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.seasons-peak { margin: 0; }
+
+.seasons-peak-label {
+	margin: 0 0 var(--xs);
+	font-size: var(--f-s);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--c-text-light);
+}
+
+.seasons-peak-list {
+	display: flex;
+	gap: var(--s);
+	overflow-x: auto;
+	margin: 0;
+	padding: 0 0 var(--xs);
+	list-style: none;
+	scrollbar-width: thin;
+
+	li { flex: 0 0 auto; margin: 0; animation: season-arrive 320ms ease both; animation-delay: calc(var(--i, 0) * 50ms); }
+}
+
+.seasons-peak-item {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	min-height: 2.75rem;
+	padding: 0.2rem var(--m) 0.2rem 0.2rem;
+	font: inherit;
+	font-weight: 600;
+	color: var(--c-text-heading);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 3rem;
+	cursor: pointer;
+	transition: border-color 160ms ease, transform 160ms ease;
+
+	img { width: 2.25rem; height: 2.25rem; object-fit: cover; border-radius: 50%; }
+	&:hover { border-color: var(--c-forest); transform: translateY(-1px); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// --- tabs and filters --------------------------------------------------------
+
+.seasons-tabs {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	margin: var(--l) 0 var(--m);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	overflow: hidden;
+
+	button {
+		min-height: 2.9rem;
+		padding: var(--xs) var(--s);
+		font: inherit;
+		font-weight: 600;
+		color: var(--c-text);
+		background: var(--c-bg-page);
+		border: 0;
+		border-left: 1px solid var(--c-border-strong);
+		cursor: pointer;
+
+		&:first-child { border-left: 0; }
+		&[aria-selected="true"] { color: var(--c-bg-on-accent); background: var(--c-text-heading); }
+		&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+	}
+}
+
+.seasons-filters { display: grid; gap: var(--s); margin-bottom: var(--m); }
+
+.seasons-search {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	padding: 0 var(--m);
+	min-height: 3rem;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+
+	svg { flex: 0 0 auto; fill: none; stroke: var(--c-text-light); stroke-width: 2; stroke-linecap: round; }
+
+	input {
+		flex: 1;
+		min-width: 0;
+		padding: var(--s) 0;
+		font: inherit;
+		font-size: 1rem; // 16px: under it iOS zooms on focus
+		color: var(--c-text);
+		background: transparent;
+		border: 0;
+
+		&:focus { outline: none; }
+	}
+
+	&:focus-within { outline: 3px solid var(--c-highlight); outline-offset: 1px; }
+}
+
+.seasons-chipbar {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	overflow-x: auto;
+	scrollbar-width: none;
+	padding: 2px 2px 4px;
+
+	&::-webkit-scrollbar { display: none; }
+}
+
+.seasons-chips {
+	display: flex;
+	flex: 0 0 auto;
+	gap: var(--xs);
+}
+
+// The kinds, after a hairline, so the two questions read apart.
+.seasons-chips.is-kinds {
+	padding-left: var(--s);
+	border-left: 1px solid var(--c-border-strong);
+
+	&[hidden] { display: none; }
+}
+
+.seasons-chip {
+	flex: 0 0 auto;
+	min-height: 2.5rem;
+	padding: 0 var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	&[aria-pressed="true"] { color: var(--c-bg-on-accent); background: var(--c-forest); border-color: var(--c-forest); }
+	&.is-saved[aria-pressed="true"] { background: var(--c-laterite); border-color: var(--c-laterite); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+}
+
+.seasons-chips.is-kinds .seasons-chip[aria-pressed="true"] { background: var(--c-text-heading); border-color: var(--c-text-heading); }
+
+.seasons-empty {
+	padding: var(--l);
+	text-align: center;
+	color: var(--c-text-light);
+	background: var(--c-bg-widget);
+	border-radius: var(--b-radius);
+}
+
+// --- the cards ----------------------------------------------------------------
+
+.seasons-section { margin-top: var(--l); }
+.seasons-section-title { margin-bottom: var(--m); }
+
+// Scripted, the tabs name the sections.
+food-seasons.is-live .seasons-section-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+food-seasons.is-live .seasons-section { margin-top: 0; }
+
+.season-group + .season-group { margin-top: var(--l); }
+
+.season-group-title {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	margin: 0 0 var(--s);
+	font-family: var(--font-heading);
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: var(--c-text-heading);
+
+	&::before {
+		content: "";
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: 50%;
+		background: var(--season-off);
+		border: 1px solid var(--c-border-strong);
+	}
+
+	&.is-in::before { background: var(--season-best); border-color: var(--season-best); }
+	&.is-year::before { background: var(--season-in); border-color: var(--c-forest); }
+	&.is-soon::before { background: var(--season-soon); border-color: var(--season-soon); }
+	&.is-unk::before { background: var(--season-hatch); }
+}
+
+.season-group-count {
+	font-family: var(--font-body);
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-light);
+}
+
+ul.seasons-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+	gap: var(--m);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.season-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	overflow: hidden;
+	transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+
+	&:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.45); }
+	&.is-out, &.is-unk { opacity: 0.86; }
+	&.is-out img { filter: saturate(0.6); }
+	&.is-peak { border-color: var(--season-best); }
+}
+
+.season-arrive { animation: season-arrive 340ms ease both; animation-delay: calc(var(--i, 0) * 35ms); }
+
+@keyframes season-arrive {
+	from { opacity: 0; transform: translateY(8px); }
+	to { opacity: 1; transform: none; }
+}
+
+.season-photo {
+	position: relative;
+	aspect-ratio: 4 / 3;
+	background: var(--c-bg-widget-opaque);
+
+	// Pinned inside the box: an image in flow sets the box's height from its
+	// own, and the 4:3 frame grew to every photo's shape.
+	img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+}
+
+// The status, on the photo.
+.season-pill {
+	position: absolute;
+	left: var(--s);
+	bottom: var(--s);
+	max-width: calc(100% - 1rem);
+	padding: 0.2rem 0.6rem;
+	font-size: 0.8rem;
+	font-weight: 700;
+	line-height: 1.35;
+	color: var(--c-text-heading);
+	background: var(--c-bg-page);
+	border-radius: 2rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.is-in .season-pill { color: var(--c-bg-on-accent); background: var(--c-forest); }
+.is-peak .season-pill { color: var(--c-bg-on-accent); background: var(--c-forest); box-shadow: 0 0 0 2px var(--c-bg-page), 0 1px 3px rgba(0, 0, 0, 0.25); }
+.is-soon .season-pill { color: var(--c-bg-on-accent); background: var(--c-gold); }
+
+.season-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--xs);
+	flex: 1;
+	padding: var(--s) var(--m) var(--m);
+
+	h3 { margin: 0; padding-right: 2rem; font-size: 1.1rem; line-height: 1.25; }
+	p { margin: 0; }
+}
+
+.season-link {
+	color: var(--c-text-heading);
+	text-decoration: none;
+
+	&:visited { color: var(--c-text-heading); }
+	&:focus-visible { outline: none; }
+	&:focus-visible::after { outline: 3px solid var(--c-highlight); outline-offset: -3px; border-radius: var(--b-radius); }
+}
+
+// Scripted, the whole card opens the sheet; without, the link stays a link.
+food-seasons.is-live .season-link::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+
+.season-when { font-size: var(--f-s); line-height: 1.4; color: var(--c-text-light); }
+
+// Twelve months, one cell each.
+.season-strip {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	gap: 2px;
+	margin-top: auto;
+	padding-top: var(--xs);
+
+	i {
+		display: block;
+		height: 0.55rem;
+		background: var(--season-off);
+		border-radius: 2px;
+		font-style: normal;
+
+		&.s { background: var(--season-in); }
+		&.p { background: var(--season-best); }
+		&.u { background: var(--season-hatch); }
+	}
+
+	b { display: none; }
+}
+
+// The big strip, in the sheet, carries the initials.
+.season-strip.is-big {
+	gap: 3px;
+	margin: var(--s) 0 var(--m);
+
+	i {
+		display: grid;
+		place-items: center;
+		height: 2.1rem;
+		border-radius: 4px;
+
+		&.p b { color: var(--c-bg-on-accent); }
+	}
+
+	b {
+		display: block;
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--c-text);
+	}
+}
+
+// The reader's chosen month, marked in every strip and in the table.
+@for $m from 1 through 12 {
+	food-seasons[data-month="#{$m}"] .season-strip i[data-m="#{$m}"],
+	.season-sheet[data-month="#{$m}"] .season-strip i[data-m="#{$m}"] {
+		box-shadow: 0 0 0 2px var(--c-text-heading);
+	}
+
+	food-seasons[data-month="#{$m}"] .seasons-table [data-m="#{$m}"] {
+		box-shadow: inset 2px 0 0 var(--c-text-heading), inset -2px 0 0 var(--c-text-heading);
+	}
+
+	food-seasons[data-month="#{$m}"] .seasons-table thead [data-m="#{$m}"] {
+		color: var(--c-bg-on-accent);
+		background: var(--c-text-heading);
+	}
+}
+
+.season-more {
+	margin-top: var(--s);
+	font-size: var(--f-s);
+
+	summary { min-height: 2.75rem; display: flex; align-items: center; font-weight: 600; color: var(--c-text-link); cursor: pointer; }
+}
+
+// Scripted, the facts live in the sheet.
+food-seasons.is-live .season-more { display: none; }
+
+.season-facts {
+	dl { margin: 0 0 var(--s); }
+	dl > div { padding: var(--s) 0; border-top: 1px solid var(--c-border); }
+	dt { font-weight: 700; color: var(--c-text-heading); }
+	dd { margin: 0.1rem 0 0; }
+}
+
+.season-basis, .season-credit { font-size: var(--f-s); color: var(--c-text-light); }
+.season-basis a { margin-right: 0.15rem; }
+
+.season-save {
+	position: absolute;
+	top: var(--s);
+	right: var(--s);
+	z-index: 2;
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	background: color-mix(in srgb, var(--c-bg-page) 88%, transparent);
+	border: 0;
+	border-radius: 50%;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+	cursor: pointer;
+	transition: transform 160ms ease;
+
+	svg { fill: none; stroke: var(--c-text-heading); stroke-width: 2; }
+	&[aria-pressed="true"] svg { fill: var(--c-laterite); stroke: var(--c-laterite); }
+	&[aria-pressed="true"] { animation: season-pop 260ms ease; }
+	&:hover { transform: scale(1.08); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// The card's own save button is placed relative to the card, not the body.
+.season-card > .season-save { top: var(--s); }
+
+@keyframes season-pop {
+	50% { transform: scale(1.25); }
+}
+
+// --- the year, as a table -------------------------------------------------------
+
+.seasons-table-wrap { margin: var(--m) 0; }
+
+.seasons-table {
+	width: 100%;
+	min-width: 40rem;
+	border-collapse: separate;
+	border-spacing: 2px;
+	font-size: var(--f-s);
+
+	th, td { padding: 0; border: 0; }
+
+	thead th {
+		padding: var(--xs) 0;
+		font-weight: 700;
+		text-align: center;
+		border-radius: 3px;
+
+		abbr { text-decoration: none; }
+		.m1 { display: none; }
+	}
+
+	thead th:first-child { text-align: left; }
+
+	tbody th {
+		position: sticky;
+		left: 0;
+		z-index: 1;
+		padding-right: var(--s);
+		text-align: left;
+		background: var(--c-bg-page);
+
+		a {
+			display: flex;
+			align-items: center;
+			gap: var(--s);
+			min-height: 2.25rem;
+			font-weight: 600;
+			color: var(--c-text-heading);
+			text-decoration: none;
+			white-space: nowrap;
+
+			&:hover { text-decoration: underline; }
+		}
+
+		img { width: 1.75rem; height: 1.75rem; object-fit: cover; border-radius: 50%; }
+	}
+
+	td {
+		min-width: 1.8rem;
+		background: var(--season-off);
+		border-radius: 3px;
+
+		&.s { background: var(--season-in); }
+		&.p { background: var(--season-best); }
+		&.u { background: var(--season-hatch); }
+	}
+}
+
+.seasons-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s) var(--l);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+
+	li { display: flex; align-items: center; gap: var(--xs); margin: 0; }
+
+	i {
+		width: 1rem;
+		height: 1rem;
+		border-radius: 3px;
+		background: var(--season-off);
+		border: 1px solid var(--c-border);
+
+		&.s { background: var(--season-in); }
+		&.p { background: var(--season-best); }
+		&.u { background: var(--season-hatch); }
+	}
+}
+
+// --- the rains and the year on the farms -------------------------------------------
+
+ol.seasons-rains {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	gap: 3px;
+	margin: var(--m) 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--xs);
+		margin: 0;
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: var(--c-text-light);
+	}
+
+	i { display: block; width: 100%; height: 0.6rem; border-radius: 3px; background: var(--c-gold); }
+	.rain-major i { height: 2.6rem; background: var(--c-rain); }
+	.rain-minor i { height: 1.6rem; background: color-mix(in srgb, var(--c-rain) 55%, var(--c-bg-page)); }
+	.rain-break i { height: 1rem; background: color-mix(in srgb, var(--c-rain) 30%, var(--c-bg-page)); }
+
+	// Bars stand on a common baseline.
+	li { justify-content: flex-end; min-height: 3.8rem; }
+}
+
+dl.seasons-year {
+	margin: var(--m) 0;
+
+	> div { padding: var(--s) 0; border-top: 1px solid var(--c-border); }
+	dt { font-weight: 700; color: var(--c-text-heading); }
+	dd { margin: 0.15rem 0 0; }
+}
+
+// Where the food comes from: one card per supply area, as many columns as fit.
+ul.seasons-areas {
+	display: grid;
+	// unquote: libsass would otherwise try min() itself and fail on rem and %.
+	grid-template-columns: repeat(auto-fill, minmax(unquote("min(100%, 15rem)"), 1fr));
+	gap: var(--s);
+	margin: var(--m) 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		margin: 0;
+		padding: var(--s) var(--m) var(--m);
+		background: var(--c-bg-widget);
+		border: 1px solid var(--c-border);
+		border-top: 3px solid var(--c-forest);
+		border-radius: var(--b-radius);
+	}
+
+	h3 { margin: 0.3rem 0 0; font-size: 1.05rem; }
+	p { margin: 0.35rem 0 0; font-size: var(--f-s); }
+
+	.seasons-area-places {
+		margin-top: 0.1rem;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		color: var(--c-text-light);
+	}
+}
+
+ol.seasons-sources {
+	font-size: var(--f-s);
+
+	li { margin-bottom: var(--xs); }
+	li:target { background: var(--c-bg-selection); }
+}
+
+// --- the sheet ------------------------------------------------------------------
+
+html.has-season-sheet { overflow: hidden; }
+
+.season-sheet {
+	width: calc(100% - 2rem);
+	max-width: 40rem;
+	max-height: calc(100vh - 4rem);
+	max-height: calc(100dvh - 4rem);
+	padding: 0;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 10px;
+	box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.3);
+	overscroll-behavior: contain;
+	overflow: hidden;
+	opacity: 0;
+	transform: translateY(12px) scale(0.98);
+	transition: opacity 200ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+	&.is-open { opacity: 1; transform: none; }
+	&::backdrop { background: rgba(20, 14, 8, 0.55); }
+}
+
+.season-sheet-inner {
+	position: relative;
+	max-height: calc(100vh - 4rem);
+	max-height: calc(100dvh - 4rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.season-sheet-close {
+	position: absolute;
+	top: var(--s);
+	right: var(--s);
+	z-index: 2;
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	font-size: 1.6rem;
+	line-height: 1;
+	color: var(--c-text-heading);
+	background: color-mix(in srgb, var(--c-bg-page) 90%, transparent);
+	border: 0;
+	border-radius: 50%;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.season-sheet-figure {
+	position: relative;
+	aspect-ratio: 16 / 10;
+	background: var(--c-bg-widget-opaque);
+
+	.season-sheet-photo { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+	.season-pill { left: var(--m); bottom: var(--m); font-size: 0.9rem; }
+}
+
+.season-sheet.is-in .season-pill, .season-sheet.is-peak .season-pill { color: var(--c-bg-on-accent); background: var(--c-forest); }
+.season-sheet.is-soon .season-pill { color: var(--c-bg-on-accent); background: var(--c-gold); }
+
+.season-sheet-body {
+	padding: var(--m) var(--l) var(--l);
+
+	.season-facts { font-size: 1rem; }
+	.season-basis, .season-credit { margin: var(--s) 0 0; }
+}
+
+.season-sheet-title { margin: 0; font-size: 1.6rem; }
+.season-sheet .season-when { margin: var(--xs) 0 0; font-size: 1rem; }
+
+// The item before, saving this one, and the item after: pinned to the bottom
+// of the sheet, so they are where the thumb is however far down it reads.
+.season-sheet-foot {
+	position: sticky;
+	bottom: 0;
+	z-index: 2;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	align-items: center;
+	gap: var(--s);
+	padding: var(--s) var(--l) calc(var(--s) + env(safe-area-inset-bottom));
+	background: color-mix(in srgb, var(--c-bg-page) 94%, transparent);
+	border-top: 1px solid var(--c-border);
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+}
+
+.season-sheet-save {
+	min-height: 2.9rem;
+	padding: 0 var(--l);
+	font: inherit;
+	font-weight: 700;
+	white-space: nowrap;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border: 1px solid var(--c-laterite);
+	border-radius: 2rem;
+	cursor: pointer;
+
+	&[aria-pressed="true"] { color: var(--c-laterite); background: transparent; }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.season-sheet-step {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	min-width: 0;
+	min-height: 2.9rem;
+	padding: 0 var(--s);
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-link);
+	background: none;
+	border: 0;
+	border-radius: var(--b-radius);
+	cursor: pointer;
+
+	> span[aria-hidden] { font-size: 1.3rem; line-height: 1; }
+	&.is-next { justify-content: flex-end; text-align: right; }
+	&:hover { background: var(--c-bg-widget); }
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.season-sheet-step-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+// The grip says the sheet can be dragged; a phone only.
+.season-sheet-grip { display: none; }
+
+// Stepping to the next item slides it in from the side it came from.
+.season-sheet-inner.is-step-next .season-sheet-figure img,
+.season-sheet-inner.is-step-next .season-sheet-body { animation: season-step-next 260ms ease both; }
+.season-sheet-inner.is-step-prev .season-sheet-figure img,
+.season-sheet-inner.is-step-prev .season-sheet-body { animation: season-step-prev 260ms ease both; }
+
+@keyframes season-step-next { from { opacity: 0; transform: translateX(28px); } }
+@keyframes season-step-prev { from { opacity: 0; transform: translateX(-28px); } }
+
+.season-sheet-figure { transition: transform 200ms ease; }
+
+// --- the month, at the thumb -------------------------------------------------------
+
+.seasons-dock { display: none; }
+
+// --- a phone ----------------------------------------------------------------------
+
+@media (max-width: 40rem) {
+	// --- the top: ribbon, the answer, the month
+	.seasons-now { margin-top: var(--m); }
+
+	.seasons-month-card { padding: var(--m); gap: var(--s); }
+	.seasons-month-title { font-size: 1.3rem; }
+
+	.seasons-stat {
+		min-height: 3.3rem;
+		padding: var(--xs) var(--s);
+		font-size: 0.82rem;
+
+		strong { font-size: 1.3rem; }
+	}
+
+	.seasons-farm-text {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		font-size: 0.95rem;
+	}
+
+	.seasons-farm.is-open .seasons-farm-text { display: block; -webkit-line-clamp: none; }
+
+	// Bleed the scrolling rows to the band's edge, so a swipe starts at it.
+	.seasons-chipbar, .season-group.is-row ul.seasons-grid {
+		margin-left: calc(-1 * var(--m));
+		margin-right: calc(-1 * var(--m));
+		padding-left: var(--m);
+		padding-right: var(--m);
+		scroll-padding-left: var(--m);
+	}
+
+	// Inside the panel the photo chips bleed to its edges instead.
+	.seasons-peak-list {
+		margin-left: calc(-1 * var(--m));
+		margin-right: calc(-1 * var(--m));
+		padding-left: var(--m);
+		padding-right: var(--m);
+	}
+
+	// Twelve cells across a phone: 3-letter months at a size that fits, and
+	// the panel's padding tightened so the cells get the width.
+	.seasons-month { font-size: 0.78rem; letter-spacing: -0.01em; }
+	.seasons-month-card { padding: var(--s) var(--m) var(--m); }
+	.seasons-ribbon { margin: 0 calc(var(--s) - var(--m)); }
+	.seasons-page .page-intro { font-size: 1rem; }
+
+	// --- tabs and filters
+	.seasons-tabs {
+		margin: var(--m) 0 var(--s);
+
+		button { min-height: 2.75rem; font-size: 0.92rem; white-space: nowrap; }
+	}
+
+	.seasons-search { min-height: 2.75rem; }
+	.seasons-chip { min-height: 2.5rem; padding: 0 0.85rem; }
+
+	// --- the cards: two to a row, or a row to swipe
+	ul.seasons-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s); }
+
+	.season-group.is-row ul.seasons-grid {
+		display: flex;
+		gap: var(--s);
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		padding-bottom: var(--xs);
+
+		&::-webkit-scrollbar { display: none; }
+
+		// A little under half, so the third card peeks in and says there is more.
+		> .season-card { flex: 0 0 42%; scroll-snap-align: start; }
+		> .season-card[hidden] { display: none; }
+	}
+
+	.season-group.is-row .season-group-title::after {
+		content: "swipe ›";
+		margin-left: auto;
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--c-text-light);
+	}
+
+	.season-group + .season-group { margin-top: var(--m); }
+	.season-group-title { font-size: 1.1rem; }
+
+	.season-body { padding: var(--s) var(--s) var(--s); h3 { font-size: 1rem; } }
+	.season-when {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		font-size: 0.85rem;
+	}
+	.season-pill { font-size: 0.75rem; }
+	.season-strip i { height: 0.65rem; }
+	.season-card:hover { transform: none; }
+
+	// --- the year: all twelve months on one screen, a letter each
+	.seasons-table {
+		min-width: 0;
+		border-spacing: 1px;
+		font-size: 0.82rem;
+
+		thead th { font-size: 0.75rem; }
+		thead th .m3 { display: none; }
+		thead th .m1 { display: inline; }
+
+		tbody th {
+			width: 7.4rem;
+			max-width: 7.4rem;
+
+			a { gap: 0.35rem; min-height: 2rem; white-space: normal; line-height: 1.15; }
+			img { width: 1.4rem; height: 1.4rem; flex: 0 0 auto; }
+		}
+
+		td { min-width: 0; height: 2rem; }
+	}
+
+	.seasons-table-wrap { overflow-x: visible; }
+
+	// --- the dock
+	food-seasons.is-live { padding-bottom: 4.75rem; }
+
+	.seasons-dock {
+		position: fixed;
+		left: var(--s);
+		right: var(--s);
+		bottom: calc(var(--s) + env(safe-area-inset-bottom));
+		z-index: 40;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: var(--xs);
+		padding: var(--xs);
+		color: var(--c-bg-on-accent);
+		background: var(--c-text-heading);
+		border-radius: 1.75rem;
+		box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.5);
+		transform: translateY(calc(100% + 2rem));
+		transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+		&.is-shown { transform: none; }
+	}
+
+	.seasons-dock-step, .seasons-dock-now {
+		min-height: 3rem;
+		font: inherit;
+		color: inherit;
+		background: none;
+		border: 0;
+		border-radius: 1.5rem;
+		cursor: pointer;
+
+		&:active { background: color-mix(in srgb, var(--c-bg-on-accent) 14%, transparent); }
+		&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: -3px; }
+	}
+
+	.seasons-dock-step { padding: 0 var(--m); font-weight: 700; white-space: nowrap; }
+
+	.seasons-dock-now {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		line-height: 1.2;
+
+		strong { font-family: var(--font-heading); font-size: 1.05rem; color: inherit; }
+		span { font-size: 0.78rem; opacity: 0.85; }
+	}
+
+	// --- the sheet: from the bottom, the width of the screen
+	.season-sheet {
+		width: 100%;
+		max-width: none;
+		max-height: 92vh;
+		max-height: 92dvh;
+		margin: auto 0 0;
+		border-radius: 16px 16px 0 0;
+		transform: translateY(100%);
+		transition: opacity 160ms ease, transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+		&.is-open { transform: none; }
+	}
+
+	.season-sheet-inner { max-height: 92vh; }
+	.season-sheet-inner { max-height: 92dvh; }
+
+	.season-sheet-grip {
+		position: absolute;
+		top: 0.45rem;
+		left: 50%;
+		z-index: 3;
+		display: block;
+		width: 2.5rem;
+		height: 0.3rem;
+		margin-left: -1.25rem;
+		background: color-mix(in srgb, var(--c-bg-page) 85%, transparent);
+		border-radius: 1rem;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+	}
+
+	.season-sheet-figure { aspect-ratio: 16 / 11; }
+	.season-sheet-body { padding: var(--m) var(--m) var(--l); }
+	.season-sheet-title { font-size: 1.45rem; }
+	.season-sheet-foot { padding-left: var(--s); padding-right: var(--s); }
+	.season-strip.is-big i { height: 1.9rem; }
+}
+
+@media (max-width: 22rem) {
+	.seasons-month .m3 { display: none; }
+	.seasons-month .m1 { display: inline; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.season-card, .seasons-month, .seasons-peak-item, .season-save, .season-sheet, .seasons-dock, .seasons-stat, .season-sheet-figure { transition: none; }
+	.season-arrive, .seasons-peak-list li, .season-save[aria-pressed="true"],
+	.season-sheet-inner .season-sheet-figure img, .season-sheet-inner .season-sheet-body { animation: none; }
+	.season-sheet { transform: none; }
+}
+
+// "In season" is a mix of forest and the page; without color-mix() the months
+// it marks lost their colour. See _variables.scss.
+@supports not (color: color-mix(in srgb, red, red)) {
+	.seasons-page, .season-sheet { --season-in: var(--c-highlight-soft); }
+}

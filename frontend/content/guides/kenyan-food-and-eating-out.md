@@ -60,5 +60,6 @@ to the city.
 
 ## Next
 
+- [What's in season in Nairobi](/seasons) - mangoes, potatoes, greens, meat and fish, month by month
 - [Shopping and eating in Nairobi](/guides/shopping-in-nairobi)
 - [Swahili for daily life](/guides/swahili-for-daily-life)

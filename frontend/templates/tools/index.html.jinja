@@ -15,6 +15,8 @@
 {% set live_pages = [
 	{'url': '/afcon', 'title': 'AFCON 2027 in Nairobi',
 	 'text': 'A live countdown, the three stadiums, key dates you can add to your calendar, and a fan phrasebook.'},
+	{'url': '/seasons', 'title': "What's in season in Nairobi",
+	 'text': AGRICULTURE['items']|length ~ ' foods month by month, from mangoes to omena: what is good now, what is coming, and where it is grown.'},
 	{'url': '/map', 'title': 'Map of Nairobi',
 	 'text': 'All ' ~ MAP.constituencies|length ~ ' constituencies and ' ~ MAP.landmarks|length ~ ' landmarks, shaded by population, wealth and rent.'},
 	{'url': '/flights', 'title': 'Nonstop flights from Nairobi',
@@ -24,11 +26,13 @@
 	{'url': '/events', 'title': 'Events in Nairobi',
 	 'text': 'Festivals, matches, public holidays and the fixtures that come round every year.'},
 ] %}
-{# Nairobi Pulse joins the list on its launch day, with the rest of its links. #}
-{% if PULSE_LIVE %}
-	{% set live_pages = [{'url': '/pulse', 'title': 'Nairobi Pulse',
-		'text': 'Vote on questions about the city from inside Nairobi, and see on a live map how each of the ' ~ MAP.constituencies|length ~ ' constituencies answers.'}] + live_pages %}
-{% endif %}
+{# Nairobi Pulse and lost and found are listed before they open, saying so. #}
+{% set live_pages = live_pages + [
+	{'url': '/pulse', 'title': 'Nairobi Pulse' ~ ('' if PULSE_LIVE else ' (opening soon)'),
+	 'text': 'Vote on questions about the city from inside Nairobi, and see on a live map how each of the ' ~ MAP.constituencies|length ~ ' constituencies answers.'},
+	{'url': '/lost-and-found', 'title': 'Lost and found' ~ ('' if LOSTFOUND_LIVE else ' (opening soon)'),
+	 'text': 'List something you lost or found in Nairobi, free. Your number is never shown.'},
+] %}
 
 {% macro toolCard(url, title, text) %}
 	<li>

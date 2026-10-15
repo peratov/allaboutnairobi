@@ -48,3 +48,7 @@ come as heavy afternoon or evening downpours rather than all-day drizzle.
 January to February and June to October are the dry seasons, and the best for
 safaris and day trips, when roads are passable and wildlife gathers near
 water. See [Day trips from Nairobi](/guides/day-trips-from-nairobi).
+
+The rains also set what is in the markets: mangoes from November, potatoes
+cheapest from July to September, and milk shorter in the cold, dry months. See
+[What's in season in Nairobi](/seasons).

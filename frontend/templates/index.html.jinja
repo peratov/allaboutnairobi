@@ -30,6 +30,7 @@
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<section class="hero">
+			{% include "_blocks/homeNow.html" %}
 			<div class="hero-inner">
 			<div class="hero-text">
 			<h1>Everything nobody tells you about living in Nairobi</h1>
@@ -239,6 +240,7 @@
 
 	<script type="module">
 		import '{{ SITE_URL }}/js/components/afcon-countdown.mjs';
+		import '{{ SITE_URL }}/js/components/home-now.mjs';
 	</script>
 {% endblock %}
 

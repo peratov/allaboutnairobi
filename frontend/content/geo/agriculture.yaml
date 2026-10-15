@@ -1,0 +1,687 @@
+# What is in season in Nairobi, and where the city's food comes from.
+# Hand-kept, compiled for this site on 2026-10-14 from the sources numbered at
+# the bottom. Loaded as AGRICULTURE; /seasons renders from it, so a window
+# here is the window everywhere.
+#
+# Nairobi grows little of what it eats. Its food comes in by road from the
+# highlands around it, the Rift Valley, the drier east, Lake Victoria and the
+# coast, so a season here is the season where the food is grown, as it
+# reaches Nairobi's markets.
+#
+# Every item carries `basis`:
+#   sourced  - a named source states the window
+#   typical  - the window follows from Kenya's two rainy seasons or general
+#              Kenyan crop calendars; no Nairobi-specific source was found
+#   unknown  - sources disagree or none was found, and no months are shown
+#
+# `supply` is the months fresh supply is on or the harvest is in; `year: true`
+# means it is on sale all year, and `peak` the months worth singling out.
+# Nothing is invented to fill a gap: oranges, pineapple, pawpaw, passion fruit
+# and watermelon have no months because the sources contradict each other,
+# and the page says so.
+
+meta:
+  title: What's in season in Nairobi
+  compiled: 2026-10-14
+  last_verified: 2026-10-14
+  # A year: seasons do not move, but prices and the milk and fish figures do.
+  fail_on: 2027-10-14
+  caveats:
+    - >-
+      Windows marked typical come from Kenya's two rainy seasons and general
+      Kenyan crop calendars, not from Nairobi market records. Weather moves
+      real seasons by weeks, and irrigated crops grow outside them.
+    - >-
+      Food reaches Nairobi from many counties, each with its own timing:
+      mangoes from the coast arrive weeks before Murang'a's, and Makueni
+      growers irrigate for off-season fruit. A window here is the main one.
+    - >-
+      Most of the seasonal detail comes from news reports and farming guides
+      rather than official statistics. Where they disagree, the item shows no
+      months rather than pick one.
+    - >-
+      2026 broke several patterns: floods in Mwea and Oloitoktok made tomatoes
+      scarce and dear in April, and a cold, dry July and August cut milk
+      deliveries. One odd year does not move the calendar, but it is a
+      reminder that it is a guide.
+
+# The figures the page quotes.
+figures:
+  rainfall_mm_min: 674
+  rainfall_mm_max: 698
+  april_mm_min: 125
+  april_mm_max: 136
+  warmest_c: 21
+  coolest_c: 17
+  milk_june_m_litres: 84.4
+  milk_july_m_litres: 81.3
+  milk_year: 2026
+  tomato_kg_2025: 63
+  tomato_kg_april_2026: 108
+  sources: [1, 6, 9, 10]
+
+# The rains, month by month. Nairobi is bimodal: the long rains from March to
+# May, heaviest in April, and the short rains from October to December,
+# heaviest in November. June to September is dry and cool, July the coolest
+# month; January and February are dry and warm, February the warmest.
+# The keys stay major/minor/dry: major is the long rains, minor the short.
+rains:
+  - {month: 1, season: dry, label: Dry and sunny}
+  - {month: 2, season: dry, label: "Dry, the warmest month"}
+  - {month: 3, season: major, label: Long rains begin}
+  - {month: 4, season: major, label: "Long rains, the wettest month"}
+  - {month: 5, season: major, label: Long rains ease}
+  - {month: 6, season: dry, label: Dry and cooling}
+  - {month: 7, season: dry, label: "Dry, the coolest month"}
+  - {month: 8, season: dry, label: Dry and cool}
+  - {month: 9, season: dry, label: Dry and warming}
+  - {month: 10, season: minor, label: Short rains begin}
+  - {month: 11, season: minor, label: "Short rains, at their heaviest"}
+  - {month: 12, season: minor, label: Short rains end}
+
+# What the farms and markets that feed Nairobi are doing, stretch by stretch.
+calendar:
+  - months: [1, 2]
+    weather: Hot and dry, February the warmest month of the year.
+    activity: >-
+      The short-rains harvest comes in from the highlands - maize and beans -
+      and pulses from the drier east. Mangoes are at their peak. On the coast
+      the calm kaskazi monsoon makes it the best stretch for sea fish, and
+      potatoes are scarce and dear.
+  - months: [3, 4, 5]
+    weather: The long rains, heaviest in April.
+    activity: >-
+      The main planting: maize, beans and potatoes go in across the
+      highlands. Leafy greens grow fast. On the coast the rough kusi monsoon
+      sets in and sea fish thin out, and on Lake Victoria the omena closed
+      season starts on 1 April.
+  - months: [6, 7, 8, 9]
+    weather: Dry and cool; July is the coolest month.
+    activity: >-
+      The long-rains harvests: green maize from July, and Nyandarua's
+      potatoes in a glut that pulls prices down from July to September. Cold,
+      dry pasture cuts milk deliveries, so milk can run short. The omena
+      closed season ends on 31 July.
+  - months: [10, 11, 12]
+    weather: The short rains, heaviest in November.
+    activity: >-
+      The second planting of maize and beans. Pasture recovers and milk with
+      it. The first mangoes arrive from November, the kaskazi brings calm seas
+      and sea fish back, and goat and beef demand climbs towards Christmas.
+
+# Where Nairobi's food comes from.
+areas:
+  - name: Inside the city
+    places: Backyards, riverbanks and spare plots across Nairobi
+    text: >-
+      Nairobi City County has promoted and regulated farming inside the city
+      since its Urban Agriculture Promotion and Regulation Act of 2015.
+      Livestock keepers here are mostly small: a few dairy cows or goats, a
+      few hundred broilers or layers.
+    sources: [22, 23]
+  - name: Wakulima Market
+    places: Marikiti, off Haile Selassie Avenue
+    text: >-
+      The city's wholesale fresh-produce market, opened in 1966, which
+      handles more than half of the fresh produce sold in Nairobi. Trucks
+      bring it in overnight from across the country.
+    sources: [24]
+  - name: Nyandarua and the Rift highlands
+    places: Ol Kalou, Molo, Mau Narok
+    text: >-
+      Irish potatoes. Nyandarua is the best-known potato county, and its
+      gluts and shortages set the price in Nairobi.
+    sources: [7, 8, 25]
+  - name: Mwea and Loitokitok
+    places: Kirinyaga and Kajiado counties
+    text: >-
+      Tomatoes, among Nairobi's main supply areas - the floods that hit both
+      in 2026 sent the city's tomato price to a record.
+    sources: [10]
+  - name: Murang'a, Makueni and the coast
+    places: The mango and avocado belt
+    text: >-
+      Mangoes from the coast first, then Murang'a and Mwea weeks later; Makueni
+      irrigates for off-season fruit. Murang'a is also avocado country.
+    sources: [11, 12, 13]
+  - name: Lake Victoria
+    places: Kisumu, Homa Bay and Busia
+    text: Tilapia, Nile perch and omena, trucked to Nairobi's markets.
+    sources: [17, 18]
+  - name: The coast
+    places: Mombasa, Kilifi and Malindi
+    text: Sea fish, with a season set by the monsoons.
+    sources: [16]
+  - name: The rangelands
+    places: Kajiado, Narok and the north
+    text: >-
+      Cattle, goats and sheep, sold through markets like Kiamaiko, Nairobi's
+      goat market. Drought sends prices down as herders sell, then up as
+      herds rebuild.
+    sources: [20, 21]
+
+kinds:
+  - Fruit
+  - Vegetable
+  - Leafy greens
+  - Staple
+  - Legume
+  - Livestock
+  - Fish
+
+# The items. `group` decides the tab; `nairobi` is what is particular to the
+# city.
+items:
+  # --- staples and legumes ---------------------------------------------------
+  - id: maize
+    name: Maize
+    kind: Staple
+    group: produce
+    alt: Maize cobs, the grain dried on them, spread out in the sun
+    supply: [7, 8, 1, 2]
+    peak: [7, 8]
+    year: false
+    basis: typical
+    plant: Long rains March to April; short rains October to November.
+    harvest: >-
+      In the highlands the long-rains crop comes in from July to August and
+      the short-rains crop in January and February.
+    nairobi: >-
+      Kenya's staple, eaten as ugali. Nairobi's flour is milled from maize grown
+      across the Rift Valley and the highlands, and imports.
+    tip: >-
+      Roast green maize at the roadside is a harvest-season food. Flour is on
+      the shelf all year, and its price follows the harvests.
+    sources: [2, 3, 4]
+  - id: irishpotato
+    name: Irish potatoes
+    kind: Staple
+    group: produce
+    alt: A sack of Irish potatoes at a market
+    supply: []
+    peak: [7, 8, 9]
+    year: true
+    basis: sourced
+    plant: With both rains, three to four months before harvest.
+    harvest: >-
+      A glut from July to September in Nyandarua, when prices fall to their
+      lowest. They are scarce and dear from about December to April.
+    nairobi: >-
+      Chips, mukimo and githeri all depend on them. Most of Nairobi's come from
+      Nyandarua and the Rift highlands.
+    tip: >-
+      Buy in July to September, when a bag is cheapest. Sellers often switch to
+      smaller tins in the scarce months, so compare by weight.
+    sources: [7, 8, 25]
+  - id: beans
+    name: Beans
+    kind: Legume
+    group: produce
+    alt: Red kidney beans for sale in a wooden tray
+    supply: [7, 8, 1, 2]
+    peak: []
+    year: false
+    basis: typical
+    plant: Sown with maize in both rains, often in the same field.
+    harvest: With the maize, July to August and January to February.
+    nairobi: The bean in githeri, with maize, and in a hundred stews.
+    tip: Dried beans keep for months, so a bag bought after a harvest lasts.
+    sources: [2, 3]
+  - id: greengrams
+    name: Green grams (ndengu)
+    kind: Legume
+    group: produce
+    alt: A scatter of small green mung beans
+    supply: [11, 12, 1]
+    peak: []
+    year: false
+    basis: sourced
+    plant: >-
+      In the short rains, in the drier east - Machakos, Makueni, Kitui - where
+      the short rains are the main season.
+    harvest: November to January, with cowpeas and other pulses.
+    nairobi: Ndengu stew is a staple of Nairobi's kibandas and cheap lunches.
+    tip: Dried grams keep well; fresh stocks reach markets after the new year.
+    sources: [3]
+  - id: sweetpotato
+    name: Sweet potatoes
+    kind: Staple
+    group: produce
+    alt: A pile of sweet potatoes at a market
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: In the rains, from vine cuttings.
+    harvest: About four to five months after planting, and through the year.
+    nairobi: A breakfast staple, boiled, with tea.
+    tip: On sale most of the year. Choose firm roots without soft patches.
+    sources: [2]
+
+  # --- vegetables ---------------------------------------------------------------
+  - id: tomato
+    name: Tomatoes
+    kind: Vegetable
+    group: produce
+    alt: A truss of ripe red tomatoes
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: All year under irrigation, and in the rains.
+    harvest: >-
+      All year. Gluts follow the rainy-season harvests and prices rise in the
+      off season, but sources disagree on which months.
+    nairobi: >-
+      Much of Nairobi's supply comes from Mwea and Loitokitok. The average
+      retail price held around Sh63 a kilo in 2025, then reached Sh108 in April
+      2026 after floods there.
+    tip: >-
+      Prices can triple within weeks. When they are low, a crate shared with
+      neighbours or cooked down into sauce stretches the season.
+    sources: [9, 10]
+  - id: onion
+    name: Onions
+    kind: Vegetable
+    group: produce
+    alt: Red, white and brown onions together
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: In the rains and under irrigation.
+    harvest: All year, from many counties and from imports.
+    nairobi: Red onions are in almost every Kenyan dish, raw in kachumbari.
+    tip: Onions store for weeks in a dry, airy place, so buy when the price dips.
+    sources: [2]
+  - id: cabbage
+    name: Cabbage
+    kind: Vegetable
+    group: produce
+    alt: Heads of cabbage stacked for sale
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: All year in the cool highlands.
+    harvest: All year.
+    nairobi: One of the cheapest vegetables in Nairobi, grown in the highlands around it.
+    tip: Heavy for its size and tightly packed means fresh.
+    sources: [2]
+  - id: carrot
+    name: Carrots
+    kind: Vegetable
+    group: produce
+    alt: A bundle of carrots with their green tops
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: All year in the cool highlands.
+    harvest: All year.
+    nairobi: Grown on the slopes around Nairobi and the Rift.
+    tip: Carrots with fresh green tops were pulled most recently.
+    sources: [2]
+
+  # --- leafy greens -----------------------------------------------------------
+  - id: kale
+    name: Sukuma wiki (kale)
+    kind: Leafy greens
+    group: produce
+    alt: Sukuma wiki, finely chopped and cooked in a pan
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: All year; leaves are picked from the same plant for months.
+    harvest: All year, faster in the rains.
+    nairobi: >-
+      Its name means "push the week" - the cheapest green in the city and the
+      one most often served with ugali. Grown in Kiambu and on plots across
+      Nairobi.
+    tip: Buy it the day you cook it. Wilting leaves mean it was picked days ago.
+    sources: [22]
+  - id: managu
+    name: Managu (African nightshade)
+    kind: Leafy greens
+    group: produce
+    alt: A bowl of cooked managu
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: In the rains, and all year where watered.
+    harvest: All year where irrigated; most plentiful in the rains.
+    nairobi: >-
+      A traditional vegetable, slightly bitter, now sold in supermarkets as
+      well as markets. Often cooked with cream or milk.
+    tip: Young, tender shoots are less bitter.
+    sources: [22]
+  - id: terere
+    name: Terere (amaranth)
+    kind: Leafy greens
+    group: produce
+    alt: A bowl of cooked amaranth leaves
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: In the rains, and all year where watered.
+    harvest: All year where irrigated; most plentiful in the rains.
+    nairobi: A traditional green, cooked with managu or on its own.
+    tip: It cooks down a lot - buy twice what looks like enough.
+    sources: [22]
+
+  # --- fruit ----------------------------------------------------------------------
+  - id: mango
+    name: Mangoes
+    kind: Fruit
+    group: produce
+    alt: A whole mango and a halved one
+    supply: [11, 12, 1, 2, 3]
+    peak: [12, 1, 2]
+    year: false
+    basis: sourced
+    plant: A tree; flowering follows the dry spells.
+    harvest: >-
+      The main season runs from about November to March, peaking from December
+      to February. Coast fruit comes first; Murang'a and Mwea are four to six
+      weeks later, and the coast has a second season from June to August.
+    nairobi: >-
+      Mango season is when roadside vendors sell sliced mango with chilli and
+      salt. Makueni growers irrigate and prune for fruit in the low season.
+    tip: Cheapest in January and February, at the peak. Out of season, it is Makueni's or imported.
+    sources: [11, 12, 13]
+  - id: avocado
+    name: Avocados
+    kind: Fruit
+    group: produce
+    alt: A whole avocado and a halved one with its stone
+    supply: []
+    peak: []
+    year: false
+    basis: unknown
+    plant: A tree; Hass and Fuerte are the main varieties.
+    harvest: >-
+      Sources disagree: some give a main season from about March to August and
+      a second from October to December, others different months, and the
+      export season is not the market's.
+    nairobi: >-
+      Kenya is one of the world's big avocado exporters, and local fruit -
+      Murang'a's especially - is cheap in season. No window for Nairobi's
+      markets could be confirmed, so no months are shown.
+    tip: Ask the seller when they will be ripe; most are sold hard.
+    sources: [14, 15]
+  - id: banana
+    name: Bananas
+    kind: Fruit
+    group: produce
+    alt: Bunches of several kinds of banana
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: A perennial; bunches ripen through the year.
+    harvest: All year.
+    nairobi: >-
+      Sweet bananas to eat and green cooking bananas (matoke) for stews, from
+      Kisii, Meru, Murang'a and Kirinyaga.
+    tip: Cooking bananas are sold green, by the bunch or a few fingers at a time.
+    sources: [2]
+  - id: orange
+    name: Oranges
+    kind: Fruit
+    group: produce
+    alt: Oranges, whole, halved and in segments
+    supply: []
+    peak: []
+    year: false
+    basis: unknown
+    plant: A tree.
+    harvest: >-
+      Sources disagree: March to August, June to August, or with the dry
+      seasons. No window could be confirmed.
+    nairobi: Sold year round from carts, often peeled and sliced to eat on the street.
+    tip: Ask your seller what is coming in this week.
+    sources: [19, 26, 27]
+  - id: pineapple
+    name: Pineapples
+    kind: Fruit
+    group: produce
+    alt: A whole pineapple and slices of it
+    supply: []
+    peak: []
+    year: false
+    basis: unknown
+    plant: Grown around Thika, Murang'a and Nyeri.
+    harvest: >-
+      Sources disagree: July to April, April to June, or the short rains. No
+      window could be confirmed.
+    nairobi: Sold whole or sliced on sticks from street carts.
+    tip: A sweet smell at the base is a better guide than the colour.
+    sources: [19, 26, 27]
+  - id: pawpaw
+    name: Pawpaw (papaya)
+    kind: Fruit
+    group: produce
+    alt: A pawpaw cut lengthways, showing its seeds
+    supply: []
+    peak: []
+    year: false
+    basis: unknown
+    plant: A fast-growing tree, fruiting within a year.
+    harvest: >-
+      Sources disagree: August to October, the short rains, or all year. No
+      window could be confirmed.
+    nairobi: Breakfast fruit, often with lime.
+    tip: Choose ones that give a little when pressed and are mostly yellow.
+    sources: [19, 26, 27]
+  - id: passionfruit
+    name: Passion fruit
+    kind: Fruit
+    group: produce
+    alt: A purple passion fruit cut open
+    supply: []
+    peak: []
+    year: false
+    basis: unknown
+    plant: A vine, grown in the highlands.
+    harvest: >-
+      Sources disagree: August to December, the long rains, or December to
+      April. No window could be confirmed.
+    nairobi: The purple kind, for juice above all.
+    tip: Wrinkled skins are riper and sweeter, not old.
+    sources: [19, 26, 27]
+  - id: watermelon
+    name: Watermelon
+    kind: Fruit
+    group: produce
+    alt: Watermelons growing in a field
+    supply: []
+    peak: []
+    year: false
+    basis: unknown
+    plant: Grown in the hot, semi-arid areas.
+    harvest: >-
+      Mainly in the hot dry seasons; sources give no agreed months.
+    nairobi: Sliced and sold by the piece in the hot months.
+    tip: A creamy yellow patch where it lay on the ground means it ripened on the vine.
+    sources: [19, 26, 27]
+  - id: treetomato
+    name: Tree tomatoes
+    kind: Fruit
+    group: produce
+    alt: Tamarillos, whole and halved
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: A small highland tree that fruits for years.
+    harvest: Through the year, from highland gardens.
+    nairobi: Blended into juice, sharp and sweet.
+    tip: Ripe fruit is deep red and gives slightly to a press.
+    sources: [2]
+
+  # --- livestock and fish -----------------------------------------------------
+  - id: cattle
+    name: Beef
+    kind: Livestock
+    group: animals
+    alt: A cow lying in a meadow
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: Raised all year, mostly on the rangelands and by traders who fatten animals near the city.
+    harvest: >-
+      All year. Drought brings distress sales and cheap animals, then dearer
+      meat as herds rebuild; Christmas demand pushes prices up.
+    nairobi: >-
+      Nyama choma - grilled meat - is Nairobi's celebration food, and beef and
+      goat are its staples.
+    tip: Order early before Christmas, when everybody else does.
+    sources: [20, 21, 23]
+  - id: goat
+    name: Goat and mutton
+    kind: Livestock
+    group: animals
+    alt: A goat standing on a tree stump
+    supply: []
+    peak: []
+    year: true
+    basis: sourced
+    plant: Raised all year, mostly in the drier counties.
+    harvest: >-
+      All year. Prices rise towards Christmas and Eid, with exports pulling
+      animals away.
+    nairobi: >-
+      Kiamaiko is Nairobi's goat market. Goat is the nyama choma meat of
+      choice, and a whole goat is a party.
+    tip: Book a goat for Christmas early; prices have doubled within two months before the holidays.
+    sources: [20, 21]
+  - id: chicken
+    name: Chicken and eggs
+    kind: Livestock
+    group: animals
+    alt: A cockerel and a hen perched side by side
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: Raised all year, including inside the city.
+    harvest: All year. Demand peaks at Christmas and Easter.
+    nairobi: >-
+      Kienyeji (free-range indigenous) chicken costs more than broilers and is
+      prized for flavour. Many small poultry farms ring the city.
+    tip: For kienyeji chicken at Christmas, order ahead.
+    sources: [23]
+  - id: milk
+    name: Milk
+    kind: Livestock
+    group: animals
+    alt: A man milking a cow in Murang'a county
+    supply: []
+    peak: []
+    year: true
+    basis: sourced
+    plant: Dairy cows, mostly on small farms in the central highlands and the Rift Valley.
+    harvest: >-
+      All year, but deliveries fall in the cold, dry months - June to August
+      - and recover when the short rains bring pasture back.
+    nairobi: >-
+      In 2026 deliveries to processors fell from 84.4 million litres in June
+      to 81.3 million in July, and some Nairobi shops rationed packets.
+    tip: Long-life milk is the steadier buy when fresh milk is short.
+    sources: [5, 6, 29]
+  - id: tilapia
+    name: Tilapia
+    kind: Fish
+    group: animals
+    alt: A Nile tilapia
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: From Lake Victoria and from fish farms.
+    harvest: All year.
+    nairobi: Fried whole and eaten with ugali and greens - the classic fish meal in Nairobi.
+    tip: Ask whether it is from the lake or farmed; both are sold, and imports too.
+    sources: [17]
+  - id: omena
+    name: Omena
+    kind: Fish
+    group: animals
+    alt: A tray of dried omena, small silver fish
+    supply: []
+    peak: []
+    year: true
+    basis: sourced
+    plant: Caught in Lake Victoria and dried in the sun.
+    harvest: >-
+      A legal notice closes the fishery from 1 April to 31 July each year,
+      though how strictly that is enforced is not clear. Dried omena keeps, so
+      it is on sale all year.
+    nairobi: Cheap protein, fried with tomatoes and onions.
+    tip: Stock up on dried omena before April if the closed season pushes prices up.
+    sources: [17, 18]
+  - id: seafish
+    name: Sea fish
+    kind: Fish
+    group: animals
+    alt: A fishmonger at work in Mombasa's fish market
+    supply: []
+    peak: [11, 12, 1, 2, 3]
+    year: true
+    basis: sourced
+    plant: Artisanal and sport fishing off the coast.
+    harvest: >-
+      Catches are best in the calm kaskazi monsoon, about November to March,
+      and poorest from April to July, when the kusi makes the sea rough.
+    nairobi: Most sea fish on Nairobi's tables is trucked up from Mombasa and the coast.
+    tip: Fresh sea fish is easiest to find in the kaskazi months.
+    sources: [16, 28]
+  - id: nileperch
+    name: Nile perch
+    kind: Fish
+    group: animals
+    alt: Nile perch hanging at a landing site
+    supply: []
+    peak: []
+    year: true
+    basis: typical
+    plant: Caught in Lake Victoria.
+    harvest: All year.
+    nairobi: Sold as fillets and steaks; much of the catch is exported.
+    tip: Its fillets are firm and white, and the fish is often sold in steaks.
+    sources: [17]
+
+sources:
+  1: {title: "Wikipedia: Nairobi City County - climate", url: "https://en.wikipedia.org/wiki/Nairobi_City_County"}
+  2: {title: "FEWS NET: Kenya country book - seasons and crop calendar", url: "https://help.fews.net/fde/v3/kenya-country-book"}
+  3: {title: "FEWS NET: Kenya food security outlook, October 2025", url: "https://fews.net/east-africa/kenya/food-security-outlook/october-2025"}
+  4: {title: "FEWS NET: Kenya food security outlook, June 2024", url: "https://fews.net/east-africa/kenya/food-security-outlook/june-2024"}
+  5: {title: "Nation: Got milk? Not in Kenya - here's why (2026)", url: "https://nation.africa/kenya/news/got-milk-not-in-kenya-here-why-5578130"}
+  6: {title: "Kenya News Agency: Milk shortage hits both traders and consumers (2026)", url: "https://www.kenyanews.go.ke/milk-shortage-hits-both-traders-and-consumers-in-equal-measures/"}
+  7: {title: "Nation: Nyandarua in race to end drop in Irish potato", url: "https://nation.africa/kenya/business/nyandarua-in-race-to-end-drop-in-irish-potato--189138"}
+  8: {title: "Nation: Nyandarua County in potato shortage crisis", url: "https://nation.africa/kenya/business/Nyandarua-County-in-potato-shortage-crisis/996-4985926-5odj6ez/index.html"}
+  9: {title: "Nation: Only rich Kenyans can afford tomatoes now", url: "https://nation.africa/kenya/life-and-style/only-rich-kenyans-can-afford-tomatoes-5446134"}
+  10: {title: "Why tomatoes in Nairobi crossed KSh 100 per kg in 2026", url: "https://crazykanairofarming.com/why-tomatoes-prices-hiked-in-kenya/"}
+  11: {title: "ICRAF Mango Book: Production in Kenya", url: "http://knowledgebank.irri.org/cglrc/icraf/mangoBook/Introduction/Production.htm"}
+  12: {title: "The Star: Why you should enjoy the mango season while it lasts (2026)", url: "https://www.the-star.co.ke/sasa/lifestyle/2026-02-28-out-and-about-why-you-should-enjoy-the-mango-season-while-it-lasts"}
+  13: {title: "Business Daily: How Makueni mango farmers reap big returns in low season", url: "https://www.businessdailyafrica.com/bd/corporate/enterprise/how-makueni-mango-farmers-returns-in-low-season-3016744"}
+  14: {title: "EastFruit: Harvest season for Hass avocado has begun in Kenya", url: "https://east-fruit.com/en/horticultural-business/interviews/harvest-season-for-hass-avocado-has-begun-in-kenya-exclusive-interview-with-industry-expert/"}
+  15: {title: "Kanga Fruits: Seasonality of Kenyan avocados", url: "https://kangafruits.com/knowledge/seasonality-of-kenyan-avocados-best-times-to-import/"}
+  16: {title: "Fish traders in artisanal fisheries on the Kenyan coast", url: "https://www.researchgate.net/publication/227429548_Fish_traders_in_artisanal_fisheries_on_the_Kenyan_coast"}
+  17: {title: "Aquatic Ecosystem Health & Management: The Rastrineobola argentea (omena) fishery in Kenya's Lake Victoria (2014)", url: "https://www.tandfonline.com/doi/abs/10.1080/14634988.2014.879036"}
+  18: {title: "Kenya News Agency: Omena destocked owing to low demand amid high prices", url: "https://www.kenyanews.go.ke/omena-destocked-owing-to-low-demand-amid-high-prices/"}
+  19: {title: "Farmers Trend: Seasonal fruits in Kenya", url: "https://farmerstrend.co.ke/trending/seasonal-fruits-in-kenya-a-guide-to-the-best-fruits-to-eat-all-year-round-2/"}
+  26: {title: "Fresh Fruit Heaven: Seasonal fruits in Nairobi (2025)", url: "https://freshfruitheaven.com/blog-seasonal-fruits-nairobi-2/"}
+  27: {title: "Senga: So your favourite fruit is in season? (Kenya)", url: "https://senga.co/so-your-favorite-fruit-is-in-season-what-that-means-in-logistics-b5ea380afb7f/"}
+  28: {title: "Sport Fishing Seasons in Kenya", url: "http://www.sportfishing.co.ke/en/game-fishing-seasons-in-kenya"}
+  29: {title: "Citizen Digital: Milk shortage hits Kenya as deliveries fall (2026)", url: "https://citizen.digital/article/milk-shortage-hits-kenya-as-deliveries-fall-prices-rise-n389415"}
+  20: {title: "Nation: Kenyans set to usher in Christmas with goat meat", url: "https://nation.africa/kenya/news/kenyans-all-set-to-usher-in-christmas-with-goat-meat-120512"}
+  21: {title: "Business Daily: Why goat meat prices are rising to a record high", url: "https://www.businessdailyafrica.com/bd/lifestyle/food-drinks/why-goat-meat-prices-are-rising-to-a-record-high--4585890"}
+  22: {title: "Nairobi City County Urban Agriculture Promotion and Regulation Act, 2015 (FAOLEX)", url: "https://faolex.fao.org/docs/pdf/ken162509.pdf"}
+  23: {title: "Frontiers in Veterinary Science: Livestock keeping in Nairobi (2017)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5669286"}
+  24: {title: "Business Daily: Why time is up for Wakulima Market", url: "https://www.businessdailyafrica.com/bd/lifestyle/health-fitness/why-time-is-up-for-wakulima-market-2276312"}
+  25: {title: "Nyandarua County Potato Strategy 2017-2021", url: "https://npck.org/Potato%20strategies/NyandaruaCountyPotatoStrategy.pdf"}

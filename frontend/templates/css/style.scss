@@ -49,4 +49,5 @@
 {% if 'pulse' in styles %}@import "css/components/pulse";{% endif %}
 {% if 'admin' in styles %}@import "css/components/admin";{% endif %}
 {% if 'afcon' in styles %}@import "css/components/afcon";{% endif %}
+{% if 'seasons' in styles %}@import "css/components/seasons";{% endif %}
 @import "css/components/notice";

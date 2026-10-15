@@ -30,6 +30,8 @@ TEMPLATE_PAGES = {
     "radio",
     # The AFCON 2027 hub: a template page reading content/geo/afcon.yaml.
     "afcon",
+    # What's in season: a template page reading content/geo/agriculture.yaml.
+    "seasons",
     # Nairobi Pulse: a template page driven by /api/pulse.
     "pulse",
     # Lost and found: template pages driven by /api/lost-found.

@@ -122,6 +122,12 @@ ctx["UPCOMING_HOLIDAYS"] = [
     (day, name) for day, name in get_public_holidays([_today.year, _today.year + 1]).items()
     if _today <= day < _today.replace(year=_today.year + 1)
 ]
+# The same, for the home page's "Now in Nairobi" strip, which picks the next
+# one against the reader's clock rather than the build's.
+ctx["UPCOMING_HOLIDAYS_JSON"] = json.dumps(
+    [{"date": day.isoformat(), "name": name} for day, name in ctx["UPCOMING_HOLIDAYS"]],
+    separators=(",", ":"),
+).replace("</", "<\\/")
 
 # Data
 ctx["MAP"] = load_yaml("geo/map-summary.yaml", {})
@@ -136,6 +142,143 @@ for _station in ctx["RADIO"]["stations"]:
 ctx["AFCON"] = load_yaml("geo/afcon.yaml", {"meta": {}, "nairobi_venues": [], "key_dates": [], "stay_areas": []})
 # The same data with dates as ISO strings, for pages that hand it to JavaScript.
 ctx["AFCON_DATA"] = json.loads(json.dumps(ctx["AFCON"], default=str))
+
+# What is in season in Nairobi, hand-kept with every source numbered. /seasons
+# renders every item from it as HTML - the no-JavaScript page and what a
+# crawler indexes - and the homepage's seasons card reads the same months.
+#
+# The photos' credits come from food-photos.yaml, which
+# scripts/build_food_photos.py writes from the Wikimedia Commons API. Each is
+# attached to its item here, and an item without one stops the build: most
+# of these are CC BY-SA, and a photo shown without its author and licence is
+# a photo used against its terms.
+ctx["AGRICULTURE"] = yaml.safe_load(
+    (config.content_path / "geo" / "agriculture.yaml").read_text(encoding="utf-8")
+)
+_food_photos = yaml.safe_load(
+    (config.content_path / "geo" / "food-photos.yaml").read_text(encoding="utf-8")
+)["photos"]
+for _item in ctx["AGRICULTURE"]["items"]:
+    if _item["id"] not in _food_photos:
+        raise ValueError(f"agriculture.yaml: {_item['id']} has no photo in food-photos.yaml")
+    _item["photo"] = _food_photos[_item["id"]]
+    _unknown = [s for s in _item["sources"] if s not in ctx["AGRICULTURE"]["sources"]]
+    if _unknown:
+        raise ValueError(f"agriculture.yaml: {_item['id']} cites unknown sources {_unknown}")
+for _area in ctx["AGRICULTURE"]["areas"]:
+    _unknown = [s for s in _area["sources"] if s not in ctx["AGRICULTURE"]["sources"]]
+    if _unknown:
+        raise ValueError(f"agriculture.yaml: {_area['name']} cites unknown sources {_unknown}")
+
+_MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"]
+
+
+def month_span(months: list[int]) -> str:
+    """[4, 5, 6, 11, 12, 1] -> "April to June and November to January".
+
+    Runs wrap round the new year, so December, January and February are one
+    run rather than two. Used for the words a screen reader hears in place of
+    each item's twelve-month strip.
+    """
+    have = sorted(set(months))
+    if not have:
+        return ""
+    if len(have) == 12:
+        return "all year"
+    runs: list[list[int]] = []
+    for m in have:
+        if runs and m == runs[-1][-1] + 1:
+            runs[-1].append(m)
+        else:
+            runs.append([m])
+    # Join a run ending in December to one starting in January, and say it
+    # last: maize is "July and August and January and February".
+    if len(runs) > 1 and runs[-1][-1] == 12 and runs[0][0] == 1:
+        runs.append(runs.pop() + runs.pop(0))
+
+    def say(r: list[int]) -> str:
+        if len(r) == 1:
+            return _MONTH_NAMES[r[0] - 1]
+        # "May and June" alone; inside a list, "to" keeps the runs apart.
+        joiner = " and " if len(r) == 2 and len(runs) == 1 else " to "
+        return _MONTH_NAMES[r[0] - 1] + joiner + _MONTH_NAMES[r[-1] - 1]
+
+    words = [say(r) for r in runs]
+    return words[0] if len(words) == 1 else ", ".join(words[:-1]) + " and " + words[-1]
+
+
+for _item in ctx["AGRICULTURE"]["items"]:
+    _best = f", best {month_span(_item['peak'])}" if _item["peak"] else ""
+    if _item["basis"] == "unknown":
+        _item["when"] = "Season not confirmed"
+    elif _item["year"]:
+        _item["when"] = "All year" + _best
+    else:
+        _span = month_span(_item["supply"])
+        _item["when"] = _span[:1].upper() + _span[1:] + _best
+ctx["month_span"] = month_span
+_agri_checked = date.fromisoformat(str(ctx["AGRICULTURE"]["meta"]["compiled"]))
+ctx["AGRICULTURE_COMPILED_ON"] = f"{_agri_checked.day} {_agri_checked:%B %Y}"
+# What /seasons' script needs to decide "in season" against the reader's own
+# clock - months, never words; the words are already in the HTML. Escaped for
+# a <script> element: a "</" in the data would end it.
+ctx["AGRICULTURE_SEASONS_JSON"] = json.dumps({
+    "items": [
+        {k: i[k] for k in ("id", "group", "kind", "name", "supply", "peak", "year", "basis")}
+        for i in ctx["AGRICULTURE"]["items"]
+    ],
+    "rains": ctx["AGRICULTURE"]["rains"],
+    "calendar": ctx["AGRICULTURE"]["calendar"],
+}, separators=(",", ":")).replace("</", "<\\/")
+ctx["AGRICULTURE_ITEM"] = {i["id"]: i for i in ctx["AGRICULTURE"]["items"]}
+
+# The home page's seasons card: for each month, up to four foods to show as
+# photos - at their best, then in season, then coming within two months, then
+# year-round staples to fill the row. The page is built on one day and read on
+# another, so all twelve months go to the card and home-seasons.mjs picks the
+# reader's; the build month is rendered for a reader without JavaScript.
+_HOME_STAPLES = ["kale", "tilapia", "managu", "milk", "banana"]
+
+
+def _home_tiles(m: int) -> list[dict]:
+    known = [i for i in ctx["AGRICULTURE"]["items"] if i["basis"] != "unknown"]
+    ahead = [((m - 1 + k) % 12) + 1 for k in (1, 2)]
+    tiles: list[dict] = []
+
+    def add(item: dict, status: str, label: str) -> None:
+        if len(tiles) < 4 and all(t["id"] != item["id"] for t in tiles):
+            thumb = item["photo"]["thumb"]
+            tiles.append({"id": item["id"], "name": item["name"], "status": status, "label": label,
+                          "w": thumb["width"], "h": thumb["height"], "alt": item["alt"]})
+
+    # Fruit first in each group: it is what a reader looks out for.
+    known.sort(key=lambda i: i["kind"] != "Fruit")
+    for i in known:
+        if m in i["peak"]:
+            add(i, "best", "Best now")
+    for i in known:
+        if not i["year"] and m in i["supply"]:
+            add(i, "in", "In season")
+    coming = []
+    for i in known:
+        months = i["peak"] if i["year"] else i["supply"]
+        if m not in months:
+            nxt = next((n for n in ahead if n in months), None)
+            if nxt:
+                coming.append((ahead.index(nxt), i, nxt))
+    for _, i, nxt in sorted(coming, key=lambda c: c[0]):
+        add(i, "soon", ("Best from " if i["year"] else "From ") + _MONTH_NAMES[nxt - 1])
+    for sid in _HOME_STAPLES:
+        add(ctx["AGRICULTURE_ITEM"][sid], "year", "All year")
+    return tiles
+
+
+ctx["AGRICULTURE_HOME"] = {m: _home_tiles(m) for m in range(1, 13)}
+ctx["AGRICULTURE_HOME_JSON"] = json.dumps(
+    {"months": ctx["AGRICULTURE_HOME"], "rains": {r["month"]: r["label"] for r in ctx["AGRICULTURE"]["rains"]}},
+    separators=(",", ":"),
+).replace("</", "<\\/")
 
 # Lost and found's vocabulary - categories, kinds of place, limits. One file,
 # api/_lostfound/vocab.mjs, read by both the pages (here) and the serverless

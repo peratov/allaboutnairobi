@@ -1,0 +1,342 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['seasons'] %}
+{#
+	What is in season in Nairobi, month by month.
+
+	Everything is rendered here, from AGRICULTURE: every item with its photo,
+	its twelve months and its facts, and the whole year as a table. That is the
+	page a reader with JavaScript off gets and what a crawler indexes.
+
+	What the page cannot render is "now". A static page has no idea which
+	month its reader is in - it was built on one day and is read on another -
+	so the statuses, the grouping and "this month on the farms" come from
+	seasons.mjs against the reader's own clock. The same rule as the events
+	page's "In 3 weeks".
+#}
+{% set canonical_path = "/seasons" %}
+{% set A = AGRICULTURE %}
+{% set produce = A['items']|selectattr('group', 'equalto', 'produce')|list %}
+{% set animals = A['items']|selectattr('group', 'equalto', 'animals')|list %}
+{% set MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+{% set metatitle = "What's in season in Nairobi: fruit, vegetables, meat and fish by month" %}
+{% set metadescription = "Mangoes, potatoes, sukuma wiki, omena and " ~ (A['items']|length - 4) ~ " more: what is in season in Nairobi each month, what is coming, and where it is grown." %}
+
+{# The twelve months of one item, as a strip. Its meaning is in `when`, said
+   in words for a screen reader; the strip itself is decoration. #}
+{% macro strip(item, cls='season-strip') %}
+	<span class="{{ cls }}" aria-hidden="true">
+		{%- for m in range(1, 13) -%}
+			{%- if item.basis == 'unknown' %}{% set c = 'u' %}
+			{%- elif m in item.peak %}{% set c = 'p' %}
+			{%- elif item.year or m in item.supply %}{% set c = 's' %}
+			{%- else %}{% set c = '' %}{% endif -%}
+			<i class="{{ c }}" data-m="{{ m }}"><b>{{ MONTHS[m - 1][0] }}</b></i>
+		{%- endfor -%}
+	</span>
+{% endmacro %}
+
+{% macro card(item) %}
+	{% set p = item.photo %}
+	<li class="season-card basis-{{ item.basis }}" id="{{ item.id }}" data-id="{{ item.id }}" data-kind="{{ item.kind }}">
+		<div class="season-photo">
+			<img src="{{ SITE_URL }}/staticimages/food/{{ item.id }}-card.webp"
+				width="{{ p.card.width }}" height="{{ p.card.height }}"
+				alt="{{ item.alt }}" loading="lazy" decoding="async">
+			<span class="season-pill" data-pill hidden></span>
+		</div>
+		<div class="season-body">
+			<h3><a class="season-link" href="#{{ item.id }}">{{ item.name }}</a></h3>
+			<p class="season-when">{{ item.when }}</p>
+			{{ strip(item) }}
+			<details class="season-more">
+				<summary>Planting, harvest and Nairobi</summary>
+				<div class="season-facts">
+					<dl>
+						<div><dt>{{ 'Raised' if item.group == 'animals' else 'Planting' }}</dt><dd>{{ item.plant }}</dd></div>
+						<div><dt>{{ 'Supply' if item.group == 'animals' else 'Harvest' }}</dt><dd>{{ item.harvest }}</dd></div>
+						<div><dt>In Nairobi</dt><dd>{{ item.nairobi }}</dd></div>
+						<div><dt>At the market</dt><dd>{{ item.tip }}</dd></div>
+					</dl>
+					<p class="season-basis">
+						{%- if item.basis == 'sourced' %}The season is from a named source.
+						{%- elif item.basis == 'typical' %}A typical window, from Kenya's two rainy seasons and general Kenyan crop calendars, not from Nairobi market records.
+						{%- else %}The sources disagree or none was found, so no months are shown.{% endif %}
+						Sources:
+						{% for s in item.sources %}<a href="#source-{{ s }}">[{{ s }}]</a>{% if not loop.last %} {% endif %}{% endfor %}
+					</p>
+					<p class="season-credit">
+						Photo: <a href="{{ p.page }}" rel="noopener">{{ p.author }}</a>,
+						{% if p.licence_url %}<a href="{{ p.licence_url }}" rel="noopener license">{{ p.licence }}</a>{% else %}{{ p.licence }}{% endif %},
+						via Wikimedia Commons
+					</p>
+				</div>
+			</details>
+		</div>
+		<button type="button" class="season-save" aria-pressed="false" hidden>
+			<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 20.5s-7.4-4.6-9.4-9.1A5.3 5.3 0 0 1 12 6a5.3 5.3 0 0 1 9.4 5.4C19.4 15.9 12 20.5 12 20.5z"/></svg>
+			<span class="visually-hidden">Save {{ item.name }} to my list</span>
+		</button>
+	</li>
+{% endmacro %}
+
+{% block postHead %}
+	{{ super() }}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		"name": "Food in season in Nairobi",
+		"numberOfItems": {{ A['items']|length }},
+		"itemListElement": [
+			{% for item in A['items'] %}{
+				"@type": "ListItem",
+				"position": {{ loop.index }},
+				"name": {{ item.name|tojson }},
+				"description": {{ (item.when ~ '. ' ~ item.harvest)|tojson }},
+				"url": {{ (CANONICAL_ORIGIN ~ '/seasons#' ~ item.id)|tojson }}
+			}{% if not loop.last %},{% endif %}
+			{% endfor %}
+		]
+	}
+	</script>
+{% endblock %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section seasons-page">
+			<div class="section-heading">
+				<span class="icon-stamp">{% include "_icons/seasons.svg" %}</span>
+				<h1>What's&nbsp;in&nbsp;season in Nairobi</h1>
+			</div>
+			<p class="page-intro">
+				What is plentiful in Nairobi this month, what is coming and what to
+				wait for - fruit, vegetables, staples, meat, milk and fish. Nairobi
+				grows little of its own food, so its seasons are those of the farms,
+				lake and coast that feed it, and they follow two rains.
+			</p>
+
+			<food-seasons>
+				{# The logic's inputs - months, not words. The words are in the HTML. #}
+				<script type="application/json" data-seasons>{{ AGRICULTURE_SEASONS_JSON|safe }}</script>
+
+				{# One panel for the month and everything that depends on it: the
+				   choice of month on top, then the answer, then the detail. #}
+				<div class="seasons-now" data-now hidden>
+					<div class="seasons-month-card">
+						{# Twelve equal cells that always fit the width - no scrolling to
+						   find May - each underlined in its rain, so the control is also
+						   the year's weather at a glance. #}
+						<div class="seasons-ribbon" role="group" aria-label="Choose a month">
+							{% for r in A.rains %}
+								{% set name = MONTHS[r.month - 1] %}
+								<button type="button" class="seasons-month rain-{{ r.season }}" data-month="{{ r.month }}" aria-pressed="false" aria-label="{{ name }}">
+									<span class="m3" aria-hidden="true">{{ name[:3] }}</span><span class="m1" aria-hidden="true">{{ name[0] }}</span>
+									<small data-today hidden><span class="visually-hidden">, this month</span></small>
+								</button>
+							{% endfor %}
+						</div>
+						<p class="seasons-ribbon-key" aria-hidden="true">
+							<span><i class="rain-major"></i>Long rains</span>
+							<span><i class="rain-minor"></i>Short rains</span>
+							<span><i class="rain-dry"></i>Dry</span>
+							<span class="seasons-ribbon-today"><i></i>This month</span>
+						</p>
+
+						<div class="seasons-month-head">
+							<h2 class="seasons-month-title" data-title></h2>
+							<p class="seasons-rain" data-rain></p>
+						</div>
+
+						{# The answer first: what is at its best, as pictures. #}
+						<div class="seasons-peak" data-peak hidden>
+							<p class="seasons-peak-label" data-peak-label>At their best</p>
+							<ul class="seasons-peak-list" data-peak-list></ul>
+						</div>
+
+						{# Each count is also the way to see those items. #}
+						<ul class="seasons-stats" aria-label="Food this month">
+							<li><button type="button" class="seasons-stat is-in" data-goto="in"><strong data-count="in">0</strong> in season</button></li>
+							<li><button type="button" class="seasons-stat is-soon" data-goto="soon"><strong data-count="soon">0</strong> coming soon</button></li>
+							<li><button type="button" class="seasons-stat is-out" data-goto="out"><strong data-count="out">0</strong> out of season</button></li>
+						</ul>
+						<div class="seasons-farm" data-farm>
+							<p class="seasons-farm-text"><strong data-weather></strong> <span data-activity></span></p>
+							<button type="button" class="seasons-farm-more" data-farm-more aria-expanded="false" hidden>More</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="seasons-tabs" role="tablist" aria-label="Sections" data-tabs hidden>
+					<button type="button" role="tab" aria-selected="true" aria-controls="produce" data-tab="produce">Food</button>
+					<button type="button" role="tab" aria-selected="false" aria-controls="animals" data-tab="animals">Livestock &amp; fish</button>
+					<button type="button" role="tab" aria-selected="false" aria-controls="calendar" data-tab="calendar">The year</button>
+				</div>
+
+				<div class="seasons-filters" data-filters hidden>
+					<label class="seasons-search">
+						<span class="visually-hidden">Search</span>
+						<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+						<input type="search" data-search placeholder="Mango, sukuma, omena..." autocomplete="off" enterkeyhint="search" data-clarity-mask="true">
+					</label>
+					{# One row that scrolls: what stage it is at, then what kind of food.
+					   A kind is a toggle - tap it again for everything - so there is no
+					   "Everything" chip to scroll past. #}
+					<div class="seasons-chipbar">
+						<div class="seasons-chips" role="group" aria-label="Show" data-status-chips>
+							<button type="button" class="seasons-chip" aria-pressed="true" data-status="all">All</button>
+							<button type="button" class="seasons-chip" aria-pressed="false" data-status="in">In season</button>
+							<button type="button" class="seasons-chip" aria-pressed="false" data-status="soon">Coming soon</button>
+							<button type="button" class="seasons-chip" aria-pressed="false" data-status="out">Out of season</button>
+							<button type="button" class="seasons-chip is-saved" aria-pressed="false" data-status="saved">&#9829; My list <span data-saved-count></span></button>
+						</div>
+						<div class="seasons-chips is-kinds" role="group" aria-label="Kind of food" data-kind-chips>
+							{% for k in A.kinds if produce|selectattr('kind', 'equalto', k)|list %}
+								<button type="button" class="seasons-chip" aria-pressed="false" data-kind="{{ k }}">{{ k }}</button>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+
+				<section class="seasons-section" id="produce" aria-labelledby="produce-heading" data-panel="produce">
+					<h2 id="produce-heading" class="seasons-section-title">Fruit, vegetables and staples</h2>
+					<ul class="seasons-grid" data-grid>
+						{% for item in produce %}{{ card(item) }}{% endfor %}
+					</ul>
+				</section>
+
+				<section class="seasons-section" id="animals" aria-labelledby="animals-heading" data-panel="animals">
+					<h2 id="animals-heading" class="seasons-section-title">Livestock and fish</h2>
+					<ul class="seasons-grid" data-grid>
+						{% for item in animals %}{{ card(item) }}{% endfor %}
+					</ul>
+				</section>
+
+				<p class="seasons-empty" data-empty hidden>
+					Nothing matches. <button type="button" class="lf-link" data-clear>Show everything</button>
+				</p>
+
+				<section class="seasons-section" id="calendar" aria-labelledby="calendar-heading" data-panel="calendar">
+					<h2 id="calendar-heading" class="seasons-section-title">The whole year</h2>
+					<p>
+						Every item across the twelve months. Full green marks the best
+						months, muted green the months it is on sale, and hatched rows
+						have no confirmed season.
+					</p>
+					<div class="table-wrapper seasons-table-wrap">
+						<table class="seasons-table" data-table>
+							<thead>
+								<tr>
+									<th scope="col">Item</th>
+									{% for name in MONTHS %}<th scope="col" data-m="{{ loop.index }}"><abbr title="{{ name }}"><span class="m3">{{ name[:3] }}</span><span class="m1" aria-hidden="true">{{ name[0] }}</span></abbr></th>{% endfor %}
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in A['items'] %}
+									<tr class="basis-{{ item.basis }}">
+										<th scope="row">
+											<a href="#{{ item.id }}" data-open="{{ item.id }}">
+												<img src="{{ SITE_URL }}/staticimages/food/{{ item.id }}-card.webp" width="28" height="28" alt="" loading="lazy" decoding="async">
+												{{ item.name }}
+											</a>
+										</th>
+										{% for m in range(1, 13) %}
+											{%- if item.basis == 'unknown' %}{% set c, t = 'u', 'Not confirmed' %}
+											{%- elif m in item.peak %}{% set c, t = 'p', 'Best' %}
+											{%- elif item.year or m in item.supply %}{% set c, t = 's', 'In season' %}
+											{%- else %}{% set c, t = '', 'Out of season' %}{% endif -%}
+											<td class="{{ c }}" data-m="{{ m }}"><span class="visually-hidden">{{ t }}</span></td>
+										{%- endfor %}
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<ul class="seasons-legend" aria-hidden="true">
+						<li><i class="p"></i>Best months</li>
+						<li><i class="s"></i>In season, or all year</li>
+						<li><i></i>Out of season</li>
+						<li><i class="u"></i>Not confirmed</li>
+					</ul>
+				</section>
+			</food-seasons>
+
+			<h2 id="the-rains">The rains set the calendar</h2>
+			<p>
+				Nairobi has two rainy seasons: the long rains from March to May,
+				heaviest in April with about {{ A.figures.april_mm_min }} to
+				{{ A.figures.april_mm_max }} mm, and the short rains from October to
+				December, heaviest in November. June to September is dry and cool -
+				July is the coolest month, around {{ A.figures.coolest_c }}&deg;C on
+				average - and January and February are dry and warm, February around
+				{{ A.figures.warmest_c }}&deg;C. About {{ A.figures.rainfall_mm_min }} to
+				{{ A.figures.rainfall_mm_max }} mm falls in a year. The highland farms
+				around the city plant with both rains, so most crops come in twice.
+			</p>
+			<ol class="seasons-rains" aria-label="Rain through the year">
+				{% for r in A.rains %}
+					<li class="rain-{{ r.season }}"><i></i><span>{{ MONTHS[r.month - 1][:3] }}</span><span class="visually-hidden">: {{ r.label }}</span></li>
+				{% endfor %}
+			</ol>
+
+			<h2 id="on-the-farms">The year on the farms that feed Nairobi</h2>
+			<dl class="seasons-year">
+				{% for c in A.calendar %}
+					<div>
+						<dt>{{ MONTHS[c.months[0] - 1] }}{% if c.months|length > 1 %} to {{ MONTHS[c.months[-1] - 1] }}{% endif %}</dt>
+						<dd><strong>{{ c.weather }}</strong> {{ c.activity }}</dd>
+					</div>
+				{% endfor %}
+			</dl>
+
+			<h2 id="where-it-comes-from">Where Nairobi's food comes from</h2>
+			<ul class="seasons-areas">
+				{% for a in A.areas %}
+					<li>
+						<h3>{{ a.name }}</h3>
+						<p class="seasons-area-places">{{ a.places }}</p>
+						<p>{{ a.text }}
+							{% for s in a.sources %}<a href="#source-{{ s }}">[{{ s }}]</a>{% if not loop.last %} {% endif %}{% endfor %}</p>
+					</li>
+				{% endfor %}
+			</ul>
+
+			<h2 id="how-to-read-this">How to read this</h2>
+			<p>
+				<strong>The windows are a guide, not a promise.</strong> Each item says
+				whether its season comes from a named source or is a typical window.
+				{{ A['items']|selectattr('basis', 'equalto', 'unknown')|list|length }} fruits have no
+				months at all, because the sources disagree and picking one would be
+				worse than saying so. Before relying on an exact date, ask your seller.
+			</p>
+			<ul>
+				{% for c in A.meta.caveats %}<li>{{ c }}</li>{% endfor %}
+			</ul>
+			<p>
+				Compiled on {{ AGRICULTURE_COMPILED_ON }} from the sources below. The
+				photographs are from Wikimedia Commons; each one's photographer and
+				licence are under its item.
+			</p>
+
+			<h2 id="sources">Sources</h2>
+			<ol class="seasons-sources">
+				{% for n, s in A.sources|dictsort %}
+					<li id="source-{{ n }}" value="{{ n }}"><a href="{{ s.url }}" rel="noopener">{{ s.title }}</a></li>
+				{% endfor %}
+			</ol>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/guides/kenyan-food-and-eating-out">Kenyan food and eating out in Nairobi &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/shopping-in-nairobi">Shopping and eating in Nairobi &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/weather-in-nairobi">Weather in Nairobi, month by month &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/tools/budget-planner">Plan a monthly budget &#8658;</a>
+			</p>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{% queueJs %}
+		import '/js/components/seasons.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

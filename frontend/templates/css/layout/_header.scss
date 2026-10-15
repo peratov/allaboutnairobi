@@ -206,7 +206,8 @@
 // 560px, not 400: five items plus the wordmark need about 520px, so a
 // breakpoint set at the phone width left the bar overflowing across the whole
 // of the small-tablet range instead - measured, after guessing wrong once.
-@media (max-width: 560px) {
+// 640px since AFCON joined the bar: six items need about 610px.
+@media (max-width: 640px) {
 	.site-nav-links > .no-small { display: none; }
 
 	// 20px between items is right on a wide bar and is pure waste on a phone,
@@ -253,4 +254,11 @@
 // still the name; ".com" is the part nobody reads.
 @media (max-width: 360px) {
 	.wordmark-tld { display: none; }
+
+	// With AFCON in the bar, 320px was 15px short even without the tld. The
+	// gaps give it back; the links stay 44px tall.
+	.site-nav { gap: var(--xs); }
+	.site-nav-links { gap: 0.3rem; margin-inline-end: 0; }
+	.site-nav-links > a,
+	.site-nav-links > button { font-size: 0.8rem; }
 }

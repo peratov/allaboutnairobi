@@ -1,10 +1,10 @@
 // =============================================================================
-// The home page beyond the hero: Explore Nairobi, Coming up, Work it out.
+// The home page beyond the hero's words: Now in Nairobi, Explore Nairobi,
+// Coming up, Work it out.
 //
-// Until these, the home page linked to none of the site's interactive pages
-// but the map, and that only on a wide screen. Explore is a bento grid on a
-// wide screen and a row you swipe on a phone - six cards stacked would push
-// "Start here" a screen and a half down. See _blocks/homeExplore.html.
+// Explore is a bento grid on a wide screen and a grid of two columns on a
+// phone, so every feature has a place in sight rather than one card of a row
+// you swipe. See _blocks/homeExplore.html and _blocks/homeNow.html.
 // =============================================================================
 
 .explore-head,
@@ -38,20 +38,17 @@
 
 .explore-card { margin: 0; min-width: 0; }
 
-// AFCON 2027 leads: half the width, two rows. Flights and the map stacked
-// beside it, then radio and events across the bottom in halves - and lost and
-// found with them, in thirds, once it is live. Twelve columns so the bottom
-// row can be halves or thirds.
-.explore-drive { grid-column: span 6; grid-row: span 2; }
+// AFCON 2027 leads beside what is in season; Nairobi Pulse is a band across
+// the whole grid; then flights, the map and lost and found in thirds, and
+// radio and events in halves. Twelve columns so rows can be halves or thirds.
+.explore-lead { grid-column: span 7; }
+.explore-seasons { grid-column: span 5; }
+.explore-pulse { grid-column: 1 / -1; }
 .explore-flights,
-.explore-map { grid-column: span 6; }
+.explore-map,
+.explore-lostfound { grid-column: span 4; }
 .explore-radio,
 .explore-events { grid-column: span 6; }
-.has-lostfound .explore-radio,
-.has-lostfound .explore-events,
-.explore-lostfound { grid-column: span 4; }
-// Nairobi Pulse, once live, is a band across the whole grid between the two.
-.explore-pulse { grid-column: 1 / -1; }
 
 .explore-card > a {
 	display: flex;
@@ -63,9 +60,13 @@
 	background: var(--c-bg-widget);
 	border: 1px solid var(--c-border);
 	border-radius: var(--b-radius);
-	transition: border-color 120ms ease-out, transform 120ms ease-out;
+	transition: border-color 160ms ease-out, transform 160ms ease-out, box-shadow 160ms ease-out;
 
-	&:hover { border-color: var(--c-highlight); }
+	&:hover {
+		border-color: var(--c-highlight);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-card);
+	}
 	&:hover .explore-cta { text-decoration: underline; }
 	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
 }
@@ -114,7 +115,21 @@
 	color: var(--c-text-link);
 }
 
-.explore-drive .explore-text strong { font-size: 1.45rem; }
+.explore-lead .explore-text strong { font-size: 1.45rem; }
+
+// Before Pulse and lost and found are live: a mark beside the kicker.
+.explore-soon {
+	display: inline-block;
+	margin-left: 0.35em;
+	padding: 0.1em 0.55em;
+	font-size: 0.68rem;
+	letter-spacing: 0.06em;
+	color: var(--c-gold);
+	background: color-mix(in srgb, var(--c-gold) 14%, transparent);
+	border: 1px solid color-mix(in srgb, var(--c-gold) 45%, transparent);
+	border-radius: 999px;
+	vertical-align: 0.1em;
+}
 
 // --- the visuals ------------------------------------------------------------------
 
@@ -233,11 +248,89 @@
 
 .explore-tags { max-width: 9rem; }
 
-.explore-harvest { max-width: 10rem; }
-.explore-harvest-dot { fill: var(--c-forest); }
-.explore-harvest-rain { fill: var(--c-rain); }
-.explore-harvest-dry { fill: var(--c-gold); }
-.explore-harvest-month { font-size: 7px; font-weight: 700; fill: var(--c-text-light); }
+// --- the seasons card: this month's food as photos ----------------------------------
+
+.explore-seasons-visual {
+	display: block;
+	padding: var(--s);
+	background: var(--c-map-void, var(--c-bg-widget-opaque));
+}
+
+.explore-food {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--s);
+}
+
+.explore-food-tile {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	border-radius: calc(var(--b-radius) * 0.75);
+	background: var(--c-bg-widget-opaque);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 400ms ease-out;
+	}
+
+	// The name on a shade at the foot of the photo. Photos are light or dark
+	// whatever the theme, so it is always white on near-black.
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 45% 0 0;
+		background: linear-gradient(to top, rgba(10, 8, 6, 0.85), rgba(10, 8, 6, 0));
+	}
+}
+
+.explore-food-name {
+	position: absolute;
+	z-index: 1;
+	right: 0.5rem;
+	bottom: 0.4rem;
+	left: 0.5rem;
+	overflow: hidden;
+	font-weight: 700;
+	font-size: 0.85rem;
+	line-height: 1.2;
+	color: #fff;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.explore-food-label {
+	position: absolute;
+	z-index: 1;
+	top: 0.4rem;
+	left: 0.4rem;
+	padding: 0.1rem 0.45rem;
+	font-size: 0.66rem;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	color: #fff;
+	background: rgba(10, 8, 6, 0.6);
+	border-radius: 999px;
+}
+
+// Status in the label's colour as well as its words.
+.explore-food-tile.is-best .explore-food-label { background: #185c3c; }
+.explore-food-tile.is-in .explore-food-label { background: #2c7a52; }
+.explore-food-tile.is-soon .explore-food-label { color: #241a05; background: #e0ae52; }
+
+.explore-card > a:hover .explore-food-tile img { transform: scale(1.05); }
+
+// Beside AFCON on a wide screen the card is as tall as the game's, so the
+// photos take the height rather than leave it empty under the words.
+@media (min-width: 60.01rem) {
+	.explore-seasons-visual { flex: 1 1 auto; display: flex; }
+	.explore-food { flex: 1 1 auto; grid-auto-rows: minmax(7rem, 1fr); }
+	.explore-food-tile { aspect-ratio: auto; }
+}
 .explore-tag-string { fill: none; stroke: var(--c-text-light); stroke-width: 1.2; stroke-linecap: round; }
 .explore-tag-lost { fill: var(--c-laterite); }
 .explore-tag-found { fill: var(--c-forest); }
@@ -293,9 +386,7 @@
 
 // The bottom row on a wide screen: picture beside the words.
 .explore-radio > a,
-.explore-events > a,
-.explore-seasons > a,
-.explore-lostfound > a {
+.explore-events > a {
 	flex-direction: row;
 	align-items: stretch;
 
@@ -303,21 +394,94 @@
 }
 
 // --- a tablet --------------------------------------------------------------------
+//
+// Two columns: the game, the food and Pulse across both; flights and the map
+// side by side; lost and found across both, picture beside words; radio and
+// events side by side.
 
 @media (max-width: 60rem) and (min-width: 40.01rem) {
 	.explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	.explore-drive { grid-column: span 2; grid-row: span 1; }
-	.explore-grid > .explore-card:not(.explore-drive) { grid-column: span 1; }
-	// Seven cards after the game: the last takes the row rather than half of it.
-	.explore-grid.has-lostfound > .explore-lostfound { grid-column: span 2; }
-	.explore-grid > .explore-pulse { grid-column: span 2; }
-	.explore-road { min-height: 12rem; }
+	.explore-grid > .explore-card { grid-column: span 1; }
+	.explore-grid > .explore-lead,
+	.explore-grid > .explore-seasons,
+	.explore-grid > .explore-pulse,
+	.explore-grid > .explore-lostfound { grid-column: span 2; }
+	.explore-seasons .explore-food { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	.explore-afcon-visual,
+	.explore-pitch { height: 11rem; min-height: 0; flex: 0 0 auto; }
+
+	.explore-lostfound > a {
+		flex-direction: row;
+		align-items: stretch;
+
+		.explore-visual { flex: 0 0 38%; height: auto; min-height: 8rem; }
+	}
+
+	.explore-radio > a,
+	.explore-events > a { flex-direction: column; }
+	.explore-radio .explore-visual,
+	.explore-events .explore-visual { flex: 0 0 auto; height: 9rem; min-height: 0; }
 }
 
-// --- a phone: rows you swipe ---------------------------------------------------------
+// --- a phone: a grid of two ----------------------------------------------------------
+//
+// The game, the food and Pulse across the screen; flights and the map, then
+// radio and events, as tiles in pairs - picture, kicker and name, the line of
+// detail left to the page; lost and found across the screen between them.
 
 @media (max-width: 40rem) {
-	.explore-grid,
+	.explore-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--s);
+		margin-top: var(--m);
+	}
+
+	.explore-grid > .explore-card { grid-column: span 1; }
+	.explore-grid > .explore-lead,
+	.explore-grid > .explore-seasons,
+	.explore-grid > .explore-pulse,
+	.explore-grid > .explore-lostfound { grid-column: span 2; }
+
+	.explore-card > a { flex-direction: column; }
+	.explore-card > a:hover { transform: none; box-shadow: none; }
+
+	.explore-text { padding: var(--s) var(--m) var(--m); }
+
+	.explore-afcon-visual,
+	.explore-pitch { height: 7.5rem; min-height: 0; flex: 0 0 auto; }
+	.explore-pulse .explore-visual { flex: 0 0 auto; height: 8rem; min-height: 0; }
+
+	.explore-lead .explore-text strong,
+	.explore-pulse .explore-text strong { font-size: 1.2rem; }
+
+	// The tiles: a shorter picture, and the kicker and name alone.
+	.explore-flights,
+	.explore-map,
+	.explore-radio,
+	.explore-events {
+		.explore-visual,
+		.explore-burst { flex: 0 0 auto; height: 6.5rem; min-height: 0; padding: var(--xs); }
+		.explore-eq { height: 3.5rem; }
+		.explore-text { padding: var(--s); gap: 0.1rem; }
+		.explore-text strong { font-size: 0.98rem; }
+		.explore-text > span:not(.explore-kicker) { display: none; }
+	}
+
+	.explore-burst-label { display: none; }
+
+	.explore-lostfound > a {
+		flex-direction: row;
+		align-items: stretch;
+
+		.explore-visual { flex: 0 0 34%; height: auto; min-height: 7rem; padding: var(--xs); }
+		.explore-text { padding: var(--s) var(--m); }
+		.explore-text strong { font-size: 1rem; }
+	}
+
+	.explore-radio > a,
+	.explore-events > a { flex-direction: column; }
+
+	// Work it out stays a row you swipe: six calculators, all alike.
 	.home-tools .tool-cards {
 		display: flex;
 		gap: var(--s);
@@ -330,40 +494,6 @@
 		scrollbar-width: none;
 		&::-webkit-scrollbar { display: none; }
 	}
-
-	.explore-grid { margin-top: var(--m); }
-
-	// Each card most of the screen, the next one peeking in to say there is
-	// more.
-	.explore-card {
-		flex: 0 0 82%;
-		scroll-snap-align: start;
-	}
-
-	.explore-card > a { flex-direction: column; }
-
-	// Pulse leads the row on a phone: it costs almost nothing to load, where
-	// the game streams photos, and it is the one card that asks something of
-	// the reader.
-	.explore-grid > .explore-pulse { order: -1; }
-	.explore-pulse .explore-visual { flex: 0 0 auto; height: 9rem; min-height: 0; }
-
-	// Every card's picture the same height, so the row is one even band.
-	.explore-road,
-	.explore-burst,
-	.explore-afcon-visual,
-	.explore-pitch { height: 9rem; min-height: 0; flex: 0 0 auto; }
-	.explore-spark { height: 6.25rem; }
-	.explore-radio > a,
-	.explore-events > a,
-	.explore-seasons > a,
-	.explore-lostfound > a { flex-direction: column; }
-	.explore-radio .explore-visual,
-	.explore-events .explore-visual,
-	.explore-seasons .explore-visual,
-	.explore-lostfound .explore-visual { flex: 0 0 auto; height: 9rem; min-height: 0; }
-
-	.explore-drive .explore-text strong { font-size: 1.2rem; }
 
 	.home-tools .tool-cards > li {
 		flex: 0 0 78%;
@@ -401,6 +531,10 @@
 	.explore-eq i:nth-child(4) { transform: scaleY(1); }
 	.explore-eq i:nth-child(5) { transform: scaleY(0.4); }
 	.explore-card > a { transition: none; }
+	.explore-card > a:hover { transform: none; }
+	.explore-food-tile img { transition: none; }
+	.explore-card > a:hover .explore-food-tile img { transform: none; }
+	.now-strip.is-live .now-dot::after { animation: none; }
 }
 
 // --- Nairobi Pulse's card --------------------------------------------------------------
@@ -473,4 +607,129 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.explore-pulse-beat polyline { animation: none; stroke-dashoffset: 0; }
+}
+
+// --- Now in Nairobi ------------------------------------------------------------------
+//
+// A strip of small live facts across the top of the hero. Wraps on a wide
+// screen; a row you swipe on a phone, faded at the edge to say there is more.
+
+.now-strip {
+	display: block;
+	margin: 0 0 var(--l);
+}
+
+.now-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.now-item {
+	margin: 0;
+
+	&[hidden] { display: none; }
+
+	> a,
+	&.now-clock {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		height: 100%;
+		padding: 0.4rem 0.85rem 0.4rem 0.6rem;
+		color: inherit;
+		text-decoration: none;
+		background: var(--c-bg-widget);
+		border: 1px solid var(--c-border);
+		border-radius: 999px;
+		transition: border-color 140ms ease-out, background-color 140ms ease-out;
+	}
+
+	> a:hover {
+		border-color: var(--c-highlight);
+		background: var(--c-highlight-soft);
+	}
+
+	> a:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.now-text {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.15;
+	white-space: nowrap;
+
+	strong {
+		font-size: 0.86rem;
+		color: var(--c-text-heading);
+	}
+}
+
+.now-label {
+	font-size: 0.68rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.now-icon {
+	flex: 0 0 auto;
+	width: 1.15rem;
+	height: 1.15rem;
+	fill: none;
+	stroke: var(--c-highlight);
+	stroke-width: 1.7;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+// The clock's mark: a green dot that breathes once the clock is live.
+.now-dot {
+	position: relative;
+	flex: 0 0 auto;
+	width: 0.6rem;
+	height: 0.6rem;
+	margin: 0 0.25rem 0 0.15rem;
+	border-radius: 50%;
+	background: var(--c-forest);
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset: -4px;
+		border-radius: 50%;
+		border: 2px solid var(--c-forest);
+		opacity: 0;
+	}
+}
+
+.now-strip.is-live .now-dot::after { animation: now-breathe 2.4s ease-out infinite; }
+
+@keyframes now-breathe {
+	0% { transform: scale(0.6); opacity: 0.7; }
+	100% { transform: scale(1.5); opacity: 0; }
+}
+
+@media (max-width: 40rem) {
+	.now-strip {
+		margin: 0 calc(var(--m) * -1) var(--l);
+		-webkit-mask-image: linear-gradient(to right, #000 85%, transparent);
+		mask-image: linear-gradient(to right, #000 85%, transparent);
+	}
+
+	.now-list {
+		flex-wrap: nowrap;
+		padding: 0 var(--l) 0 var(--m);
+		overflow-x: auto;
+		scroll-snap-type: x proximity;
+		scroll-padding-inline: var(--m);
+		scrollbar-width: none;
+		&::-webkit-scrollbar { display: none; }
+	}
+
+	.now-item { flex: 0 0 auto; scroll-snap-align: start; }
 }

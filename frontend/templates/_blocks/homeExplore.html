@@ -1,16 +1,21 @@
 {#
-	The home page's way into the things on this site that are not guides:
-	AFCON 2027, the flight map, the constituency map, the radio and the events.
-	Until this, the home page linked to none of them but the map, and that only
-	on a wide screen - the hero map is hidden on a phone.
+	The home page's way into everything on this site that is not a guide:
+	AFCON 2027, what is in season, Nairobi Pulse, the flight map, the
+	constituency map, lost and found, the radio and the events.
 
-	A bento grid on a wide screen, a row you swipe on a phone: six full cards
-	stacked would push "Start here" a screen and a half down, and a row costs one
-	card's height with the next one peeking in to say there is more.
+	A bento grid on a wide screen. On a phone, a grid of two columns, with
+	AFCON, the seasons card and Pulse across both and the rest as tiles: every
+	feature in sight in about a screen and a half, where a row you swipe showed
+	one card and hid seven.
+
+	Pulse and lost and found are shown before their backends are live, marked
+	"Opening soon"; their pages say the same and do not ask for anything until
+	they are. Once PULSE_LIVE / LOSTFOUND_LIVE are set the marks become live
+	ones.
 
 	Every visual is drawn here, from data already in the build context - the
-	flight routes from FLIGHTS, the outlines from HERO_MAP - so it costs
-	no request, needs no script, and cannot disagree with the page it links to.
+	flight routes from FLIGHTS, the outlines from HERO_MAP, the food photos
+	from AGRICULTURE - so it cannot disagree with the page it links to.
 #}
 
 {# --- the flight starburst: every route from JKIA, equirectangular, 1.6 units
@@ -48,9 +53,9 @@
 		<p>Things to play with, not just read.</p>
 	</div>
 
-	<ul class="explore-grid{% if LOSTFOUND_LIVE %} has-lostfound{% endif %}">
+	<ul class="explore-grid">
 		{# The lead card: AFCON 2027, with its own live countdown. #}
-		<li class="explore-card explore-drive explore-afcon">
+		<li class="explore-card explore-lead explore-afcon">
 			<a href="{{ SITE_URL }}/afcon">
 				<span class="explore-afcon-visual" aria-hidden="true">
 					<svg class="explore-pitch" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -75,6 +80,55 @@
 					<span>Three stadiums, the key dates, tickets, and a planner for getting to every match.</span>
 					<afcon-countdown data-starts="{{ AFCON.meta.starts }}" data-ends="{{ AFCON.meta.ends }}"></afcon-countdown>
 					<span class="explore-cta">Plan your AFCON &#10142;</span>
+				</span>
+			</a>
+		</li>
+
+		{# What is in season: photos of what is good this month, rendered for the
+		   build month and swapped for the reader's by home-now.mjs. #}
+		{% set _months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+		<li class="explore-card explore-seasons">
+			<a href="{{ SITE_URL }}/seasons">
+				<home-seasons class="explore-seasons-visual" data-month="{{ now.month }}" data-base="{{ SITE_URL }}" aria-hidden="true">
+					<span class="explore-food" data-tiles>
+						{% for t in AGRICULTURE_HOME[now.month] %}
+							<span class="explore-food-tile is-{{ t.status }}">
+								<img src="{{ SITE_URL }}/staticimages/food/{{ t.id }}-thumb.webp" width="{{ t.w }}" height="{{ t.h }}" alt="" loading="lazy" decoding="async">
+								<span class="explore-food-name">{{ t.name }}</span>
+								<span class="explore-food-label">{{ t.label }}</span>
+							</span>
+						{% endfor %}
+					</span>
+				</home-seasons>
+				<span class="explore-text">
+					<span class="explore-kicker">In season</span>
+					<strong>What's good in <span data-month-name>{{ _months[now.month - 1] }}</span></strong>
+					<span>{{ AGRICULTURE['items']|length }} foods month by month, from mangoes to omena, and where Nairobi's food is grown.</span>
+					<span class="explore-cta">See the whole year &#10142;</span>
+				</span>
+			</a>
+		</li>
+
+		{# Nairobi Pulse: the constituencies' outlines with a heartbeat across
+		   them. No colours on the shapes - a picture in the map's answer colours
+		   would read as results. #}
+		<li class="explore-card explore-pulse">
+			<a href="{{ SITE_URL }}/pulse">
+				<span class="explore-visual explore-visual-pulse" aria-hidden="true">
+					{% if HERO_MAP %}
+						<svg class="explore-pulse-map" viewBox="{{ HERO_MAP.view_box }}" focusable="false">
+							{% for district in HERO_MAP.districts %}<path d="{{ district.d }}"/>{% endfor %}
+						</svg>
+					{% endif %}
+					<svg class="explore-pulse-beat" viewBox="0 0 300 100" preserveAspectRatio="none" focusable="false">
+						<polyline points="0,62 92,62 104,62 114,30 126,88 138,14 150,74 160,62 196,62 206,48 214,62 300,62"/>
+					</svg>
+				</span>
+				<span class="explore-text">
+					<span class="explore-kicker">{% if PULSE_LIVE %}<span class="explore-live" aria-hidden="true"></span> Nairobi Pulse{% else %}Nairobi Pulse <span class="explore-soon">Opening soon</span>{% endif %}</span>
+					<strong>How does your constituency feel?</strong>
+					<span>Questions about the city, answered only from inside Nairobi, on a live map of all {{ MAP.constituencies|length }} constituencies.</span>
+					<span class="explore-cta">{% if PULSE_LIVE %}Vote and see the map{% else %}See how it will work{% endif %} &#10142;</span>
 				</span>
 			</a>
 		</li>
@@ -114,31 +168,33 @@
 			</a>
 		</li>
 
-		{# Nairobi Pulse, once it is live: the constituencies' outlines with a
-		   heartbeat across them. No colours on the shapes - a picture in the
-		   map's answer colours would read as results. #}
-		{% if PULSE_LIVE %}
-		<li class="explore-card explore-pulse">
-			<a href="{{ SITE_URL }}/pulse">
-				<span class="explore-visual explore-visual-pulse" aria-hidden="true">
-					{% if HERO_MAP %}
-						<svg class="explore-pulse-map" viewBox="{{ HERO_MAP.view_box }}" focusable="false">
-							{% for district in HERO_MAP.districts %}<path d="{{ district.d }}"/>{% endfor %}
-						</svg>
-					{% endif %}
-					<svg class="explore-pulse-beat" viewBox="0 0 300 100" preserveAspectRatio="none" focusable="false">
-						<polyline points="0,62 92,62 104,62 114,30 126,88 138,14 150,74 160,62 196,62 206,48 214,62 300,62"/>
+		{# Lost and found: two luggage tags, lost in laterite and found in
+		   forest, the colours they carry on every listing. #}
+		<li class="explore-card explore-lostfound">
+			<a href="{{ SITE_URL }}/lost-and-found">
+				<span class="explore-visual" aria-hidden="true">
+					<svg class="explore-tags" viewBox="0 0 120 96" focusable="false">
+						<path class="explore-tag-string" d="M60 4C40 6 30 14 26 34M60 4c8 10 10 26 6 46"/>
+						<g transform="translate(18 26) rotate(-12)">
+							<path class="explore-tag-lost" d="M14 0h46a6 6 0 0 1 6 6v26a6 6 0 0 1-6 6H14L0 25V13z"/>
+							<circle class="explore-tag-hole" cx="9" cy="19" r="3"/>
+							<text class="explore-tag-text" x="39" y="23" text-anchor="middle">LOST</text>
+						</g>
+						<g transform="translate(50 48) rotate(9)">
+							<path class="explore-tag-found" d="M14 0h46a6 6 0 0 1 6 6v26a6 6 0 0 1-6 6H14L0 25V13z"/>
+							<circle class="explore-tag-hole" cx="9" cy="19" r="3"/>
+							<text class="explore-tag-text" x="39" y="23" text-anchor="middle">FOUND</text>
+						</g>
 					</svg>
 				</span>
 				<span class="explore-text">
-					<span class="explore-kicker"><span class="explore-live" aria-hidden="true"></span> Nairobi Pulse</span>
-					<strong>How does your constituency feel?</strong>
-					<span>Questions about the city, answered only from inside Nairobi, on a live map of all {{ MAP.constituencies|length }} constituencies.</span>
-					<span class="explore-cta">Vote and see the map &#10142;</span>
+					<span class="explore-kicker">Lost and found{% if not LOSTFOUND_LIVE %} <span class="explore-soon">Opening soon</span>{% endif %}</span>
+					<strong>Lost something? Found something?</strong>
+					<span>List it free. Your number is never shown, and malls and stations list what is handed in.</span>
+					<span class="explore-cta">{% if LOSTFOUND_LIVE %}Search or list{% else %}See how it will work{% endif %} &#10142;</span>
 				</span>
 			</a>
 		</li>
-		{% endif %}
 
 		<li class="explore-card explore-radio">
 			<a href="{{ SITE_URL }}/radio">
@@ -151,6 +207,7 @@
 				</span>
 			</a>
 		</li>
+
 		<li class="explore-card explore-events">
 			<a href="{{ SITE_URL }}/events">
 				{# A calendar page, as decoration only: a real date here would go
@@ -174,35 +231,5 @@
 				</span>
 			</a>
 		</li>
-
-		{# Lost and found, once it is live: two luggage tags, lost in laterite and
-		   found in forest, the colours they carry on every listing. #}
-		{% if LOSTFOUND_LIVE %}
-		<li class="explore-card explore-lostfound">
-			<a href="{{ SITE_URL }}/lost-and-found">
-				<span class="explore-visual" aria-hidden="true">
-					<svg class="explore-tags" viewBox="0 0 120 96" focusable="false">
-						<path class="explore-tag-string" d="M60 4C40 6 30 14 26 34M60 4c8 10 10 26 6 46"/>
-						<g transform="translate(18 26) rotate(-12)">
-							<path class="explore-tag-lost" d="M14 0h46a6 6 0 0 1 6 6v26a6 6 0 0 1-6 6H14L0 25V13z"/>
-							<circle class="explore-tag-hole" cx="9" cy="19" r="3"/>
-							<text class="explore-tag-text" x="39" y="23" text-anchor="middle">LOST</text>
-						</g>
-						<g transform="translate(50 48) rotate(9)">
-							<path class="explore-tag-found" d="M14 0h46a6 6 0 0 1 6 6v26a6 6 0 0 1-6 6H14L0 25V13z"/>
-							<circle class="explore-tag-hole" cx="9" cy="19" r="3"/>
-							<text class="explore-tag-text" x="39" y="23" text-anchor="middle">FOUND</text>
-						</g>
-					</svg>
-				</span>
-				<span class="explore-text">
-					<span class="explore-kicker">Lost and found</span>
-					<strong>Lost something? Found something?</strong>
-					<span>List it free. Your number is never shown, and malls and stations list what is handed in.</span>
-					<span class="explore-cta">Search or list &#10142;</span>
-				</span>
-			</a>
-		</li>
-		{% endif %}
 	</ul>
 </article>
