@@ -39,16 +39,17 @@
 .explore-card { margin: 0; min-width: 0; }
 
 // AFCON 2027 leads beside what is in season; Nairobi Pulse is a band across
-// the whole grid; then flights, the map and lost and found in thirds, and
-// radio and events in halves. Twelve columns so rows can be halves or thirds.
+// the whole grid; then two rows of thirds: flights, the map and lost and
+// found, then radio, events and the data.
 .explore-lead { grid-column: span 7; }
 .explore-seasons { grid-column: span 5; }
 .explore-pulse { grid-column: 1 / -1; }
 .explore-flights,
 .explore-map,
-.explore-lostfound { grid-column: span 4; }
+.explore-lostfound,
 .explore-radio,
-.explore-events { grid-column: span 6; }
+.explore-events,
+.explore-data { grid-column: span 4; }
 
 .explore-card > a {
 	display: flex;
@@ -384,20 +385,12 @@
 	to { transform: scaleY(1); }
 }
 
-// The bottom row on a wide screen: picture beside the words.
-.explore-radio > a,
-.explore-events > a {
-	flex-direction: row;
-	align-items: stretch;
-
-	.explore-visual { flex: 0 0 38%; height: auto; min-height: 8rem; }
-}
 
 // --- a tablet --------------------------------------------------------------------
 //
 // Two columns: the game, the food and Pulse across both; flights and the map
 // side by side; lost and found across both, picture beside words; radio and
-// events side by side.
+// events side by side; the data across both.
 
 @media (max-width: 60rem) and (min-width: 40.01rem) {
 	.explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -405,29 +398,27 @@
 	.explore-grid > .explore-lead,
 	.explore-grid > .explore-seasons,
 	.explore-grid > .explore-pulse,
-	.explore-grid > .explore-lostfound { grid-column: span 2; }
+	.explore-grid > .explore-lostfound,
+	.explore-grid > .explore-data { grid-column: span 2; }
 	.explore-seasons .explore-food { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 	.explore-afcon-visual,
 	.explore-pitch { height: 11rem; min-height: 0; flex: 0 0 auto; }
 
-	.explore-lostfound > a {
+	.explore-lostfound > a,
+	.explore-data > a {
 		flex-direction: row;
 		align-items: stretch;
 
 		.explore-visual { flex: 0 0 38%; height: auto; min-height: 8rem; }
 	}
-
-	.explore-radio > a,
-	.explore-events > a { flex-direction: column; }
-	.explore-radio .explore-visual,
-	.explore-events .explore-visual { flex: 0 0 auto; height: 9rem; min-height: 0; }
 }
 
 // --- a phone: a grid of two ----------------------------------------------------------
 //
 // The game, the food and Pulse across the screen; flights and the map, then
 // radio and events, as tiles in pairs - picture, kicker and name, the line of
-// detail left to the page; lost and found across the screen between them.
+// detail left to the page; lost and found and the data across the screen,
+// picture beside words.
 
 @media (max-width: 40rem) {
 	.explore-grid {
@@ -440,7 +431,8 @@
 	.explore-grid > .explore-lead,
 	.explore-grid > .explore-seasons,
 	.explore-grid > .explore-pulse,
-	.explore-grid > .explore-lostfound { grid-column: span 2; }
+	.explore-grid > .explore-lostfound,
+	.explore-grid > .explore-data { grid-column: span 2; }
 
 	.explore-card > a { flex-direction: column; }
 	.explore-card > a:hover { transform: none; box-shadow: none; }
@@ -469,7 +461,8 @@
 
 	.explore-burst-label { display: none; }
 
-	.explore-lostfound > a {
+	.explore-lostfound > a,
+	.explore-data > a {
 		flex-direction: row;
 		align-items: stretch;
 
@@ -477,9 +470,6 @@
 		.explore-text { padding: var(--s) var(--m); }
 		.explore-text strong { font-size: 1rem; }
 	}
-
-	.explore-radio > a,
-	.explore-events > a { flex-direction: column; }
 
 	// Work it out stays a row you swipe: six calculators, all alike.
 	.home-tools .tool-cards {

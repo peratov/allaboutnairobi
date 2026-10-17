@@ -1,25 +1,23 @@
 {% extends "_layout.html" %}
-{% set page_styles = ['map'] %}
+{% set page_styles = ['map-frame', 'nairobi-map'] %}
 {% set canonical_path = "/map" %}
 {% set metatitle = "Map of Nairobi: constituencies, neighbourhoods and landmarks" %}
 {% set constituencies = MAP.constituencies %}
 {% set census = MAP.census %}
 {% set landmarks = MAP.landmarks %}
-{% set metadescription = "An interactive map of Nairobi: " ~ constituencies|length ~ " constituencies, " ~ landmarks|length ~ " landmarks, 2019 census population, age and gender, relative wealth and typical rents by neighbourhood." %}
+{% set metadescription = "Nairobi's " ~ constituencies|length ~ " constituencies and " ~ landmarks|length ~ " landmarks, with the 2019 census - people, renting, water, sewers, cooking and internet use - wealth and rent." %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section">
-			<div class="section-heading">
+			<div class="section-heading map-heading">
 				<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
 				<h1>Map of Nairobi</h1>
 			</div>
-			<p class="page-intro">
-				Nairobi City County's {{ constituencies|length }} constituencies,
-				the neighbourhoods inside them and {{ landmarks|length }} landmarks.
-				Tap a constituency or a pin, search for a place, or switch layers to
-				see population, age, gender and wealth across the city, and what rent
-				looks like neighbourhood by neighbourhood.
+			<p class="page-intro map-intro">
+				All {{ constituencies|length }} constituencies, the neighbourhoods
+				inside them and {{ landmarks|length }} landmarks. Colour it by the 2019
+				census, wealth or rent. Tap anything.
 			</p>
 
 			<nairobi-map data-clarity-mask="true"></nairobi-map>
@@ -107,6 +105,69 @@
 				why they sum to {{ '{:,}'.format(MAP.population) }} rather than the
 				headline 4,397,073.
 			</p>
+
+			{% set homes = CENSUS_2019.county %}
+			{% if homes %}
+			<h2 id="homes">How Nairobi's households live</h2>
+			<p>
+				From the same census &mdash; 2019 is Kenya's latest, and the next is due
+				around 2029. Nairobi had {{ '{:,}'.format(homes.households) }} households
+				of {{ homes.householdSize }} people on average.
+				<strong>{{ homes.rentingPct }}% rented their home</strong>,
+				{{ homes.electricityPct }}% lit it from the mains, {{ homes.pipedPct }}% had
+				water piped to the home or plot and {{ homes.sewerPct }}% were on the main
+				sewer. {{ homes.cleanCookingPct }}% cooked with gas or electricity and
+				{{ homes.paraffinPct }}% with paraffin, and {{ homes.internetPct }}% of
+				people aged 3 and over used the internet. Every column can be shown on
+				the map above from the layers button.
+			</p>
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Sub-county</th>
+							<th scope="col" class="numeric">Households</th>
+							<th scope="col" class="numeric">People each</th>
+							<th scope="col" class="numeric">Renting</th>
+							<th scope="col" class="numeric">Piped water</th>
+							<th scope="col" class="numeric">Main sewer</th>
+							<th scope="col" class="numeric">Gas or electric cooking</th>
+							<th scope="col" class="numeric">Using the internet</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for s in census|sort(attribute='name') if s.households is defined %}
+							<tr>
+								<th scope="row"><a href="#subcounty/{{ s.name|lower|replace("'", "")|replace(' ', '-') }}">{{ s.name }}</a></th>
+								<td class="numeric">{{ '{:,}'.format(s.households) }}</td>
+								<td class="numeric">{{ s.householdSize }}</td>
+								<td class="numeric">{{ s.rentingPct }}%</td>
+								<td class="numeric">{{ s.pipedPct }}%</td>
+								<td class="numeric">{{ s.sewerPct }}%</td>
+								<td class="numeric">{{ s.cleanCookingPct }}%</td>
+								<td class="numeric">{{ s.internetPct }}%</td>
+							</tr>
+						{% endfor %}
+						<tr>
+							<th scope="row">All Nairobi</th>
+							<td class="numeric">{{ '{:,}'.format(homes.households) }}</td>
+							<td class="numeric">{{ homes.householdSize }}</td>
+							<td class="numeric">{{ homes.rentingPct }}%</td>
+							<td class="numeric">{{ homes.pipedPct }}%</td>
+							<td class="numeric">{{ homes.sewerPct }}%</td>
+							<td class="numeric">{{ homes.cleanCookingPct }}%</td>
+							<td class="numeric">{{ homes.internetPct }}%</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="tool-note">
+				Shares of households, except internet use, which is of people aged 3 and
+				over. Piped water is piped into the home or to its yard or plot. From the
+				census's Volumes II and IV as tabulated by
+				<a href="{{ CENSUS_2019.meta.url }}" rel="noopener">census.ke</a> (CC BY).
+			</p>
+			{% endif %}
 		</article>
 
 		<article class="section map-fallback">
@@ -171,7 +232,9 @@
 				counts Nairobi by 11 administrative sub-counties, which follow different
 				lines from the constituencies. Rather than force its figures onto the wrong
 				shapes, the census layers switch the map to sub-county boundaries, so every
-				number on them is a real 2019 count.
+				number on them is a real 2019 count. That includes how households live
+				&mdash; renting, water, sewers, cooking fuel and internet use &mdash; from
+				the census's housing and ICT tables. 2019 is Kenya's latest census.
 			</p>
 			<p>
 				<strong>Relative wealth is a model, not income.</strong> Kenya publishes no
@@ -221,5 +284,15 @@
 		</article>
 	</main>
 
-	<script type="module" src="/js/components/nairobi-map.mjs"></script>
+{% endblock %}
+
+{% block postFooter %}
+	{#
+		Queued before super(), so the import rides along in the layout's one
+		module script rather than adding a second.
+	#}
+	{% queueJs %}
+		import '/js/components/nairobi-map.mjs';
+	{% endqueueJs %}
+	{{ super() }}
 {% endblock %}

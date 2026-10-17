@@ -52,6 +52,11 @@ CACHE = Path(__file__).resolve().parent / ".cache"
 OUT_JSON = ROOT / "templates" / "geo" / "nairobi-map.json"
 OUT_SUMMARY = ROOT / "content" / "geo" / "map-summary.yaml"
 LANDMARKS = ROOT / "content" / "geo" / "landmarks.yaml"
+# How each sub-county's households live, from the 2019 census's housing and
+# ICT tables - written by scripts/fetch_census_2019.py and merged in here.
+HOUSEHOLDS = ROOT / "content" / "geo" / "census-2019.yaml"
+HOUSEHOLD_FIELDS = ("households", "householdSize", "rentingPct", "pipedPct", "vendorPct", "sewerPct",
+                    "cleanCookingPct", "paraffinPct", "electricityPct", "internetPct", "computerPct")
 
 ADM2_URL = ("https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/KEN/ADM2/"
             "geoBoundaries-KEN-ADM2.geojson")
@@ -454,10 +459,14 @@ def main() -> None:
 
     county_shape = shape_of(county["geometry"])
 
+    homes = yaml.safe_load(HOUSEHOLDS.read_text(encoding="utf-8"))["subcounties"] if HOUSEHOLDS.exists() else {}
+    if homes and sorted(homes) != sorted(census):
+        raise SystemExit(f"census-2019.yaml has {sorted(homes)}, the age and sex tables {sorted(census)}")
+
     subcounties = []
     for name, geometry in fetch_subcounties().items():
         shape = shape_of(geometry)
-        record = census[name]
+        record = {**census[name], **{k: v for k, v in homes.get(name, {}).items() if k in HOUSEHOLD_FIELDS}}
         subcounties.append({
             "id": slug(name),
             "name": name,
@@ -466,6 +475,7 @@ def main() -> None:
             "areaKm2": round(shape["areaKm2"], 1),
             "density": int(round(record["population"] / shape["areaKm2"], -1)),
             **{k: record[k] for k in ("population", "femalePct", "under15Pct", "age20to34Pct", "over64Pct")},
+            **{k: record[k] for k in HOUSEHOLD_FIELDS if k in record},
         })
     subcounties.sort(key=lambda c: c["name"])
 
@@ -511,6 +521,9 @@ def main() -> None:
         {"what": "Population by sub-county, age and sex",
          "who": "KNBS, 2019 Kenya Population and Housing Census, Volume III, via OCHA",
          "licence": "CC BY-IGO", "url": "https://data.humdata.org/dataset/cod-ps-ken"},
+        {"what": "Households, homes, water, sanitation, cooking and internet use by sub-county",
+         "who": "KNBS, 2019 Kenya Population and Housing Census, Volumes II and IV, via census.ke (Open Institute)",
+         "licence": "CC BY", "url": "https://census.ke"},
         {"what": "How the population is spread within the county", "who": "WorldPop, 2020, 1 km, UN-adjusted",
          "licence": "CC BY 4.0", "url": "https://www.worldpop.org"},
         {"what": "Census sub-county boundaries", "who": "OpenStreetMap contributors",
@@ -551,7 +564,8 @@ def main() -> None:
         "population": census_total,
         "sources": sources,
         "categories": catalogue["categories"],
-        "census": sorted(({**c, "areaKm2": sc["areaKm2"], "density": sc["density"]}
+        "census": sorted(({**c, "areaKm2": sc["areaKm2"], "density": sc["density"],
+                           **{k: sc[k] for k in HOUSEHOLD_FIELDS if k in sc}}
                           for c in census.values() for sc in subcounties if sc["name"] == c["name"]),
                          key=lambda c: -c["population"]),
         "constituencies": [{k: s[k] for k in ("id", "name", "areaKm2", "population", "density", "rwi")} for s in shapes],

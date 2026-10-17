@@ -118,22 +118,27 @@ dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/fetch_census_data.py"
 
 [tasks.flight-data]
-description = "Refetch the nonstop routes behind the Kotoka flight map"
+description = "Refetch the nonstop routes behind the JKIA flight map"
 dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/build_flight_map.py"
 
 [tasks.radio-data]
-description = "Re-check every stream on /radio against the NCA register, and rebuild the station list"
+description = "Re-check every stream on /radio and rebuild the Nairobi station list"
 dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/build_radio_data.py"
 
 [tasks.food-photos]
-description = "Resize the photos behind /seasons and fetch their credits from Wikimedia Commons (--source DIR)"
+description = "Fetch and resize the photos behind /seasons, with their credits, from Wikimedia Commons"
 dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/build_food_photos.py"
 
+[tasks.census-2019]
+description = "Refetch the 2019 census household tables for Nairobi from census.ke (then run map-data)"
+dir = "frontend"
+run = "../.venv/Scripts/python.exe scripts/fetch_census_2019.py"
+
 [tasks.dashboard-data]
-description = "Refetch the World Bank series and census counts behind /data"
+description = "Refetch the World Bank series behind /data (--offline rebuilds the summary only)"
 dir = "frontend"
 run = "../.venv/Scripts/python.exe scripts/build_dashboard_data.py"
 

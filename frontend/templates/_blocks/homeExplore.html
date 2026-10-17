@@ -1,7 +1,7 @@
 {#
 	The home page's way into everything on this site that is not a guide:
 	AFCON 2027, what is in season, Nairobi Pulse, the flight map, the
-	constituency map, lost and found, the radio and the events.
+	constituency map, lost and found, the radio, the events and the data.
 
 	A bento grid on a wide screen. On a phone, a grid of two columns, with
 	AFCON, the seasons card and Pulse across both and the rest as tiles: every
@@ -45,6 +45,25 @@
 	</svg>
 {% endmacro %}
 
+{# --- the census sparkline: Nairobi's six counts, 1969 to 2019 --- #}
+{% macro censusLine(series) %}
+	{% set first = series['values'][0].year %}
+	{% set span = series['values'][-1].year - first %}
+	{% set top = series.max_value %}
+	{% set points = [] %}
+	{% for p in series['values'] %}
+		{% set _ = points.append(((p.year - first) / span * 200 + 6)|round(1)|string ~ ',' ~ (66 - p.value / top * 56)|round(1)|string) %}
+	{% endfor %}
+	<svg class="explore-spark" viewBox="0 0 212 72" aria-hidden="true" focusable="false">
+		<polyline class="explore-spark-area" points="6,70 {{ points|join(' ') }} 206,70"/>
+		<polyline class="explore-spark-line" points="{{ points|join(' ') }}"/>
+		{% for pt in points %}
+			<circle class="explore-spark-dot" cx="{{ pt.split(',')[0] }}" cy="{{ pt.split(',')[1] }}" r="2.6"/>
+		{% endfor %}
+	</svg>
+{% endmacro %}
+
+{% set census = (INDICATORS.series|selectattr('id', 'equalto', 'nairobi-population')|list)[0] %}
 {% set live_stations = RADIO.stations|selectattr('stream')|list %}
 
 <article class="section explore" aria-labelledby="explore-heading">
@@ -228,6 +247,18 @@
 					<strong>Festivals, matches and holidays</strong>
 					<span>Soonest first. Past dates drop off by themselves.</span>
 					<span class="explore-cta">See what's on &#10142;</span>
+				</span>
+			</a>
+		</li>
+
+		<li class="explore-card explore-data">
+			<a href="{{ SITE_URL }}/data">
+				<span class="explore-visual" aria-hidden="true">{{ censusLine(census) }}</span>
+				<span class="explore-text">
+					<span class="explore-kicker">In numbers</span>
+					<strong>{{ census.multiple|round(1) }}&times; the people of {{ census.first_year }}</strong>
+					<span>Nairobi and Kenya, charted over sixty years.</span>
+					<span class="explore-cta">See the charts &#10142;</span>
 				</span>
 			</a>
 		</li>

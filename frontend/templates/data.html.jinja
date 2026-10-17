@@ -1,0 +1,280 @@
+{% extends "_layout.html" %}
+{% set page_styles = ['dashboard'] %}
+{% set canonical_path = "/data" %}
+{% set metatitle = "Nairobi and Kenya in numbers" %}
+{% set metadescription = "Population, GDP, education and daily life over sixty years, charted - with what is Nairobi and what is Kenya kept plainly apart." %}
+
+{# Mirrors readable() in data-dashboard.mjs, so the tables and the charts read
+   the same figure the same way. A GDP written out in full is eleven digits of
+   noise; abbreviated, it is a number a reader can hold. #}
+{% macro figure(value, unit) -%}
+	{%- if value is none -%}
+		&mdash;
+	{%- else -%}
+		{%- if unit == 'US$' %}${% elif unit == 'KSh' %}KSh {% endif -%}
+		{%- set abs = value|abs -%}
+		{%- if abs >= 1000000000 -%}
+			{{ '{:,.1f}'.format(value / 1000000000) }}bn
+		{%- elif abs >= 1000000 -%}
+			{{ '{:,.1f}'.format(value / 1000000) }}m
+		{%- elif abs >= 1000 -%}
+			{{ '{:,.0f}'.format(value) }}
+		{%- else -%}
+			{{ value|number }}
+		{%- endif -%}
+		{%- if unit.startswith('%') %}%{% endif -%}
+	{%- endif -%}
+{%- endmacro %}
+
+{% set gcp = INDICATORS.meta.nairobi_gcp %}
+{% set nairobi = INDICATORS.series|selectattr('scope', 'equalto', 'nairobi')|list %}
+{% set derived = INDICATORS.series|selectattr('scope', 'equalto', 'derived')|list %}
+{% set national = INDICATORS.series|selectattr('scope', 'equalto', 'kenya')|list %}
+
+{% block main %}
+	<main id="main" class="wide-column" aria-label="Main page">
+		<article class="section">
+			<div class="section-heading">
+				<span class="icon-stamp">{% include "_icons/accuracy.svg" %}</span>
+				<h1>Nairobi and Kenya in numbers</h1>
+			</div>
+
+			<p class="page-intro">
+				{{ INDICATORS.series|length }} series and
+				{{ '{:,}'.format(INDICATORS.series|map(attribute='points')|sum) }} data points,
+				most of them running back to 1960. Open any chart to read it year by
+				year, with its lowest and highest points named.
+			</p>
+
+			<div class="admonition warning">
+				<p class="admonition-title">Most of this is Kenya, not Nairobi</p>
+				<p>{{ INDICATORS.meta.caveat }}</p>
+				<p>
+					Nobody publishes an inflation series, a school enrolment series or
+					sixty years of GDP for Nairobi on its own, so this page does not
+					pretend to. You can filter to the Nairobi figures alone, of which
+					there are few.
+				</p>
+			</div>
+
+			<data-dashboard></data-dashboard>
+
+			<noscript>
+				<p class="tool-note">
+					The charts need JavaScript. Every series is summarised in the tables
+					below, with its first and last value.
+				</p>
+			</noscript>
+		</article>
+
+		<article class="section">
+			<h2 id="nairobi-itself">What there is for Nairobi</h2>
+
+			<p>
+				Not much, and it is worth being plain about why. The census runs once a
+				decade, and the Kenya National Bureau of Statistics has published the
+				size of each county's economy only since 2019. So the Nairobi record is
+				<strong>six population counts</strong> on today's boundary, what the
+				latest census found about its homes, the county's area, and five years
+				of its output.
+			</p>
+
+			<h3 id="population-by-census">Nairobi at every census</h3>
+			{% set census = (INDICATORS.series|selectattr('id', 'equalto', 'nairobi-population')|first) %}
+			{% set density = (INDICATORS.series|selectattr('id', 'equalto', 'nairobi-density')|first) %}
+			{% set pshare = (INDICATORS.series|selectattr('id', 'equalto', 'nairobi-share-of-kenya')|first) %}
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Census</th>
+							<th scope="col" class="numeric">People</th>
+							<th scope="col" class="numeric">Per km&sup2;</th>
+							<th scope="col" class="numeric">Share of Kenya</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for p in census['values'] %}
+							{% set d = density['values'][loop.index0] %}
+							{% set sh = pshare['values'][loop.index0] %}
+							<tr>
+								<th scope="row">{{ p.year }}</th>
+								<td class="numeric">{{ '{:,}'.format(p.value) }}</td>
+								<td class="numeric">{{ '{:,.0f}'.format(d.value) }}</td>
+								<td class="numeric">{{ sh.value }}%</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<p class="tool-note">
+				<strong>{{ census.multiple|round(1) }} times more people</strong> in
+				{{ census.last_year }} than in {{ census.first_year }}, on the
+				county's {{ '{:,}'.format(INDICATORS.meta.nairobi_area_km2) }} km&sup2;.
+				The city's boundary was extended to about today's in 1963, so earlier
+				counts - for a city a seventh the size - are left out rather than
+				shown as growth. The share divides each count by Kenya's count at the
+				same census.
+			</p>
+
+			{% set homes = CENSUS_2019.county %}
+			{% if homes %}
+			<h3 id="households-2019">How Nairobi lived at the 2019 census</h3>
+			<p>
+				The 2019 census is Kenya's latest &mdash; the next is due around 2029 &mdash;
+				and it counted more than people. Nairobi's
+				{{ '{:,}'.format(homes.households) }} households:
+			</p>
+			<div class="table-wrapper">
+				<table>
+					<tbody>
+						<tr><th scope="row">People per household</th><td class="numeric">{{ homes.householdSize }}</td></tr>
+						<tr><th scope="row">Renting their home</th><td class="numeric">{{ homes.rentingPct }}%</td></tr>
+						<tr><th scope="row">Lit by mains electricity</th><td class="numeric">{{ homes.electricityPct }}%</td></tr>
+						<tr><th scope="row">Water piped to the home or plot</th><td class="numeric">{{ homes.pipedPct }}%</td></tr>
+						<tr><th scope="row">Water from vendors</th><td class="numeric">{{ homes.vendorPct }}%</td></tr>
+						<tr><th scope="row">On the main sewer</th><td class="numeric">{{ homes.sewerPct }}%</td></tr>
+						<tr><th scope="row">Cooking with gas or electricity</th><td class="numeric">{{ homes.cleanCookingPct }}%</td></tr>
+						<tr><th scope="row">Cooking with paraffin</th><td class="numeric">{{ homes.paraffinPct }}%</td></tr>
+						<tr><th scope="row">People aged 3+ using the internet</th><td class="numeric">{{ homes.internetPct }}%</td></tr>
+						<tr><th scope="row">People aged 3+ using a computer</th><td class="numeric">{{ homes.computerPct }}%</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="tool-note">
+				One census, so these are a picture of 2019 rather than a series. Every
+				figure is also on <a href="{{ SITE_URL }}/map#homes">the map</a>, sub-county
+				by sub-county. From the census's Volumes II and IV as tabulated by
+				<a href="{{ CENSUS_2019.meta.url }}" rel="noopener">census.ke</a> (CC BY).
+			</p>
+			{% endif %}
+
+			<h3 id="nairobi-economy">Nairobi's share of the economy</h3>
+			{% set gpp = (INDICATORS.series|selectattr('id', 'equalto', 'nairobi-gcp-per-person')|first) %}
+			<p>
+				The {{ gcp.source }} puts Nairobi City at
+				<strong>{{ gcp.share_pct }}% of Kenya's economy</strong>, on average,
+				from {{ gcp.from_year }} to {{ gcp.to_year }}. The next largest county,
+				Kiambu, made {{ gcp.next_share_pct }}%. Nairobi's economy grew by
+				{{ gcp.growth_pct }}% a year over those five years, against
+				{{ gcp.national_growth_pct }}% for Kenya. It made
+				{{ gcp.manufacturing_share_pct }}% of the country's manufacturing
+				and {{ gcp.services_share_pct }}% of its services.
+			</p>
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Year</th>
+							<th scope="col" class="numeric">Output per person in Nairobi</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for p in gpp['values'] %}
+							<tr>
+								<th scope="row">{{ p.year }}</th>
+								<td class="numeric">KSh {{ '{:,}'.format(p.value) }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<p class="tool-note">
+				In {{ gcp.per_capita_year }} that was
+				<strong>{{ (gcp.per_capita_ksh / gcp.national_per_capita_ksh)|round(1) }} times</strong>
+				Kenya's KSh {{ '{:,}'.format(gcp.national_per_capita_ksh) }}. These are
+				shillings of each year, not adjusted for inflation, and the share and
+				growth are five-year averages as KNBS reports them &mdash; stored that
+				way rather than stretched into series.
+				&mdash; <a href="{{ gcp.url }}" rel="noopener">The report</a>
+			</p>
+		</article>
+
+		<article class="section">
+			<h2 id="every-series">Every series, and what it covers</h2>
+			<p class="page-intro">
+				First value, last value, and how many observations there are. The
+				scope is the important part.
+			</p>
+
+			{% for scope, rows, title in [
+				('nairobi', nairobi, 'Nairobi itself'),
+				('derived', derived, 'Derived from two sourced series'),
+				('kenya', national, 'Kenya as a whole, not Nairobi')
+			] %}
+				<h3 id="scope-{{ scope }}">{{ title }} <small>({{ rows|length }})</small></h3>
+				<div class="table-wrapper">
+					<table>
+						<thead>
+							<tr>
+								<th scope="col">Series</th>
+								<th scope="col">Unit</th>
+								<th scope="col">First</th>
+								<th scope="col">Latest</th>
+								<th scope="col">Points</th>
+								<th scope="col">Source</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in rows %}
+								<tr>
+									<th scope="row">{{ row.label }}</th>
+									<td>{{ row.unit }}</td>
+									<td>{{ figure(row.first_value, row.unit) }}<br><small>{{ row.first_year }}</small></td>
+									<td>{{ figure(row.last_value, row.unit) }}<br><small>{{ row.last_year }}</small></td>
+									<td>{{ row.points }}</td>
+									<td><small>{{ row.source }}</small></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endfor %}
+		</article>
+
+		<article class="section">
+			<h2 id="sources">Where all of this comes from</h2>
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr><th scope="col">What</th><th scope="col">Source</th><th scope="col">Licence</th></tr>
+					</thead>
+					<tbody>
+						{% for source in INDICATORS.meta.sources %}
+							<tr>
+								<th scope="row">{{ source.what }}</th>
+								<td><a href="{{ source.url }}" rel="noopener">{{ source.who }}</a></td>
+								<td>{{ source.licence }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<p class="tool-note">
+				Fetched on {{ INDICATORS.meta.generated }}. Nothing here is modelled,
+				interpolated or forecast: where a series is sparse it stays sparse, and
+				the charts draw the observations rather than joining across the gaps.
+			</p>
+
+			<p>
+				&mdash; <a href="{{ SITE_URL }}/map">The map of Nairobi, constituency by constituency &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/cost-of-living-in-nairobi">What living in Nairobi costs &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/guides/neighbourhoods-of-nairobi">Nairobi's neighbourhoods &#8658;</a><br>
+				&mdash; <a href="{{ SITE_URL }}/flights">Where you can fly nonstop from Nairobi &#8658;</a>
+			</p>
+		</article>
+	</main>
+{% endblock %}
+
+{% block postFooter %}
+	{#
+		Queued before super(), like /map does it. The layout's alljs runs inside
+		super() and emits everything queued to that point, so this rides along
+		in the one module script rather than adding a second one.
+	#}
+	{% queueJs %}
+		import '/js/components/data-dashboard.mjs';
+	{% endqueueJs %}
+	{{ super() }}
+{% endblock %}

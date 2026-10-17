@@ -1,8 +1,7 @@
 // The map frame Accra rebuilt for phones in 2026-10 - the stage, the toolbar,
-// the floating buttons, zoom and the toast - which the flight map now uses.
-// Nairobi's own /map still runs on the earlier _map.scss, so this is its own
-// partial: /flights names it in page_styles instead of 'map'. When /map is
-// rebuilt the same way, the two can become one again.
+// the floating buttons, the key, the sheet, zoom and the toast. /map
+// (nairobi-map.mjs, on .city-map) and /flights (flight-map.mjs) both use it;
+// Nairobi's own layers are in _nairobi-map.scss.
 
 // =============================================================================
 // The interactive map at /map
@@ -10,12 +9,12 @@
 // Everything drawn on the map is sized in --map-unit, which the component sets
 // to the number of map units in one screen pixel at the current zoom. Strokes,
 // labels and pins are multiples of it, so a border stays a hairline and a name
-// stays the same size whether you are looking at the whole country or at one
-// street in Osu. Sized in raw user units instead, a hairline over Ghana becomes
-// a stripe over Ablekuma.
+// stays the same size whether you are looking at the whole county or at one
+// street in Kilimani. Sized in raw user units instead, a hairline over the county
+// becomes a stripe over Kibra.
 //
 // The layout was redesigned for phones from measurements - see the header of
-// accra-map.mjs. In short: the controls, the key and the details float over the
+// nairobi-map.mjs. In short: the controls, the key and the details float over the
 // map instead of stacking above and below it, so the map is the first thing on
 // the screen and the thing it is explaining is never out of sight.
 //
@@ -24,7 +23,7 @@
 // works at any width.
 // =============================================================================
 
-.accra-map {
+.city-map {
 	--map-unit: 20;
 	--map-label-px: 11;
 	--map-stage-h: clamp(460px, 70vh, 760px);
@@ -949,7 +948,7 @@ html.map-fullscreen-open {
 }
 
 // Both maps. Written as a list rather than :is(), which libsass does not parse.
-.accra-map.is-fullscreen,
+.city-map.is-fullscreen,
 .flight-map.is-fullscreen {
 	.map-frame {
 		position: fixed;
@@ -972,7 +971,7 @@ html.map-fullscreen-open {
 // A tablet in portrait is not a phone, but a fixed 22rem column beside its map
 // left the map narrower than its own sidebar: at 760px it was 297px against
 // 352px. So everything up to 960px gets the floating sheet, and only phones
-// also go edge to edge. accra-map.mjs reads which layout it is in from the
+// also go edge to edge. nairobi-map.mjs reads which layout it is in from the
 // sheet's computed position rather than from a width, so this is the one place
 // the line is drawn.
 
@@ -1063,7 +1062,7 @@ html.map-fullscreen-open {
 // --- a phone ----------------------------------------------------------------------
 
 @media (max-width: 719px) {
-	.accra-map {
+	.city-map {
 		// Tall enough to use, short enough to fit with the heading above it on a
 		// first screen at 393px. Full screen is a tap away for the rest.
 		--map-stage-h: clamp(360px, 118vw, calc(100vh - var(--h-header) - var(--m)));

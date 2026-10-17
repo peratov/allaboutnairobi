@@ -83,7 +83,7 @@
 				},
 				{
 					"key": "Content-Security-Policy",
-					"value": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; media-src 'self' http://dreamsiteradiocp5.com:8069 http://stream.zeno.fm https://atunwadigital.streamguys1.com https://kamemefm-atunwadigital.streamguys1.com https://streaming.shoutcast.com; frame-ancestors 'none'"
+					"value": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com; media-src 'self' https://*.streamguys1.com https://stream.zeno.fm https://*.surfernetwork.com https://*.zeno.fm https://streaming.shoutcast.com https://streamingv2.shoutcast.com https://stream.live.vc.bbcmedia.co.uk https://a5.asurahosting.com:7530 https://cast5.asurahosting.com; frame-ancestors 'none'"
 				},
 				{
 					"key": "Permissions-Policy",

@@ -1,0 +1,202 @@
+// =============================================================================
+// Nairobi's layers on the shared map frame (_map-frame.scss)
+//
+// The frame - stage, toolbar, key, sheet, full screen - is the one All About
+// Accra built for phones and the flight map uses. What is Nairobi's own is here:
+// two sets of shapes (constituencies and the census's sub-counties), the
+// neighbourhood names, the rent dots, the "you are here" dot and the colours
+// of Nairobi's nine kinds of landmark.
+// =============================================================================
+
+.nairobi-map {
+	--c-cat-nature: #2f7d5b;
+	--c-cat-culture: #6b3d64;
+	--c-cat-government: var(--c-forest);
+	--c-cat-transport: #2f6690;
+	--c-cat-shopping: var(--c-gold);
+	--c-cat-education: #7a4b9c;
+	--c-cat-health: #b03a48;
+	--c-cat-faith: #5c6b2f;
+	--c-cat-sport: #b5651d;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .nairobi-map {
+		--c-cat-nature: #6cc59a;
+		--c-cat-culture: #c99bc2;
+		--c-cat-transport: #7fb3dc;
+		--c-cat-education: #b89ad4;
+		--c-cat-health: #e58d97;
+		--c-cat-faith: #b8c77a;
+		--c-cat-sport: #e3a36a;
+	}
+}
+
+:root[data-theme="dark"] .nairobi-map {
+	--c-cat-nature: #6cc59a;
+	--c-cat-culture: #c99bc2;
+	--c-cat-transport: #7fb3dc;
+	--c-cat-education: #b89ad4;
+	--c-cat-health: #e58d97;
+	--c-cat-faith: #b8c77a;
+	--c-cat-sport: #e3a36a;
+}
+
+// The heading and its line of introduction take less room on a phone, so the
+// map starts on the first screen.
+.map-heading {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	margin-bottom: var(--s);
+
+	h1 { margin: 0; }
+}
+
+@media (max-width: 719px) {
+	.map-heading .icon-stamp { display: none; }
+	.map-heading h1 { font-size: 1.7rem; }
+}
+
+// --- the shapes ------------------------------------------------------------------
+
+// The county behind the shapes, so a gap between two boundary files reads as
+// county, not as a hole.
+.county {
+	fill: color-mix(in srgb, var(--c-text-light) 14%, var(--c-bg-page));
+	stroke: var(--c-border-strong);
+	stroke-width: calc(var(--map-unit) * 1.2);
+	stroke-linejoin: round;
+	pointer-events: none;
+}
+
+// Constituencies and the census's sub-counties never show together.
+.nairobi-map.geo-constituencies .layer-subcounties,
+.nairobi-map.geo-subcounties .layer-constituencies { display: none; }
+
+// Plain: one calm tint, the white borders doing the separating.
+.nairobi-map.shade-plain .district {
+	fill: color-mix(in srgb, var(--c-laterite) 20%, var(--c-bg-page));
+}
+
+// Under the rent dots the shapes step back to grey, so the dots carry the
+// colour.
+.nairobi-map.shade-rent .district {
+	fill: color-mix(in srgb, var(--c-text-light) 16%, var(--c-bg-page));
+}
+
+// The selected shape, over whichever tint is on: the rules above are more
+// specific than the shared frame's own .district.is-selected.
+.nairobi-map .district.is-selected {
+	fill: var(--c-highlight);
+	stroke: var(--c-text-heading);
+	stroke-width: calc(var(--map-unit) * 2);
+}
+
+// --- names -----------------------------------------------------------------------
+
+// Neighbourhoods are named lighter and in italics, under the constituencies.
+.nairobi-map .map-label.is-place {
+	font-style: italic;
+	font-weight: 400;
+	fill: var(--c-text-light);
+	font-size: calc(var(--map-unit) * (var(--map-label-px) - 0.5) * 1px);
+
+	&.rank-1 { fill: var(--c-text); }
+}
+
+// --- rent ------------------------------------------------------------------------
+
+.layer-rent { display: none; }
+.nairobi-map.shade-rent .layer-rent { display: inline; }
+
+.rent-dot {
+	cursor: pointer;
+
+	.rent-circle {
+		r: calc(var(--map-unit) * 7);
+		stroke: var(--c-text-heading);
+		stroke-opacity: 0.55;
+		stroke-width: calc(var(--map-unit) * 1.2);
+	}
+
+	&.rent-1 .rent-circle { fill: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); }
+	&.rent-2 .rent-circle { fill: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+	&.rent-3 .rent-circle { fill: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+	&.rent-4 .rent-circle { fill: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+	&.rent-5 .rent-circle { fill: var(--c-laterite); }
+
+	&.is-selected .rent-circle {
+		r: calc(var(--map-unit) * 9.5);
+		stroke-opacity: 1;
+		stroke-width: calc(var(--map-unit) * 2.5);
+	}
+}
+
+// --- you are here ----------------------------------------------------------------
+
+.you-dot {
+	fill: #2f6fdb;
+	stroke: #fff;
+	stroke-width: calc(var(--map-unit) * 2);
+}
+
+.you-halo {
+	fill: #2f6fdb;
+	opacity: 0.2;
+}
+
+.you[hidden] { display: none; }
+
+// --- landmark kinds ----------------------------------------------------------------
+
+@each $cat in nature, culture, government, transport, shopping, education, health, faith, sport {
+	.nairobi-map .landmark.cat-#{$cat} .pin,
+	.nairobi-map .landmark.cat-#{$cat} .pin-halo { fill: var(--c-cat-#{$cat}); }
+	.nairobi-map .map-eyebrow.cat-#{$cat} { color: var(--c-cat-#{$cat}); }
+	.nairobi-map .landmark-link.cat-#{$cat}::before { background: var(--c-cat-#{$cat}); }
+	// The layers sheet's checkbox for each kind, in the kind's colour.
+	.nairobi-map .map-chip.chip-#{$cat} input { accent-color: var(--c-cat-#{$cat}); }
+}
+
+// A neighbourhood button in the details carries its rent band as its dot.
+.nairobi-map .constituency.has-rent {
+	&.rent-1::before { background: color-mix(in srgb, var(--c-laterite) 14%, var(--c-bg-page)); box-shadow: inset 0 0 0 1px var(--c-border-strong); }
+	&.rent-2::before { background: color-mix(in srgb, var(--c-laterite) 24%, var(--c-bg-page)); }
+	&.rent-3::before { background: color-mix(in srgb, var(--c-laterite) 44%, var(--c-bg-page)); }
+	&.rent-4::before { background: color-mix(in srgb, var(--c-laterite) 68%, var(--c-bg-page)); }
+	&.rent-5::before { background: var(--c-laterite); }
+}
+
+.map-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--m);
+	font-size: var(--f-s);
+}
+
+// Without color-mix() the fills above are dropped; the same strengths as
+// opacity.
+@supports not (color: color-mix(in srgb, red, red)) {
+	.county { fill: var(--c-text-light); fill-opacity: 0.14; }
+	.nairobi-map.shade-plain .district { fill: var(--c-laterite); fill-opacity: 0.2; }
+	.nairobi-map.shade-rent .district { fill: var(--c-text-light); fill-opacity: 0.16; }
+	.rent-dot .rent-circle { fill: var(--c-laterite); }
+	.rent-dot.rent-1 .rent-circle { fill-opacity: 0.14; }
+	.rent-dot.rent-2 .rent-circle { fill-opacity: 0.24; }
+	.rent-dot.rent-3 .rent-circle { fill-opacity: 0.44; }
+	.rent-dot.rent-4 .rent-circle { fill-opacity: 0.68; }
+}
+
+// "In Starehe constituency": the constituency is a button that reads as part
+// of the sentence.
+.map-in .constituency {
+	display: inline;
+	width: auto;
+	min-height: 0;
+	padding: 0.1em 0.3em;
+	font-weight: 600;
+	color: var(--c-text-link);
+
+	&::before { display: none; }
+}

@@ -139,6 +139,14 @@ ctx["RADIO"] = load_yaml("geo/radio.yaml", {"stations": [], "meta": {}})
 for _station in ctx["RADIO"]["stations"]:
     for _field in ("frequency", "owner", "language", "homepage", "bitrate", "stream"):
         _station.setdefault(_field, None)
+# The figures behind /data, summarised: every series' endpoints, extremes and
+# scope. Written by scripts/build_dashboard_data.py beside the full
+# templates/api/indicators.json that the dashboard itself fetches.
+ctx["INDICATORS"] = load_yaml("geo/indicators-summary.yaml", {"meta": {}, "series": []})
+# How Nairobi's households live, county and sub-county, from the 2019 census -
+# Kenya's latest. Written by scripts/fetch_census_2019.py; the map build merges
+# the sub-county rows into the map, and /map and /data print them.
+ctx["CENSUS_2019"] = load_yaml("geo/census-2019.yaml", {"meta": {}, "county": {}, "subcounties": {}})
 ctx["AFCON"] = load_yaml("geo/afcon.yaml", {"meta": {}, "nairobi_venues": [], "key_dates": [], "stay_areas": []})
 # The same data with dates as ISO strings, for pages that hand it to JavaScript.
 ctx["AFCON_DATA"] = json.loads(json.dumps(ctx["AFCON"], default=str))

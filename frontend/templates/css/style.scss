@@ -33,8 +33,8 @@
 @import "css/components/cards";
 @import "css/components/icons";
 @import "css/components/support";
-{% if 'map' in styles %}@import "css/components/map";{% endif %}
 {% if 'map-frame' in styles %}@import "css/components/map-frame";{% endif %}
+{% if 'nairobi-map' in styles %}@import "css/components/nairobi-map";{% endif %}
 {% if 'hero-map' in styles %}@import "css/components/hero-map";{% endif %}
 {% if 'subscribe' in styles %}@import "css/components/subscribe";{% endif %}
 {% if 'events' in styles %}@import "css/components/events";{% endif %}
@@ -50,4 +50,5 @@
 {% if 'admin' in styles %}@import "css/components/admin";{% endif %}
 {% if 'afcon' in styles %}@import "css/components/afcon";{% endif %}
 {% if 'seasons' in styles %}@import "css/components/seasons";{% endif %}
+{% if 'dashboard' in styles %}@import "css/components/dashboard";{% endif %}
 @import "css/components/notice";

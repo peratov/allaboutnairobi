@@ -3,8 +3,8 @@
 {% set canonical_path = "/radio" %}
 {% set stations = RADIO.stations %}
 {% set fm = stations|selectattr('frequency')|list %}
-{% set metatitle = "Nairobi radio live: Capital FM, Kameme, Radio 47 and more" %}
-{% set metadescription = "Listen live to " ~ stations|length ~ " Nairobi radio stations - Capital FM, Kameme FM, Radio 47 and more - free, in your browser, with their frequencies." %}
+{% set metatitle = "Nairobi radio live: Radio Citizen, Jambo, Kiss 100 and every station" %}
+{% set metadescription = "Listen live to " ~ stations|length ~ " Nairobi radio stations - Radio Citizen, Radio Jambo, Kiss 100, Capital FM and more - and every station on the Nairobi dial." %}
 
 {% block postHead %}
 	{{ super() }}
@@ -44,15 +44,23 @@
 			</div>
 
 			<p class="page-intro">
-				{{ stations|length }} stations broadcasting in Nairobi, playable right
-				here. Tap a station to listen; tap it again to stop. Every stream
-				was checked on {{ RADIO.meta.checked_on }}.
+				{{ stations|length + RADIO.unstreamed|length }} stations on the Nairobi FM
+				dial, and {{ stations|length }} of them playable right here &mdash; tap a
+				station to listen, tap it again to stop. Every stream was checked on
+				{{ RADIO.meta.checked_on }}. <a href="#the-dial">The whole dial is below</a>.
 			</p>
 
 			<radio-player>
 				<ul class="radio-list">
 					{% for s in stations %}
-					{% set group = 'Online only' if not s.frequency else (s.language or 'Other') %}
+					{# Five groups, not one per language: a chip row of fourteen was a
+					   row nobody reads. Mixed-language stations go by their first. #}
+					{% set lang = (s.language or '').split(' and ')[0] %}
+					{% set group = 'Online only' if not s.frequency
+						else 'Swahili' if lang in ('Swahili', 'Sheng')
+						else 'English' if lang == 'English'
+						else 'Kenyan languages' if lang in ('Kikuyu', 'Luo', 'Luhya', 'Kamba', 'Kalenjin', 'Somali')
+						else 'Other' %}
 					<li class="radio-station"
 						data-id="{{ s.id }}"
 						data-name="{{ s.name }}"
@@ -86,6 +94,41 @@
 					player.
 				</p>
 			</noscript>
+		</article>
+
+		<article class="section radio-extra">
+			<h2 id="the-dial">Every station on the Nairobi dial</h2>
+			<p>
+				All {{ stations|length + RADIO.unstreamed|length }}, by frequency. Stations
+				marked <em>Listen above</em> play on this page; for the rest, no stream
+				could be confirmed as theirs, so there is no play button rather than a
+				guessed one that might play someone else. The 99.9 stations are small
+				community and campus stations sharing one frequency in different parts of
+				the city.
+			</p>
+			{% set everything = [] %}
+			{% for s in stations %}{% set _ = everything.append({'name': s.name, 'frequency': s.frequency|float, 'live': true, 'language': s.language|default(none)}) %}{% endfor %}
+			{% for s in RADIO.unstreamed %}{% set _ = everything.append({'name': s.name, 'frequency': s.frequency|float, 'live': false, 'language': none}) %}{% endfor %}
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr><th scope="col" class="numeric">FM</th><th scope="col">Station</th><th scope="col">Here</th></tr>
+					</thead>
+					<tbody>
+						{% for s in everything|sort(attribute='frequency') %}
+							<tr>
+								<td class="numeric">{{ '%.1f'|format(s.frequency) }}</td>
+								<th scope="row">{{ s.name }}{% if s.language %} <small>&middot; {{ s.language }}</small>{% endif %}</th>
+								<td>{% if s.live %}Listen above{% else %}<small>No stream</small>{% endif %}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<p class="tool-note">
+				{{ RADIO.meta.basis }} Stations change frequency and sometimes close; if
+				one here is wrong, <a href="{{ SITE_URL }}/contact">tell us</a>.
+			</p>
 		</article>
 
 		<article class="section radio-extra">

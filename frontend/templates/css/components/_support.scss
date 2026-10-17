@@ -24,7 +24,7 @@
 
 // Set by support.mjs while the sidebar's own support card is on screen, so the
 // reader is never asked twice in the same corner.
-// is-yielding-map is set by accra-map.mjs while the map fills a phone screen or
+// is-yielding-map is set by nairobi-map.mjs while the map fills a phone screen or
 // is in full screen - the button sat on the zoom controls and on the sheet.
 // is-yielding is set by guide-rating.mjs while the rating prompt is open. It is
 // a separate class from is-superseded on purpose: support.mjs toggles that one
