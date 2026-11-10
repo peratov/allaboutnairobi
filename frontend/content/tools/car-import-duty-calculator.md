@@ -29,3 +29,5 @@ to more than the car itself. This gives a working estimate.
 
 The rest of the process - age limits, inspection, shipping and registration -
 is in [Importing a car to Kenya](/guides/importing-a-car-to-kenya).
+For anything other than a car, use the
+[import duty calculator](/tools/import-duty-calculator).

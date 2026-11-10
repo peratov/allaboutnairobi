@@ -90,6 +90,8 @@ total cost, not only the rate; see the
 
 ## Next
 
+- [Capital gains tax calculator](/tools/capital-gains-tax-calculator)
+- [Sectional titles](/guides/sectional-titles-for-apartments-in-kenya)
 - [Buying off-plan](/guides/buying-off-plan-in-kenya)
 - [Mortgages in Kenya](/guides/mortgages-in-kenya)
 - [Buying land around Nairobi](/guides/buying-land-around-nairobi)

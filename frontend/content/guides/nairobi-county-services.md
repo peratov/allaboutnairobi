@@ -28,6 +28,8 @@ Owners of land and buildings in Nairobi pay annual **land rates** to the
 county. Unpaid rates build up with penalties and block a sale, because a
 buyer's advocate will ask for a rates clearance certificate. See
 [Buying property](/guides/buying-property-in-kenya).
+How the bill is worked out is in [Land rates in Nairobi](/guides/land-rates-in-nairobi), and the
+[land rates calculator](/tools/land-rates-calculator) does the sum.
 
 ## Rubbish
 

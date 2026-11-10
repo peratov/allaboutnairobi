@@ -80,6 +80,11 @@
     - uri: guides/nairobi-county-services.md
     - uri: guides/setting-up-your-home.md
     - uri: guides/buying-property-in-kenya.md
+    - uri: guides/sectional-titles-for-apartments-in-kenya.md
+    - uri: guides/land-rates-in-nairobi.md
+    - uri: guides/capital-gains-tax-on-property-in-kenya.md
+    - uri: guides/using-a-property-agent-in-nairobi.md
+    - uri: guides/home-and-contents-insurance-in-kenya.md
     - uri: guides/being-a-landlord-in-kenya.md
     - uri: guides/land-search-on-ardhisasa.md
     - uri: guides/buying-land-around-nairobi.md
@@ -101,10 +106,19 @@
     - uri: guides/paye-and-taxes.md
     - uri: guides/cost-of-living-in-nairobi.md
     - uri: guides/saving-and-investing-in-kenya.md
+    - uri: guides/reits-in-kenya.md
+    - uri: guides/crypto-in-kenya.md
+    - uri: guides/buying-and-selling-crypto-in-kenya.md
+    - uri: guides/tax-on-crypto-in-kenya.md
+    - uri: guides/crypto-and-investment-scams-in-kenya.md
     - uri: guides/filing-a-kra-nil-return.md
     - uri: guides/filing-your-kra-return-with-a-p9.md
     - uri: guides/kra-tax-compliance-certificate.md
     - uri: guides/money-market-funds-in-kenya.md
+    - uri: guides/how-money-market-fund-interest-works.md
+    - uri: guides/dollar-money-market-funds-in-kenya.md
+    - uri: guides/mmf-vs-sacco-vs-treasury-bills-vs-fixed-deposit.md
+    - uri: guides/special-funds-and-fixed-income-funds-in-kenya.md
     - uri: guides/buying-treasury-bills-and-bonds.md
     - uri: guides/sending-money-to-kenya.md
     - uri: guides/receiving-paypal-payoneer-and-wise-payments.md
@@ -116,6 +130,8 @@
     - uri: guides/checking-your-nssf-statement.md
     - uri: guides/pensions-in-kenya.md
     - uri: guides/life-insurance-in-kenya.md
+    - uri: guides/travel-insurance-from-kenya.md
+    - uri: guides/insurance-claims-and-complaints-in-kenya.md
     - uri: guides/credit-cards-in-kenya.md
     - uri: guides/changing-money-in-nairobi.md
 
@@ -132,6 +148,8 @@
     - uri: guides/un-and-ngo-jobs-in-nairobi.md
     - uri: guides/minimum-wage-in-kenya.md
     - uri: guides/hiring-household-staff.md
+    - uri: guides/work-injury-insurance-wiba.md
+    - uri: guides/business-insurance-in-kenya.md
     - uri: guides/registering-a-business-in-kenya.md
     - uri: guides/freelancing-in-kenya.md
     - uri: guides/clearance-certificates-for-jobs.md
@@ -174,6 +192,9 @@
     - uri: guides/healthcare-in-nairobi.md
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
+    - uri: guides/health-checks-and-screening-in-nairobi.md
+    - uri: guides/eating-well-in-nairobi.md
+    - uri: guides/gyms-and-swimming-in-nairobi.md
     - uri: guides/hospitals-in-nairobi.md
     - uri: guides/giving-birth-in-nairobi.md
     - uri: guides/therapy-and-mental-health-in-nairobi.md
@@ -222,6 +243,8 @@
     - uri: guides/history-of-nairobi.md
     - uri: guides/day-trips-from-nairobi.md
     - uri: guides/sport-and-fitness-in-nairobi.md
+    - uri: guides/running-in-nairobi.md
+    - uri: guides/hiking-near-nairobi.md
     - uri: guides/volunteering-in-nairobi.md
 
 - id: calculators
@@ -242,10 +265,14 @@
     - uri: tools/commute-cost-calculator.md
     - uri: tools/rate-checker.md
     - uri: tools/savings-calculator.md
+    - uri: tools/mmf-calculator.md
     - uri: tools/loan-repayment-calculator.md
     - uri: tools/mortgage-affordability-calculator.md
     - uri: tools/stamp-duty-calculator.md
+    - uri: tools/capital-gains-tax-calculator.md
+    - uri: tools/land-rates-calculator.md
     - uri: tools/car-import-duty-calculator.md
+    - uri: tools/import-duty-calculator.md
     - uri: tools/vat-calculator.md
     - uri: tools/turnover-tax-calculator.md
     - uri: tools/withholding-tax-calculator.md

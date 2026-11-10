@@ -1,0 +1,84 @@
+// --- The money market fund comparer (/tools/mmf-comparer) ----------------------------
+//
+// Without scripting: both tables. With it (.is-enhanced): a currency switch, an
+// amount, sorting, and one table at a time. The table scrolls sideways inside
+// its wrapper on a phone, never the page.
+
+.mmf { margin-top: var(--l); }
+
+.mmf-controls {
+	display: grid;
+	gap: var(--m);
+	margin-bottom: var(--l);
+
+	&[hidden] { display: none; }
+
+	// 16px or iOS zooms the page on focus.
+	input[type="number"], select { font-size: 1rem; }
+}
+
+.mmf-currency {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	max-width: 24rem;
+	border: 1px solid var(--c-border-strong, var(--c-border));
+	border-radius: var(--b-radius);
+	overflow: hidden;
+
+	button {
+		min-height: 2.75rem;
+		padding: var(--xs) var(--s);
+		font: inherit;
+		font-size: var(--f-s);
+		color: var(--c-text);
+		background: var(--c-bg-page);
+		border: 0;
+		cursor: pointer;
+
+		& + button { border-inline-start: 1px solid var(--c-border-strong, var(--c-border)); }
+		&:hover { background: var(--c-highlight-soft); }
+		&[aria-pressed="true"] { color: var(--c-bg-on-accent); background: var(--c-laterite); font-weight: 600; }
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+	}
+}
+
+.mmf-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s) var(--l);
+	align-items: center;
+	font-size: var(--f-s);
+
+	select {
+		margin-inline-start: var(--xs);
+		min-height: 2.5rem;
+		padding: 0 var(--s);
+		color: var(--c-text);
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border-strong, var(--c-border));
+		border-radius: var(--b-radius);
+	}
+}
+
+.mmf-table {
+	margin-bottom: var(--xl, 2.5rem);
+
+	&[hidden] { display: none; }
+	h2 { margin-bottom: var(--xs); }
+
+	table { min-width: 40rem; font-size: var(--f-s); }
+	td, th { vertical-align: top; }
+	td { white-space: nowrap; }
+	tbody th { font-weight: 400; min-width: 12rem; }
+	tr[hidden] { display: none; }
+	tr.is-below-minimum td, tr.is-below-minimum .mmf-name { opacity: .55; }
+}
+
+.mmf-average { color: var(--c-text-light, var(--c-text)); margin-top: 0; }
+
+.mmf-name { display: block; font-weight: 600; }
+.mmf-manager, .mmf-terms { display: block; font-size: var(--f-xs, .8rem); color: var(--c-text-light, var(--c-text)); }
+.mmf-terms { margin-top: 2px; }
+
+.mmf-source, .mmf-empty { font-size: var(--f-s); color: var(--c-text-light, var(--c-text)); }
+.mmf-empty[hidden] { display: none; }

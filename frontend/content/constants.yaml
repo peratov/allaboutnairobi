@@ -524,12 +524,14 @@ constants:
     fail_on: 2027-07-01
 
   MMF_AVERAGE_YIELD:
-    value: 9.2
+    value: 9.06
     unit: decimal
     description: >-
-      Approximate average annual yield across the 27 CMA-regulated shilling
-      money market funds at the end of September 2026 (Serrari MMF index).
-    last_verified: 2026-09-28
+      Average yield, before tax, of Kenya's shilling money market funds in
+      October 2026 (daily cumulative average across 30 funds), from fund
+      managers' disclosures collected by Vasili Africa. Must match the KES
+      average in content/geo/mmf.yaml, which the build checks.
+    last_verified: 2026-11-10
     fail_on: 2027-01-01
 
   PAYPAL_MPESA_FEE:
@@ -755,3 +757,139 @@ constants:
       target 10.c. https://sdgs.un.org/goals/goal10
     last_verified: 2026-11-10
     fail_on: 2031-01-01
+
+  IMPORT_DUTY_BAND_ZERO:
+    value: 0
+    unit: percent
+    description: >-
+      EAC Common External Tariff (2022), lowest band - raw materials, capital
+      goods, medicines and agricultural inputs. KRA applies the CET.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  IMPORT_DUTY_BAND_INTERMEDIATE:
+    value: 10
+    unit: percent
+    description: EAC Common External Tariff (2022), intermediate goods.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  IMPORT_DUTY_BAND_FINISHED:
+    value: 25
+    unit: percent
+    description: EAC Common External Tariff (2022), finished goods - most personal and retail imports.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  IMPORT_DUTY_BAND_TOP:
+    value: 35
+    unit: percent
+    description: >-
+      EAC Common External Tariff fourth band, from 1 July 2022 - goods the EAC
+      protects, such as dairy, meat, cotton, textiles and clothing, iron and
+      steel, and furniture. Sensitive items can be higher still.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  PHONE_IMPORT_DUTY_RATE:
+    value: 25
+    unit: percent
+    description: >-
+      Import duty on mobile phones (HS 8517.13 and 8517.14) in Kenya, a
+      one-year stay of the CET's 0% in the EAC Gazette of 30 June 2026, from
+      1 July 2026.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  CAPITAL_GAINS_TAX_RATE:
+    value: 15
+    unit: percent
+    description: >-
+      Capital gains tax on the net gain from transferring property in Kenya,
+      paid by the seller before the transfer is registered. Raised from 5% from
+      1 January 2023 (Finance Act 2022).
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  INSURANCE_RELIEF_RATE:
+    value: 15
+    unit: percent
+    description: >-
+      Insurance relief on life, education and health policy premiums for a
+      resident individual, spouse or child. Income Tax Act; KRA FAQ and PwC
+      Worldwide Tax Summaries. SHIF contributions do not qualify.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  INSURANCE_RELIEF_MONTHLY_CAP:
+    value: 5000
+    unit: shillings
+    description: Maximum insurance relief per month (KES 60,000 a year). KRA FAQ; PwC.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  PCF_MAX_COMPENSATION:
+    value: 500000
+    unit: shillings
+    description: >-
+      Most the Policyholders Compensation Fund pays on a single claim against
+      an insurer placed under statutory management. Doubled from KES 250,000
+      in January 2026. pcf.go.ke; Business Daily.
+    last_verified: 2026-11-10
+    fail_on: 2027-11-01
+
+  DIGITAL_ASSET_EXCISE_RATE:
+    value: 10
+    unit: percent
+    description: >-
+      Excise duty on fees charged by virtual asset service providers, from
+      1 July 2025 (Finance Act 2025), replacing the 3% Digital Asset Tax on the
+      value of transfers. KRA public notice; KPMG analysis.
+    last_verified: 2026-11-10
+    fail_on: 2027-07-01
+
+  NAIROBI_LAND_RATE:
+    value: 0.115
+    unit: percent
+    description: >-
+      Nairobi City County land rate per year, on the unimproved site value in
+      the 2019 Draft Valuation Roll, for residential, commercial and
+      agricultural plots, from 1 January 2026 (National Rating Act, 2024).
+      Objectors pay the old rate until the Valuation Board decides.
+    last_verified: 2026-11-10
+    fail_on: 2027-03-01
+
+  SCHENGEN_MIN_MEDICAL_COVER_EUR:
+    value: 30000
+    unit: integer
+    description: >-
+      Minimum medical cover, in euros, that travel insurance must carry for a
+      Schengen visa application. EU Visa Code, Article 15.
+    last_verified: 2026-11-10
+    fail_on: 2028-01-01
+
+  MMF_INDUSTRY_ASSETS_BN:
+    value: 460
+    unit: integer
+    description: >-
+      Approximate assets of Kenya's money market funds, in KES billions, at 30
+      June 2026 - 59 funds, about half of all collective investment scheme
+      assets. CMA CIS report Q2 2026, as reported by Serrari and others.
+    last_verified: 2026-11-10
+    fail_on: 2027-06-30
+
+  MMF_FUND_COUNT:
+    value: 59
+    unit: integer
+    description: Money market funds in the CMA collective investment scheme report for the quarter to 30 June 2026.
+    last_verified: 2026-11-10
+    fail_on: 2027-06-30
+
+  CIS_TOTAL_ASSETS_BN:
+    value: 949
+    unit: integer
+    description: >-
+      Approximate assets of all collective investment schemes in Kenya, in KES
+      billions, at 30 June 2026. CMA CIS report Q2 2026, as reported.
+    last_verified: 2026-11-10
+    fail_on: 2027-06-30

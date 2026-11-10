@@ -1,0 +1,85 @@
+{#
+	The money market fund comparer (/tools/mmf-comparer). Both tables are
+	rendered in full, so without scripting - and to a crawler - the page is
+	the whole comparison at the default amounts. mmf-comparer.mjs adds the
+	amount, the currency switch, sorting and "only funds I can join". Data in
+	content/geo/mmf.yaml, checked by _mmf() in ursus_config.py.
+#}
+{% set defaults = {'KES': 100000, 'USD': 1000} %}
+<div class="mmf" data-mmf data-wht="{{ INTEREST_WHT_RATE }}">
+	<div class="mmf-controls" data-mmf-controls hidden>
+		<div class="mmf-currency" role="group" aria-label="Currency">
+			<button type="button" data-mmf-currency="KES" aria-pressed="true">Shilling funds</button>
+			<button type="button" data-mmf-currency="USD" aria-pressed="false">Dollar funds</button>
+		</div>
+		<div class="form-group">
+			<label for="mmf-amount">How much would you invest?</label>
+			<div class="input-group">
+				<span data-mmf-symbol>KES</span>
+				<input id="mmf-amount" type="number" min="0" step="1000" inputmode="decimal" value="{{ defaults.KES }}" data-mmf-amount data-clarity-mask="true">
+			</div>
+		</div>
+		<div class="mmf-options">
+			<label class="checkbox-label"><input type="checkbox" data-mmf-joinable> Only funds I can join with this amount</label>
+			<label>Sort by
+				<select data-mmf-sort>
+					<option value="yield">Highest yield</option>
+					<option value="minimum">Lowest minimum</option>
+					<option value="name">Name</option>
+				</select>
+			</label>
+		</div>
+	</div>
+
+	{% for currency in ('KES', 'USD') %}
+	<section class="mmf-table" data-mmf-table="{{ currency }}" aria-labelledby="mmf-{{ currency|lower }}">
+		<h2 id="mmf-{{ currency|lower }}">{{ 'Shilling' if currency == 'KES' else 'Dollar' }} money market funds, {{ MMF.period }}</h2>
+		<p class="mmf-average">
+			Average {{ MMF.average[currency] }}% before tax, {{ MMF.average_net[currency] }}% after the
+			{{ INTEREST_WHT_RATE|percent }}% withholding tax.
+		</p>
+		<div class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Fund</th>
+						<th scope="col">Yield</th>
+						<th scope="col">After tax</th>
+						<th scope="col"><span data-mmf-earn-head>{{ currency }} {{ defaults[currency]|shillings }}</span> earns a year</th>
+						<th scope="col">Minimum</th>
+						<th scope="col">Fee</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for f in MMF[currency] %}
+					<tr id="{{ f.id }}" data-mmf-fund data-name="{{ f.name }}" data-yield="{{ f['yield'] if f['yield'] is not none else '' }}" data-net="{{ f.net if f.net is not none else '' }}" data-minimum="{{ f.minimum if f.minimum is not none else '' }}">
+						<td>{{ f.rank|default('') }}</td>
+						<th scope="row">
+							<span class="mmf-name">{{ f.name }}</span>
+							<span class="mmf-manager">{{ f.manager }}</span>
+							{% if f.terms %}<span class="mmf-terms">{{ f.terms }}</span>{% endif %}
+						</th>
+						<td>{{ '%.2f'|format(f['yield']) ~ '%' if f['yield'] is not none else '-' }}</td>
+						<td>{{ '%.2f'|format(f.net) ~ '%' if f.net is not none else '-' }}</td>
+						<td data-mmf-earn>{{ currency ~ ' ' ~ (defaults[currency] * f.net / 100)|round|int|shillings if f.net is not none else '-' }}</td>
+						<td>{{ currency ~ ' ' ~ f.minimum|shillings if f.minimum is not none else 'Ask' }}</td>
+						<td>{{ f.fee ~ '%' if f.fee is not none else 'Ask' }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</section>
+	{% endfor %}
+
+	<p class="mmf-source">
+		Yields are each fund's average for {{ MMF.period }}, after the manager's fee and before
+		tax, from fund managers' disclosures collected by
+		<a href="{{ MMF.source.url }}" rel="noopener" target="_blank">{{ MMF.source.name }}</a>; checked
+		{{ MMF.checked.strftime('%d %B %Y') }}. "After tax" takes off the {{ INTEREST_WHT_RATE|percent }}%
+		withholding tax. Minimums and fees are shown only where the fund's own documents confirm them;
+		"Ask" means we could not confirm it. Past yields do not promise future ones.
+	</p>
+	<p class="mmf-empty" data-mmf-empty hidden>No fund we could confirm takes less than that. Many funds marked "Ask" may.</p>
+</div>

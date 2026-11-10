@@ -1,0 +1,70 @@
+# Kenyan money market funds, for the comparer at /tools/mmf-comparer.
+#
+# yield: the fund's average annual yield for the month in `period`, before the
+#   withholding tax on interest and after the manager's fee, from the fund
+#   managers' own disclosures as collected in the monthly review cited in
+#   `source`. One source for every fund, so they are comparable.
+# minimum, top_up, fee, terms: only where the fund's own factsheet, brochure,
+#   key information document or website states them, with that in `terms_source`.
+#   A blank means we could not confirm it - not that there is none.
+# Yields move every week. Update `period`, `checked` and every yield together.
+
+period: October 2026
+checked: 2026-11-10
+source:
+  name: Vasili Africa, Kenya money market fund returns, October 2026
+  url: https://vasiliafrica.com/kenya-money-market-fund-returns-october-2026/
+average:
+  KES: 9.06
+  USD: 5.05
+
+funds:
+  # Shilling funds, in the order of the October table
+  - {id: cytonn, name: Cytonn Money Market Fund, manager: Cytonn Asset Managers, currency: KES, yield: 10.47, minimum: 1000, top_up: 100, fee: 2.0, terms: "Ledger fee of KES 50.", terms_source: "Cytonn factsheet, March 2026"}
+  - {id: faulu, name: Faulu Money Market Fund, manager: Faulu Microfinance Bank, currency: KES, yield: 10.30}
+  - {id: lofty-corban, name: Lofty-Corban Money Market Fund, manager: Lofty-Corban Investments, currency: KES, yield: 10.05}
+  - {id: orient-kasha, name: Orient Kasha Money Market Fund, manager: Orient Asset Managers, currency: KES, yield: 10.02}
+  - {id: nabo, name: Nabo Africa Money Market Fund, manager: Nabo Capital, currency: KES, yield: 10.01}
+  - {id: madison, name: Madison Money Market Fund, manager: Madison Investment Managers, currency: KES, yield: 9.93}
+  - {id: enwealth, name: Enwealth Money Market Fund, manager: Enwealth Financial Services, currency: KES, yield: 9.92}
+  - {id: apollo, name: Apollo Money Market Fund, manager: Apollo Asset Management, currency: KES, yield: 9.91}
+  - {id: rejesha, name: Rejesha Money Market Fund, manager: Capital A Investment Bank, currency: KES, yield: 9.88}
+  - {id: old-mutual, name: Old Mutual Money Market Fund, manager: Old Mutual Investment Group, currency: KES, yield: 9.84, minimum: 1000, fee: 2.0, terms: "Fee is 2% a year plus VAT.", terms_source: "Old Mutual unit trust factsheet, April 2025"}
+  - {id: arvocap, name: Arvocap Money Market Fund, manager: Arvocap Asset Managers, currency: KES, yield: 9.84}
+  - {id: kuza, name: Kuza Money Market Fund, manager: Kuza Asset Management, currency: KES, yield: 9.79}
+  - {id: etica, name: Etica Money Market Fund, manager: Etica Capital, currency: KES, yield: 9.78, minimum: 100, top_up: 100, fee: 2.0, terms: "No lock-in period.", terms_source: "Etica brochure, March 2026, and key information document"}
+  - {id: jubilee, name: Jubilee Money Market Fund, manager: Jubilee Financial Services, currency: KES, yield: 9.77}
+  - {id: gulfcap, name: Gulfcap Money Market Fund, manager: Gulfcap Investment Bank, currency: KES, yield: 9.67}
+  - {id: globetec, name: Globetec Money Market Fund, manager: Globetec Asset Managers, currency: KES, yield: 9.60}
+  - {id: genafrica, name: GenAfrica Money Market Fund, manager: GenAfrica Asset Managers, currency: KES, yield: 9.46}
+  - {id: britam, name: Britam Money Market Fund, manager: Britam Asset Managers, currency: KES, yield: 9.27, minimum: 1000, top_up: 1000, terms_source: "Britam money market fund brochure"}
+  - {id: kcb, name: KCB Money Market Fund, manager: KCB Group, currency: KES, yield: 9.00}
+  - {id: sanlam, name: SanlamAllianz Money Market Fund, manager: SanlamAllianz Investments, currency: KES, yield: 8.90, fee: 2.0, terms: "The largest fund in Kenya. One free withdrawal a month; more cost KES 500 each.", terms_source: "SanlamAllianz fund factsheet and unit trust page"}
+  - {id: dry-associates, name: Dry Associates Money Market Fund, manager: Dry Associates, currency: KES, yield: 8.60}
+  - {id: genghis, name: Genghis Money Market Fund, manager: Genghis Capital, currency: KES, yield: 8.51}
+  - {id: cpf, name: CPF Money Market Fund, manager: CPF Asset Managers, currency: KES, yield: 8.22}
+  - {id: cic, name: CIC Money Market Fund, manager: CIC Asset Managers, currency: KES, yield: 8.10, minimum: 5000, top_up: 1000, fee: 2.0, terms: "No initial fee.", terms_source: "CIC factsheet, February 2026"}
+  - {id: mayfair, name: Mayfair Money Market Fund, manager: Mayfair Asset Managers, currency: KES, yield: 7.89}
+  - {id: african-alliance, name: African Alliance Kenya Money Market Fund, manager: African Alliance Kenya Asset Managers, currency: KES, yield: 7.80}
+  - {id: co-op, name: Co-op Money Market Fund, manager: Co-op Trust Investment Services, currency: KES, yield: 7.74}
+  - {id: icea-lion, name: ICEA Lion Money Market Fund, manager: ICEA Lion Asset Management, currency: KES, yield: 7.66}
+  - {id: absa, name: Absa Shilling Money Market Fund, manager: Absa Bank Kenya, currency: KES, yield: 6.90}
+  - {id: equity, name: Equity Money Market Fund, manager: Equity Bank, currency: KES, yield: 5.12}
+  - {id: ziidi, name: Ziidi Money Market Fund, manager: Safaricom with Standard Investment Bank and ALA Capital, currency: KES, minimum: 100, terms: "On the M-Pesa menu; deposits and withdrawals to M-Pesa are free. Not in the October table.", terms_source: "Safaricom announcement, January 2025"}
+
+  # Dollar funds
+  - {id: rejesha-usd, name: Rejesha Money Market Fund (USD), manager: Capital A Investment Bank, currency: USD, yield: 7.54}
+  - {id: etica-usd, name: Etica Money Market Fund (USD), manager: Etica Capital, currency: USD, yield: 6.31, minimum: 100, top_up: 50, terms: "30-day lock-in on new money.", terms_source: "Etica USD key information document, 2026"}
+  - {id: cytonn-usd, name: Cytonn Money Market Fund (USD), manager: Cytonn Asset Managers, currency: USD, yield: 5.93, minimum: 1000, top_up: 10, fee: 1.0, terms_source: "Cytonn USD factsheet, July 2026"}
+  - {id: old-mutual-usd, name: Old Mutual Money Market Fund (USD), manager: Old Mutual Investment Group, currency: USD, yield: 5.32}
+  - {id: nabo-usd, name: Nabo Africa Money Market Fund (USD), manager: Nabo Capital, currency: USD, yield: 5.31}
+  - {id: jubilee-usd, name: Jubilee Money Market Fund (USD), manager: Jubilee Asset Management, currency: USD, yield: 5.18}
+  - {id: kuza-usd, name: Kuza Money Market Fund (USD), manager: Kuza Asset Management, currency: USD, yield: 5.11}
+  - {id: sanlam-usd, name: SanlamAllianz Money Market Fund (USD), manager: SanlamAllianz Investments, currency: USD, yield: 5.02}
+  - {id: dry-associates-usd, name: Dry Associates Money Market Fund (USD), manager: Dry Associates, currency: USD, yield: 4.71}
+  - {id: britam-usd, name: Britam Money Market Fund (USD), manager: Britam Asset Managers, currency: USD, yield: 4.58}
+  - {id: kcb-usd, name: KCB Money Market Fund (USD), manager: KCB Group, currency: USD, yield: 4.55}
+  - {id: cpf-usd, name: CPF Money Market Fund (USD), manager: CPF Asset Managers, currency: USD, yield: 4.33}
+  - {id: absa-usd, name: Absa Dollar Money Market Fund, manager: Absa Bank Kenya, currency: USD, yield: 4.28}
+  - {id: cic-usd, name: CIC Money Market Fund (USD), manager: CIC Asset Managers, currency: USD, yield: 4.26}
+  - {id: ncba-usd, name: NCBA Money Market Fund (USD), manager: NCBA Investment Bank, currency: USD, yield: 3.36}

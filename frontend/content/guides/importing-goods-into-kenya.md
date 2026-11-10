@@ -38,6 +38,8 @@ What you pay depends on the goods' **tariff classification**:
 The **customs value** is usually the cost of the goods plus freight and
 insurance to Kenya. KRA can challenge undervalued invoices.
 
+**[Work out the duty, VAT and levies on a shipment with the import duty calculator ➞](/tools/import-duty-calculator)**
+
 ## Clearing agents
 
 Almost all importers use a **licensed clearing and forwarding agent**. They

@@ -53,7 +53,8 @@ complaints can go to the **Competition Authority of Kenya**.
 
 Parcels from international sites can be delivered to Kenya, but may attract
 **import duty and VAT**, plus handling fees, collected before delivery. Some
-people use forwarding services. See [Importing goods](/guides/importing-goods-into-kenya).
+people use forwarding services. See [Importing goods](/guides/importing-goods-into-kenya), or work out the
+taxes on an order with the [import duty calculator](/tools/import-duty-calculator).
 
 ## Avoiding scams
 

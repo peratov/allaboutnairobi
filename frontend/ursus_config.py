@@ -84,6 +84,9 @@ ctx["TOOL_CONSTANTS"] = {
         "WHT_PROFESSIONAL_RESIDENT", "WHT_PROFESSIONAL_THRESHOLD", "WHT_PROFESSIONAL_NONRESIDENT", "VAT_REGISTRATION_THRESHOLD",
         "ETA_FEE_USD", "NNP_FEE_NONRESIDENT_USD", "NNP_FEE_CITIZEN", "MARA_FEE_LOW_USD", "MARA_FEE_PEAK_USD",
         "REMITTANCE_COST_TARGET", "REMITTANCE_COST_CEILING",
+        "IMPORT_DUTY_BAND_ZERO", "IMPORT_DUTY_BAND_INTERMEDIATE", "IMPORT_DUTY_BAND_FINISHED", "IMPORT_DUTY_BAND_TOP",
+        "PHONE_IMPORT_DUTY_RATE",
+        "CAPITAL_GAINS_TAX_RATE", "NAIROBI_LAND_RATE", "MMF_AVERAGE_YIELD",
     )
 }
 
@@ -182,6 +185,49 @@ def _phrasebook():
 
 
 ctx["PHRASEBOOK"] = _phrasebook()
+
+
+def _mmf():
+    """
+    Money market funds for the comparer (/tools/mmf-comparer). Yields come from
+    one monthly source so they compare; terms only where the fund confirms
+    them. The after-tax yield is worked out here from INTEREST_WHT_RATE.
+    """
+    data = load_yaml("geo/mmf.yaml", None)
+    allowed = {"id", "name", "manager", "currency", "yield", "minimum", "top_up", "fee", "terms", "terms_source"}
+    keep = 1 - float(ctx["INTEREST_WHT_RATE"]) / 100
+    seen = set()
+    for fund in data["funds"]:
+        assert set(fund) <= allowed, f"mmf.yaml: unknown field in {fund}"
+        for key in ("id", "name", "manager", "currency"):
+            assert fund.get(key), f"mmf.yaml: {fund} has no {key}"
+        assert fund["id"] not in seen, f"mmf.yaml: duplicate fund {fund['id']}"
+        seen.add(fund["id"])
+        assert fund["currency"] in ("KES", "USD"), f"mmf.yaml: {fund['id']} currency must be KES or USD"
+        for key in ("yield", "minimum", "top_up", "fee"):
+            fund.setdefault(key, None)
+            assert fund[key] is None or isinstance(fund[key], (int, float)), f"mmf.yaml: {fund['id']} {key} must be a number"
+        assert fund["yield"] is None or 0 < fund["yield"] < 30, f"mmf.yaml: {fund['id']} yield looks wrong"
+        if fund["minimum"] is not None or fund["fee"] is not None or fund.get("terms"):
+            assert fund.get("terms_source"), f"mmf.yaml: {fund['id']} has terms but no terms_source"
+        fund.setdefault("terms", None)
+        fund.setdefault("terms_source", None)
+        fund["net"] = round(fund["yield"] * keep, 2) if fund["yield"] is not None else None
+    for currency in ("KES", "USD"):
+        ranked = sorted((f for f in data["funds"] if f["currency"] == currency and f["yield"] is not None),
+                        key=lambda f: -f["yield"])
+        for i, fund in enumerate(ranked, 1):
+            fund["rank"] = i
+        data[currency] = ranked + [f for f in data["funds"] if f["currency"] == currency and f["yield"] is None]
+        assert data["average"].get(currency), f"mmf.yaml: no average for {currency}"
+    assert float(data["average"]["KES"]) == float(ctx["MMF_AVERAGE_YIELD"]), (
+        "mmf.yaml: the KES average and MMF_AVERAGE_YIELD in constants.yaml must match"
+    )
+    data["average_net"] = {k: round(v * keep, 2) for k, v in data["average"].items()}
+    return data
+
+
+ctx["MMF"] = _mmf()
 
 
 def _paperwork():

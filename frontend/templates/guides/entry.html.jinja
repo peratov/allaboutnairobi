@@ -10,6 +10,7 @@
 {% if 'neighbourhoodComparer' in entry.body %}{% set page_styles = page_styles + ['compare'] %}{% endif %}
 {% if '_blocks/phrasebook.html' in entry.body %}{% set page_styles = page_styles + ['phrasebook'] %}{% endif %}
 {% if 'paperworkPlanner' in entry.body %}{% set page_styles = page_styles + ['paperwork'] %}{% endif %}
+{% if 'mmfComparer' in entry.body %}{% set page_styles = page_styles + ['mmf'] %}{% endif %}
 {% if NEWSLETTER_LIVE %}{% set page_styles = page_styles + ['subscribe'] %}{% endif %}
 {% set metatitle = entry.title %}
 {% set metadescription = entry.description %}
@@ -85,7 +86,7 @@
 		}
 	}
 	</script>
-	{% if entry.tool|default or 'neighbourhoodComparer' in entry.body %}
+	{% if entry.tool|default or 'neighbourhoodComparer' in entry.body or 'mmfComparer' in entry.body %}
 	{#- A tool is also a free web application. -#}
 	<script type="application/ld+json">
 	{
