@@ -1,14 +1,14 @@
 ---
 title: Terms and privacy
 short_title: Terms
-description: What this site collects (almost nothing), what it promises (not much), and the limits of the information on it.
+description: What this site collects, including for analytics and Google ads, what it promises (not much), and the limits of the information on it.
 date_created: 2026-01-10
 ---
 
 ## Privacy
 
-This site is static HTML. There is no account to create, no newsletter that
-requires your name, and no advertising.
+This site is static HTML. There is no account to create and no newsletter
+that requires your name.
 
 {% if GA_MEASUREMENT_ID %}**This site uses Google Analytics.** It records which pages are read, roughly
 where in the world readers are, and which links they follow. That is used for
@@ -26,7 +26,35 @@ readers visibly get stuck. Microsoft receives this data under
 site is marked so Clarity cannot capture what is typed into it. Your salary,
 your rent and your household budget are not in any session replay.
 
-You can opt out with any tracker blocker, or with
+{% if ADSENSE_CLIENT %}**This site shows ads from Google AdSense.** They pay for the time it
+takes to keep every figure checked and dated. Google and the advertisers it
+works with use cookies and similar storage to show those ads, to measure them
+and to stop fraud - including, where you allow it, cookies based on your
+earlier visits to this site and to other sites, which is how Google chooses
+ads it thinks will interest you. Readers in the European Economic Area, the
+UK and Switzerland are asked first, through Google's own consent message,
+before any of that is set. Google explains what it does in
+[How Google uses information from sites that use its services](https://policies.google.com/technologies/partner-sites).
+
+You can turn personalised ads off at any time in
+[Google's My Ad Center](https://myadcenter.google.com/), and for many
+advertising companies at once at
+[aboutads.info](https://www.aboutads.info/choices/) or
+[youronlinechoices.eu](https://www.youronlinechoices.eu/). You will still see
+ads, just not ones chosen from your browsing. Ads are not shown on private
+pages - a lost and found listing's own link, a place's portal - or on pages
+with nothing on them but a form or a message, and nothing on this site is
+written or changed for an advertiser.
+
+{% endif %}**In the European Economic Area, the UK and Switzerland, you are asked
+first.** Neither Google Analytics nor Clarity is loaded, and no advertising
+cookie is set, until you answer Google's consent message. If you say no, or
+never answer, they stay off and the site works exactly the same. You can change
+your answer at any time with **Privacy and cookie settings** at the foot of
+every page.
+
+Anywhere, you can opt out of the analytics with any tracker blocker, with
+[Google's opt-out add-on](https://tools.google.com/dlpage/gaoptout), or with
 [Clarity's opt-out](https://privacy.microsoft.com/privacystatement). None of
 the site's content or calculators depends on analytics, so blocking it costs
 you nothing.
@@ -36,8 +64,9 @@ you nothing.
 transmitted, logged or stored on a server. The budget planner remembers your
 figures in your own browser's storage, and nowhere else. You can confirm this
 by opening your browser's network tools and watching &mdash; the only outbound
-requests are the analytics ones described above, and they carry no figure you
-typed.
+requests are the analytics and advertising ones described above. Those send
+the address of the page you are on, so a figure only reaches them if it is in
+that address, as in a link you followed or shared.
 
 **The live radio player connects you to the station, and only when you press
 play.** On [/radio](/radio) each stream comes straight from that station's own
@@ -235,6 +264,48 @@ after a question closes; the totals stay, because they are the result.
 **Abuse.** Location checks are limited per connection per hour, counted with the
 same daily-scrambled code lost and found uses - not your IP address. A
 connection that appears to come from outside Kenya is refused.
+
+## Your rights, and who is responsible {: #your-rights }
+
+**Who.** The owner of All About Nairobi decides what personal data this site
+collects and is responsible for it - the "data controller", in the language of
+Kenya's Data Protection Act, 2019 and of the GDPR. Write to
+[{{ CONTACT_EMAIL }}](mailto:{{ CONTACT_EMAIL }}) or use the
+[contact page](/contact) about anything on this page.
+
+**Why each thing is collected** - the legal basis for it:
+
+- **Your consent**: Google Analytics, Clarity and personalised ads for readers
+  in the EEA, the UK and Switzerland; the newsletter; the location check on
+  Nairobi Pulse. You can withdraw consent at any time, and doing so does not
+  undo what was lawful before.
+- **Doing what you asked**: a lost and found listing or reply, an event you
+  send.
+- **Legitimate interests**: keeping the site working and safe - the hourly
+  limits, reports of abuse, the request logs the host keeps, and fraud checks
+  on ads - and, outside Europe, the analytics and ads described above.
+
+**Your rights.** You can ask for a copy of what this site holds about you, to
+have it corrected or erased, to restrict or object to how it is used, and to
+have it in a form you can take elsewhere. Ask through the
+[contact page](/contact); you will get an answer within a month. Most of what
+is described here holds no name at all, so for some things there is nothing
+to find. If you are not satisfied, you can complain to a data protection
+authority: in Kenya the
+[Office of the Data Protection Commissioner](https://www.odpc.go.ke), in the UK
+the [Information Commissioner's Office](https://ico.org.uk/make-a-complaint/),
+and in the European Union
+[your country's authority](https://www.edpb.europa.eu/about-edpb/about-edpb/members_en).
+
+**Where it goes.** The site is served by Vercel, which keeps short request
+logs, including IP addresses, to run and protect it. The database is in Google
+Cloud's London region. Google, Microsoft, Vercel and Resend, each named above
+for what it does, may handle data in the United States and elsewhere, under
+the safeguards the law requires for such transfers, such as the EU's standard
+contractual clauses and the EU-US Data Privacy Framework.
+
+**Children.** The site is written for adults. Lost and found, the newsletter
+and Nairobi Pulse are not meant for anyone under 16.
 
 ## Accuracy and liability
 

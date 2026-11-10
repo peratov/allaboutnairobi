@@ -26,6 +26,8 @@ rather than a hundred blog posts written once and abandoned.
   than write the same message again.
 
 It is not a tourism site or a relocation agency. Nothing here is sponsored.
+The site shows ads from Google, which pay for the time it takes to keep every
+figure checked; no guide is written or changed for an advertiser.
 
 ## How this site stays accurate
 

@@ -44,6 +44,21 @@
 		never record sessions.
 	#}
 	{% set analytics = IS_PRODUCTION and not private_page|default(false) %}
+	{#
+		Consent (GDPR and the UK and Swiss equivalents). In the EEA, the UK and
+		Switzerland neither Analytics nor Clarity is fetched until the reader
+		agrees. The question is Google's own consent message, which AdSense
+		shows (Privacy & messaging -> European regulations, in the AdSense
+		dashboard); it answers through the IAB's TCF API (__tcfapi), and this
+		script listens to that, so there is one question, not two. Without the
+		message published, nothing is ever granted there - the compliant
+		failure.
+
+		Who is "there" is decided twice. Here, from the device's time zone -
+		cheap, no request, and wrong only on the side of asking. And by Google,
+		from the reader's location, through consent mode's regional default, so
+		a European on a Nairobi clock still gets cookieless, denied tags.
+	#}
 	{% if analytics and (GA_MEASUREMENT_ID or CLARITY_PROJECT_ID) %}
 		<script>
 			function afterLoad(src) {
@@ -56,18 +71,71 @@
 				if (document.readyState === "complete") load();
 				else window.addEventListener("load", function () { setTimeout(load, 0); });
 			}
-			{% if GA_MEASUREMENT_ID %}
+			var askFirst = (function () {
+				try {
+					var zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+					return /^Europe\//.test(zone) || /^(Atlantic\/(Canary|Madeira|Azores|Reykjavik|Faroe)|Arctic\/Longyearbyen)$/.test(zone);
+				} catch (e) { return true; }
+			})();
 			window.dataLayer = window.dataLayer || [];
 			function gtag() { dataLayer.push(arguments); }
+			var base = askFirst ? "denied" : "granted";
+			gtag("consent", "default", { ad_storage: base, ad_user_data: base, ad_personalization: base, analytics_storage: base, wait_for_update: 500 });
+			gtag("consent", "default", {
+				ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied", wait_for_update: 500,
+				region: ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"]
+			});
+			var started = false;
+			function choose(on) {
+				{% if CLARITY_PROJECT_ID %}window.clarity("consentv2", { ad_Storage: on ? "granted" : "denied", analytics_Storage: on ? "granted" : "denied" });{% endif %}
+				if (askFirst) gtag("consent", "update", { analytics_storage: on ? "granted" : "denied" });
+				if (!on || started) return;
+				started = true;
+				{% if GA_MEASUREMENT_ID %}afterLoad("https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}");{% endif %}
+				{% if CLARITY_PROJECT_ID %}afterLoad("https://www.clarity.ms/tag/{{ CLARITY_PROJECT_ID }}");{% endif %}
+			}
+			{% if GA_MEASUREMENT_ID %}
 			gtag("js", new Date());
 			gtag("config", "{{ GA_MEASUREMENT_ID }}");
-			afterLoad("https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}");
 			{% endif %}
 			{% if CLARITY_PROJECT_ID %}
 			window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
-			afterLoad("https://www.clarity.ms/tag/{{ CLARITY_PROJECT_ID }}");
 			{% endif %}
+			if (!askFirst) choose(true);
+			else (function listen(tries) {
+				// Purpose 1 is storing on the device, 8 is measuring content.
+				// gdprApplies false is Google saying this reader is outside it.
+				if (typeof window.__tcfapi === "function") {
+					window.__tcfapi("addEventListener", 2, function (tc, ok) {
+						if (!ok || !tc || (tc.eventStatus !== "tcloaded" && tc.eventStatus !== "useractioncomplete")) return;
+						var said = (tc.purpose && tc.purpose.consents) || {};
+						choose(tc.gdprApplies === false || Boolean(said[1] && said[8]));
+					});
+				} else if (tries < 60) setTimeout(function () { listen(tries + 1); }, 500);
+			})(0);
+			// "Privacy and cookie settings" reopens Google's message where it runs;
+			// anywhere else the link goes to the rights section of /terms.
+			document.addEventListener("click", function (event) {
+				var link = event.target.closest && event.target.closest("[data-privacy-settings]");
+				var fc = window.googlefc;
+				if (!link || !fc || typeof fc.showRevocationMessage !== "function") return;
+				event.preventDefault();
+				fc.showRevocationMessage();
+			});
 		</script>
+	{% endif %}
+
+	{#
+		Google AdSense, as Auto ads, on production pages that are indexable and
+		not private. AdSense's rules forbid ads on pages with no content of
+		their own - the 404, search, offline - and noindex is exactly that set.
+		The tag is the one AdSense issues, unmodified and in <head>, so the
+		site verifies; it is async, so it does not hold up the page.
+	#}
+	{% set ads = ADSENSE_CLIENT and IS_PRODUCTION and not private_page|default(false) and 'noindex' not in page_robots|default('') %}
+	{% if ads %}
+		<meta name="google-adsense-account" content="{{ ADSENSE_CLIENT }}">
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ ADSENSE_CLIENT }}" crossorigin="anonymous"></script>
 	{% endif %}
 
 	{% block head %}
@@ -293,6 +361,7 @@
 					<a href="{{ SITE_URL }}/lost-and-found">Lost and found</a>
 					<a href="{{ SITE_URL }}/glossary">Glossary</a>
 					<a href="{{ SITE_URL }}/terms">Terms</a>
+					<a href="{{ SITE_URL }}/terms#your-rights" data-privacy-settings>Privacy and cookie settings</a>
 					<a href="{{ SITE_URL }}/newsletter">Newsletter</a>
 					<a href="{{ SITE_URL }}/search">Search</a>
 					<a href="{{ CANONICAL_ORIGIN }}/feed.xml">Feed</a>
@@ -337,6 +406,8 @@
 				['[data-newsletter-form], [data-newsletter-page]', '/js/components/newsletter.mjs'],
 				['[data-compare]', '/js/components/neighbourhood-comparer.mjs'],
 				['[data-phrasebook]', '/js/components/phrasebook.mjs'],
+				['[data-paperwork]', '/js/components/paperwork-planner.mjs'],
+				['[data-start-here]', '/js/components/start-here.mjs'],
 			]) {
 				if (document.querySelector(selector)) import(module).then((loaded) => loaded.default());
 			}

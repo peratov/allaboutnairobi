@@ -108,6 +108,9 @@ ctx["CLARITY_PROJECT_ID"] = env_str("CLARITY_PROJECT_ID", "ymtnkudhcj")
 # Analytics load only on the production deployment, so local builds and
 # Vercel preview deploys never record sessions.
 ctx["IS_PRODUCTION"] = env_str("VERCEL_ENV") == "production" or env_str("FORCE_ANALYTICS") == "1"
+# Google AdSense (Auto ads). The publisher id is public - it is in every
+# page's source and in /ads.txt. ADSENSE_CLIENT="" switches ads off.
+ctx["ADSENSE_CLIENT"] = env_str("ADSENSE_CLIENT", "ca-pub-4576059307781134")
 ctx["GOOGLE_SITE_VERIFICATION"] = env_str("GOOGLE_SITE_VERIFICATION")
 ctx["BING_SITE_VERIFICATION"] = env_str("BING_SITE_VERIFICATION")
 
@@ -179,6 +182,66 @@ def _phrasebook():
 
 
 ctx["PHRASEBOOK"] = _phrasebook()
+
+
+def _paperwork():
+    """
+    The paperwork planner's plans (/tools/paperwork-planner). {NAME} in the
+    text prints a constant and {NAME|shillings} one as an amount, so a fee is
+    never typed twice; a dead link, an unknown icon or a step waiting on an
+    answer no question offers stops the build.
+    """
+    import re as _re
+    from extensions.functions import to_shillings
+
+    data = load_yaml("geo/paperwork.yaml", None)
+    icons = {p.stem for p in (config.templates_path / "_icons").glob("*.svg")}
+
+    def fill(text):
+        def one(match):
+            name, _, flt = match.group(1).partition("|")
+            if name not in ctx:
+                raise ValueError(f"paperwork.yaml: unknown constant {name}")
+            return to_shillings(ctx[name]) if flt == "shillings" else str(ctx[name])
+        return _re.sub(r"\{([A-Z0-9_]+(?:\|shillings)?)\}", one, str(text))
+
+    def page_exists(href):
+        if href.startswith("#plan="):
+            return href[6:] in {t["id"] for t in data["tasks"]}
+        path = href.lstrip("/").split("#")[0]
+        return (config.content_path / f"{path}.md").exists()
+
+    seen = set()
+    for task in data["tasks"]:
+        assert task["id"] not in seen, f"paperwork.yaml: duplicate task {task['id']}"
+        seen.add(task["id"])
+        assert task["symbol"] in icons, f"paperwork.yaml: no icon {task['symbol']}"
+        assert (config.content_path / task["guide"]).exists(), f"paperwork.yaml: no {task['guide']}"
+        task["guide_url"] = "/" + task["guide"][: -len(".md")]
+        task["lead"] = fill(task["lead"])
+        answers = {}
+        for q in task.get("questions", []):
+            q["text"] = fill(q["text"])
+            answers[q["id"]] = {o["value"] for o in q["options"]}
+            q["default"] = q["options"][0]["value"]
+        task.setdefault("questions", [])
+        step_ids = set()
+        for step in task["steps"]:
+            assert step["id"] not in step_ids, f"paperwork.yaml: duplicate step {task['id']}/{step['id']}"
+            step_ids.add(step["id"])
+            for field in ("title", "text", "where", "cost"):
+                step[field] = fill(step[field]) if step.get(field) else None
+            step["bring"] = [fill(b) for b in step.get("bring", [])]
+            step.setdefault("links", [])
+            for link in step["links"]:
+                assert page_exists(link["href"]), f"paperwork.yaml: dead link {link['href']}"
+            step["when"] = step.get("when") or {}
+            for q, v in step["when"].items():
+                assert q in answers and v in answers[q], f"paperwork.yaml: {task['id']}/{step['id']} waits on {q}={v}"
+    return data
+
+
+ctx["PAPERWORK"] = _paperwork()
 ctx["AFCON"] = load_yaml("geo/afcon.yaml", {"meta": {}, "nairobi_venues": [], "key_dates": [], "stay_areas": []})
 # The same data with dates as ISO strings, for pages that hand it to JavaScript.
 ctx["AFCON_DATA"] = json.loads(json.dumps(ctx["AFCON"], default=str))
