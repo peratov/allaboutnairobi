@@ -9,6 +9,8 @@ Most of Kenyan bureaucracy now runs through one website, and most private
 transactions ask for one number. Get these sorted first and everything else
 gets easier.
 
+**[Paperwork planner: every step for the KRA PIN, SHA, passport, good conduct and more, with ticks ➞](/tools/paperwork-planner)**
+
 ## eCitizen
 
 [[eCitizen]] (ecitizen.go.ke) is the government's services portal. Passports,

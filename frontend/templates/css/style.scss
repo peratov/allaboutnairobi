@@ -45,6 +45,7 @@
 {% if 'radio' in styles %}@import "css/components/radio";{% endif %}
 {% if 'compare' in styles %}@import "css/components/compare";{% endif %}
 {% if 'phrasebook' in styles %}@import "css/components/phrasebook";{% endif %}
+{% if 'paperwork' in styles %}@import "css/components/paperwork";{% endif %}
 {% if 'rating' in styles %}@import "css/components/rating";{% endif %}
 {% if 'home' in styles %}@import "css/components/home";{% endif %}
 {% if 'lostfound' in styles %}@import "css/components/lostfound";{% endif %}

@@ -1,0 +1,142 @@
+{#
+	The paperwork planner (/tools/paperwork-planner). Every plan is rendered in
+	full, so without scripting the page is every checklist and that is what a
+	crawler reads. paperwork-planner.mjs turns it into a chooser: one plan at a
+	time, the questions hiding steps that do not apply, and ticks kept on this
+	device. Plans live in content/geo/paperwork.yaml.
+#}
+<div class="pw" data-paperwork>
+	<div class="pw-choose" data-pw-choose hidden>
+		{# Once a plan is open, the chooser folds to this bar, pinned under the header. #}
+		<div class="pw-current" data-pw-current hidden>
+			<span class="pw-current-icon" data-pw-current-icon aria-hidden="true"></span>
+			<span class="pw-current-text">
+				<strong data-pw-current-title></strong>
+				<span class="pw-current-count" data-pw-current-count></span>
+			</span>
+			<span class="pw-current-track" aria-hidden="true"><span data-pw-current-fill></span></span>
+			<button type="button" class="pw-change" data-pw-change aria-expanded="false" aria-controls="pw-tasks">Change</button>
+		</div>
+
+		<div class="pw-pick" data-pw-pick-panel>
+			<p class="pw-choose-label" id="pw-choose-label">What do you need to do?</p>
+			<ul class="pw-tasks" id="pw-tasks" aria-labelledby="pw-choose-label">
+				{% for task in PAPERWORK.tasks %}
+				<li>
+					<a class="pw-task" href="#plan={{ task.id }}" data-pw-pick="{{ task.id }}">
+						<span class="icon-stamp" aria-hidden="true">{% include "_icons/" + task.symbol + ".svg" %}</span>
+						<span class="pw-task-text">
+							<strong>{{ task.short }}</strong>
+							<span class="pw-task-count" data-pw-count="{{ task.id }}">{{ task.steps|length }} steps</span>
+						</span>
+						<span class="pw-task-track" aria-hidden="true"><span data-pw-task-fill="{{ task.id }}"></span></span>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	{% for task in PAPERWORK.tasks %}
+	<section class="pw-plan" id="plan-{{ task.id }}" data-plan="{{ task.id }}" data-short="{{ task.short }}" aria-labelledby="plan-{{ task.id }}-title">
+		<header class="pw-plan-card">
+			<div class="pw-plan-head">
+				<span class="icon-stamp" aria-hidden="true">{% include "_icons/" + task.symbol + ".svg" %}</span>
+				<div class="pw-plan-words">
+					<h2 id="plan-{{ task.id }}-title">{{ task.title }}</h2>
+					<p class="pw-lead">{{ task.lead }}</p>
+				</div>
+			</div>
+
+			{% if task.questions %}
+			<div class="pw-questions" data-pw-questions hidden>
+				<p class="pw-questions-label">Fit the plan to you</p>
+				{% for q in task.questions %}
+				<fieldset class="pw-question">
+					<legend>{{ q.text }}</legend>
+					<div class="pw-answers">
+						{% for o in q.options %}
+						<label class="pw-answer">
+							<input type="radio" name="pw-{{ task.id }}-{{ q.id }}" value="{{ o.value }}" data-pw-q="{{ q.id }}"{% if loop.first %} checked{% endif %}>
+							<span>{{ o.label }}</span>
+						</label>
+						{% endfor %}
+					</div>
+				</fieldset>
+				{% endfor %}
+			</div>
+			{% endif %}
+
+			<div class="pw-progress" data-pw-progress hidden>
+				<p class="pw-progress-text" data-pw-progress-text aria-live="polite"></p>
+				<span class="pw-progress-track" aria-hidden="true"><span class="pw-progress-fill" data-pw-progress-fill></span></span>
+				<p class="pw-next" data-pw-next hidden>
+					<span class="pw-next-label">Next</span>
+					<a href="#" data-pw-next-link></a>
+				</p>
+			</div>
+		</header>
+
+		<ol class="pw-steps">
+			{% for step in task.steps %}
+			<li class="pw-step" id="step-{{ task.id }}-{{ step.id }}" data-step="{{ step.id }}"{% if step.when %} data-when='{{ step.when|tojson }}'{% endif %}>
+				<div class="pw-step-head">
+					<h3>{{ step.title }}</h3>
+					<button type="button" class="pw-tick" data-pw-tick aria-pressed="false" hidden>
+						<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5 10 17.5 19 7"/></svg>
+						<span class="pw-tick-word" aria-hidden="true"><span class="pw-tick-off">Mark done</span><span class="pw-tick-on">Done</span></span>
+						<span class="visually-hidden">Done: {{ step.title }}</span>
+					</button>
+				</div>
+				{% if step.when %}
+				<p class="pw-only">Only if
+					{%- for qid, value in step.when.items() %}
+					{%- for q in task.questions if q.id == qid %}{% for o in q.options if o.value == value %} {{ q.text|replace('?', '') }}: <strong>{{ o.label }}</strong>{% endfor %}{% endfor %}{% if not loop.last %};{% endif %}
+					{%- endfor %}
+				</p>
+				{% endif %}
+				{% if step.text %}<p class="pw-text">{{ step.text }}</p>{% endif %}
+				{% if step.where or step.cost or step.bring %}
+				<div class="pw-detail">
+					{% if step.where or step.cost %}
+					<dl class="pw-facts">
+						{% if step.where %}<div><dt>Where</dt><dd>{{ step.where }}</dd></div>{% endif %}
+						{% if step.cost %}<div><dt>Cost</dt><dd>{{ step.cost }}</dd></div>{% endif %}
+					</dl>
+					{% endif %}
+					{% if step.bring %}
+					<p class="pw-bring-label">Bring</p>
+					<ul class="pw-bring">
+						{% for b in step.bring %}<li>{{ b }}</li>{% endfor %}
+					</ul>
+					{% endif %}
+				</div>
+				{% endif %}
+				{% if step.links %}
+				<p class="pw-links">
+					{% for link in step.links %}<a href="{{ link.href if link.href.startswith('#') else SITE_URL + link.href }}"{% if link.href.startswith('#plan=') %} data-pw-pick="{{ link.href[6:] }}"{% endif %}>{{ link.label }} &#10142;</a>{% endfor %}
+				</p>
+				{% endif %}
+			</li>
+			{% endfor %}
+		</ol>
+
+		<div class="pw-foot">
+			<a class="pw-guide" href="{{ SITE_URL }}{{ task.guide_url }}">
+				<span class="pw-guide-kind">Guide</span>
+				<span>Read the full guide &#10142;</span>
+			</a>
+			<span class="pw-actions" data-pw-actions hidden>
+				<button type="button" class="pw-action" data-pw-print>
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z"/></svg>
+					Print this plan
+				</button>
+				<button type="button" class="pw-action" data-pw-reset>
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg>
+					Clear my ticks
+				</button>
+			</span>
+		</div>
+	</section>
+	{% endfor %}
+</div>

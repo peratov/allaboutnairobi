@@ -1,0 +1,714 @@
+// --- The paperwork planner (/tools/paperwork-planner) ----------------------------------
+//
+// Without scripting: every plan, one after another, as checklists. With it
+// (.is-enhanced): a grid of tasks to choose from; once one is chosen, the grid
+// folds to a bar pinned under the header (Change opens it again), and the
+// plan reads as a card - title, the questions, progress and the next step -
+// then a timeline of steps, the next one marked and the done ones folded.
+
+.pw { margin-top: var(--l); }
+
+// --- The chooser -----------------------------------------------------------------------
+
+.pw-choose-label {
+	margin: 0 0 var(--s);
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.pw-tasks {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li { margin: 0; }
+}
+
+.pw-task {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	height: 100%;
+	padding: var(--s) var(--m) var(--s) var(--s);
+	overflow: hidden;
+	color: inherit;
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	transition: border-color 0.15s, transform 0.15s;
+
+	.icon-stamp { flex: none; width: 2.5rem; height: 2.5rem; }
+
+	&:hover { border-color: var(--c-laterite); transform: translateY(-1px); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+	&[aria-current] {
+		border-color: var(--c-laterite);
+		box-shadow: 0 0 0 1px var(--c-laterite);
+		background: var(--c-highlight-soft);
+	}
+}
+
+.pw-task-text {
+	display: grid;
+	gap: 0.1rem;
+	min-width: 0;
+
+	strong {
+		font-family: var(--font-heading);
+		font-size: 1rem;
+		line-height: 1.25;
+		color: var(--c-text-heading);
+	}
+}
+
+.pw-task-count {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.pw-task.is-started .pw-task-count { color: var(--c-forest); font-weight: 600; }
+
+// A plan already begun shows how far along it is, along the tile's foot.
+.pw-task-track {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 3px;
+
+	span { display: block; width: 0; height: 100%; background: var(--c-forest); }
+}
+
+// With a plan open, the grid folds behind the bar.
+.pw.has-plan:not(.is-choosing) .pw-pick { display: none; }
+.pw.is-choosing .pw-pick { margin-top: var(--s); }
+
+// A sticky box only sticks inside its parent, so it is the whole chooser
+// that is pinned - its parent is the planner - and only while it is folded.
+.pw.has-plan:not(.is-choosing) .pw-choose {
+	position: sticky;
+	top: calc(var(--h-header) + var(--toc-bar-h, 0px) + var(--xs));
+	z-index: 3;
+}
+
+.pw-current {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	grid-template-areas:
+		"icon text change"
+		"track track track";
+	align-items: center;
+	gap: var(--xs) var(--s);
+	padding: var(--s) var(--s) 0;
+	overflow: hidden;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+
+	&[hidden] { display: none; }
+}
+
+.pw-current-icon {
+	grid-area: icon;
+	display: flex;
+
+	.icon-stamp { width: 2.25rem; height: 2.25rem; }
+}
+
+.pw-current-text {
+	grid-area: text;
+	display: grid;
+	min-width: 0;
+
+	strong {
+		overflow: hidden;
+		font-family: var(--font-heading);
+		font-size: 1rem;
+		line-height: 1.25;
+		color: var(--c-text-heading);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+.pw-current-count { font-size: var(--f-xs); color: var(--c-text-light); }
+
+.pw-current-track {
+	grid-area: track;
+	display: block;
+	height: 3px;
+	margin: 0 calc(var(--s) * -1);
+	background: var(--c-bg-widget);
+
+	span { display: block; width: 0; height: 100%; background: var(--c-forest); transition: width 300ms ease-out; }
+}
+
+.pw-change {
+	grid-area: change;
+	min-height: 2.5rem;
+	padding: 0 var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 700;
+	color: var(--c-laterite);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-laterite);
+	border-radius: 999px;
+	cursor: pointer;
+
+	&:hover { color: var(--c-bg-on-accent); background: var(--c-laterite); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// --- A plan ----------------------------------------------------------------------------
+
+.pw-plan {
+	margin-top: var(--xl);
+
+	.is-enhanced & { margin-top: var(--l); scroll-margin-top: 9rem; }
+	&[hidden] { display: none; }
+}
+
+.pw-plan-card {
+	padding: var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-top: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+}
+
+.pw-plan.is-complete .pw-plan-card { border-top-color: var(--c-forest); }
+
+.pw-plan-head {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--m);
+
+	.icon-stamp { flex: none; width: 3rem; height: 3rem; }
+}
+
+.pw-plan-words { min-width: 0; }
+
+// The article styles give an h2 a rule underneath; on a card it is noise.
+article .pw-plan-head h2 {
+	margin: 0;
+	padding: 0;
+	font-size: 1.5rem;
+	line-height: 1.2;
+	border: 0;
+	outline: none;
+
+	&::after { content: none; }
+}
+
+.pw-lead {
+	margin: var(--xs) 0 0;
+	color: var(--c-text-light);
+}
+
+// The questions: each a pair of halves, side by side on a wide screen.
+.pw-questions {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(#{"min(100%, 16rem)"}, 1fr));
+	gap: var(--s) var(--m);
+	margin: var(--m) 0 0;
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+
+	&[hidden] { display: none; }
+}
+
+.pw-questions-label {
+	grid-column: 1 / -1;
+	margin: 0;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.pw-question {
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+
+	legend {
+		padding: 0;
+		margin-bottom: var(--xs);
+		font-size: var(--f-s);
+		font-weight: 700;
+		color: var(--c-text-heading);
+	}
+}
+
+.pw-answers {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	border: 1px solid var(--c-border-strong, var(--c-border));
+	border-radius: 999px;
+	overflow: hidden;
+	background: var(--c-bg-page);
+}
+
+// The input is hidden and the span fills the whole half, so the chosen half
+// can be coloured from the input with a sibling rule - :has() is missing from
+// the older Android browsers.
+.pw-answer {
+	position: relative;
+	display: flex;
+	margin: 0;
+	cursor: pointer;
+
+	+ .pw-answer { border-left: 1px solid var(--c-border-strong, var(--c-border)); }
+
+	input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	span {
+		display: grid;
+		place-items: center;
+		width: 100%;
+		min-height: 2.75rem;
+		padding: 0.3rem var(--s);
+		font-size: var(--f-s);
+		font-weight: 600;
+		line-height: 1.2;
+		text-align: center;
+		transition: background-color 0.15s, color 0.15s;
+	}
+
+	&:hover span { background: var(--c-highlight-soft); }
+	input:checked + span { color: var(--c-bg-on-accent); background: var(--c-forest); }
+	input:focus-visible + span { outline: 2px solid var(--c-highlight); outline-offset: -4px; border-radius: 999px; }
+}
+
+// Progress, and the step to do now.
+.pw-progress {
+	display: grid;
+	gap: var(--xs);
+	margin: var(--m) 0 0;
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+
+	&[hidden] { display: none; }
+}
+
+.pw-progress-text {
+	margin: 0;
+	font-size: var(--f-s);
+	font-weight: 700;
+	color: var(--c-text-heading);
+}
+
+.pw-plan.is-complete .pw-progress-text { color: var(--c-forest); }
+
+.pw-progress-track {
+	display: block;
+	height: 0.5rem;
+	overflow: hidden;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 1rem;
+}
+
+.pw-progress-fill {
+	display: block;
+	width: 0;
+	height: 100%;
+	background: var(--c-forest);
+	border-radius: 1rem;
+	transition: width 300ms ease-out;
+}
+
+.pw-next {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s);
+	margin: var(--xs) 0 0;
+	font-size: var(--f-s);
+
+	&[hidden] { display: none; }
+
+	a { font-weight: 700; }
+}
+
+.pw-next-label {
+	flex: none;
+	padding: 0.1rem 0.5rem;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-radius: 999px;
+}
+
+// --- The steps: a timeline -------------------------------------------------------------
+//
+// Numbered by a counter, so a hidden step leaves no gap. The circle sits in
+// the margin on a rail that runs between the steps.
+
+.pw-steps {
+	--pw-rail: 3rem;
+	counter-reset: pw;
+	display: grid;
+	gap: var(--m);
+	margin: var(--l) 0 0;
+	padding: 0 0 0 var(--pw-rail);
+	list-style: none;
+}
+
+article ol.pw-steps > li.pw-step { margin: 0; }
+
+.pw-step {
+	counter-increment: pw;
+	position: relative;
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	transition: border-color 0.15s, box-shadow 0.15s;
+
+	&[hidden] { display: none; }
+
+	// The number.
+	&::before {
+		content: counter(pw);
+		position: absolute;
+		z-index: 1;
+		top: var(--m);
+		left: calc(var(--pw-rail) * -1);
+		display: grid;
+		place-items: center;
+		width: 2.1rem;
+		height: 2.1rem;
+		font-family: var(--font-heading);
+		font-weight: 700;
+		font-variant-numeric: lining-nums;
+		color: var(--c-laterite);
+		background: var(--c-bg-page);
+		border: 2px solid var(--c-laterite);
+		border-radius: 50%;
+	}
+
+	// The rail to the next step.
+	&::after {
+		content: "";
+		position: absolute;
+		top: calc(var(--m) + 2.1rem);
+		bottom: calc(var(--m) * -1 - var(--m));
+		left: calc(var(--pw-rail) * -1 + 1.05rem - 1px);
+		width: 2px;
+		background: var(--c-border-strong, var(--c-border));
+	}
+
+	&:last-child::after { content: none; }
+}
+
+// The last visible step has no rail either: the next one may be hidden.
+.pw-step:not(:has(~ .pw-step:not([hidden])))::after { content: none; }
+
+.pw-step.is-next {
+	border-color: var(--c-laterite);
+	box-shadow: 0 0 0 1px var(--c-laterite), var(--shadow-card);
+
+	&::before { color: var(--c-bg-on-accent); background: var(--c-laterite); }
+}
+
+.pw-step-head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--s);
+	min-height: 2.1rem;
+
+	h3 {
+		margin: 0.25rem 0 0;
+		font-size: 1.08rem;
+		line-height: 1.3;
+	}
+}
+
+.pw-only {
+	display: inline-block;
+	margin: var(--xs) 0 0;
+	padding: 0.1rem 0.5rem;
+	font-size: var(--f-xs) !important;
+	font-weight: 700;
+	color: var(--c-laterite);
+	background: var(--c-highlight-soft);
+	border-radius: 999px;
+
+	.is-enhanced & { display: none; }
+}
+
+.pw-step > .pw-text {
+	margin: var(--xs) 0 0;
+	font-size: var(--f-s);
+	line-height: 1.55;
+}
+
+// Where, what it costs and what to bring: the part a reader acts on.
+.pw-detail {
+	margin-top: var(--s);
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	background: var(--c-bg-widget);
+	border-radius: var(--b-radius);
+}
+
+.pw-facts {
+	display: grid;
+	gap: 0.3rem;
+	margin: 0;
+
+	div { display: flex; gap: var(--s); }
+	dt { flex: none; width: 3.5rem; font-weight: 700; color: var(--c-text-light); }
+	dd { margin: 0; }
+}
+
+.pw-bring-label {
+	margin: 0;
+	font-weight: 700;
+	color: var(--c-text-light);
+
+	.pw-facts + & {
+		margin-top: var(--s);
+		padding-top: var(--s);
+		border-top: 1px dashed var(--c-border);
+	}
+}
+
+// Each thing to bring has a small box, so the list reads as one to check.
+article .pw-step ul.pw-bring {
+	display: grid;
+	gap: 0.25rem;
+	margin: 0.35rem 0 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		position: relative;
+		margin: 0;
+		padding-left: 1.5rem;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0.3em;
+			left: 0;
+			width: 0.85rem;
+			height: 0.85rem;
+			background: none;
+			border: 1.5px solid var(--c-text-light);
+			border-radius: 3px;
+		}
+	}
+}
+
+.pw-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem var(--m);
+	margin: var(--s) 0 0;
+	font-size: var(--f-s);
+	font-weight: 700;
+}
+
+// The tick: a labelled pill on a wide screen, a circle on a phone.
+.pw-tick {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	min-height: 2.4rem;
+	padding: 0 0.85rem 0 0.7rem;
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 700;
+	color: var(--c-text-light);
+	background: var(--c-bg-page);
+	border: 1.5px solid var(--c-border-strong, var(--c-border));
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+
+	&[hidden] { display: none; }
+
+	svg {
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2.4;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	&:hover { color: var(--c-forest); border-color: var(--c-forest); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+	&[aria-pressed="true"] { color: var(--c-bg-on-accent); background: var(--c-forest); border-color: var(--c-forest); }
+}
+
+// "Mark done" until it is, then "Done".
+.pw-tick-on,
+.pw-tick[aria-pressed="true"] .pw-tick-off { display: none; }
+.pw-tick[aria-pressed="true"] .pw-tick-on { display: inline; }
+
+// A done step folds to its title, its number a tick in forest.
+.pw-step.is-done {
+	padding-block: var(--s);
+	background: transparent;
+	border-style: dashed;
+
+	&::before {
+		content: "\2713";
+		top: var(--s);
+		color: var(--c-bg-on-accent);
+		background: var(--c-forest);
+		border-color: var(--c-forest);
+	}
+
+	&::after { top: calc(var(--s) + 2.1rem); background: var(--c-forest); }
+
+	h3 { color: var(--c-text-light); text-decoration: line-through; text-decoration-thickness: 1px; }
+	> :not(.pw-step-head) { display: none; }
+}
+
+// --- The foot --------------------------------------------------------------------------
+
+.pw-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--s) var(--m);
+	margin-top: var(--l);
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+}
+
+.pw-guide {
+	display: inline-flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	padding: var(--s) var(--m);
+	font-weight: 700;
+	color: var(--c-text-heading);
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+
+	&:hover { color: var(--c-laterite); border-color: var(--c-laterite); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.pw-guide-kind {
+	font-size: var(--f-xs);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.pw-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+
+	&[hidden] { display: none; }
+}
+
+.pw-action {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 2.5rem;
+	padding: 0 0.9rem;
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 700;
+	color: var(--c-text-heading);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong, var(--c-border));
+	border-radius: 999px;
+	cursor: pointer;
+
+	svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+	&:hover { color: var(--c-laterite); border-color: var(--c-laterite); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// --- A phone ---------------------------------------------------------------------------
+
+@media (max-width: 40rem) {
+	.pw-tasks { grid-template-columns: 1fr 1fr; gap: var(--xs); }
+	.pw-task {
+		flex-direction: column;
+		align-items: flex-start;
+		padding: var(--s);
+	}
+
+	.pw-current { margin-inline: calc(var(--s) * -1); }
+
+	.pw-plan-card { padding: var(--s); }
+	.pw-plan-head .icon-stamp { width: 2.5rem; height: 2.5rem; }
+	article .pw-plan-head h2 { font-size: 1.25rem; }
+
+	// The rail narrows, and the steps take the width back.
+	.pw-steps { --pw-rail: 2.4rem; gap: var(--s); }
+	.pw-step { padding: var(--s); }
+	.pw-step::before { top: var(--s); width: 1.9rem; height: 1.9rem; font-size: 0.9rem; }
+	.pw-step::after { top: calc(var(--s) + 1.9rem); bottom: calc(var(--s) * -2); left: calc(var(--pw-rail) * -1 + 0.95rem - 1px); }
+	.pw-step.is-done::after { top: calc(var(--s) + 1.9rem); }
+	.pw-detail { padding: var(--s); }
+
+	// The tick is a circle; its word is for screen readers already.
+	.pw-tick { width: 2.4rem; padding: 0; justify-content: center; }
+	.pw-tick-word { display: none; }
+
+	.pw-foot { flex-direction: column; align-items: stretch; }
+	.pw-actions .pw-action { flex: 1; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.pw-task, .pw-progress-fill, .pw-current-track span, .pw-step { transition: none; }
+	.pw-task:hover { transform: none; }
+}
+
+// Printing a plan: the chosen plan's steps that apply, with an empty box to
+// tick by hand, and nothing else.
+@media print {
+	.is-printing-plan {
+		.pw-choose, .pw-questions, .pw-actions, .pw-progress, .pw-tick,
+		.sidebar, .table-of-contents, .rating, .support-guide, .page-intro { display: none !important; }
+
+		.article-body > :not(.pw) { display: none !important; }
+		.pw-plan-card { border: 0; padding: 0; background: none; }
+		.pw-step { break-inside: avoid; border: 1px solid #999; border-style: solid; box-shadow: none; }
+		.pw-step::after { display: none; }
+		.pw-step.is-done > :not(.pw-step-head) { display: block; }
+		.pw-step.is-done h3 { text-decoration: none; color: #000; }
+		.pw-step::before, .pw-step.is-done::before { content: counter(pw); color: #000; background: none; border: 1.5px solid #000; }
+		.pw-detail { background: none; border: 1px solid #ccc; }
+	}
+}

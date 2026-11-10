@@ -1,0 +1,501 @@
+# The paperwork planner's plans: /tools/paperwork-planner.
+#
+# Every step here is taken from a guide on this site, and links back to it.
+# Nothing is in this file that its guide does not say, so when a guide
+# changes, the plan beside it changes with it. Figures are never typed:
+# {NAME} prints a constant and {NAME|shillings} prints one as an amount, and
+# ursus_config.py stops the build on a name that does not exist. Where no
+# source publishes a fee, the step says so instead of guessing one.
+#
+# A step's `id` is the key a reader's tick is saved under in their browser
+# (aan:paperwork). Rename one and readers lose that tick.
+#
+# `when` hides a step unless every question it names has that answer.
+# Questions offer two answers; the first is the default.
+
+meta:
+  last_verified: 2026-11-10
+  fail_on: 2027-05-10
+
+tasks:
+
+  - id: kra-pin
+    title: Get set up - eCitizen, a KRA PIN and ID
+    short: eCitizen and KRA PIN
+    symbol: identity
+    lead: >-
+      Most of Kenyan bureaucracy runs through one website and asks for one
+      number. Sort these first and everything else gets easier.
+    guide: guides/ecitizen-kra-pin-and-ids.md
+    questions:
+      - id: citizen
+        text: Are you a Kenyan citizen?
+        options:
+          - { value: "yes", label: "Yes" }
+          - { value: "no", label: "No, a foreign resident" }
+    steps:
+      - id: foreigner-certificate
+        when: { citizen: "no" }
+        title: Get your foreigner certificate
+        text: >-
+          Foreign nationals on a permit or pass register with the Directorate
+          of Immigration Services and receive a foreigner certificate - the ID
+          a bank, employer or landlord expects. You generally need it, or your
+          permit, before a KRA PIN.
+        links:
+          - { label: "The Class D work permit plan", href: "#plan=work-permit" }
+      - id: ecitizen
+        title: Open an eCitizen account
+        text: >-
+          At ecitizen.go.ke. Passports, driving licences, good conduct
+          certificates, land searches and many fees go through it, paid by
+          M-Pesa or card. Keep the email and phone number current: one-time
+          codes go to them.
+        bring:
+          - Your national ID or Maisha Namba, if you are a citizen
+          - Your passport or foreigner certificate, if you are not
+      - id: pin
+        title: Register for a KRA PIN on iTax
+        where: itax.kra.go.ke
+        cost: Free.
+        text: >-
+          Your tax number. Employers, banks, landlords' agents, insurers, car
+          sellers and the land registry will all ask for it.
+      - id: save-pin
+        title: Save the PIN certificate
+        text: >-
+          Registration gives you the certificate as a PDF. Keep it on your
+          phone and in the cloud - people will ask for "a copy of your PIN".
+      - id: remember-return
+        title: Put the annual return in your diary
+        text: >-
+          A PIN means filing a return every year by {TAX_RETURN_DEADLINE}, even
+          if you owe nothing.
+        links:
+          - { label: "The nil return plan", href: "#plan=nil-return" }
+
+  - id: eta
+    title: Get a Kenya eTA to visit
+    short: Kenya eTA
+    symbol: moving
+    lead: >-
+      Kenya's electronic travel authorisation replaced the visa. Apply online
+      at least a week before you fly, and only on the official site.
+    guide: guides/kenya-eta-step-by-step.md
+    steps:
+      - id: check
+        title: Check whether your passport needs one
+        text: >-
+          Most visitors do, including from Europe, North America and Asia.
+          Most African nationals do not, and East African Community citizens
+          travel freely. The list changes, so check your own passport on
+          etakenya.go.ke.
+      - id: gather
+        title: Gather what the form asks for
+        bring:
+          - A passport valid for six months from arrival, with a blank page
+          - A recent photo of your face against a plain background
+          - A scan or photo of the passport's data page
+          - Your flight, arrival date and where you are staying
+          - A card to pay with
+      - id: apply
+        title: Apply and pay on etakenya.go.ke
+        where: etakenya.go.ke - the only official site
+        cost: >-
+          US$ {ETA_FEE_USD}. If a site asks for far more, it is an agent or a
+          copycat.
+        text: Fill in your details exactly as they are in your passport.
+      - id: wait
+        title: Wait for the approval email
+        text: >-
+          Most are approved within three working days, many in one. Save the
+          approved eTA and print a copy.
+      - id: arrive
+        title: Show it at immigration
+        text: >-
+          With your passport. You may be asked for a return ticket, your
+          accommodation, and a yellow fever certificate if you come from a
+          country with yellow fever risk. An eTA allows up to 90 days, and is
+          for visits, not work.
+
+  - id: work-permit
+    title: Get a Class D work permit
+    short: Class D work permit
+    symbol: services
+    lead: >-
+      Your employer applies, but you supply most of the documents, and the
+      delays usually come from missing papers. Plan for one to three months.
+    guide: guides/class-d-work-permit.md
+    questions:
+      - id: family
+        text: Is family coming with you?
+        options:
+          - { value: "no", label: "No" }
+          - { value: "yes", label: "Yes, a spouse or children" }
+    steps:
+      - id: documents
+        title: Gather your documents for the employer
+        bring:
+          - Your passport and current immigration status
+          - A passport photo
+          - Certified academic and professional certificates
+          - Your CV
+          - Certified English translations of anything in another language
+        text: >-
+          The employer adds its cover letter, registration and tax compliance
+          certificates, the Kenyan understudy's details and proof the job was
+          advertised locally.
+      - id: apply
+        title: The employer applies on eFNS
+        where: The Foreign Nationals Services portal, on eCitizen
+        cost: >-
+          A processing fee of KES {CLASS_D_PROCESSING_FEE|shillings},
+          non-refundable. Employers usually pay; check your contract.
+        text: Forms 25 and 27, with everything above.
+      - id: wait
+        title: Wait - and do not start work
+        text: >-
+          One to three months from a complete application. Working on a
+          visitor's entry is illegal.
+      - id: pay
+        title: Pay the permit fee within 30 days of approval
+        cost: KES {CLASS_D_PERMIT_FEE|shillings} for each year of the permit.
+        text: Miss the deadline and the approval can lapse.
+      - id: endorse
+        title: Have the permit endorsed in your passport
+      - id: register
+        title: Register as a foreign national
+        text: >-
+          You receive a foreigner certificate, which you need for a KRA PIN, a
+          bank account and a lease.
+        links:
+          - { label: "The eCitizen and KRA PIN plan", href: "#plan=kra-pin" }
+      - id: dependants
+        when: { family: "yes" }
+        title: Apply for dependant passes
+        text: For your spouse and children.
+        links:
+          - { label: "Dependant passes", href: /guides/dependant-passes }
+      - id: renew
+        title: Note the renewal date
+        text: >-
+          Start renewing at least three months before expiry. A new employer
+          means a new permit.
+
+  - id: good-conduct
+    title: Get a certificate of good conduct
+    short: Good conduct certificate
+    symbol: accuracy
+    lead: >-
+      The police clearance employers, immigration and universities ask for.
+      Apply online, then have your fingerprints taken. It can take weeks, so
+      start as soon as you know you need one.
+    guide: guides/certificate-of-good-conduct.md
+    questions:
+      - id: abroad
+        text: Where are you?
+        options:
+          - { value: "no", label: "In Kenya" }
+          - { value: "yes", label: "Abroad" }
+    steps:
+      - id: apply
+        title: Apply on eCitizen
+        where: eCitizen - DCI, then Police Clearance Certificate
+        text: Foreign residents apply with passport and permit details.
+      - id: pay
+        title: Pay the fee
+        cost: KES {GOOD_CONDUCT_FEE|shillings}, by M-Pesa or card.
+      - id: print
+        title: Print the invoice and the C24 fingerprint form
+      - id: fingerprints
+        when: { abroad: "no" }
+        title: Have your fingerprints taken
+        where: >-
+          DCI headquarters on Kiambu Road, or a Huduma Centre that offers it,
+          such as the GPO centre in the CBD. Go early.
+        bring:
+          - The invoice and the C24 form
+          - Your original ID or passport
+        cost: Free. Do not pay anyone to "fast track" it.
+      - id: fingerprints-abroad
+        when: { abroad: "yes" }
+        title: Have fingerprints taken where you live, and send the form
+        text: >-
+          A police station or authorised fingerprinting service takes them on
+          the C24 form; send it to DCI as eCitizen instructs.
+      - id: download
+        title: Download the certificate
+        text: >-
+          When the SMS or email comes - usually two to six weeks after
+          fingerprinting. If it is stuck for many weeks, ask at DCI
+          headquarters with your invoice number.
+
+  - id: sha
+    title: Register for SHA health cover
+    short: Register for SHA
+    symbol: health
+    lead: >-
+      The Social Health Authority replaced NHIF. Registration is free, and
+      cover starts only once contributions are paid - so do it before you
+      need a hospital.
+    guide: guides/registering-for-sha.md
+    questions:
+      - id: employed
+        text: How do you earn?
+        options:
+          - { value: "yes", label: "Employed, on a payslip" }
+          - { value: "no", label: "Self-employed or informal" }
+    steps:
+      - id: ready
+        title: Have your details to hand
+        bring:
+          - Your ID, Maisha Card or foreigner certificate number
+          - The phone registered in your name, for the codes
+          - ID numbers for your spouse, birth certificate numbers for children
+      - id: register
+        title: Register by phone or online
+        where: Dial *147#, or go to afyayangu.go.ke
+        cost: Free.
+        text: >-
+          Enter your first name exactly as it is printed on your ID - a
+          spelling difference is the usual reason it fails.
+      - id: family
+        title: Add your spouse and children
+        text: >-
+          They are covered under your contribution once added, on Afya Yangu
+          or at a Huduma Centre if the online form refuses them.
+      - id: payslip
+        when: { employed: "yes" }
+        title: Check the deduction on your payslip
+        text: >-
+          {SHIF_RATE}% of gross pay, deducted by your employer - you pay
+          nothing separately. Check it reaches your SHA statement.
+      - id: means-test
+        when: { employed: "no" }
+        title: Complete the means test
+        text: >-
+          On Afya Yangu, under your profile. It sets your contribution:
+          {SHIF_RATE}% of assessed household income, at least KES
+          {SHIF_MINIMUM|shillings} a month.
+      - id: pay
+        when: { employed: "no" }
+        title: Pay in advance
+        where: SHA's M-Pesa paybill, with your ID number as the account
+        text: Keep the confirmation messages.
+      - id: status
+        title: Check your status is active
+        text: >-
+          On *147# or Afya Yangu. A hospital checks it at the front desk.
+
+  - id: nil-return
+    title: File a KRA nil return
+    short: KRA nil return
+    symbol: money
+    lead: >-
+      Everyone with a KRA PIN files every year by {TAX_RETURN_DEADLINE}, even
+      with no income. With none at all, that is a nil return, and it takes a
+      few minutes.
+    guide: guides/filing-a-kra-nil-return.md
+    steps:
+      - id: check
+        title: Make sure a nil return is the right one
+        text: >-
+          Only if you had no income at all. A salary needs the P9 return, and
+          business, freelance or rental income needs a full return. A nil
+          return with income is a false return.
+        links:
+          - { label: "Filing with a P9", href: /guides/filing-your-kra-return-with-a-p9 }
+      - id: login
+        title: Log in to iTax
+        where: itax.kra.go.ke, with your PIN or ID number
+        text: >-
+          Forgot the password? The reset goes to the email registered on your
+          PIN.
+      - id: file
+        title: File the nil return
+        text: >-
+          Returns, then File Nil Return. Choose Income Tax - Resident
+          Individual, check the period, and submit. There is nothing to pay.
+      - id: receipt
+        title: Download the acknowledgement receipt, and keep it
+      - id: obligations
+        title: Clear any obligations that are not yours
+        text: >-
+          If iTax lists VAT or turnover tax you signed up for by mistake, apply
+          to deregister them - each one needs its own returns until removed.
+
+  - id: tcc
+    title: Get a KRA tax compliance certificate
+    short: Tax compliance certificate
+    symbol: rights
+    lead: >-
+      KRA's proof that your returns are filed and your tax is paid. Free,
+      online, and often issued the same day - if your record is clean.
+    guide: guides/kra-tax-compliance-certificate.md
+    steps:
+      - id: returns
+        title: Make sure every return is filed
+        text: >-
+          On every obligation on your PIN, including nil returns and any VAT
+          or turnover tax obligation you did not know you had.
+        links:
+          - { label: "The nil return plan", href: "#plan=nil-return" }
+      - id: ledger
+        title: Clear any balance on your ledger
+        text: >-
+          Small penalties from an old late return are a common cause of
+          refusal. Pay them, or apply for a waiver with your reasons.
+      - id: apply
+        title: Apply on iTax
+        where: itax.kra.go.ke - Certificates, then Apply for TCC
+        cost: Free.
+        text: Give the reason you need it, and submit.
+      - id: download
+        title: Download it
+        text: >-
+          It is emailed and on iTax, valid for twelve months. If it is
+          refused, iTax says why: fix that and apply again.
+
+  - id: passport
+    title: Get or renew a Kenyan passport
+    short: Kenyan passport
+    symbol: moving
+    lead: >-
+      Apply on eCitizen, then go in person for your photo and fingerprints.
+      The same steps work for a first passport and a renewal.
+    guide: guides/applying-for-a-kenyan-passport.md
+    questions:
+      - id: renewal
+        text: Is this a first passport or a renewal?
+        options:
+          - { value: "no", label: "A first passport" }
+          - { value: "yes", label: "A renewal" }
+      - id: lost
+        text: Was a previous passport lost or stolen?
+        options:
+          - { value: "no", label: "No" }
+          - { value: "yes", label: "Yes" }
+    steps:
+      - id: abstract
+        when: { lost: "yes" }
+        title: Get a police abstract for the lost passport
+        links:
+          - { label: "Reporting lost documents", href: /guides/reporting-a-crime-and-lost-documents }
+      - id: documents
+        title: Scan your documents
+        bring:
+          - National ID or Maisha Card, both sides
+          - Birth certificate
+          - A recent passport photo on a white background
+          - A recommender's details and ID
+          - Your parents' IDs or death certificates, where the form asks
+      - id: old-passport
+        when: { renewal: "yes" }
+        title: Add your current or old passport
+      - id: apply
+        title: Apply and pay on eCitizen
+        where: Department of Immigration Services, then Passports
+        cost: >-
+          KES {PASSPORT_FEE|shillings} for the 66-page passport, the only one
+          offered at the time of writing. The eCitizen invoice is what counts.
+      - id: biometrics
+        title: Go to your appointment for photo and fingerprints
+        where: >-
+          Nyayo House, at Kenyatta Avenue and Uhuru Highway, or a Huduma
+          Centre that offers passports. Arrive early.
+        bring:
+          - The originals of everything you uploaded
+          - The printed application
+        text: Staff inside answer questions for free - ignore the "helpers" outside.
+      - id: collect
+        title: Collect it when the SMS comes
+        text: >-
+          Often two to four weeks. Bring your ID, and the old passport if
+          renewing. Book no non-refundable travel until it is in your hand.
+
+  - id: birth-certificate
+    title: Get a birth certificate
+    short: Birth certificate
+    symbol: education
+    lead: >-
+      Needed for a passport, school, exams, SHA and later an ID. Registering
+      within six months of the birth is the simple route.
+    guide: guides/getting-a-birth-certificate.md
+    questions:
+      - id: late
+        text: Was the birth registered within six months?
+        options:
+          - { value: "no", label: "Yes, or it is a new baby" }
+          - { value: "yes", label: "No, it is late" }
+    steps:
+      - id: notification
+        title: Get the birth notification
+        text: >-
+          A hospital gives you one and notifies the registry. For a birth at
+          home, report it to the local civil registration office or assistant
+          chief.
+      - id: late-papers
+        when: { late: "yes" }
+        title: Gather proof of the birth
+        bring:
+          - A clinic card or baptism card
+          - School records
+          - Affidavits, where asked
+        text: Late registration takes longer - do it before a passport or school place is needed.
+      - id: apply
+        title: Apply on eCitizen
+        where: Civil Registration Services
+        text: >-
+          Enter the notification number and the parents' details, upload the
+          documents asked for, and pay the fee shown.
+      - id: collect
+        title: Collect the certificate when the SMS comes
+        where: The registration office or Huduma Centre you chose
+      - id: embassy
+        title: If the parents are foreign, register with your embassy too
+        text: >-
+          The Kenyan certificate records the birth; citizenship follows the
+          parents' nationality laws.
+
+  - id: driving-licence
+    title: Get a Kenyan driving licence
+    short: Driving licence
+    symbol: transport
+    lead: >-
+      NTSA issues a smart licence card through eCitizen. Learning from scratch
+      and converting a foreign licence are different routes.
+    guide: guides/getting-a-kenyan-driving-licence.md
+    questions:
+      - id: convert
+        text: Do you already hold a foreign licence?
+        options:
+          - { value: "no", label: "No, I am learning" }
+          - { value: "yes", label: "Yes, I want to convert it" }
+    steps:
+      - id: school
+        when: { convert: "no" }
+        title: Enrol at a registered driving school
+        text: NTSA requires it; there is no route to a licence without one.
+      - id: provisional
+        when: { convert: "no" }
+        title: Get a provisional licence
+        where: Your NTSA account on eCitizen
+      - id: test
+        when: { convert: "no" }
+        title: Take the theory and practical tests
+        text: Booked through the school.
+      - id: convert-papers
+        when: { convert: "yes" }
+        title: Gather the conversion papers
+        bring:
+          - Your passport with your permit or pass
+          - Your valid foreign licence
+          - A letter confirming the licence from your embassy or its issuer
+        text: >-
+          Expected if you stay longer than about 90 days. Ask NTSA whether
+          your country's licence converts without a test.
+      - id: apply
+        title: Apply for the smart licence on eCitizen, and pay
+      - id: biometrics
+        title: Go to the NTSA office for photo and fingerprints
+        text: The card usually takes a few weeks.
