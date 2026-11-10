@@ -780,3 +780,300 @@ a.now-link {
 @media (prefers-reduced-motion: reduce) {
 	.now-link { transition: none; }
 }
+
+// --- Start here (2026-11) -------------------------------------------------------------
+//
+// A path, not a grid: two stages, numbered in the order they unblock each
+// other, joined by a line on a wide screen and by a rail on a phone. Each step
+// can be ticked off (start-here.mjs, this device only), and the bar in the
+// head says how far along the reader is.
+
+.start-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: var(--m) var(--xl);
+
+	h2 { margin: 0; }
+	.page-intro { margin: var(--s) 0 0; }
+}
+
+.start-progress {
+	display: grid;
+	gap: 0.4rem;
+	width: 15rem;
+	max-width: 100%;
+	font-size: var(--f-s);
+	font-weight: 700;
+	color: var(--c-text-heading);
+}
+
+.start-progress-track {
+	display: block;
+	height: 0.45rem;
+	overflow: hidden;
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: 1rem;
+}
+
+.start-progress-fill {
+	display: block;
+	width: 0;
+	height: 100%;
+	background: var(--c-forest);
+	border-radius: 1rem;
+	transition: width 300ms ease-out;
+}
+
+.start-stage { margin-top: var(--xl); }
+
+.start-stage-title {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.2rem 0.6rem;
+	margin: 0 0 var(--m);
+	font-family: var(--font-body);
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-laterite);
+
+	span {
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+		font-size: var(--f-s);
+		color: var(--c-text-light);
+	}
+}
+
+.start-stage-then .start-stage-title { color: var(--c-text-light); }
+
+.start-steps {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--m);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+// The line that joins the first four, behind the cards: it shows in the gaps.
+.start-stage-first .start-steps::before {
+	content: "";
+	position: absolute;
+	top: calc(var(--l) + 1.125rem);
+	left: var(--l);
+	right: var(--l);
+	border-top: 2px dashed color-mix(in srgb, var(--c-laterite) 45%, transparent);
+}
+
+.start-step {
+	position: relative;
+	margin: 0;
+	min-width: 0;
+}
+
+.start-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--s);
+	height: 100%;
+	padding: var(--l);
+	color: inherit;
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	transition: border-color 160ms ease-out, transform 160ms ease-out, box-shadow 160ms ease-out;
+
+	&:hover {
+		border-color: var(--c-laterite);
+		transform: translateY(-2px);
+		box-shadow: 0 2px 4px #0000000f, 0 16px 32px -18px #0000004d;
+	}
+	&:hover .start-go { transform: translateX(3px); color: var(--c-laterite); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+	.icon-stamp {
+		position: absolute;
+		top: var(--l);
+		right: var(--l);
+		opacity: 0.85;
+	}
+}
+
+.start-num {
+	display: grid;
+	place-items: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	font-family: var(--font-heading);
+	font-size: 1.05rem;
+	font-weight: 700;
+	font-variant-numeric: lining-nums;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border-radius: 50%;
+	box-shadow: 0 0 0 4px var(--c-bg-page);
+}
+
+.start-stage-then .start-num {
+	color: var(--c-laterite);
+	background: var(--c-bg-page);
+	border: 2px solid color-mix(in srgb, var(--c-laterite) 55%, transparent);
+}
+
+.start-card-text {
+	display: grid;
+	gap: 0.25rem;
+	margin-top: var(--xs);
+
+	strong {
+		font-family: var(--font-heading);
+		font-size: 1.08rem;
+		line-height: 1.25;
+		color: var(--c-text-heading);
+	}
+
+	span {
+		font-size: var(--f-s);
+		line-height: 1.45;
+		color: var(--c-text-light);
+	}
+}
+
+.start-go {
+	margin-top: auto;
+	padding-top: var(--xs);
+	font-weight: 700;
+	color: var(--c-text-light);
+	transition: transform 160ms ease-out, color 160ms ease-out;
+}
+
+// The tick: in the card's bottom corner, opposite the arrow.
+.start-check {
+	position: absolute;
+	right: var(--m);
+	bottom: var(--m);
+	display: grid;
+	place-items: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	padding: 0;
+	color: var(--c-text-light);
+	background: var(--c-bg-page);
+	border: 1.5px solid var(--c-border-strong);
+	border-radius: 50%;
+	cursor: pointer;
+	transition: background-color 160ms, border-color 160ms, color 160ms;
+
+	svg {
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2.4;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	&:hover { border-color: var(--c-forest); color: var(--c-forest); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+	&[aria-pressed="true"] { color: #fff; background: var(--c-forest); border-color: var(--c-forest); }
+}
+
+// Done: the number becomes a tick in forest, and the card steps back.
+.start-step.is-done {
+	.start-card { border-color: color-mix(in srgb, var(--c-forest) 45%, var(--c-border)); box-shadow: none; }
+	.start-num { color: transparent; background: var(--c-forest); border-color: var(--c-forest); position: relative; }
+	.start-num::after {
+		content: "";
+		position: absolute;
+		width: 0.55rem;
+		height: 0.95rem;
+		margin-top: -0.15rem;
+		border: solid #fff;
+		border-width: 0 0.18rem 0.18rem 0;
+		transform: rotate(45deg);
+	}
+	.start-card-text strong { color: var(--c-text-light); }
+	.icon-stamp { opacity: 0.4; }
+}
+
+// A tablet: two by two.
+@media (max-width: 60rem) and (min-width: 40.01rem) {
+	.start-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.start-stage-first .start-steps::before { content: none; }
+}
+
+// A phone: one column on a rail - number on the left, words beside it, the
+// tick on the right - so eight steps cost little more than eight lines.
+@media (max-width: 40rem) {
+	.start-head { align-items: stretch; }
+	.start-progress { width: 100%; }
+	.start-stage { margin-top: var(--l); }
+
+	.start-steps {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--s);
+	}
+
+	.start-stage-first .start-steps::before {
+		top: 1.5rem;
+		bottom: 1.5rem;
+		left: calc(var(--m) + 1.05rem);
+		right: auto;
+		border-top: 0;
+		border-left: 2px dashed color-mix(in srgb, var(--c-laterite) 45%, transparent);
+	}
+
+	.start-card {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: center;
+		column-gap: var(--m);
+		padding: var(--m) calc(var(--m) + 2.75rem) var(--m) var(--m);
+
+		.icon-stamp,
+		.start-go { display: none; }
+	}
+
+	.start-card-text { margin-top: 0; }
+	.start-card-text strong { font-size: 1rem; }
+
+	.start-check {
+		top: 50%;
+		bottom: auto;
+		transform: translateY(-50%);
+	}
+
+	// Done, on a phone: one tick is enough - the button's. The number stays,
+	// in forest, and the row folds to its title.
+	.start-step.is-done {
+		.start-num { color: var(--c-forest); background: var(--c-bg-page); border: 2px solid var(--c-forest); }
+		.start-num::after { content: none; }
+		.start-card-text span { display: none; }
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.start-card,
+	.start-go,
+	.start-progress-fill { transition: none; }
+	.start-card:hover { transform: none; }
+}
+
+@supports not (color: color-mix(in srgb, red, red)) {
+	.start-stage-first .start-steps::before { border-color: var(--c-border-strong); }
+	.start-stage-then .start-num { border-color: var(--c-laterite); }
+	.start-step.is-done .start-card { border-color: var(--c-forest); }
+}
+

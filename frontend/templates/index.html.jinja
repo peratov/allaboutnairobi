@@ -68,71 +68,61 @@
 
 		{% include "_blocks/homeExplore.html" %}
 
-		<article class="section">
-			<h2 id="start-here">Start here</h2>
-			<p class="page-intro">
-				The things that block everything else. Until these are done, you cannot
-				open a bank account, sign a lease or get paid properly.
-			</p>
+		{#
+			Start here: a route, not a grid. The first four in order - each
+			unlocks the next - then four for once you are settled. Each can be
+			ticked off (start-here.mjs, this device only). Several open a plan in
+			the paperwork planner or a tool rather than a guide, because that is
+			where the reader does the thing.
+		#}
+		{% set start_steps = [
+			{'stage': 'first', 'slug': 'arrive', 'href': '/guides/moving-to-nairobi', 'icon': 'moving', 'title': 'Arrive legally', 'text': 'The eTA or a work permit, and what to sort in your first fortnight.'},
+			{'stage': 'first', 'slug': 'kra-pin', 'href': '/tools/paperwork-planner#plan=kra-pin', 'icon': 'identity', 'title': 'Get eCitizen and a KRA PIN', 'text': 'The website and the number almost everything else asks for.'},
+			{'stage': 'first', 'slug': 'mpesa', 'href': '/guides/mpesa-and-mobile-money', 'icon': 'money', 'title': 'Set up M-Pesa', 'text': 'Rent, bills, shops and matatus all run on it. And the scams to avoid.'},
+			{'stage': 'first', 'slug': 'housing', 'href': '/tools/neighbourhood-comparer', 'icon': 'housing', 'title': 'Choose where to live', 'text': 'Compare neighbourhoods on rent, the commute and the census, then find the flat.'},
+			{'stage': 'then', 'slug': 'sha', 'href': '/tools/paperwork-planner#plan=sha', 'icon': 'health', 'title': 'Register for SHA', 'text': 'Free to join, but cover starts only once you are paid up.'},
+			{'stage': 'then', 'slug': 'payslip', 'href': '/tools/salary-calculator', 'icon': 'accuracy', 'title': 'Check your payslip', 'text': 'Work out PAYE, NSSF, SHIF and the Housing Levy on any salary.'},
+			{'stage': 'then', 'slug': 'swahili', 'href': '/tools/phrasebook', 'icon': 'culture', 'title': 'Learn some Swahili', 'text': 'Greetings, matatus, the market - and why saa moja means 7am.'},
+			{'stage': 'then', 'slug': 'moving', 'href': '/guides/getting-around-nairobi', 'icon': 'transport', 'title': 'Learn to get around', 'text': 'Matatus, ride-hailing, boda bodas, the Expressway and the SGR.'},
+		] %}
+		<article class="section start-here" aria-labelledby="start-here" data-start-here>
+			<div class="start-head">
+				<div>
+					<h2 id="start-here">Start here</h2>
+					<p class="page-intro">
+						The things that block everything else. Until these are done, you cannot
+						open a bank account, sign a lease or get paid properly.
+					</p>
+				</div>
+				<div class="start-progress" data-start-progress hidden>
+					<span class="start-progress-text" data-start-count aria-live="polite">0 of {{ start_steps|length }} done</span>
+					<span class="start-progress-track" aria-hidden="true"><span class="start-progress-fill" data-start-fill></span></span>
+				</div>
+			</div>
 
-			<ul class="card-grid">
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/moving-to-nairobi">
-						<span class="icon-stamp">{% include "_icons/moving.svg" %}</span>
-						<h3>Arrive legally</h3>
-						<p>The eTA, work permits, and what to sort in your first fortnight.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/ecitizen-kra-pin-and-ids">
-						<span class="icon-stamp">{% include "_icons/identity.svg" %}</span>
-						<h3>Get a KRA PIN</h3>
-						<p>eCitizen, your PIN and your ID: the numbers everything asks for.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/neighbourhoods-of-nairobi">
-						<span class="icon-stamp">{% include "_icons/housing.svg" %}</span>
-						<h3>Choose where to live</h3>
-						<p>Pick the neighbourhood by your commute, then the flat. With the map.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/mpesa-and-mobile-money">
-						<span class="icon-stamp">{% include "_icons/money.svg" %}</span>
-						<h3>Set up M-Pesa</h3>
-						<p>Rent, bills, shops and matatus all run on it. And the scams to avoid.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/getting-around-nairobi">
-						<span class="icon-stamp">{% include "_icons/transport.svg" %}</span>
-						<h3>Learn to move</h3>
-						<p>Matatus, ride-hailing, boda bodas, the Expressway and the SGR.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/healthcare-in-nairobi">
-						<span class="icon-stamp">{% include "_icons/health.svg" %}</span>
-						<h3>Get health cover</h3>
-						<p>SHA and SHIF, private insurance, hospitals and emergencies.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/tools/salary-calculator">
-						<span class="icon-stamp">{% include "_icons/accuracy.svg" %}</span>
-						<h3>Check your payslip</h3>
-						<p>Work out PAYE, NSSF, SHIF and the Housing Levy on any salary.</p>
-					</a>
-				</li>
-				<li>
-					<a class="card" href="{{ SITE_URL }}/guides/things-to-do-in-nairobi">
-						<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
-						<h3>Explore the city</h3>
-						<p>Lions by the skyline, forests, museums, and trips out of town.</p>
-					</a>
-				</li>
-			</ul>
+			{% for stage, label, note in [('first', 'Your first weeks', 'In this order: each one unlocks the next.'), ('then', 'Once you are settled', 'When you have a minute, in any order.')] %}
+				<div class="start-stage start-stage-{{ stage }}">
+					<h3 class="start-stage-title">{{ label }} <span>{{ note }}</span></h3>
+					<ol class="start-steps" start="{{ 1 if stage == 'first' else 5 }}">
+						{% for step in start_steps if step.stage == stage %}
+							<li class="start-step" data-step="{{ step.slug }}">
+								<a class="start-card" href="{{ SITE_URL }}{{ step.href }}">
+									<span class="start-num" aria-hidden="true">{{ loop.index + (0 if stage == 'first' else 4) }}</span>
+									<span class="icon-stamp">{% include "_icons/" ~ step.icon ~ ".svg" %}</span>
+									<span class="start-card-text">
+										<strong>{{ step.title }}</strong>
+										<span>{{ step.text }}</span>
+									</span>
+									<span class="start-go" aria-hidden="true">&#10142;</span>
+								</a>
+								<button type="button" class="start-check" aria-pressed="false" aria-label="{{ step.title }}: mark as done" data-start-check hidden>
+									<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 10.5l3.2 3.2L15 6.8"/></svg>
+								</button>
+							</li>
+						{% endfor %}
+					</ol>
+				</div>
+			{% endfor %}
 		</article>
 
 		{% if upcoming %}
