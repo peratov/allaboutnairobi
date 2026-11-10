@@ -1,5 +1,5 @@
 ---
-title: Turnover tax vs income tax - which is cheaper for your business?
+title: Turnover tax vs income tax in Kenya - which is cheaper?
 short_title: Turnover tax vs income tax
 description: How Kenya's turnover tax compares with ordinary income tax for small businesses and sole traders, with worked examples, and how to switch between them.
 date_created: 2026-09-28

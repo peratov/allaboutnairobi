@@ -43,6 +43,7 @@
 {% if 'guide-index' in styles %}@import "css/components/guide-index";{% endif %}
 {% if 'flight-map' in styles %}@import "css/components/flight-map";{% endif %}
 {% if 'radio' in styles %}@import "css/components/radio";{% endif %}
+{% if 'compare' in styles %}@import "css/components/compare";{% endif %}
 {% if 'rating' in styles %}@import "css/components/rating";{% endif %}
 {% if 'home' in styles %}@import "css/components/home";{% endif %}
 {% if 'lostfound' in styles %}@import "css/components/lostfound";{% endif %}

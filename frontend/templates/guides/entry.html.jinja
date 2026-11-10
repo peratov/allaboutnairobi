@@ -7,6 +7,7 @@
 {% set page_styles = ['rating'] %}
 {% if '% tool "' in entry.body %}{% set page_styles = page_styles + ['tools'] %}{% endif %}
 {% if (entry.tool|default('')|string).startswith('afcon-') %}{% set page_styles = page_styles + ['afcon'] %}{% endif %}
+{% if 'neighbourhoodComparer' in entry.body %}{% set page_styles = page_styles + ['compare'] %}{% endif %}
 {% if NEWSLETTER_LIVE %}{% set page_styles = page_styles + ['subscribe'] %}{% endif %}
 {% set metatitle = entry.title %}
 {% set metadescription = entry.description %}
@@ -65,11 +66,41 @@
 		"inLanguage": "en-KE",
 		"url": "{{ canonical_url }}",
 		{% if entry.date_created|default %}"datePublished": "{{ entry.date_created.strftime('%Y-%m-%d') }}",{% endif %}
-		{% if entry.date_updated|default %}"dateModified": "{{ entry.date_updated.strftime('%Y-%m-%d') }}",{% endif %}
+		{% set _modified = entry.date_updated|default(entry.date_created|default(none)) %}
+		{% if _modified %}"dateModified": "{{ _modified.strftime('%Y-%m-%d') }}",{% endif %}
+		"author": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
 		"publisher": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
+		"image": "{{ CANONICAL_ORIGIN }}/staticimages/og-image.png",
 		"isPartOf": { "@id": "{{ CANONICAL_ORIGIN }}/#site" },
 		"mainEntityOfPage": { "@type": "WebPage", "@id": "{{ canonical_url }}" },
-		"about": { "@type": "Place", "name": "Nairobi, Kenya" }
+		{#- Named entities, so search engines tie every page to the city and the
+		    country rather than to the words alone. -#}
+		"about": {
+			"@type": "City",
+			"name": "Nairobi",
+			"sameAs": "https://www.wikidata.org/wiki/Q3870",
+			"containedInPlace": { "@type": "Country", "name": "Kenya", "sameAs": "https://www.wikidata.org/wiki/Q114" }
+		}
 	}
 	</script>
+	{% if entry.tool|default or 'neighbourhoodComparer' in entry.body %}
+	{#- A tool is also a free web application. -#}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		"name": {{ entry.short_title|default(entry.title)|tojson }},
+		"description": {{ entry.description|tojson }},
+		"url": "{{ canonical_url }}",
+		"applicationCategory": "{{ 'FinanceApplication' if (entry.tool|default('')|string) not in ('', 'afcon-matchday-planner') else 'UtilitiesApplication' }}",
+		"operatingSystem": "Any",
+		"browserRequirements": "Requires JavaScript",
+		"inLanguage": "en-KE",
+		"isAccessibleForFree": true,
+		"offers": { "@type": "Offer", "price": "0", "priceCurrency": "KES" },
+		"publisher": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
+		"areaServed": { "@type": "Country", "name": "Kenya" }
+	}
+	</script>
+	{% endif %}
 {% endblock %}

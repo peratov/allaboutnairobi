@@ -277,4 +277,28 @@
 		import '/js/components/data-dashboard.mjs';
 	{% endqueueJs %}
 	{{ super() }}
+	{#- For Google Dataset Search: the series this page charts, as one dataset
+	    with its sources, licence and the file it downloads from. -#}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Dataset",
+		"name": "Nairobi and Kenya in numbers",
+		"description": {{ ("Population, census counts from 1969 to 2019, Gross County Product, the economy, education and daily life for Nairobi City County and Kenya, " ~ INDICATORS.series|length ~ " series charted over sixty years. Nairobi figures and national figures are kept apart and labelled.")|tojson }},
+		"url": "{{ CANONICAL_ORIGIN }}/data",
+		"inLanguage": "en-KE",
+		"keywords": ["Nairobi population", "Nairobi census", "Kenya census 2019", "Kenya GDP", "Nairobi Gross County Product", "Kenya statistics"],
+		"isAccessibleForFree": true,
+		"creator": { "@id": "{{ CANONICAL_ORIGIN }}/#organization" },
+		"dateModified": "{{ INDICATORS.meta.generated }}",
+		"temporalCoverage": "1960/{{ now.year }}",
+		"spatialCoverage": {
+			"@type": "Place",
+			"name": "Nairobi, Kenya",
+			"sameAs": "https://www.wikidata.org/wiki/Q3870",
+			"geo": { "@type": "GeoShape", "box": "-1.444 36.665 -1.161 37.105" }
+		},
+		"isBasedOn": [{% for s in INDICATORS.meta.sources %}{{ s.url|tojson }}{% if not loop.last %}, {% endif %}{% endfor %}]
+	}
+	</script>
 {% endblock %}

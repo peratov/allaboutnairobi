@@ -28,7 +28,9 @@ restaurants and taxis want shillings or [[M-Pesa]].
 
 Compare the **buying rate** (what they pay for your dollars, euros or pounds)
 with the mid-market rate on a currency site. The smaller the gap, the better.
-Ask whether there is a commission on top.
+Ask whether there is a commission on top. The
+[rate checker](/tools/rate-checker) does the sum against the live
+mid-market rate, commission included.
 
 ## Notes
 

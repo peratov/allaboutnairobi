@@ -1,5 +1,5 @@
 ---
-title: JKIA airport guide - arriving, getting to town, and departing
+title: JKIA, Nairobi airport guide - arriving, getting to town, departing
 short_title: JKIA airport guide
 description: A practical guide to Jomo Kenyatta International Airport - immigration, SIM cards and money on arrival, getting into Nairobi, departures and transit.
 date_created: 2026-09-28

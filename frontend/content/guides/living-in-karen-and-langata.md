@@ -1,5 +1,5 @@
 ---
-title: Living in Karen and Lang'ata - rents, space and commutes
+title: Living in Karen and Lang'ata, Nairobi - rents, space and commutes
 short_title: Karen and Lang'ata
 description: What it is like to live in Karen and Lang'ata - houses with big gardens, rents, schools, wildlife on the doorstep, commutes and who each area suits.
 date_created: 2026-09-28

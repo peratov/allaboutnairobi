@@ -1,5 +1,5 @@
 ---
-title: AFCON 2027 tickets and Fan ID - how to buy safely
+title: AFCON 2027 tickets and Fan ID in Kenya - how to buy safely
 short_title: AFCON tickets and Fan ID
 description: How AFCON 2027 tickets are expected to work - official CAF channels, when sales open, Fan ID, prices, resale, and the ticket scams to avoid in Nairobi.
 date_created: 2026-09-28

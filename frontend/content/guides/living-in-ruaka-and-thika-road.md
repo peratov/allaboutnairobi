@@ -1,5 +1,5 @@
 ---
-title: Living in Ruaka and along Thika Road - rents and commutes
+title: Living in Ruaka and on Thika Road near Nairobi - rents, commutes
 short_title: Ruaka and Thika Road
 description: What it is like to live in Ruaka, Kasarani, Roysambu, Ruiru and other Thika Road towns - lower rents, new apartments, commutes and trade-offs.
 date_created: 2026-09-28

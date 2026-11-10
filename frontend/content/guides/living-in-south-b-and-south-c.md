@@ -1,5 +1,5 @@
 ---
-title: Living in South B and South C - rents, commutes and daily life
+title: Living in South B and South C, Nairobi - rents and commutes
 short_title: South B and South C
 description: What it is like to live in South B, South C, Nairobi West and Madaraka - good-value rents, estates, commutes to the CBD and JKIA, and daily life.
 date_created: 2026-09-28

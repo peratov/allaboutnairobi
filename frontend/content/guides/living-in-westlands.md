@@ -1,5 +1,5 @@
 ---
-title: Living in Westlands - rents, safety, commutes and daily life
+title: Living in Westlands, Nairobi - rents, safety, commutes, daily life
 short_title: Living in Westlands
 description: What it is like to live in Westlands, Nairobi - rents, the main areas, safety, traffic, malls and nightlife - and who it suits.
 date_created: 2026-09-28

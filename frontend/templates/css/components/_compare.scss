@@ -1,0 +1,395 @@
+// --- The neighbourhood comparer (/tools/neighbourhood-comparer) ------------------------
+//
+// Without scripting: the table of every neighbourhood. With it (.is-enhanced): two
+// menus, a sentence and four verdicts, then the figures in four groups. Each
+// place has a colour and a letter - A laterite, B forest - used on its menu,
+// its column, its verdicts and its marker on every strip, with the letter
+// always there so the meaning never rests on colour.
+
+.nbc {
+	--nbc-a: var(--c-laterite);
+	--nbc-b: var(--c-forest);
+	margin-top: var(--l);
+}
+
+.nbc-key {
+	display: inline-grid;
+	flex: none;
+	place-items: center;
+	width: 1.35rem;
+	height: 1.35rem;
+	font-family: var(--font-body, inherit);
+	font-size: 0.72rem;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--c-bg-on-accent);
+	background: var(--nbc-a);
+	border-radius: 50%;
+	vertical-align: 0.1em;
+}
+
+.nbc-key-b { background: var(--nbc-b); }
+
+// --- The menus -------------------------------------------------------------------------
+
+.nbc-pick {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	align-items: end;
+	gap: var(--s);
+	padding: var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+}
+
+.nbc-field {
+	display: grid;
+	gap: var(--xs);
+	min-width: 0;
+
+	label {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		font-size: var(--f-s);
+		font-weight: 700;
+		color: var(--c-text-heading);
+	}
+
+	select {
+		width: 100%;
+		min-width: 0;
+		min-height: 3rem;
+		font-size: 1rem;
+		font-weight: 600;
+		border-inline-start: 4px solid var(--nbc-a);
+	}
+
+	&:last-child select { border-inline-start-color: var(--nbc-b); }
+}
+
+.nbc-swap {
+	display: grid;
+	place-items: center;
+	width: 3rem;
+	height: 3rem;
+	padding: 0;
+	color: var(--c-text-heading);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong, var(--c-border));
+	border-radius: 50%;
+	cursor: pointer;
+	transition: transform 160ms ease-out;
+
+	svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+	&:hover { color: var(--c-laterite); border-color: var(--c-laterite); transform: rotate(180deg); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.nbc-out:empty { display: none; }
+
+// --- At a glance -----------------------------------------------------------------------
+
+.nbc-glance {
+	margin-top: var(--l);
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+}
+
+.nbc-summary {
+	margin: 0 0 var(--m);
+	font-family: var(--font-heading);
+	font-size: 1.25rem;
+	line-height: 1.35;
+	color: var(--c-text-heading);
+
+	&:last-child { margin-bottom: 0; }
+}
+
+.nbc-verdicts {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--s);
+}
+
+.nbc-verdict {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	min-width: 0;
+	padding: var(--s);
+	background: var(--c-bg-widget);
+	border-top: 3px solid var(--c-border);
+	border-radius: var(--b-radius);
+
+	&.is-a { border-top-color: var(--nbc-a); }
+	&.is-b { border-top-color: var(--nbc-b); }
+}
+
+.nbc-verdict-label {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.nbc-verdict-name {
+	font-family: var(--font-heading);
+	font-size: 1.1rem;
+	line-height: 1.25;
+	color: var(--c-text-heading);
+	overflow-wrap: anywhere;
+
+	.is-a & { color: var(--nbc-a); }
+	.is-b & { color: var(--nbc-b); }
+}
+
+.nbc-verdict-detail { font-size: var(--f-xs); color: var(--c-text-light); }
+
+.nbc-same,
+.nbc-caveat {
+	margin: var(--s) 0;
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	background: var(--c-highlight-soft);
+	border-inline-start: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+}
+
+.nbc-same { margin-top: var(--l); }
+
+// --- The figures -----------------------------------------------------------------------
+//
+// Three columns on a wide screen - label, one place, the other - with the
+// strip and the note spanning both places. On a phone the label sits over
+// the pair, so each value has half the width, not a third.
+
+.nbc-grid { margin-top: var(--l); }
+
+.nbc-head,
+.nbc-row {
+	display: grid;
+	grid-template-columns: 11rem minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--xs) var(--m);
+	padding: var(--s) 0;
+	border-bottom: 1px solid var(--c-border);
+}
+
+.nbc-head {
+	position: sticky;
+	top: calc(var(--h-header) + var(--toc-bar-h, 0px));
+	z-index: 2;
+	padding-top: var(--s);
+	background: var(--c-bg-page);
+	border-bottom: 2px solid var(--c-border-strong, var(--c-border));
+
+	.nbc-cell-a { box-shadow: inset 0 3px 0 var(--nbc-a); padding-top: var(--s); }
+	.nbc-cell-b { box-shadow: inset 0 3px 0 var(--nbc-b); padding-top: var(--s); }
+}
+
+.nbc-name {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	font-family: var(--font-heading);
+	font-size: 1.15rem;
+	line-height: 1.25;
+	color: var(--c-text-heading);
+}
+
+.nbc-group-title {
+	padding: var(--l) 0 var(--xs);
+	font-family: var(--font-heading);
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--c-text-heading);
+	border-bottom: 1px solid var(--c-border);
+}
+
+.nbc-label { font-size: var(--f-s); font-weight: 700; color: var(--c-text-light); }
+
+.nbc-cell {
+	display: grid;
+	align-content: start;
+	gap: 0.2rem;
+	min-width: 0;
+}
+
+.nbc-value {
+	font-size: 1.1rem;
+	color: var(--c-text-heading);
+	font-variant-numeric: tabular-nums;
+}
+
+.nbc-detail { font-size: var(--f-xs); color: var(--c-text-light); }
+
+.nbc-span,
+.nbc-note { grid-column: 2 / -1; }
+
+.nbc-note {
+	margin: 0;
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+// Where both fall among the whole set: A's marker above the line, B's below, so they
+// never cover each other even when the two are level.
+.nbc-strip { padding: 1.35rem 0 0; }
+
+.nbc-track {
+	position: relative;
+	height: 4px;
+	margin: 0 0.6rem 1.35rem;
+	background:
+		repeating-linear-gradient(90deg, var(--c-border-strong, var(--c-border)) 0 1px, transparent 1px calc(100% / var(--nbc-steps, 16))),
+		var(--c-bg-widget);
+	border-radius: 2px;
+}
+
+.nbc-pin {
+	position: absolute;
+	top: 50%;
+	width: 0;
+	height: 0;
+
+	&::before {
+		content: "";
+		position: absolute;
+		left: -0.4rem;
+		top: -0.4rem;
+		width: 0.8rem;
+		height: 0.8rem;
+		background: var(--nbc-a);
+		border: 2px solid var(--c-bg-page);
+		border-radius: 50%;
+		box-shadow: 0 0 0 1px var(--nbc-a);
+	}
+
+	span {
+		position: absolute;
+		left: -0.5rem;
+		width: 1rem;
+		font-size: 0.68rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		color: var(--nbc-a);
+	}
+}
+
+.nbc-pin-a span { bottom: 0.6rem; }
+
+.nbc-pin-b {
+	&::before { background: var(--nbc-b); box-shadow: 0 0 0 1px var(--nbc-b); }
+	span { top: 0.6rem; color: var(--nbc-b); }
+}
+
+.nbc-ends {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--s);
+	font-size: 0.7rem;
+	color: var(--c-text-light);
+
+	span:nth-child(2) { opacity: 0.75; }
+}
+
+.nbc-dots {
+	display: flex;
+	gap: 0.25rem;
+
+	span {
+		width: 0.75rem;
+		height: 0.75rem;
+		border: 1.5px solid var(--c-text-light);
+		border-radius: 50%;
+
+		&.is-on { background: var(--c-text-light); }
+	}
+}
+
+.nbc-cell-a .nbc-dots span { border-color: var(--nbc-a); &.is-on { background: var(--nbc-a); } }
+.nbc-cell-b .nbc-dots span { border-color: var(--nbc-b); &.is-on { background: var(--nbc-b); } }
+
+// --- Where next ------------------------------------------------------------------------
+
+.nbc .nbc-links {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	gap: var(--s);
+	margin: var(--l) 0 0;
+	padding: 0;
+	list-style: none;
+
+	> li { margin: 0; &::before { content: none; } }
+}
+
+.nbc-link {
+	display: flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	height: 100%;
+	padding: var(--s) var(--m);
+	font-weight: 700;
+	color: var(--c-text-heading);
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--nbc-a);
+	border-radius: var(--b-radius);
+
+	&.is-b { border-inline-start-color: var(--nbc-b); }
+	&::after { content: " \2192"; }
+	&:hover { border-color: var(--c-laterite); color: var(--c-laterite); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.nbc-link-kind {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+// --- The table of every neighbourhood----------------------------------------------------
+
+.nbc-table-heading { margin-top: var(--xl); }
+.nbc-table-note { font-size: var(--f-s); color: var(--c-text-light); }
+
+@media (max-width: 50rem) {
+	.nbc-verdicts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 40rem) {
+	.nbc-pick {
+		grid-template-columns: minmax(0, 1fr) auto;
+		padding: var(--s);
+	}
+	.nbc-pick .nbc-field:last-child { grid-column: 1; }
+	.nbc-swap { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+
+	.nbc-glance { padding: var(--s); }
+	.nbc-summary { font-size: 1.05rem; }
+	.nbc-verdict { padding: var(--xs) var(--s); }
+	.nbc-verdict-name { font-size: 1rem; }
+
+	.nbc-head,
+	.nbc-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--s); }
+	.nbc-head .nbc-label { display: none; }
+	.nbc-row .nbc-label,
+	.nbc-span,
+	.nbc-note { grid-column: 1 / -1; }
+	.nbc-name { font-size: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.nbc-swap { transition: none; }
+	.nbc-swap:hover { transform: none; }
+}

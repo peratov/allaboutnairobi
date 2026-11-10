@@ -1,5 +1,5 @@
 ---
-title: How to check your NSSF statement and claim benefits
+title: How to check your NSSF statement in Kenya and claim benefits
 short_title: NSSF statement and benefits
 description: How to check your NSSF contributions online, fix missing months, pay as a self-employed member, and claim retirement and other NSSF benefits.
 date_created: 2026-09-28

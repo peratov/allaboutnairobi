@@ -10,6 +10,10 @@ Pick the area by where you will be at 8am and 6pm, then by budget. Every
 neighbourhood below is on the [map](/map); rough rents are in
 [Finding housing](/guides/finding-housing#rough-asking-rents).
 
+To weigh two against each other - rent band, distance to the CBD and JKIA,
+crowding and the 2019 census - use the
+[neighbourhood comparer](/tools/neighbourhood-comparer).
+
 ## The CBD
 
 The [Central Business District](/map#constituency/starehe) is the old city

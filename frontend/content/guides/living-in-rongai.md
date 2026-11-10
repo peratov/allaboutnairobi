@@ -1,5 +1,5 @@
 ---
-title: Living in Rongai - rents, commutes and daily life
+title: Living in Rongai near Nairobi - rents, commutes and daily life
 short_title: Living in Rongai
 description: What it is like to live in Ongata Rongai - affordable rents and houses south of Nairobi, the Magadi Road commute, water, and who it suits.
 date_created: 2026-09-28

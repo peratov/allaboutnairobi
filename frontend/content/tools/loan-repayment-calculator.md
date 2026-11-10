@@ -1,5 +1,5 @@
 ---
-title: Loan repayment calculator - reducing balance and flat rate
+title: Kenya loan repayment calculator - reducing balance and flat rate
 short_title: Loan calculator
 description: Monthly repayments and total interest on a bank, SACCO or car loan in Kenya, and what a flat rate really costs as a reducing-balance rate.
 date_created: 2026-09-23

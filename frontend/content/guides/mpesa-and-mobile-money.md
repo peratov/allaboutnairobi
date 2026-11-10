@@ -1,5 +1,5 @@
 ---
-title: M-Pesa and mobile money
+title: M-Pesa and mobile money in Kenya
 short_title: M-Pesa
 description: How to register for M-Pesa, pay bills and shops, the limits and the fees, the savings and loan products built on it, and the scams to watch for.
 date_created: 2026-09-22

@@ -1,5 +1,5 @@
 ---
-title: How to do a land search on Ardhisasa
+title: How to do a land search on Ardhisasa in Kenya
 short_title: Land search on Ardhisasa
 description: Step by step - running an official land search on Ardhisasa for Nairobi property, what the result tells you, and the red flags that should stop a sale.
 date_created: 2026-09-28

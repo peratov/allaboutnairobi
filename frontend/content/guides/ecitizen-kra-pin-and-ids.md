@@ -1,5 +1,5 @@
 ---
-title: eCitizen, KRA PIN and IDs
+title: eCitizen, KRA PIN and IDs in Kenya
 short_title: eCitizen, KRA PIN and IDs
 description: The accounts and documents almost everything else in Kenya depends on - eCitizen, a KRA PIN, a foreigner certificate, and a certificate of good conduct.
 date_created: 2026-09-22

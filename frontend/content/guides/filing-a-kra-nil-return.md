@@ -1,5 +1,5 @@
 ---
-title: How to file a KRA nil return on iTax
+title: How to file a KRA nil return on iTax in Kenya
 short_title: Filing a nil return
 description: Step by step - who should file a nil return, how to do it on iTax in five minutes, the deadline and the penalty for missing it.
 date_created: 2026-09-28

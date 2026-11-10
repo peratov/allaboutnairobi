@@ -18,6 +18,8 @@ from zoneinfo import ZoneInfo
 import yaml
 from ursus.config import config
 
+from extensions.context_processors.compare import build_compare
+from extensions.release import is_released
 from extensions.context_processors.hero_map import build_hero_map
 from extensions.functions import (
     build_wikilinks_url,
@@ -81,12 +83,13 @@ ctx["TOOL_CONSTANTS"] = {
         "OVERTIME_RATE_REST_DAY", "TURNOVER_TAX_RATE", "TURNOVER_TAX_LOWER", "TURNOVER_TAX_UPPER",
         "WHT_PROFESSIONAL_RESIDENT", "WHT_PROFESSIONAL_THRESHOLD", "WHT_PROFESSIONAL_NONRESIDENT", "VAT_REGISTRATION_THRESHOLD",
         "ETA_FEE_USD", "NNP_FEE_NONRESIDENT_USD", "NNP_FEE_CITIZEN", "MARA_FEE_LOW_USD", "MARA_FEE_PEAK_USD",
+        "REMITTANCE_COST_TARGET", "REMITTANCE_COST_CEILING",
     )
 }
 
 # Site essentials
 ctx["SITE_NAME"] = "All About Nairobi"
-ctx["SITE_TAGLINE"] = "Free guides and tools for living in Nairobi"
+ctx["SITE_TAGLINE"] = "Free guides and tools for living in Nairobi, Kenya"
 ctx["SITE_DESCRIPTION"] = (
     "Practical, sourced guides to living in Nairobi: visas, housing, tax, "
     "M-Pesa, transport, health and schools, plus an interactive map of the city."
@@ -147,6 +150,10 @@ ctx["INDICATORS"] = load_yaml("geo/indicators-summary.yaml", {"meta": {}, "serie
 # Kenya's latest. Written by scripts/fetch_census_2019.py; the map build merges
 # the sub-county rows into the map, and /map and /data print them.
 ctx["CENSUS_2019"] = load_yaml("geo/census-2019.yaml", {"meta": {}, "county": {}, "subcounties": {}})
+# The neighbourhood comparer: every neighbourhood joined to its constituency,
+# its census sub-county and its distances. See the module.
+ctx["COMPARE"] = build_compare(config.templates_path, config.content_path, is_released)
+ctx["COMPARE_JSON"] = json.dumps(ctx["COMPARE"], ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 ctx["AFCON"] = load_yaml("geo/afcon.yaml", {"meta": {}, "nairobi_venues": [], "key_dates": [], "stay_areas": []})
 # The same data with dates as ISO strings, for pages that hand it to JavaScript.
 ctx["AFCON_DATA"] = json.loads(json.dumps(ctx["AFCON"], default=str))

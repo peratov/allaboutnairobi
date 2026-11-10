@@ -1,5 +1,5 @@
 ---
-title: eTIMS for small businesses and freelancers
+title: eTIMS in Kenya for small businesses and freelancers
 short_title: eTIMS explained
 description: What KRA's eTIMS electronic invoicing system is, who must use it, the free eTIMS Lite option, and why expenses without eTIMS invoices are now disallowed.
 date_created: 2026-09-28

@@ -23,7 +23,7 @@
   title: Arriving in Nairobi
   short_title: Arriving
   symbol: moving
-  description: Entry rules, permits and the accounts and IDs everything else depends on.
+  description: Moving to Kenya - visas, the eTA, work permits, and the KRA PIN, eCitizen and ID accounts everything else in Nairobi depends on.
   entries:
     - uri: guides/moving-to-nairobi.md
     - uri: guides/your-first-weeks-in-nairobi.md
@@ -54,7 +54,7 @@
   title: Housing
   short_title: Housing
   symbol: housing
-  description: Where to live, how renting works, and keeping the power and water on.
+  description: Housing in Nairobi - where to live, rents by neighbourhood, how renting works in Kenya, and keeping the power and water on.
   entries:
     - uri: guides/neighbourhoods-of-nairobi.md
     - uri: guides/kilimani-vs-westlands-vs-lavington.md
@@ -94,7 +94,7 @@
   title: Money and work
   short_title: Money and work
   symbol: money
-  description: M-Pesa, banks, payroll deductions and what things cost.
+  description: Money in Kenya - M-Pesa, banks, PAYE and payroll deductions, saving and investing, and what things cost in Nairobi.
   entries:
     - uri: guides/mpesa-and-mobile-money.md
     - uri: guides/opening-a-bank-account.md
@@ -152,7 +152,7 @@
   title: Getting around
   short_title: Getting around
   symbol: transport
-  description: Matatus, ride-hailing, trains and driving.
+  description: Getting around Nairobi - matatus, ride-hailing, the commuter and SGR trains, driving in Kenya and getting to JKIA.
   entries:
     - uri: guides/getting-around-nairobi.md
     - uri: guides/driving-in-nairobi.md
@@ -169,7 +169,7 @@
   title: Health and safety
   short_title: Health and safety
   symbol: health
-  description: SHA, hospitals and emergencies, and the everyday habits that keep you safe.
+  description: Health and safety in Nairobi - SHA, hospitals and emergencies, and the everyday habits that keep you safe in Kenya.
   entries:
     - uri: guides/healthcare-in-nairobi.md
     - uri: guides/registering-for-sha.md
@@ -186,7 +186,7 @@
   title: Family and daily life
   short_title: Daily life
   symbol: shopping
-  description: Schools, shopping and the public holiday calendar.
+  description: Family life in Nairobi - schools and daycare, shopping, births and marriages, and Kenya's public holiday calendar.
   entries:
     - uri: guides/schools-in-nairobi.md
     - uri: guides/international-schools-in-nairobi.md
@@ -240,6 +240,7 @@
     - uri: tools/budget-planner.md
     - uri: tools/rental-income-tax-calculator.md
     - uri: tools/commute-cost-calculator.md
+    - uri: tools/rate-checker.md
     - uri: tools/savings-calculator.md
     - uri: tools/loan-repayment-calculator.md
     - uri: tools/mortgage-affordability-calculator.md

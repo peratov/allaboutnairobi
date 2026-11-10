@@ -1,5 +1,5 @@
 ---
-title: How to file your KRA return with a P9
+title: How to file your KRA return with a P9 in Kenya
 short_title: Filing with a P9
 description: Step by step for employees - getting your P9, filing the employment income return on iTax, claiming reliefs, and what to do if it says you owe tax.
 date_created: 2026-09-28

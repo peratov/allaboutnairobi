@@ -1,5 +1,5 @@
 ---
-title: The Class N digital nomad permit, step by step
+title: Kenya's Class N digital nomad permit, step by step
 short_title: Digital nomad permit
 description: How to get Kenya's Class N digital nomad permit - who qualifies, the income requirement, documents, fees, applying on eFNS, and what you cannot do on it.
 date_created: 2026-09-28

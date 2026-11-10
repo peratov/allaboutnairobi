@@ -1,5 +1,5 @@
 ---
-title: Living in Runda, Gigiri and Muthaiga - the diplomatic suburbs
+title: Living in Runda, Gigiri and Muthaiga - Nairobi's diplomatic suburbs
 short_title: Runda, Gigiri and Muthaiga
 description: What it is like to live in Runda, Gigiri, Muthaiga and Rosslyn - rents, the UN and embassies, international schools, commutes and security.
 date_created: 2026-09-28

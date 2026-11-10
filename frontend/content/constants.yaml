@@ -736,3 +736,22 @@ constants:
       KES 2,000 or 5% of the tax due, whichever is higher. Tax Procedures Act.
     last_verified: 2026-09-28
     fail_on: 2027-07-01
+
+  REMITTANCE_COST_TARGET:
+    value: 3
+    unit: percent
+    description: >-
+      The UN's target for the total cost of sending money home - fee and
+      exchange rate margin together - SDG target 10.c.
+      https://sdgs.un.org/goals/goal10
+    last_verified: 2026-11-10
+    fail_on: 2031-01-01
+
+  REMITTANCE_COST_CEILING:
+    value: 5
+    unit: percent
+    description: >-
+      The cost above which the UN wants remittance corridors eliminated, SDG
+      target 10.c. https://sdgs.un.org/goals/goal10
+    last_verified: 2026-11-10
+    fail_on: 2031-01-01

@@ -1,5 +1,5 @@
 ---
-title: Living in Syokimau, Mlolongo and Kitengela - rents and commutes
+title: Living in Syokimau, Mlolongo and Kitengela near Nairobi
 short_title: Syokimau and Kitengela
 description: What it is like to live in Syokimau, Mlolongo, Athi River and Kitengela - lower rents and more space, near JKIA and the SGR, and the commute.
 date_created: 2026-09-28

@@ -1,5 +1,5 @@
 ---
-title: The Housing Levy and Boma Yangu - how affordable housing works
+title: Kenya's Housing Levy and Boma Yangu - how affordable housing works
 short_title: Housing Levy and Boma Yangu
 description: What the Housing Levy on your payslip pays for, and how to register on Boma Yangu, save a deposit and apply for an affordable housing unit in Nairobi.
 date_created: 2026-09-28

@@ -1,5 +1,5 @@
 ---
-title: How to get a certificate of good conduct
+title: How to get a certificate of good conduct in Kenya
 short_title: Good conduct certificate
 description: Step by step - applying for a DCI certificate of good conduct on eCitizen, fingerprinting in Nairobi, how long it takes and applying from abroad.
 date_created: 2026-09-28

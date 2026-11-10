@@ -1,5 +1,5 @@
 ---
-title: How to check your CRB status and clear a negative listing
+title: How to check your CRB status in Kenya and clear a listing
 short_title: CRB status
 description: How credit reference bureaus work in Kenya - your free credit report, disputing errors, clearing a negative listing, and getting a CRB clearance certificate.
 date_created: 2026-09-28

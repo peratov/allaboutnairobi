@@ -1,5 +1,5 @@
 ---
-title: HELB - applying, repaying and getting a compliance certificate
+title: HELB loans in Kenya - applying, repaying and clearance
 short_title: HELB loans
 description: How HELB student loans work - applying, when repayment starts, penalties for missed payments, checking your balance, and getting a compliance certificate.
 date_created: 2026-09-28

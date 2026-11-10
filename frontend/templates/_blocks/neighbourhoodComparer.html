@@ -1,0 +1,65 @@
+{#
+	The neighbourhood comparer (/tools/neighbourhood-comparer). The table of
+	every neighbourhood is the page without scripting, and what a crawler reads.
+	neighbourhood-comparer.mjs draws two side by side from the same data,
+	carried in the page as JSON so there is nothing to fetch. Built in
+	extensions/context_processors/compare.py from the map's own data.
+#}
+{% set _con = {} %}{% for c in COMPARE.constituencies %}{% set _ = _con.update({c.id: c}) %}{% endfor %}
+{% set _sub = {} %}{% for s in COMPARE.subcounties %}{% set _ = _sub.update({s.id: s}) %}{% endfor %}
+<div class="nbc" data-compare>
+	<div class="nbc-pick" data-nbc-pick hidden>
+		{% for side, label in [('a', 'First place'), ('b', 'Second place')] %}
+		<div class="nbc-field">
+			<label for="nbc-{{ side }}"><span class="nbc-key nbc-key-{{ side }}" aria-hidden="true">{{ side|upper }}</span> {{ label }}</label>
+			<select id="nbc-{{ side }}" data-nbc-select="{{ side }}">
+				{% for p in COMPARE.places %}<option value="{{ p.key }}">{{ p.name }}</option>{% endfor %}
+			</select>
+		</div>
+		{% if side == 'a' %}
+		<button type="button" class="nbc-swap" data-nbc-swap aria-label="Swap the two places">
+			<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></svg>
+		</button>
+		{% endif %}
+		{% endfor %}
+	</div>
+
+	<div class="nbc-out" data-nbc-out aria-live="polite"></div>
+
+	<script type="application/json" data-nbc-data>{{ COMPARE_JSON|safe }}</script>
+
+	<h3 class="nbc-table-heading" id="every-neighbourhood">Every neighbourhood, side by side</h3>
+	<p class="nbc-table-note">Rent is an indicative band, 1 the lowest and 5 the highest. Distances are in a straight line. Renting and internet are the 2019 census for the sub-county the neighbourhood falls in.</p>
+	{# Jinja runs after Markdown, so RawTableWrapper never sees this table. #}
+	<div class="table-wrapper">
+	<table class="nbc-table">
+		<thead>
+			<tr>
+				<th scope="col">Neighbourhood</th>
+				<th scope="col">Rent band</th>
+				<th scope="col">To the CBD</th>
+				<th scope="col">To JKIA</th>
+				<th scope="col">Constituency</th>
+				<th scope="col">Census sub-county</th>
+				<th scope="col">Renting</th>
+				<th scope="col">Use the internet</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for p in COMPARE.places %}
+			{% set s = _sub[p.subcounty] %}
+			<tr>
+				<th scope="row">{% if p.guide %}<a href="{{ SITE_URL }}{{ p.guide }}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}</th>
+				<td>{% if p.rent %}{{ p.rent }} &middot; {{ COMPARE.bands[p.rent].label }}{% else %}&ndash;{% endif %}</td>
+				<td>{{ p.km.cbd }} km</td>
+				<td>{{ p.km.jkia }} km</td>
+				<td>{{ _con[p.constituency].name }}</td>
+				<td>{{ s.name }}</td>
+				<td>{{ s.rentingPct }}%</td>
+				<td>{{ s.internetPct }}%</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 ---
-title: PAYE, NSSF, SHIF and the Housing Levy
+title: PAYE, NSSF, SHIF and the Housing Levy in Kenya
 short_title: PAYE and taxes
 description: How Kenyan payroll deductions work in 2026 - PAYE bands, personal relief, NSSF, SHIF and the Housing Levy - with a worked example and filing your return.
 date_created: 2026-09-22

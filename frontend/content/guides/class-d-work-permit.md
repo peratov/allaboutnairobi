@@ -1,5 +1,5 @@
 ---
-title: The Class D work permit - documents, fees and timelines
+title: Kenya Class D work permit - documents, fees and timelines
 short_title: Class D work permit
 description: How Kenya's Class D employment permit works - who qualifies, the documents, the KES 500,000 annual fee, the understudy rule, and how long it takes.
 date_created: 2026-09-28

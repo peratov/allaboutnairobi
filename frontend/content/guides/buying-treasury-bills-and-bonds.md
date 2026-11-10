@@ -1,5 +1,5 @@
 ---
-title: How to buy Treasury bills and bonds on DhowCSD
+title: How to buy Treasury bills and bonds in Kenya on DhowCSD
 short_title: Treasury bills and bonds
 description: Step by step - opening a DhowCSD account with the Central Bank, bidding for Treasury bills and bonds, paying, and what you actually earn after tax.
 date_created: 2026-09-28

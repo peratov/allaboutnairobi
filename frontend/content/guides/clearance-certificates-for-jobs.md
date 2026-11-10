@@ -1,5 +1,5 @@
 ---
-title: Clearance certificates for jobs - KRA, HELB, CRB, DCI and EACC
+title: Clearance certificates for jobs in Kenya - KRA, HELB, CRB, DCI, EACC
 short_title: Job clearance certificates
 description: The five clearances Kenyan employers and public jobs ask for - what each one is, where to get it and how long it takes, so you are ready for an offer.
 date_created: 2026-09-28

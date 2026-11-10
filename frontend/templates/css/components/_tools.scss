@@ -609,3 +609,26 @@
 	font-weight: normal;
 	cursor: pointer;
 }
+
+// --- The rate checker (/tools/rate-checker) ----------------------------------------------
+
+rate-checker select { width: 100%; max-width: 22rem; min-height: 3rem; font-size: 1rem; }
+
+.rate-mid {
+	margin: 0 0 var(--m);
+
+	summary { min-height: 2.75rem; display: flex; align-items: center; font-size: var(--f-s); font-weight: 600; color: var(--c-laterite); cursor: pointer; }
+	.form-group { margin-top: var(--xs); }
+}
+
+.rate-verdict {
+	margin: var(--m) 0;
+	padding: var(--s) var(--m);
+	font-weight: 600;
+	background: var(--c-bg-widget);
+	border-radius: var(--b-radius);
+	border-inline-start: 4px solid var(--c-gold);
+
+	&.is-good { border-inline-start-color: var(--c-forest); }
+	&.is-over { border-inline-start-color: var(--c-laterite); }
+}

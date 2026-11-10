@@ -19,7 +19,9 @@ Every transfer has two costs:
    "zero fees" often makes its money here.
 
 To compare, ask each service: **how many shillings will arrive for the same
-amount sent?** That single number includes both costs.
+amount sent?** That single number includes both costs. The
+[rate checker](/tools/rate-checker) works out what a quote loses against
+today's mid-market rate.
 
 ## Your options
 

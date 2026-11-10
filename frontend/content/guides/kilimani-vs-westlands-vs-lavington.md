@@ -1,5 +1,5 @@
 ---
-title: Kilimani vs Westlands vs Lavington - which suits you?
+title: Kilimani vs Westlands vs Lavington - which Nairobi area suits you?
 short_title: Kilimani, Westlands or Lavington
 description: A side-by-side comparison of three of Nairobi's most popular areas - rents, space, noise, commutes and who each suits - to help you shortlist.
 date_created: 2026-09-28

@@ -1,5 +1,5 @@
 ---
-title: Senior school and Grade 10 placement explained
+title: Senior school and Grade 10 placement in Kenya explained
 short_title: Senior school and Grade 10
 description: A parent's guide to Kenya's CBE senior school - the KJSEA assessment, the three pathways, choosing subjects and schools, and how Grade 10 placement works.
 date_created: 2026-09-28

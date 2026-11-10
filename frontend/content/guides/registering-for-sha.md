@@ -1,5 +1,5 @@
 ---
-title: How to register for SHA and check your status
+title: How to register for SHA in Kenya and check your status
 short_title: Registering for SHA
 description: Step by step - registering for SHA by *147# or online, adding family, what you pay if you are self-employed, and checking you are covered.
 date_created: 2026-09-28

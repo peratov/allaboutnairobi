@@ -21,6 +21,9 @@
 		"api/prompts.mjs": {
 			"maxDuration": 10
 		},
+		"api/fx.mjs": {
+			"maxDuration": 10
+		},
 		"api/news.mjs": {
 			"maxDuration": 15
 		}

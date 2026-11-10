@@ -1,5 +1,5 @@
 ---
-title: Living in Lavington and Kileleshwa - rents, schools and daily life
+title: Living in Lavington and Kileleshwa, Nairobi - rents and schools
 short_title: Lavington and Kileleshwa
 description: What it is like to live in Lavington and Kileleshwa - rents, houses vs apartments, schools, commutes, safety and shopping - and who each suits.
 date_created: 2026-09-28

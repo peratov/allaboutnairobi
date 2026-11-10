@@ -1,5 +1,5 @@
 ---
-title: Living in Kilimani - rents, safety, commutes and daily life
+title: Living in Kilimani, Nairobi - rents, safety, commutes, daily life
 short_title: Living in Kilimani
 description: What it is like to live in Kilimani, Nairobi - rents, the best streets, safety, traffic, shopping, water and power - and who it suits.
 date_created: 2026-09-28

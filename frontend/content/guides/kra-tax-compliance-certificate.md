@@ -1,5 +1,5 @@
 ---
-title: How to get a KRA tax compliance certificate
+title: How to get a KRA tax compliance certificate in Kenya
 short_title: Tax compliance certificate
 description: Step by step - applying for a KRA tax compliance certificate on iTax, why applications are rejected, and how to check a certificate is genuine.
 date_created: 2026-09-28
