@@ -1,0 +1,256 @@
+// --- The Swahili phrasebook (/tools/phrasebook) -------------------------------------
+//
+// Without scripting: every section, every phrase. With it (.is-enhanced): a
+// filter, Swahili and Sheng or one of them, section chips that scroll sideways on a
+// phone, and a star on each phrase. data-lang on the root hides a language.
+
+.pb { margin-top: var(--l); }
+
+.pb-controls {
+	display: grid;
+	gap: var(--s);
+	margin-bottom: var(--l);
+
+	&[hidden] { display: none; }
+}
+
+// 16px or iOS zooms the page on focus.
+.pb-filter {
+	width: 100%;
+	min-height: 3rem;
+	padding: 0 var(--m);
+	font: inherit;
+	font-size: 1rem;
+	color: var(--c-text);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border-strong, var(--c-border));
+	border-radius: var(--b-radius);
+
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 1px; }
+}
+
+.pb-languages {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	max-width: 30rem;
+	border: 1px solid var(--c-border-strong, var(--c-border));
+	border-radius: var(--b-radius);
+	overflow: hidden;
+
+	button {
+		min-height: 2.75rem;
+		padding: var(--xs) var(--s);
+		font: inherit;
+		font-size: var(--f-s);
+		line-height: 1.25;
+		color: var(--c-text);
+		background: var(--c-bg-page);
+		border: 0;
+		cursor: pointer;
+
+		& + button { border-inline-start: 1px solid var(--c-border-strong, var(--c-border)); }
+		&:hover { background: var(--c-highlight-soft); }
+		&[aria-pressed="true"] { color: var(--c-bg-on-accent); background: var(--c-laterite); font-weight: 600; }
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+	}
+}
+
+// One row that wraps on a wide screen and scrolls sideways on a phone.
+.pb-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+
+	@media (max-width: 40rem) {
+		flex-wrap: nowrap;
+		margin-inline: calc(var(--m) * -1);
+		padding-inline: var(--m);
+		overflow-x: auto;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar { display: none; }
+	}
+}
+
+.pb-chip {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	gap: 0.35rem;
+	min-height: 2.5rem;
+	padding: 0 var(--s);
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text);
+	text-decoration: none;
+	white-space: nowrap;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: 999px;
+	cursor: pointer;
+
+	&:hover { border-color: var(--c-forest); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linejoin: round;
+	}
+}
+
+.pb-chip-saved[aria-pressed="true"] {
+	color: var(--c-bg-on-accent);
+	background: var(--c-forest);
+	border-color: var(--c-forest);
+
+	svg { fill: currentColor; }
+}
+
+.pb-status {
+	min-height: 1.4em;
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.pb-section {
+	margin-bottom: var(--xl, var(--l));
+
+	&[hidden] { display: none; }
+}
+
+.pb-section-title { margin-bottom: var(--xs); }
+
+.pb-intro {
+	margin: 0 0 var(--m);
+	color: var(--c-text-light);
+}
+
+// While filtering, the intros are noise between the matches.
+.pb.is-filtering .pb-intro { display: none; }
+
+// The article's own list rules would indent and bullet these.
+.pb ul.pb-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(#{"min(100%, 19rem)"}, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.pb ul.pb-list > li.pb-phrase {
+	position: relative;
+	margin: 0;
+	padding: var(--s) var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+
+	&::before { content: none; }
+	&[hidden] { display: none; }
+	&.is-saved { border-color: var(--c-gold); }
+
+	p { margin: 0; }
+}
+
+.pb.is-enhanced .pb-phrase { padding-inline-end: 3.6rem; }
+
+.pb-en {
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-light);
+}
+
+.pb-sw,
+.pb-sheng {
+	margin-top: 0.15rem !important;
+	line-height: 1.35;
+
+	strong {
+		font-size: 1.2rem;
+		color: var(--c-text-heading);
+	}
+}
+
+.pb-sheng strong { font-size: 1.05rem; }
+
+// The language tag: a small label before the phrase, so the meaning never
+// rests on colour.
+.pb-lang {
+	display: inline-block;
+	min-width: 2.2rem;
+	margin-inline-end: 0.15rem;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	vertical-align: 0.15em;
+	color: var(--c-laterite);
+}
+
+.pb-sheng .pb-lang { color: var(--c-forest); }
+
+.pb-say {
+	display: block;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+
+	em { font-style: italic; }
+}
+
+.pb-note {
+	margin-top: var(--xs) !important;
+	padding-top: var(--xs);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	border-top: 1px dashed var(--c-border);
+}
+
+.pb[data-lang="sw"] .pb-sheng { display: none; }
+.pb[data-lang="sheng"] .pb-sw { display: none; }
+
+.pb-star {
+	position: absolute;
+	top: var(--xs);
+	right: var(--xs);
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	color: var(--c-text-light);
+	background: none;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+
+	svg {
+		width: 1.35rem;
+		height: 1.35rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.8;
+		stroke-linejoin: round;
+	}
+
+	&:hover { color: var(--c-gold); background: var(--c-highlight-soft); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+	&[aria-pressed="true"] { color: var(--c-gold); }
+	&[aria-pressed="true"] svg { fill: currentColor; }
+}
+
+.pb-empty {
+	padding: var(--m);
+	text-align: center;
+	background: var(--c-bg-widget);
+	border: 1px dashed var(--c-border);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+}

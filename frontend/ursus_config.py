@@ -154,6 +154,31 @@ ctx["CENSUS_2019"] = load_yaml("geo/census-2019.yaml", {"meta": {}, "county": {}
 # its census sub-county and its distances. See the module.
 ctx["COMPARE"] = build_compare(config.templates_path, config.content_path, is_released)
 ctx["COMPARE_JSON"] = json.dumps(ctx["COMPARE"], ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+def _phrasebook():
+    """The Swahili phrasebook (/tools/phrasebook), checked as it loads."""
+    data = load_yaml("geo/phrasebook.yaml", None)
+    ids, sections = set(), set()
+    allowed = {"id", "en", "sw", "say", "sheng", "note"}
+    count = sheng = 0
+    for section in data["sections"]:
+        assert section["id"] not in sections, f"phrasebook.yaml: duplicate section {section['id']}"
+        sections.add(section["id"])
+        for phrase in section["phrases"]:
+            assert set(phrase) <= allowed, f"phrasebook.yaml: unknown field in {phrase}"
+            for key in ("id", "en", "sw", "say"):
+                assert isinstance(phrase.get(key), str) and phrase[key], f"phrasebook.yaml: {phrase} has no {key}"
+            assert phrase["id"] not in ids, f"phrasebook.yaml: duplicate phrase {phrase['id']}"
+            ids.add(phrase["id"])
+            phrase.setdefault("sheng", None)
+            phrase.setdefault("note", None)
+            count += 1
+            sheng += bool(phrase["sheng"])
+    data["count"] = count
+    data["sheng_count"] = sheng
+    return data
+
+
+ctx["PHRASEBOOK"] = _phrasebook()
 ctx["AFCON"] = load_yaml("geo/afcon.yaml", {"meta": {}, "nairobi_venues": [], "key_dates": [], "stay_areas": []})
 # The same data with dates as ISO strings, for pages that hand it to JavaScript.
 ctx["AFCON_DATA"] = json.loads(json.dumps(ctx["AFCON"], default=str))

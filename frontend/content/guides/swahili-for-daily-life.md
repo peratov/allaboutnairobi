@@ -10,6 +10,8 @@ here without Swahili. But a few words go a long way - with the
 [[mama mboga]], the conductor and the [[askari]] at the gate - and people
 notice the effort.
 
+**[The full Swahili phrasebook: matatus, markets, food, home and Swahili time, with how to say each phrase ➞](/tools/phrasebook)**
+
 ## Greetings
 
 | Swahili | Meaning | Reply |

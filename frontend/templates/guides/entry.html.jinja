@@ -8,6 +8,7 @@
 {% if '% tool "' in entry.body %}{% set page_styles = page_styles + ['tools'] %}{% endif %}
 {% if (entry.tool|default('')|string).startswith('afcon-') %}{% set page_styles = page_styles + ['afcon'] %}{% endif %}
 {% if 'neighbourhoodComparer' in entry.body %}{% set page_styles = page_styles + ['compare'] %}{% endif %}
+{% if '_blocks/phrasebook.html' in entry.body %}{% set page_styles = page_styles + ['phrasebook'] %}{% endif %}
 {% if NEWSLETTER_LIVE %}{% set page_styles = page_styles + ['subscribe'] %}{% endif %}
 {% set metatitle = entry.title %}
 {% set metadescription = entry.description %}

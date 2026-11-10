@@ -1,0 +1,49 @@
+{#
+	The Swahili phrasebook (/tools/phrasebook). Every phrase is rendered, so
+	without scripting the page is the whole book, section by section, and that
+	is what a crawler reads. phrasebook.mjs adds the filter, Swahili or Sheng
+	only, the section chips and a saved list kept on this device. Data in
+	content/geo/phrasebook.yaml, checked by _phrasebook() in ursus_config.py.
+#}
+<div class="pb" data-phrasebook>
+	<div class="pb-controls" data-pb-controls hidden>
+		<label class="visually-hidden" for="pb-filter">Find a phrase</label>
+		<input type="search" id="pb-filter" class="pb-filter" data-pb-filter placeholder="Find a phrase: thank you, how much, stop..." autocomplete="off" data-clarity-mask="true">
+
+		<div class="pb-languages" role="group" aria-label="Show">
+			<button type="button" data-pb-lang="both" aria-pressed="true">Swahili and Sheng</button>
+			<button type="button" data-pb-lang="sw" aria-pressed="false">Swahili</button>
+			<button type="button" data-pb-lang="sheng" aria-pressed="false">Sheng</button>
+		</div>
+
+		<nav class="pb-chips" aria-label="Sections">
+			<button type="button" class="pb-chip pb-chip-saved" data-pb-saved aria-pressed="false">
+				<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>
+				Saved <span data-pb-saved-count>0</span>
+			</button>
+			{% for s in PHRASEBOOK.sections %}<a class="pb-chip" href="#{{ s.id }}">{{ s.title }}</a>{% endfor %}
+		</nav>
+		<p class="pb-status" data-pb-status aria-live="polite"></p>
+	</div>
+
+	{% for s in PHRASEBOOK.sections %}
+	<section class="pb-section" id="{{ s.id }}" data-pb-section>
+		<h3 class="pb-section-title">{{ s.title }}</h3>
+		<p class="pb-intro">{{ s.intro }}</p>
+		<ul class="pb-list">
+			{% for p in s.phrases %}
+			<li class="pb-phrase" data-phrase="{{ p.id }}"{% if p.sheng %} data-has-sheng{% endif %} data-terms="{{ [p.en, p.sw, p.say, p.sheng or '', p.note or '']|join(' ')|lower }}">
+				<p class="pb-en">{{ p.en }}</p>
+				<p class="pb-sw"><span class="pb-lang">Swahili</span> <strong lang="sw">{{ p.sw }}</strong> <span class="pb-say">say <em>{{ p.say }}</em></span></p>
+				{% if p.sheng %}<p class="pb-sheng"><span class="pb-lang">Sheng</span> <strong lang="sw">{{ p.sheng }}</strong></p>{% endif %}
+				{% if p.note %}<p class="pb-note">{{ p.note }}</p>{% endif %}
+			</li>
+			{% endfor %}
+		</ul>
+	</section>
+	{% endfor %}
+
+	<p class="pb-empty" data-pb-empty hidden>
+		Nothing here matches. <a data-pb-search href="{{ SITE_URL }}/search">Search the whole site &#10142;</a>
+	</p>
+</div>

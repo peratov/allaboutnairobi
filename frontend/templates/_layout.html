@@ -336,6 +336,7 @@
 				['[data-rating-prompt]', '/js/components/guide-rating.mjs'],
 				['[data-newsletter-form], [data-newsletter-page]', '/js/components/newsletter.mjs'],
 				['[data-compare]', '/js/components/neighbourhood-comparer.mjs'],
+				['[data-phrasebook]', '/js/components/phrasebook.mjs'],
 			]) {
 				if (document.querySelector(selector)) import(module).then((loaded) => loaded.default());
 			}

@@ -1,0 +1,529 @@
+# The Swahili phrasebook (/tools/phrasebook), loaded as PHRASEBOOK and checked
+# by _phrasebook() in ursus_config.py.
+#
+# Each phrase: `id` (its storage key for the reader's saved list - never
+# rename one), `en`, `sw` (standard Swahili as spoken in Nairobi), `say` (a
+# sound guide, the stressed syllable in capitals - Swahili stresses the one
+# before last), and optionally `sheng` and a `note`.
+#
+# Sheng is Nairobi's street slang and changes fast. It is given only for
+# words that have lasted for years and that most Nairobians would recognise;
+# nothing here is this year's fashion, and a phrase with no lasting Sheng
+# form has none.
+#
+# Quote every value. A colon followed by a space, or a leading ellipsis,
+# breaks an unquoted YAML string.
+
+meta:
+  last_verified: 2026-11-10
+  fail_on: 2027-11-10
+  sources:
+    - name: "Wikivoyage, Swahili phrasebook"
+      url: "https://en.wikivoyage.org/wiki/Swahili_phrasebook"
+    - name: "Wiktionary, Swahili entries"
+      url: "https://en.wiktionary.org/wiki/Category:Swahili_language"
+
+sections:
+  - id: greetings
+    title: "Greetings"
+    intro: "Greet before you ask anything - the guard at the gate, the shopkeeper, the conductor. Kenyans greet first and get to business second, and a question with no greeting comes across as curt."
+    phrases:
+      - id: habari
+        en: "How are you? (literally: what news?)"
+        sw: "Habari?"
+        say: "hah-BAH-ree"
+        note: "The everyday greeting. The answer is almost always nzuri, fine, whatever the news really is."
+      - id: nzuri
+        en: "Fine / good"
+        sw: "Nzuri"
+        say: "n-ZOO-ree"
+        sheng: "Poa / Fiti"
+      - id: habari-asubuhi
+        en: "Good morning"
+        sw: "Habari ya asubuhi?"
+        say: "hah-BAH-ree yah ah-soo-BOO-hee"
+      - id: habari-mchana
+        en: "Good afternoon"
+        sw: "Habari ya mchana?"
+        say: "hah-BAH-ree yah m-CHAH-nah"
+      - id: habari-jioni
+        en: "Good evening"
+        sw: "Habari ya jioni?"
+        say: "hah-BAH-ree yah jee-OH-nee"
+      - id: mambo
+        en: "Hi, how's it going? (casual)"
+        sw: "Mambo?"
+        say: "MAHM-boh"
+        sheng: "Niaje? / Sasa?"
+        note: "Answer poa - cool. Use it with people your own age, not your landlord."
+      - id: hujambo
+        en: "How are you? (formal)"
+        sw: "Hujambo?"
+        say: "hoo-JAHM-boh"
+        note: "The reply is sijambo, I am well. Jambo on its own is understood, but mostly marks you as a tourist."
+      - id: shikamoo
+        en: "Respectful greeting to an elder"
+        sw: "Shikamoo"
+        say: "shee-kah-MOO"
+        note: "The elder answers marahaba. More common on the coast and in Tanzania than in Nairobi, but always taken well."
+      - id: karibu
+        en: "Welcome / come in / you're welcome"
+        sw: "Karibu"
+        say: "kah-REE-boo"
+        note: "To more than one person, karibuni. The answer is asante."
+      - id: jina-langu
+        en: "My name is ..."
+        sw: "Jina langu ni ..."
+        say: "JEE-nah LAHN-goo nee"
+      - id: unaitwa-nani
+        en: "What is your name?"
+        sw: "Unaitwa nani?"
+        say: "oo-nah-EET-wah NAH-nee"
+      - id: nimefurahi
+        en: "Pleased to meet you"
+        sw: "Nimefurahi kukujua"
+        say: "nee-meh-foo-RAH-hee koo-koo-JOO-ah"
+      - id: kwaheri
+        en: "Goodbye"
+        sw: "Kwaheri"
+        say: "kwah-HEH-ree"
+        note: "To more than one person, kwaherini. Tutaonana - see you - is what most people say."
+      - id: usiku-mwema
+        en: "Good night"
+        sw: "Usiku mwema"
+        say: "oo-SEE-koo MWEH-mah"
+
+  - id: politeness
+    title: "Please, thank you and sorry"
+    intro: "Swahili has two sorries. Pole is sympathy - for a fall, a loss, a long journey - and Kenyans say it far more than English speakers say sorry. Samahani is an apology, or excuse me."
+    phrases:
+      - id: asante
+        en: "Thank you"
+        sw: "Asante"
+        say: "ah-SAHN-teh"
+        note: "Asante sana is thank you very much; to more than one person, asanteni."
+      - id: tafadhali
+        en: "Please"
+        sw: "Tafadhali"
+        say: "tah-fah-THAH-lee"
+        note: "The dh is the th in 'this'."
+      - id: ndiyo
+        en: "Yes"
+        sw: "Ndiyo"
+        say: "n-DEE-yoh"
+      - id: hapana
+        en: "No"
+        sw: "Hapana"
+        say: "hah-PAH-nah"
+      - id: sawa
+        en: "OK, fine, agreed"
+        sw: "Sawa"
+        say: "SAH-wah"
+        note: "Sawa sawa - all good - answers almost anything."
+      - id: pole
+        en: "Sorry (sympathy)"
+        sw: "Pole"
+        say: "POH-leh"
+        note: "Pole sana for something worse. The answer is asante or nimeshapoa, I'm already better."
+      - id: samahani
+        en: "Excuse me / I apologise"
+        sw: "Samahani"
+        say: "sah-mah-HAH-nee"
+      - id: sielewi
+        en: "I don't understand"
+        sw: "Sielewi"
+        say: "see-eh-LEH-wee"
+      - id: sema-pole-pole
+        en: "Please speak slowly"
+        sw: "Tafadhali sema pole pole"
+        say: "tah-fah-THAH-lee SEH-mah POH-leh POH-leh"
+      - id: unasema-kiingereza
+        en: "Do you speak English?"
+        sw: "Unaongea Kiingereza?"
+        say: "oo-nah-ohn-GEH-ah kee-een-geh-REH-zah"
+      - id: najua-kidogo
+        en: "I know a little Swahili"
+        sw: "Najua Kiswahili kidogo"
+        say: "nah-JOO-ah kee-swah-HEE-lee kee-DOH-goh"
+      - id: hakuna-shida
+        en: "No problem"
+        sw: "Hakuna shida"
+        say: "hah-KOO-nah SHEE-dah"
+        note: "Also hakuna matata, which Kenyans do say - mostly to visitors."
+
+  - id: getting-around
+    title: "Matatus, boda-bodas and taxis"
+    intro: "Matatu conductors speak Swahili and Sheng first. Say where you are going before you get in, have small change ready, and say where to drop you a little before the stop."
+    phrases:
+      - id: unaenda
+        en: "Are you going to ...?"
+        sw: "Unaenda ...?"
+        say: "oo-nah-EN-dah"
+        note: "Say it with the place: unaenda Westlands? The conductor will shout the route anyway."
+      - id: ni-pesa-ngapi-safari
+        en: "How much is the fare?"
+        sw: "Ni pesa ngapi?"
+        say: "nee PEH-sah n-GAH-pee"
+        note: "Fares go up at rush hour and in the rain. Ask before you sit down."
+      - id: nashuka-hapa
+        en: "I'm getting off here"
+        sw: "Nashuka hapa"
+        say: "nah-SHOO-kah HAH-pah"
+      - id: shukisha
+        en: "Drop me here"
+        sw: "Nishukishe hapa"
+        say: "nee-shoo-KEE-sheh HAH-pah"
+        note: "Conductors and boda riders also understand the plain stage or hapa, here."
+      - id: simama
+        en: "Stop"
+        sw: "Simama"
+        say: "see-MAH-mah"
+      - id: kulia
+        en: "Right"
+        sw: "Kulia"
+        say: "koo-LEE-ah"
+      - id: kushoto
+        en: "Left"
+        sw: "Kushoto"
+        say: "koo-SHOH-toh"
+      - id: moja-kwa-moja
+        en: "Straight on"
+        sw: "Moja kwa moja"
+        say: "MOH-jah kwah MOH-jah"
+      - id: pole-pole-driving
+        en: "Slow down, please"
+        sw: "Pole pole, tafadhali"
+        say: "POH-leh POH-leh, tah-fah-THAH-lee"
+        note: "Worth knowing on a boda-boda. Ask for a helmet too."
+      - id: iko-wapi
+        en: "Where is ...?"
+        sw: "... iko wapi?"
+        say: "EE-koh WAH-pee"
+        note: "Stage iko wapi? - where is the stage? Most places are named in English anyway."
+      - id: karibu-na
+        en: "Is it near?"
+        sw: "Ni karibu?"
+        say: "nee kah-REE-boo"
+        note: "Karibu means near as well as welcome. Far is mbali."
+      - id: chenji
+        en: "My change, please"
+        sw: "Chenji yangu, tafadhali"
+        say: "CHEN-jee YAHN-goo"
+        note: "Chenji is the English word in Swahili spelling. Most matatus take cash, and many take M-Pesa too."
+      - id: matatu-sheng
+        en: "Matatu"
+        sw: "Matatu"
+        say: "mah-TAH-too"
+        sheng: "Mathree / Nganya"
+        note: "Nganya is a matatu done up with lights, graffiti and a sound system."
+
+  - id: shopping
+    title: "Shopping and bargaining"
+    intro: "Prices are fixed in supermarkets and malls, and open to discussion at markets, kiosks and with hawkers. Smile, offer less, and settle somewhere in between."
+    phrases:
+      - id: bei-gani
+        en: "What's the price?"
+        sw: "Bei gani?"
+        say: "BAY GAH-nee"
+        note: "Or ni pesa ngapi? - how much money?"
+      - id: ghali
+        en: "It's too expensive"
+        sw: "Ni ghali sana"
+        say: "nee GHAH-lee SAH-nah"
+        note: "The gh is a soft, throaty g."
+      - id: punguza
+        en: "Bring the price down a little"
+        sw: "Punguza kidogo"
+        say: "poon-GOO-zah kee-DOH-goh"
+      - id: bei-ya-mwisho
+        en: "What's your last price?"
+        sw: "Bei ya mwisho?"
+        say: "BAY yah MWEE-shoh"
+      - id: nitachukua
+        en: "I'll take it"
+        sw: "Nitachukua"
+        say: "nee-tah-choo-KOO-ah"
+      - id: nataka
+        en: "I want ..."
+        sw: "Nataka ..."
+        say: "nah-TAH-kah"
+        note: "Ningependa ... - I would like ... - is softer."
+      - id: sitaki
+        en: "I don't want it, thanks"
+        sw: "Sitaki, asante"
+        say: "see-TAH-kee, ah-SAHN-teh"
+      - id: mna
+        en: "Do you have ...?"
+        sw: "Mna ...?"
+        say: "m-NAH"
+        note: "Mna maji? - do you have water? Kuna ...? - is there ...? - works too."
+      - id: pesa
+        en: "Money"
+        sw: "Pesa"
+        say: "PEH-sah"
+        sheng: "Doh / Ganji"
+      - id: thao
+        en: "A thousand shillings"
+        sw: "Elfu moja"
+        say: "EL-foo MOH-jah"
+        sheng: "Thao"
+        note: "Prices are often said in English numbers too: one thousand five hundred, or one-five."
+      - id: lipa-mpesa
+        en: "Can I pay by M-Pesa?"
+        sw: "Naweza kulipa na M-Pesa?"
+        say: "nah-WEH-zah koo-LEE-pah nah em-PEH-sah"
+        note: "Then ask for the till or paybill number: namba ya till?"
+      - id: risiti
+        en: "A receipt, please"
+        sw: "Risiti, tafadhali"
+        say: "ree-SEE-tee"
+
+  - id: food
+    title: "Food and drink"
+    intro: "Most menus are in English, but the food has Swahili names, and so do the people who cook it. Nyama choma is ordered by the kilo and eaten with your hands."
+    phrases:
+      - id: chakula
+        en: "Food"
+        sw: "Chakula"
+        say: "chah-KOO-lah"
+        sheng: "Dishi"
+      - id: maji
+        en: "Water"
+        sw: "Maji"
+        say: "MAH-jee"
+        note: "Maji baridi is cold water; maji moto is hot."
+      - id: menu
+        en: "Can I see the menu?"
+        sw: "Naomba menu?"
+        say: "nah-OHM-bah MEH-noo"
+        note: "Naomba - may I have, literally I ask for - is the polite way to order anything."
+      - id: naomba
+        en: "May I have ..., please"
+        sw: "Naomba ..."
+        say: "nah-OHM-bah"
+      - id: chai
+        en: "Tea"
+        sw: "Chai"
+        say: "CHAI"
+        note: "Kenyan chai is boiled with milk and sugar. Chai ya rangi is black tea."
+      - id: kahawa
+        en: "Coffee"
+        sw: "Kahawa"
+        say: "kah-HAH-wah"
+      - id: nyama-choma
+        en: "Roast meat"
+        sw: "Nyama choma"
+        say: "NYAH-mah CHOH-mah"
+        note: "Mbuzi is goat, ng'ombe is beef, kuku is chicken. Ask for it with kachumbari, a tomato and onion salad."
+      - id: sitaki-pilipili
+        en: "Not spicy, please"
+        sw: "Bila pilipili, tafadhali"
+        say: "BEE-lah pee-lee-PEE-lee"
+        note: "Bila means without: bila sukari, without sugar."
+      - id: ni-tamu
+        en: "It's delicious"
+        sw: "Ni tamu sana"
+        say: "nee TAH-moo SAH-nah"
+      - id: nimeshiba
+        en: "I'm full"
+        sw: "Nimeshiba"
+        say: "nee-meh-SHEE-bah"
+      - id: bill
+        en: "The bill, please"
+        sw: "Naomba bill"
+        say: "nah-OHM-bah bill"
+        note: "Hesabu is the Swahili word; bill is what most waiters say."
+      - id: choo
+        en: "Where is the toilet?"
+        sw: "Choo iko wapi?"
+        say: "CHOH EE-koh WAH-pee"
+        note: "Washroom is the word most Nairobians use in English."
+
+  - id: at-home
+    title: "At home"
+    intro: "The people who keep a Nairobi home running - the askari at the gate, the fundi, the mama mboga who brings vegetables to the door - may speak more Swahili than English."
+    phrases:
+      - id: fungua-geti
+        en: "Please open the gate"
+        sw: "Fungua geti, tafadhali"
+        say: "foon-GOO-ah GEH-tee"
+      - id: nina-mgeni
+        en: "I'm expecting a visitor"
+        sw: "Nina mgeni"
+        say: "NEE-nah m-GEH-nee"
+        note: "Tell the askari the name, and whether to let them up or call you first."
+      - id: stima-imeenda
+        en: "The power has gone"
+        sw: "Stima imeenda"
+        say: "STEE-mah ee-meh-EN-dah"
+        note: "Stima is electricity. When it comes back: stima imerudi."
+      - id: hakuna-maji
+        en: "There's no water"
+        sw: "Hakuna maji"
+        say: "hah-KOO-nah MAH-jee"
+      - id: imeharibika
+        en: "It's broken"
+        sw: "Imeharibika"
+        say: "ee-meh-hah-ree-BEE-kah"
+        note: "For the fundi: bomba imeharibika, the tap or pipe is broken."
+      - id: utakuja-lini
+        en: "When will you come?"
+        sw: "Utakuja lini?"
+        say: "oo-tah-KOO-jah LEE-nee"
+      - id: itagharimu
+        en: "How much will it cost?"
+        sw: "Itagharimu pesa ngapi?"
+        say: "ee-tah-ghah-REE-moo PEH-sah n-GAH-pee"
+        note: "Agree the price before the work starts, and whether it includes materials."
+      - id: safisha
+        en: "Please clean ..."
+        sw: "Tafadhali safisha ..."
+        say: "sah-FEE-shah"
+      - id: nyumba
+        en: "House / home"
+        sw: "Nyumba"
+        say: "NYOOM-bah"
+        sheng: "Keja / Base"
+      - id: upcountry
+        en: "The rural home"
+        sw: "Nyumbani"
+        say: "nyoom-BAH-nee"
+        sheng: "Ushago / Shags"
+        note: "Where people go at Christmas and Easter, and why Nairobi is quiet then."
+
+  - id: numbers
+    title: "Numbers"
+    intro: "Swahili numbers are regular: learn one to ten, then tens, hundreds and thousands, and join them with na, and. Many prices are said in English anyway."
+    phrases:
+      - id: one-to-five
+        en: "1, 2, 3, 4, 5"
+        sw: "Moja, mbili, tatu, nne, tano"
+        say: "MOH-jah, m-BEE-lee, TAH-too, n-neh, TAH-noh"
+      - id: six-to-ten
+        en: "6, 7, 8, 9, 10"
+        sw: "Sita, saba, nane, tisa, kumi"
+        say: "SEE-tah, SAH-bah, NAH-neh, TEE-sah, KOO-mee"
+      - id: eleven
+        en: "11, 12, 15"
+        sw: "Kumi na moja, kumi na mbili, kumi na tano"
+        say: "KOO-mee nah MOH-jah"
+      - id: tens
+        en: "20, 30, 40, 50"
+        sw: "Ishirini, thelathini, arobaini, hamsini"
+        say: "ee-shee-REE-nee, theh-lah-THEE-nee, ah-roh-BAH-ee-nee, hahm-SEE-nee"
+      - id: more-tens
+        en: "60, 70, 80, 90"
+        sw: "Sitini, sabini, themanini, tisini"
+        say: "see-TEE-nee, sah-BEE-nee, theh-mah-NEE-nee, tee-SEE-nee"
+      - id: hundred
+        en: "100, 200, 500"
+        sw: "Mia moja, mia mbili, mia tano"
+        say: "MEE-ah MOH-jah"
+        sheng: "Soo (100)"
+      - id: thousand
+        en: "1,000, 1,500, 2,000"
+        sw: "Elfu moja, elfu moja mia tano, elfu mbili"
+        say: "EL-foo MOH-jah"
+      - id: half
+        en: "Half"
+        sw: "Nusu"
+        say: "NOO-soo"
+        note: "Nusu kilo - half a kilo - at the butcher or the nyama choma grill."
+
+  - id: time
+    title: "Time, and Swahili time"
+    intro: "Swahili counts the hours from dawn and dusk, not from midnight and noon. Saa moja - hour one - is 7am, the first hour of daylight. Subtract six from the clock, and when somebody gives you a time in Swahili, check which they mean."
+    phrases:
+      - id: saa-ngapi
+        en: "What time is it?"
+        sw: "Ni saa ngapi?"
+        say: "nee SAH-ah n-GAH-pee"
+      - id: saa-moja
+        en: "7 o'clock (morning or evening)"
+        sw: "Saa moja"
+        say: "SAH-ah MOH-jah"
+        note: "Saa moja asubuhi is 7am; saa moja usiku is 7pm. Hour one after sunrise, and after sunset."
+      - id: saa-tatu
+        en: "9am"
+        sw: "Saa tatu asubuhi"
+        say: "SAH-ah TAH-too ah-soo-BOO-hee"
+      - id: saa-sita
+        en: "Noon"
+        sw: "Saa sita mchana"
+        say: "SAH-ah SEE-tah m-CHAH-nah"
+      - id: saa-kumi
+        en: "4pm"
+        sw: "Saa kumi jioni"
+        say: "SAH-ah KOO-mee jee-OH-nee"
+      - id: saa-kumi-na-mbili
+        en: "6pm"
+        sw: "Saa kumi na mbili jioni"
+        say: "SAH-ah KOO-mee nah m-BEE-lee"
+        note: "Hour twelve - the end of the day's twelve hours."
+      - id: na-nusu
+        en: "Half past"
+        sw: "Na nusu"
+        say: "nah NOO-soo"
+        note: "Saa nane na nusu is 2.30pm. Na robo is quarter past; kasorobo is quarter to."
+      - id: leo
+        en: "Today, tomorrow, yesterday"
+        sw: "Leo, kesho, jana"
+        say: "LEH-oh, KEH-shoh, JAH-nah"
+      - id: sasa-hivi
+        en: "Right now"
+        sw: "Sasa hivi"
+        say: "SAH-sah HEE-vee"
+        note: "Which, from a fundi, can mean within the hour. Sasa hivi kabisa means now, really."
+      - id: subiri
+        en: "Wait a moment"
+        sw: "Subiri kidogo"
+        say: "soo-BEE-ree kee-DOH-goh"
+
+  - id: help
+    title: "Health and emergencies"
+    intro: "In an emergency dial 999 or 112 - see the emergencies guide for which service answers what. These are for the moment before, and for the chemist."
+    phrases:
+      - id: saidia
+        en: "Help!"
+        sw: "Saidia!"
+        say: "sah-ee-DEE-ah"
+        note: "Nisaidie - help me - to one person."
+      - id: mwizi
+        en: "Thief!"
+        sw: "Mwizi!"
+        say: "MWEE-zee"
+        note: "Shouted in a crowd it draws a crowd, which can turn violent towards the thief. Use it with care."
+      - id: piga-polisi
+        en: "Call the police"
+        sw: "Piga simu polisi"
+        say: "PEE-gah SEE-moo poh-LEE-see"
+      - id: daktari
+        en: "I need a doctor"
+        sw: "Nahitaji daktari"
+        say: "nah-hee-TAH-jee dahk-TAH-ree"
+      - id: hospitali
+        en: "Where is the hospital?"
+        sw: "Hospitali iko wapi?"
+        say: "hohs-pee-TAH-lee EE-koh WAH-pee"
+      - id: mgonjwa
+        en: "I'm ill"
+        sw: "Mimi ni mgonjwa"
+        say: "MEE-mee nee m-GOHN-jwah"
+      - id: inauma
+        en: "It hurts here"
+        sw: "Inauma hapa"
+        say: "ee-nah-OO-mah HAH-pah"
+      - id: kichwa
+        en: "Headache / stomach ache"
+        sw: "Kichwa kinauma / Tumbo linauma"
+        say: "KEE-chwah kee-nah-OO-mah / TOOM-boh lee-nah-OO-mah"
+      - id: dawa
+        en: "Medicine"
+        sw: "Dawa"
+        say: "DAH-wah"
+        note: "The chemist is the chemist; the pharmacy counter at a hospital is the dispensary."
+      - id: niko-sawa
+        en: "I'm OK"
+        sw: "Niko sawa"
+        say: "NEE-koh SAH-wah"
+        sheng: "Niko fiti"
