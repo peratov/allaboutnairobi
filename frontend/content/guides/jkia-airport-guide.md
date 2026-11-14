@@ -75,3 +75,4 @@ layovers.
 - [Nairobi in 48 hours](/guides/nairobi-in-48-hours)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [The Nairobi Expressway](/guides/using-the-nairobi-expressway)
+- [Wilson Airport guide](/guides/wilson-airport-guide)

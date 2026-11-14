@@ -84,3 +84,4 @@ Raise it in writing and keep copies. If it is not resolved, the county
 - [Dismissal and redundancy in Kenya](/guides/dismissal-and-redundancy-in-kenya)
 - [Leave calculator](/tools/leave-calculator)
 - [Adopting a child in Kenya](/guides/adoption-in-kenya)
+- [Breastfeeding at work](/guides/breastfeeding-at-work-in-kenya)

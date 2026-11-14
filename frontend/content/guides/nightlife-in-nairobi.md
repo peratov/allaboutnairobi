@@ -55,3 +55,4 @@ See [Staying safe in Nairobi](/guides/safety-in-nairobi#at-night).
 - [Kenyan food and eating out](/guides/kenyan-food-and-eating-out)
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
 - [Live music in Nairobi](/guides/live-music-in-nairobi)
+- [Smoking and shisha laws](/guides/smoking-and-shisha-laws-in-kenya)

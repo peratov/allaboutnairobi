@@ -83,3 +83,4 @@ and rotating officials prevent most of them.
 - [Saving and investing in Kenya](/guides/saving-and-investing-in-kenya)
 - [MMF vs SACCO vs T-bills](/guides/mmf-vs-sacco-vs-treasury-bills-vs-fixed-deposit)
 - [Savings calculator](/tools/savings-calculator)
+- [Fundraising and harambees](/guides/fundraising-and-harambees-in-kenya)

@@ -28,9 +28,11 @@
     - uri: guides/moving-to-nairobi.md
     - uri: guides/your-first-weeks-in-nairobi.md
     - uri: guides/ecitizen-kra-pin-and-ids.md
+    - uri: guides/getting-your-first-national-id.md
     - uri: guides/weather-in-nairobi.md
     - uri: guides/floods-and-the-rainy-season-in-nairobi.md
     - uri: guides/swahili-for-daily-life.md
+    - uri: guides/sheng-in-nairobi.md
     - uri: guides/culture-and-etiquette-in-kenya.md
     - uri: guides/kenyan-names-and-naming-customs.md
     - uri: guides/phones-and-sim-cards.md
@@ -41,8 +43,11 @@
     - uri: guides/alien-card-for-foreigners-in-kenya.md
     - uri: guides/power-of-attorney-in-kenya.md
     - uri: guides/how-kenya-is-governed.md
+    - uri: guides/registering-to-vote-in-kenya.md
+    - uri: guides/kenyas-2027-general-election.md
     - uri: guides/kenya-eta-step-by-step.md
     - uri: guides/jkia-airport-guide.md
+    - uri: guides/wilson-airport-guide.md
     - uri: guides/esims-and-sim-cards-for-visitors.md
     - uri: guides/class-d-work-permit.md
     - uri: guides/dependant-passes.md
@@ -151,6 +156,7 @@
     - uri: guides/investing-on-the-nse.md
     - uri: guides/saccos-in-nairobi.md
     - uri: guides/chamas-in-kenya.md
+    - uri: guides/fundraising-and-harambees-in-kenya.md
     - uri: guides/mortgages-in-kenya.md
     - uri: guides/mobile-loans-true-cost.md
     - uri: guides/hustler-fund.md
@@ -190,7 +196,9 @@
     - uri: guides/minimum-wage-in-kenya.md
     - uri: guides/casual-and-contract-workers-in-kenya.md
     - uri: guides/leave-entitlements-in-kenya.md
+    - uri: guides/breastfeeding-at-work-in-kenya.md
     - uri: guides/dismissal-and-redundancy-in-kenya.md
+    - uri: guides/sexual-harassment-at-work-in-kenya.md
     - uri: guides/hiring-household-staff.md
     - uri: guides/work-injury-insurance-wiba.md
     - uri: guides/business-insurance-in-kenya.md
@@ -208,6 +216,7 @@
     - uri: guides/registering-for-vat.md
     - uri: guides/company-annual-returns.md
     - uri: guides/importing-goods-into-kenya.md
+    - uri: guides/flying-drones-in-kenya.md
     - uri: guides/small-business-ideas-in-nairobi.md
     - uri: guides/becoming-an-mpesa-agent.md
     - uri: guides/starting-a-mitumba-business.md
@@ -271,6 +280,7 @@
     - uri: guides/emergencies-in-nairobi.md
     - uri: guides/domestic-violence-and-protection-orders-in-kenya.md
     - uri: guides/safety-in-nairobi.md
+    - uri: guides/protests-and-demonstrations-in-nairobi.md
     - uri: guides/reporting-a-crime-and-lost-documents.md
 
 - id: family-and-daily-life
@@ -307,6 +317,7 @@
     - uri: guides/child-custody-and-maintenance-in-kenya.md
     - uri: guides/dowry-and-customary-marriage-in-kenya.md
     - uri: guides/planning-a-wedding-in-nairobi.md
+    - uri: guides/attending-a-kenyan-wedding.md
     - uri: guides/death-and-succession-in-kenya.md
     - uri: guides/making-a-will-in-kenya.md
     - uri: guides/funerals-in-kenya.md
@@ -340,6 +351,7 @@
     - uri: guides/coffee-and-tea-in-nairobi.md
     - uri: guides/tipping-in-kenya.md
     - uri: guides/nightlife-in-nairobi.md
+    - uri: guides/smoking-and-shisha-laws-in-kenya.md
     - uri: guides/live-music-in-nairobi.md
     - uri: guides/history-of-nairobi.md
     - uri: guides/day-trips-from-nairobi.md

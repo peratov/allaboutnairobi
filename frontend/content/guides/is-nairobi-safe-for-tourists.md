@@ -89,3 +89,4 @@ avoid walking alone at night, use ride-hailing, and keep an eye on your drink.
 - [Nairobi in 48 hours](/guides/nairobi-in-48-hours)
 - [Where to stay in Nairobi](/guides/where-to-stay-in-nairobi)
 - [Staying safe in Nairobi](/guides/safety-in-nairobi)
+- [Protests and demonstrations](/guides/protests-and-demonstrations-in-nairobi)

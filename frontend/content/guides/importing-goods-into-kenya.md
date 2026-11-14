@@ -67,3 +67,4 @@ your name - otherwise goods can be seized later.
 - [Registering a business](/guides/registering-a-business-in-kenya)
 - [Registering for VAT](/guides/registering-for-vat)
 - [Importing a car to Kenya](/guides/importing-a-car-to-kenya)
+- [Flying drones in Kenya](/guides/flying-drones-in-kenya)

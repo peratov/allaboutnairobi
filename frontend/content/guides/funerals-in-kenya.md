@@ -77,3 +77,4 @@ documents. See [Death and succession in Kenya](/guides/death-and-succession-in-k
 - [Death and succession in Kenya](/guides/death-and-succession-in-kenya)
 - [Life insurance in Kenya](/guides/life-insurance-in-kenya)
 - [Culture and etiquette in Kenya](/guides/culture-and-etiquette-in-kenya)
+- [Fundraising and harambees](/guides/fundraising-and-harambees-in-kenya)

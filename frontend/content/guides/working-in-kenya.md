@@ -101,3 +101,4 @@ You need a work permit before you start. See
 - [Employment contract checklist](/docs/employment-contract-checklist)
 - [Leave entitlements in Kenya](/guides/leave-entitlements-in-kenya)
 - [Dismissal and redundancy in Kenya](/guides/dismissal-and-redundancy-in-kenya)
+- [Sexual harassment at work](/guides/sexual-harassment-at-work-in-kenya)

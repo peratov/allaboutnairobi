@@ -65,3 +65,4 @@ Authority (IPOA)**.
 
 - [A short history of Nairobi](/guides/history-of-nairobi)
 - [Public holidays in Kenya](/guides/public-holidays-in-kenya)
+- [Kenya's 2027 general election](/guides/kenyas-2027-general-election)

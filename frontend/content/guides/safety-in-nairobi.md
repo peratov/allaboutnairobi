@@ -77,3 +77,4 @@ it advises against visiting, and register with your embassy if it offers that.
 - [Healthcare in Nairobi](/guides/healthcare-in-nairobi)
 - [Getting around Nairobi](/guides/getting-around-nairobi)
 - [M-Pesa fraud and scams](/guides/mpesa-fraud-and-scams-in-kenya)
+- [Protests and demonstrations](/guides/protests-and-demonstrations-in-nairobi)

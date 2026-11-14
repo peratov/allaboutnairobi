@@ -40,7 +40,8 @@ Having a PIN means you must **file a return every year by
 ## Your ID
 
 - **Kenyan citizens** are moving from the old national ID card to the
-  **Maisha Card**, issued with a Maisha Namba.
+  **Maisha Card**, issued with a Maisha Namba. Turning 18? See
+  [Getting your first national ID](/guides/getting-your-first-national-id).
 - **Foreign nationals** on a permit or pass register with the Directorate of
   Immigration Services and receive a **foreigner certificate**. It is the ID a
   bank, employer or landlord expects from a resident foreigner. Carry a copy of

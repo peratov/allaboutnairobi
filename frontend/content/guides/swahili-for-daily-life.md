@@ -97,3 +97,4 @@ with a tutor plus practice at the market works well.
 
 - [Glossary of Kenyan terms](/glossary)
 - [Getting around Nairobi](/guides/getting-around-nairobi)
+- [Sheng in Nairobi](/guides/sheng-in-nairobi)

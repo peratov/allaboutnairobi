@@ -66,3 +66,4 @@ skip it.
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Dowry and customary marriage](/guides/dowry-and-customary-marriage-in-kenya)
 - [Divorce in Kenya](/guides/divorce-in-kenya)
+- [Attending a Kenyan wedding](/guides/attending-a-kenyan-wedding)
