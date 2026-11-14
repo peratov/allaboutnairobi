@@ -57,3 +57,4 @@ reference bureaus, which helps with loans and mortgages later.
 - [Opening a bank account](/guides/opening-a-bank-account)
 - [Mobile loans and their true cost](/guides/mobile-loans-true-cost)
 - [Changing money in Nairobi](/guides/changing-money-in-nairobi)
+- [Paying for online services](/guides/paying-for-online-services-from-kenya)

@@ -70,3 +70,4 @@ collector for a monthly fee, sometimes included in the service charge.
 - [Finding housing](/guides/finding-housing)
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)
+- [Waste and recycling](/guides/waste-and-recycling-in-nairobi)

@@ -71,3 +71,4 @@ today's mid-market rate.
 - [Kenyans abroad](/guides/kenyans-abroad-managing-things-from-afar)
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [Opening a bank account](/guides/opening-a-bank-account)
+- [Sending money abroad from Kenya](/guides/sending-money-abroad-from-kenya)

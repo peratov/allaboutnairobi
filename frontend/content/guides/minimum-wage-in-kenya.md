@@ -68,3 +68,4 @@ claimed back.
 - [Working in Kenya](/guides/working-in-kenya)
 - [Hiring household staff](/guides/hiring-household-staff)
 - [Overtime calculator](/tools/overtime-calculator)
+- [Casual and contract workers](/guides/casual-and-contract-workers-in-kenya)

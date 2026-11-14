@@ -72,6 +72,12 @@ Football in the Kenyan Premier League, rugby on weekends, horse racing at
 [Kasarani](/map#place/kasarani-stadium) and
 [Nyayo](/map#place/nyayo-national-stadium) stadiums. See [Events](/events).
 
+## Parks, books and street food
+
+See [Parks and green spaces](/guides/parks-and-green-spaces-in-nairobi),
+[Libraries and bookshops](/guides/libraries-and-bookshops-in-nairobi) and
+[Street food in Nairobi](/guides/street-food-in-nairobi).
+
 ## Further afield
 
 See [Day trips from Nairobi](/guides/day-trips-from-nairobi).

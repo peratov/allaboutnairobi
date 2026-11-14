@@ -73,8 +73,12 @@
     - uri: guides/living-in-syokimau-mlolongo-and-kitengela.md
     - uri: guides/living-in-rongai.md
     - uri: guides/finding-housing.md
+    - uri: guides/rental-scams-in-nairobi.md
     - uri: guides/tenant-rights-in-kenya.md
+    - uri: guides/tenancy-agreements-in-kenya.md
     - uri: guides/utilities-in-nairobi.md
+    - uri: guides/waste-and-recycling-in-nairobi.md
+    - uri: guides/plugs-voltage-and-appliances-in-kenya.md
     - uri: guides/kenya-power-tokens.md
     - uri: guides/home-internet-in-nairobi.md
     - uri: guides/nairobi-county-services.md
@@ -123,6 +127,7 @@
     - uri: guides/special-funds-and-fixed-income-funds-in-kenya.md
     - uri: guides/buying-treasury-bills-and-bonds.md
     - uri: guides/sending-money-to-kenya.md
+    - uri: guides/sending-money-abroad-from-kenya.md
     - uri: guides/receiving-paypal-payoneer-and-wise-payments.md
     - uri: guides/investing-on-the-nse.md
     - uri: guides/saccos-in-nairobi.md
@@ -138,6 +143,7 @@
     - uri: guides/travel-insurance-from-kenya.md
     - uri: guides/insurance-claims-and-complaints-in-kenya.md
     - uri: guides/credit-cards-in-kenya.md
+    - uri: guides/paying-for-online-services-from-kenya.md
     - uri: guides/changing-money-in-nairobi.md
 
 - id: work-and-business
@@ -152,6 +158,7 @@
     - uri: guides/understanding-a-salary-offer.md
     - uri: guides/un-and-ngo-jobs-in-nairobi.md
     - uri: guides/minimum-wage-in-kenya.md
+    - uri: guides/casual-and-contract-workers-in-kenya.md
     - uri: guides/leave-entitlements-in-kenya.md
     - uri: guides/dismissal-and-redundancy-in-kenya.md
     - uri: guides/hiring-household-staff.md
@@ -180,6 +187,7 @@
   description: Getting around Nairobi - matatus, ride-hailing, the commuter and SGR trains, driving in Kenya and getting to JKIA.
   entries:
     - uri: guides/getting-around-nairobi.md
+    - uri: guides/matatus-in-nairobi.md
     - uri: guides/driving-in-nairobi.md
     - uri: guides/getting-a-kenyan-driving-licence.md
     - uri: guides/importing-a-car-to-kenya.md
@@ -198,6 +206,7 @@
   entries:
     - uri: guides/healthcare-in-nairobi.md
     - uri: guides/pharmacies-and-medicines-in-nairobi.md
+    - uri: guides/dentists-and-eye-care-in-nairobi.md
     - uri: guides/vaccinations-and-malaria-in-kenya.md
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
@@ -251,12 +260,15 @@
     - uri: guides/where-to-stay-in-nairobi.md
     - uri: guides/is-nairobi-safe-for-tourists.md
     - uri: guides/kenyan-food-and-eating-out.md
+    - uri: guides/street-food-in-nairobi.md
     - uri: guides/nightlife-in-nairobi.md
     - uri: guides/history-of-nairobi.md
     - uri: guides/day-trips-from-nairobi.md
     - uri: guides/sport-and-fitness-in-nairobi.md
     - uri: guides/running-in-nairobi.md
     - uri: guides/hiking-near-nairobi.md
+    - uri: guides/parks-and-green-spaces-in-nairobi.md
+    - uri: guides/libraries-and-bookshops-in-nairobi.md
     - uri: guides/volunteering-in-nairobi.md
 
 - id: calculators
