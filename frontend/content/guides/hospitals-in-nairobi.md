@@ -73,3 +73,4 @@ routine visits.
 - [Healthcare in Nairobi](/guides/healthcare-in-nairobi)
 - [Registering for SHA](/guides/registering-for-sha)
 - [Private health insurance](/guides/health-insurance-in-kenya)
+- [Cancer care in Nairobi](/guides/cancer-care-in-nairobi)

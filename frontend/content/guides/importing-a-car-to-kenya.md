@@ -60,3 +60,4 @@ See [Driving in Nairobi](/guides/driving-in-nairobi#buying-a-car).
 
 - [Car import duty calculator](/tools/car-import-duty-calculator)
 - [Loan repayment calculator](/tools/loan-repayment-calculator)
+- [Motor vehicle inspection](/guides/motor-vehicle-inspection-in-kenya)

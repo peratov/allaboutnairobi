@@ -58,3 +58,4 @@ handy.
 - [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids)
 - [Getting married in Kenya](/guides/getting-married-in-kenya)
 - [Birth certificates](/guides/getting-a-birth-certificate)
+- [Kenyan names and naming customs](/guides/kenyan-names-and-naming-customs)

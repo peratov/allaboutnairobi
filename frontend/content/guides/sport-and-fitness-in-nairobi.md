@@ -66,3 +66,4 @@ See [Staying safe in Nairobi](/guides/safety-in-nairobi).
 
 - [Cycling in Nairobi](/guides/cycling-in-nairobi)
 - [Golf in Nairobi](/guides/golf-in-nairobi)
+- [Watching football in Nairobi](/guides/watching-football-in-nairobi)

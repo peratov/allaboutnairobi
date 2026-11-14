@@ -73,3 +73,4 @@ elections; follow the other person's lead.
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Tipping in Kenya](/guides/tipping-in-kenya)
 - [Places of worship](/guides/places-of-worship-in-nairobi)
+- [Kenyan names and naming customs](/guides/kenyan-names-and-naming-customs)

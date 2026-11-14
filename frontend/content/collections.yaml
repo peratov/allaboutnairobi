@@ -31,6 +31,7 @@
     - uri: guides/weather-in-nairobi.md
     - uri: guides/swahili-for-daily-life.md
     - uri: guides/culture-and-etiquette-in-kenya.md
+    - uri: guides/kenyan-names-and-naming-customs.md
     - uri: guides/phones-and-sim-cards.md
     - uri: guides/working-remotely-from-nairobi.md
     - uri: guides/leaving-kenya.md
@@ -89,6 +90,8 @@
     - uri: guides/plugs-voltage-and-appliances-in-kenya.md
     - uri: guides/kenya-power-tokens.md
     - uri: guides/home-internet-in-nairobi.md
+    - uri: guides/tv-and-streaming-in-kenya.md
+    - uri: guides/saving-mobile-data-in-kenya.md
     - uri: guides/nairobi-county-services.md
     - uri: guides/setting-up-your-home.md
     - uri: guides/buying-furniture-in-nairobi.md
@@ -210,6 +213,7 @@
   description: Getting around Nairobi - matatus, ride-hailing, the commuter and SGR trains, driving in Kenya and getting to JKIA.
   entries:
     - uri: guides/getting-around-nairobi.md
+    - uri: guides/commuter-trains-in-nairobi.md
     - uri: guides/matatus-in-nairobi.md
     - uri: guides/boda-bodas-in-nairobi.md
     - uri: guides/using-the-nairobi-expressway.md
@@ -217,6 +221,7 @@
     - uri: guides/driving-in-nairobi.md
     - uri: guides/parking-in-nairobi.md
     - uri: guides/traffic-offences-and-fines-in-kenya.md
+    - uri: guides/motor-vehicle-inspection-in-kenya.md
     - uri: guides/buying-a-used-car-in-kenya.md
     - uri: guides/where-to-buy-car-parts-in-nairobi.md
     - uri: guides/getting-a-kenyan-driving-licence.md
@@ -250,6 +255,7 @@
     - uri: guides/eating-well-in-nairobi.md
     - uri: guides/gyms-and-swimming-in-nairobi.md
     - uri: guides/hospitals-in-nairobi.md
+    - uri: guides/cancer-care-in-nairobi.md
     - uri: guides/giving-birth-in-nairobi.md
     - uri: guides/fertility-and-ivf-in-nairobi.md
     - uri: guides/therapy-and-mental-health-in-nairobi.md
@@ -270,6 +276,7 @@
     - uri: guides/senior-school-and-grade-10-placement.md
     - uri: guides/kcse-results-and-certificates.md
     - uri: guides/nairobi-with-kids.md
+    - uri: guides/adoption-in-kenya.md
     - uri: guides/daycare-and-preschool-in-nairobi.md
     - uri: guides/studying-in-nairobi.md
     - uri: guides/applying-to-university-in-kenya.md
@@ -282,6 +289,7 @@
     - uri: guides/fabric-and-tailors-in-nairobi.md
     - uri: guides/hair-salons-and-barbers-in-nairobi.md
     - uri: guides/online-shopping-in-kenya.md
+    - uri: guides/sending-parcels-in-kenya.md
     - uri: guides/public-holidays-in-kenya.md
     - uri: guides/getting-married-in-kenya.md
     - uri: guides/divorce-in-kenya.md
@@ -306,8 +314,11 @@
     - uri: guides/places-of-worship-in-nairobi.md
     - uri: guides/nairobi-in-48-hours.md
     - uri: guides/nairobi-national-park.md
+    - uri: guides/visiting-kenyas-national-parks.md
     - uri: guides/maasai-mara-from-nairobi.md
     - uri: guides/weekend-getaways-from-nairobi.md
+    - uri: guides/lake-nakuru-from-nairobi.md
+    - uri: guides/lamu-from-nairobi.md
     - uri: guides/choosing-a-safari-company.md
     - uri: guides/where-to-stay-in-nairobi.md
     - uri: guides/is-nairobi-safe-for-tourists.md
@@ -322,6 +333,7 @@
     - uri: guides/history-of-nairobi.md
     - uri: guides/day-trips-from-nairobi.md
     - uri: guides/sport-and-fitness-in-nairobi.md
+    - uri: guides/watching-football-in-nairobi.md
     - uri: guides/running-in-nairobi.md
     - uri: guides/cycling-in-nairobi.md
     - uri: guides/golf-in-nairobi.md

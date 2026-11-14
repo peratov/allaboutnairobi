@@ -82,3 +82,4 @@ is Kenya's biggest club match. See [Sport and fitness in Nairobi](/guides/sport-
 - [AFCON 2027 in Nairobi](/guides/afcon-2027-in-nairobi)
 - [Watching AFCON in Nairobi](/guides/watching-afcon-2027-in-nairobi)
 - [The AFCON 2027 hub](/afcon)
+- [Watching football in Nairobi](/guides/watching-football-in-nairobi)

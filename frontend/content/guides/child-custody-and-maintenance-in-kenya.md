@@ -74,3 +74,4 @@ for a child needs the parents' consent. See
 - [Divorce in Kenya](/guides/divorce-in-kenya)
 - [Free legal aid in Kenya](/guides/free-legal-aid-in-kenya)
 - [Daycare and preschool in Nairobi](/guides/daycare-and-preschool-in-nairobi)
+- [Adopting a child in Kenya](/guides/adoption-in-kenya)

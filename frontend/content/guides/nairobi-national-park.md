@@ -73,3 +73,4 @@ orphanage** at the Main Gate, or the **Giraffe Centre** in Karen. See
 - [Maasai Mara from Nairobi](/guides/maasai-mara-from-nairobi)
 - [Nairobi in 48 hours](/guides/nairobi-in-48-hours)
 - [Day trips from Nairobi](/guides/day-trips-from-nairobi)
+- [Visiting Kenya's national parks](/guides/visiting-kenyas-national-parks)

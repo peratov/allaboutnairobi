@@ -73,3 +73,4 @@ journey. A car is useful for exploring the coast. See
 - [Weekend getaways from Nairobi](/guides/weekend-getaways-from-nairobi)
 - [Travelling around Kenya](/guides/travelling-around-kenya)
 - [JKIA airport guide](/guides/jkia-airport-guide)
+- [Lamu from Nairobi](/guides/lamu-from-nairobi)

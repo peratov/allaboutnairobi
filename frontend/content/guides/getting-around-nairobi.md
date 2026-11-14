@@ -84,3 +84,4 @@ See [Driving in Nairobi](/guides/driving-in-nairobi).
 - [Ride-hailing and delivery apps](/guides/ride-hailing-and-delivery-apps-in-nairobi)
 - [The Nairobi Expressway](/guides/using-the-nairobi-expressway)
 - [Boda bodas in Nairobi](/guides/boda-bodas-in-nairobi)
+- [Commuter trains in Nairobi](/guides/commuter-trains-in-nairobi)

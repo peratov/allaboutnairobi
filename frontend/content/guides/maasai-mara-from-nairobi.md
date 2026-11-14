@@ -73,3 +73,4 @@ sunscreen, binoculars, and a camera. Soft bags if you are flying.
 - [Nairobi National Park](/guides/nairobi-national-park)
 - [Travelling around Kenya](/guides/travelling-around-kenya)
 - [Day trips from Nairobi](/guides/day-trips-from-nairobi)
+- [Visiting Kenya's national parks](/guides/visiting-kenyas-national-parks)

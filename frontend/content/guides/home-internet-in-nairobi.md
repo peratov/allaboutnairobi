@@ -67,3 +67,4 @@ fallback. See [Working remotely from Nairobi](/guides/working-remotely-from-nair
 - [Utilities in Nairobi](/guides/utilities-in-nairobi)
 - [Phones and SIM cards](/guides/phones-and-sim-cards)
 - [Setting up your home](/guides/setting-up-your-home)
+- [Saving mobile data](/guides/saving-mobile-data-in-kenya)

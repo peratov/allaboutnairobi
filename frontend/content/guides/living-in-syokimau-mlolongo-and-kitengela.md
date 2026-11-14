@@ -66,3 +66,4 @@ See [Getting around Nairobi](/guides/getting-around-nairobi) and the
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
 - [JKIA airport guide](/guides/jkia-airport-guide)
 - [Finding housing](/guides/finding-housing)
+- [Commuter trains in Nairobi](/guides/commuter-trains-in-nairobi)

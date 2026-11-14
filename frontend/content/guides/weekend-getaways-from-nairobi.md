@@ -74,3 +74,4 @@ dhows, and a slow pace. Best for three nights or more.
 - [Car hire in Nairobi](/guides/car-hire-in-nairobi)
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
 - [Climbing Mount Kenya](/guides/climbing-mount-kenya)
+- [Lamu from Nairobi](/guides/lamu-from-nairobi)

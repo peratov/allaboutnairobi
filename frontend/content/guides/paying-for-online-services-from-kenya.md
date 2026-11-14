@@ -66,3 +66,4 @@ and the [import duty calculator](/tools/import-duty-calculator).
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [Sending money abroad from Kenya](/guides/sending-money-abroad-from-kenya)
 - [Opening a bank account](/guides/opening-a-bank-account)
+- [TV and streaming in Kenya](/guides/tv-and-streaming-in-kenya)

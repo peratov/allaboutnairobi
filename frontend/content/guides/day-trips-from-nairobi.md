@@ -76,3 +76,4 @@ For getting further afield, see [Travelling around Kenya](/guides/travelling-aro
 ## Next
 
 - [Weekend getaways from Nairobi](/guides/weekend-getaways-from-nairobi)
+- [Lake Nakuru from Nairobi](/guides/lake-nakuru-from-nairobi)
