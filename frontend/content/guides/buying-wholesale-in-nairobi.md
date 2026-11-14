@@ -59,3 +59,4 @@ If you are buying to resell, register your business and keep records - see
 - [Shopping in Nairobi](/guides/shopping-in-nairobi)
 - [Markets in Nairobi](/guides/markets-in-nairobi)
 - [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)
+- [Starting a mitumba business](/guides/starting-a-mitumba-business)

@@ -73,3 +73,4 @@ often on land outside the city.
 - [SACCOs](/guides/saccos-in-nairobi)
 - [Hiring your first employee](/guides/hiring-your-first-employee)
 - [Buying wholesale in Nairobi](/guides/buying-wholesale-in-nairobi)
+- [Becoming an M-Pesa agent](/guides/becoming-an-mpesa-agent)

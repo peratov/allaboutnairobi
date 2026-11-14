@@ -75,3 +75,4 @@ contacts for money.
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [Complaining about a bank or mobile money provider](/guides/complaining-about-a-bank-in-kenya)
 - [Safety in Nairobi](/guides/safety-in-nairobi)
+- [Checking SIMs registered in your name](/guides/checking-sim-cards-registered-in-your-name)

@@ -65,3 +65,4 @@ skip it.
 - [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Dowry and customary marriage](/guides/dowry-and-customary-marriage-in-kenya)
+- [Divorce in Kenya](/guides/divorce-in-kenya)

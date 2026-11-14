@@ -69,3 +69,4 @@ official guidance.
 - [International schools in Nairobi](/guides/international-schools-in-nairobi)
 - [Nairobi with kids](/guides/nairobi-with-kids)
 - [TVET and trades](/guides/tvet-colleges-and-learning-a-trade)
+- [KCSE results and certificates](/guides/kcse-results-and-certificates)

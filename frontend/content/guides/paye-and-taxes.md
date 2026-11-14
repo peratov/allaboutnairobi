@@ -123,3 +123,4 @@ get no personal relief.
 - [Working in Kenya](/guides/working-in-kenya)
 - [Opening a bank account](/guides/opening-a-bank-account)
 - [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)
+- [Disability rights and support](/guides/disability-rights-and-support-in-kenya)

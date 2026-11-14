@@ -59,3 +59,4 @@ laws, so register the birth with your embassy too. See
 - [Getting a passport](/guides/applying-for-a-kenyan-passport)
 - [Schools in Nairobi](/guides/schools-in-nairobi)
 - [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids)
+- [Child custody and maintenance](/guides/child-custody-and-maintenance-in-kenya)

@@ -98,3 +98,4 @@ details before treating anything non-critical.
 - [Donating blood](/guides/donating-blood-in-nairobi)
 - [HIV and sexual health](/guides/hiv-testing-and-sexual-health-in-nairobi)
 - [Diabetes and high blood pressure](/guides/diabetes-and-high-blood-pressure-in-nairobi)
+- [Disability rights and support](/guides/disability-rights-and-support-in-kenya)

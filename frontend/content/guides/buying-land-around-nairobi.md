@@ -77,3 +77,4 @@ approved or titles issued. Ask:
 - [Buying property in Kenya](/guides/buying-property-in-kenya)
 - [Building a house in Kenya](/guides/building-a-house-in-kenya)
 - [Building from abroad](/guides/building-from-abroad)
+- [Starting a poultry farm](/guides/starting-a-poultry-farm-near-nairobi)

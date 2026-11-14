@@ -78,3 +78,4 @@ business. Safaricom publishes the current tariff on its website.
 - [Opening a bank account](/guides/opening-a-bank-account)
 - [Utilities in Nairobi](/guides/utilities-in-nairobi)
 - [M-Pesa fraud and scams](/guides/mpesa-fraud-and-scams-in-kenya)
+- [Becoming an M-Pesa agent](/guides/becoming-an-mpesa-agent)

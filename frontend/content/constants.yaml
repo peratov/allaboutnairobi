@@ -1019,3 +1019,31 @@ constants:
     description: Months within which a Kenyan who acquires another citizenship must declare it to the Department of Immigration. Kenya Citizenship and Immigration Act 2011 s.8(3).
     last_verified: 2026-11-14
     fail_on: 2027-11-14
+
+  OLDER_PERSONS_CASH_TRANSFER:
+    value: 2000
+    unit: shillings
+    description: Monthly Inua Jamii cash transfer paid to eligible older persons and people with severe disabilities. State Department for Social Protection.
+    last_verified: 2026-11-14
+    fail_on: 2027-07-01
+
+  OLDER_PERSONS_CASH_TRANSFER_AGE:
+    value: 70
+    unit: integer
+    description: Minimum age for the Inua Jamii Older Persons Cash Transfer. Treasury has proposed lowering it to 60.
+    last_verified: 2026-11-14
+    fail_on: 2027-07-01
+
+  DISABILITY_TAX_EXEMPTION_MONTHLY:
+    value: 150000
+    unit: shillings
+    description: Monthly income exempt from income tax for a person with a disability registered with NCPWD and holding a KRA exemption certificate. Income Tax (Persons with Disability) Order.
+    last_verified: 2026-11-14
+    fail_on: 2027-07-01
+
+  POINT_LENANA_HEIGHT_M:
+    value: 4985
+    unit: integer
+    description: Height in metres of Point Lenana, Mount Kenya's trekking summit.
+    last_verified: 2026-11-14
+    fail_on: 2030-11-14

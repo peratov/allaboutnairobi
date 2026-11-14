@@ -62,3 +62,6 @@ buy a roaming bundle before you travel, or a local SIM.
 
 Nobody from your network will ask for your M-Pesa PIN or a code sent to your
 phone. See [M-Pesa and mobile money](/guides/mpesa-and-mobile-money#scams).
+
+Check that nobody has registered lines with your ID - see
+[Checking SIMs registered in your name](/guides/checking-sim-cards-registered-in-your-name).

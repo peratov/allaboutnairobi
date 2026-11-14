@@ -71,3 +71,4 @@ uses official guides and pays park fees.
 - [Running in Nairobi](/guides/running-in-nairobi)
 - [Nairobi National Park](/guides/nairobi-national-park)
 - [Weather in Nairobi](/guides/weather-in-nairobi)
+- [Climbing Mount Kenya](/guides/climbing-mount-kenya)

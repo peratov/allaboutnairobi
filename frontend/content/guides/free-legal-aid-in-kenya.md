@@ -74,3 +74,4 @@ for fees in writing before you start.
 - [Small Claims Court in Kenya](/guides/small-claims-court-in-kenya)
 - [Reporting a crime and lost documents](/guides/reporting-a-crime-and-lost-documents)
 - [Affidavits and commissioners for oaths](/guides/affidavits-and-commissioners-for-oaths-in-kenya)
+- [Domestic violence and protection orders](/guides/domestic-violence-and-protection-orders-in-kenya)

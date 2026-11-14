@@ -118,6 +118,7 @@
   entries:
     - uri: guides/mpesa-and-mobile-money.md
     - uri: guides/mpesa-fraud-and-scams-in-kenya.md
+    - uri: guides/checking-sim-cards-registered-in-your-name.md
     - uri: guides/opening-a-bank-account.md
     - uri: guides/unclaimed-money-in-kenya.md
     - uri: guides/paye-and-taxes.md
@@ -197,6 +198,9 @@
     - uri: guides/company-annual-returns.md
     - uri: guides/importing-goods-into-kenya.md
     - uri: guides/small-business-ideas-in-nairobi.md
+    - uri: guides/becoming-an-mpesa-agent.md
+    - uri: guides/starting-a-mitumba-business.md
+    - uri: guides/starting-a-poultry-farm-near-nairobi.md
 
 - id: getting-around
   type: guides
@@ -232,6 +236,8 @@
   description: Health and safety in Nairobi - SHA, hospitals and emergencies, and the everyday habits that keep you safe in Kenya.
   entries:
     - uri: guides/healthcare-in-nairobi.md
+    - uri: guides/caring-for-elderly-parents-in-kenya.md
+    - uri: guides/disability-rights-and-support-in-kenya.md
     - uri: guides/pharmacies-and-medicines-in-nairobi.md
     - uri: guides/dentists-and-eye-care-in-nairobi.md
     - uri: guides/donating-blood-in-nairobi.md
@@ -245,8 +251,10 @@
     - uri: guides/gyms-and-swimming-in-nairobi.md
     - uri: guides/hospitals-in-nairobi.md
     - uri: guides/giving-birth-in-nairobi.md
+    - uri: guides/fertility-and-ivf-in-nairobi.md
     - uri: guides/therapy-and-mental-health-in-nairobi.md
     - uri: guides/emergencies-in-nairobi.md
+    - uri: guides/domestic-violence-and-protection-orders-in-kenya.md
     - uri: guides/safety-in-nairobi.md
     - uri: guides/reporting-a-crime-and-lost-documents.md
 
@@ -260,6 +268,7 @@
     - uri: guides/schools-in-nairobi.md
     - uri: guides/international-schools-in-nairobi.md
     - uri: guides/senior-school-and-grade-10-placement.md
+    - uri: guides/kcse-results-and-certificates.md
     - uri: guides/nairobi-with-kids.md
     - uri: guides/daycare-and-preschool-in-nairobi.md
     - uri: guides/studying-in-nairobi.md
@@ -275,6 +284,8 @@
     - uri: guides/online-shopping-in-kenya.md
     - uri: guides/public-holidays-in-kenya.md
     - uri: guides/getting-married-in-kenya.md
+    - uri: guides/divorce-in-kenya.md
+    - uri: guides/child-custody-and-maintenance-in-kenya.md
     - uri: guides/dowry-and-customary-marriage-in-kenya.md
     - uri: guides/planning-a-wedding-in-nairobi.md
     - uri: guides/death-and-succession-in-kenya.md
@@ -315,6 +326,7 @@
     - uri: guides/cycling-in-nairobi.md
     - uri: guides/golf-in-nairobi.md
     - uri: guides/hiking-near-nairobi.md
+    - uri: guides/climbing-mount-kenya.md
     - uri: guides/parks-and-green-spaces-in-nairobi.md
     - uri: guides/libraries-and-bookshops-in-nairobi.md
     - uri: guides/volunteering-in-nairobi.md

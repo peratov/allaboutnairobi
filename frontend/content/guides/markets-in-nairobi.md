@@ -61,3 +61,4 @@ its speciality.
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
 - [Fabric and tailors](/guides/fabric-and-tailors-in-nairobi)
 - [Buying wholesale in Nairobi](/guides/buying-wholesale-in-nairobi)
+- [Starting a mitumba business](/guides/starting-a-mitumba-business)
