@@ -71,3 +71,4 @@ month.
 - [Gyms and swimming](/guides/gyms-and-swimming-in-nairobi)
 - [Health checks and screening](/guides/health-checks-and-screening-in-nairobi)
 - [Swahili phrasebook: food and markets](/tools/phrasebook)
+- [Vegetarian food in Nairobi](/guides/vegetarian-food-in-nairobi)

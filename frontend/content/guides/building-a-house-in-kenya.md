@@ -84,3 +84,4 @@ See [Building from abroad without being scammed](/guides/building-from-abroad).
 - [Buying land around Nairobi](/guides/buying-land-around-nairobi)
 - [Buying property in Kenya](/guides/buying-property-in-kenya)
 - [Setting up your home](/guides/setting-up-your-home)
+- [Where to buy building materials](/guides/where-to-buy-building-materials-in-nairobi)

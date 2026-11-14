@@ -97,3 +97,4 @@ details before treating anything non-critical.
 - [Dentists and eye care](/guides/dentists-and-eye-care-in-nairobi)
 - [Donating blood](/guides/donating-blood-in-nairobi)
 - [HIV and sexual health](/guides/hiv-testing-and-sexual-health-in-nairobi)
+- [Diabetes and high blood pressure](/guides/diabetes-and-high-blood-pressure-in-nairobi)

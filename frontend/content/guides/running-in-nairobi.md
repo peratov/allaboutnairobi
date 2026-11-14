@@ -64,3 +64,4 @@ for track athletics.
 - [Gyms and swimming in Nairobi](/guides/gyms-and-swimming-in-nairobi)
 - [Eating well in Nairobi](/guides/eating-well-in-nairobi)
 - [Safety in Nairobi](/guides/safety-in-nairobi)
+- [Festivals and events in Nairobi](/guides/festivals-and-events-in-nairobi)

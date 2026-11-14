@@ -65,3 +65,4 @@ to the city.
 - [Swahili for daily life](/guides/swahili-for-daily-life)
 - [Street food in Nairobi](/guides/street-food-in-nairobi)
 - [Coffee and tea](/guides/coffee-and-tea-in-nairobi)
+- [Nyama choma in Nairobi](/guides/nyama-choma-in-nairobi)

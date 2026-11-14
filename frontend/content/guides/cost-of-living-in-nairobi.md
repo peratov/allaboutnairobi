@@ -70,3 +70,4 @@ fuel, insurance, parking and servicing; the roads are hard on suspension. See
 
 - [PAYE, NSSF, SHIF and the Housing Levy](/guides/paye-and-taxes)
 - [Shopping in Nairobi](/guides/shopping-in-nairobi)
+- [How fuel prices are set in Kenya](/guides/how-fuel-prices-are-set-in-kenya)

@@ -85,3 +85,4 @@ legal minimum. See [Car insurance in Kenya](/guides/car-insurance-in-kenya).
 - [Driving in Nairobi](/guides/driving-in-nairobi)
 - [Getting a Kenyan driving licence](/guides/getting-a-kenyan-driving-licence)
 - [Loan repayment calculator](/tools/loan-repayment-calculator)
+- [Where to buy car parts in Nairobi](/guides/where-to-buy-car-parts-in-nairobi)

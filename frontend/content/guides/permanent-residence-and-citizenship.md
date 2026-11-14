@@ -66,3 +66,4 @@ some countries end your citizenship if you take another.
 - [Class D work permit](/guides/class-d-work-permit)
 - [Dependant passes](/guides/dependant-passes)
 - [Getting married in Kenya](/guides/getting-married-in-kenya)
+- [Dual citizenship for Kenyans](/guides/dual-citizenship-for-kenyans)

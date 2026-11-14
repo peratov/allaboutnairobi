@@ -81,3 +81,4 @@ and [Class N digital nomad permit](/guides/class-n-digital-nomad-permit).
 - [Working remotely from Nairobi](/guides/working-remotely-from-nairobi)
 - [Freelancing in Kenya](/guides/freelancing-in-kenya)
 - [Registering a limited company](/guides/registering-a-limited-company)
+- [Learning to code in Nairobi](/guides/learning-to-code-in-nairobi)

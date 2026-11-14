@@ -82,6 +82,34 @@ events:
     source: World Athletics calendar
     last_verified: 2026-09-22
 
+  - title: Standard Chartered Nairobi Marathon
+    annual: true
+    when: Usually late October
+    venue: Starts and finishes on the Southern Bypass side of the city
+    area: Nairobi
+    category: sport
+    price: Paid entry for runners; free to watch
+    url: https://nairobimarathon.com
+    description: >-
+      Nairobi's long-running city marathon, with full, half, 10km and 5km
+      races. Expect early-morning road closures on race day.
+    source: Standard Chartered Nairobi Marathon
+    last_verified: 2026-11-14
+
+  - title: Nairobi City Marathon
+    annual: true
+    when: Usually June
+    venue: Nairobi city roads
+    area: Nairobi
+    category: sport
+    price: Paid entry for runners; free to watch
+    url: https://www.nairobicitymarathon.com
+    description: >-
+      A newer city marathon, with shorter races alongside
+      the full distance. Check the organiser's site for road closures.
+    source: Nairobi City Marathon
+    last_verified: 2026-11-14
+
   - title: Africa Tech Summit Nairobi
     annual: true
     when: Usually February

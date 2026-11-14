@@ -59,3 +59,4 @@ certificates are in [Healthcare in Nairobi](/guides/healthcare-in-nairobi).
 - [Eating well in Nairobi](/guides/eating-well-in-nairobi)
 - [Therapy and mental health](/guides/therapy-and-mental-health-in-nairobi)
 - [Running in Nairobi](/guides/running-in-nairobi)
+- [Diabetes and high blood pressure](/guides/diabetes-and-high-blood-pressure-in-nairobi)

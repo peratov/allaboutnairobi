@@ -78,3 +78,4 @@ keep good records and get advice early.
 - [Kenyans abroad](/guides/kenyans-abroad-managing-things-from-afar)
 - [Funerals in Kenya](/guides/funerals-in-kenya)
 - [Making a will in Kenya](/guides/making-a-will-in-kenya)
+- [Unclaimed money in Kenya](/guides/unclaimed-money-in-kenya)

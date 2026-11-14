@@ -70,3 +70,4 @@ check with the CDSC and the Unclaimed Financial Assets Authority.
 - [Saving and investing in Kenya](/guides/saving-and-investing-in-kenya)
 - [Money market funds](/guides/money-market-funds-in-kenya)
 - [Savings calculator](/tools/savings-calculator)
+- [Unclaimed money in Kenya](/guides/unclaimed-money-in-kenya)

@@ -44,6 +44,8 @@ See [Buying property in Kenya](/guides/buying-property-in-kenya).
   through some missions; check with yours.
 - **Keep your eCitizen and KRA accounts active**, with a phone number and email
   you can reach from abroad.
+- **Taken another citizenship?** Declare it - see
+  [Dual citizenship for Kenyans](/guides/dual-citizenship-for-kenyans).
 
 ## Tax
 

@@ -35,6 +35,7 @@
     - uri: guides/working-remotely-from-nairobi.md
     - uri: guides/leaving-kenya.md
     - uri: guides/kenyans-abroad-managing-things-from-afar.md
+    - uri: guides/dual-citizenship-for-kenyans.md
     - uri: guides/alien-card-for-foreigners-in-kenya.md
     - uri: guides/power-of-attorney-in-kenya.md
     - uri: guides/how-kenya-is-governed.md
@@ -102,6 +103,7 @@
     - uri: guides/land-search-on-ardhisasa.md
     - uri: guides/buying-land-around-nairobi.md
     - uri: guides/building-a-house-in-kenya.md
+    - uri: guides/where-to-buy-building-materials-in-nairobi.md
     - uri: guides/building-from-abroad.md
     - uri: guides/buying-off-plan-in-kenya.md
     - uri: guides/airbnb-hosting-in-nairobi.md
@@ -117,8 +119,10 @@
     - uri: guides/mpesa-and-mobile-money.md
     - uri: guides/mpesa-fraud-and-scams-in-kenya.md
     - uri: guides/opening-a-bank-account.md
+    - uri: guides/unclaimed-money-in-kenya.md
     - uri: guides/paye-and-taxes.md
     - uri: guides/cost-of-living-in-nairobi.md
+    - uri: guides/how-fuel-prices-are-set-in-kenya.md
     - uri: guides/saving-and-investing-in-kenya.md
     - uri: guides/reits-in-kenya.md
     - uri: guides/crypto-in-kenya.md
@@ -167,6 +171,7 @@
   entries:
     - uri: guides/finding-a-job-in-nairobi.md
     - uri: guides/working-in-tech-in-nairobi.md
+    - uri: guides/learning-to-code-in-nairobi.md
     - uri: guides/government-jobs-in-kenya.md
     - uri: guides/working-in-kenya.md
     - uri: guides/understanding-a-salary-offer.md
@@ -202,12 +207,14 @@
   entries:
     - uri: guides/getting-around-nairobi.md
     - uri: guides/matatus-in-nairobi.md
+    - uri: guides/boda-bodas-in-nairobi.md
     - uri: guides/using-the-nairobi-expressway.md
     - uri: guides/ride-hailing-and-delivery-apps-in-nairobi.md
     - uri: guides/driving-in-nairobi.md
     - uri: guides/parking-in-nairobi.md
     - uri: guides/traffic-offences-and-fines-in-kenya.md
     - uri: guides/buying-a-used-car-in-kenya.md
+    - uri: guides/where-to-buy-car-parts-in-nairobi.md
     - uri: guides/getting-a-kenyan-driving-licence.md
     - uri: guides/importing-a-car-to-kenya.md
     - uri: guides/transferring-a-car-logbook.md
@@ -233,6 +240,7 @@
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
     - uri: guides/health-checks-and-screening-in-nairobi.md
+    - uri: guides/diabetes-and-high-blood-pressure-in-nairobi.md
     - uri: guides/eating-well-in-nairobi.md
     - uri: guides/gyms-and-swimming-in-nairobi.md
     - uri: guides/hospitals-in-nairobi.md
@@ -260,6 +268,7 @@
     - uri: guides/pets-in-nairobi.md
     - uri: guides/shopping-in-nairobi.md
     - uri: guides/markets-in-nairobi.md
+    - uri: guides/buying-wholesale-in-nairobi.md
     - uri: guides/buying-a-phone-or-laptop-in-nairobi.md
     - uri: guides/fabric-and-tailors-in-nairobi.md
     - uri: guides/hair-salons-and-barbers-in-nairobi.md
@@ -281,6 +290,7 @@
   description: Wildlife inside the city, museums, markets, nights out and trips beyond.
   entries:
     - uri: guides/things-to-do-in-nairobi.md
+    - uri: guides/festivals-and-events-in-nairobi.md
     - uri: guides/museums-and-galleries-in-nairobi.md
     - uri: guides/places-of-worship-in-nairobi.md
     - uri: guides/nairobi-in-48-hours.md
@@ -291,6 +301,8 @@
     - uri: guides/where-to-stay-in-nairobi.md
     - uri: guides/is-nairobi-safe-for-tourists.md
     - uri: guides/kenyan-food-and-eating-out.md
+    - uri: guides/nyama-choma-in-nairobi.md
+    - uri: guides/vegetarian-food-in-nairobi.md
     - uri: guides/street-food-in-nairobi.md
     - uri: guides/coffee-and-tea-in-nairobi.md
     - uri: guides/tipping-in-kenya.md

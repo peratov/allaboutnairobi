@@ -74,3 +74,4 @@ in [Getting around Nairobi](/guides/getting-around-nairobi).
 - [Getting around Nairobi](/guides/getting-around-nairobi)
 - [Commute cost calculator](/tools/commute-cost-calculator)
 - [Neighbourhoods of Nairobi](/guides/neighbourhoods-of-nairobi)
+- [Boda bodas in Nairobi](/guides/boda-bodas-in-nairobi)

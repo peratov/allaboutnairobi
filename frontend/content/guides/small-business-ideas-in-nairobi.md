@@ -72,3 +72,4 @@ often on land outside the city.
 - [Registering a business](/guides/registering-a-business-in-kenya)
 - [SACCOs](/guides/saccos-in-nairobi)
 - [Hiring your first employee](/guides/hiring-your-first-employee)
+- [Buying wholesale in Nairobi](/guides/buying-wholesale-in-nairobi)

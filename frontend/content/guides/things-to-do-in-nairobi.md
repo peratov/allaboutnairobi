@@ -73,6 +73,8 @@ Football in the Kenyan Premier League, rugby on weekends, horse racing at
 [Ngong Racecourse](/map#place/ngong-racecourse), and athletics at the
 [Kasarani](/map#place/kasarani-stadium) and
 [Nyayo](/map#place/nyayo-national-stadium) stadiums. See [Events](/events).
+For the year's marathons, rally and shows, see
+[Festivals and events in Nairobi](/guides/festivals-and-events-in-nairobi).
 
 ## Parks, books and street food
 
