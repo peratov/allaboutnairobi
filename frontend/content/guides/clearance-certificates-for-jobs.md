@@ -70,3 +70,4 @@ advert or offer letter.
 - [Checking your CRB status](/guides/checking-your-crb-status)
 - [Finding a job in Nairobi](/guides/finding-a-job-in-nairobi)
 - [Working in Kenya](/guides/working-in-kenya)
+- [Government jobs in Kenya](/guides/government-jobs-in-kenya)

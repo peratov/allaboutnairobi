@@ -935,3 +935,59 @@ constants:
     description: Most compensation for unfair dismissal, in months of the employee's gross pay. Employment Act s.49.
     last_verified: 2026-11-14
     fail_on: 2027-11-14
+
+  NTSA_COPY_OF_RECORDS_FEE:
+    value: 550
+    unit: shillings
+    description: NTSA fee for a motor vehicle copy of records (vehicle search) on eCitizen. Reported by Kenyans.co.ke citing NTSA.
+    last_verified: 2026-11-14
+    fail_on: 2027-06-30
+
+  INSTANT_FINE_MIN:
+    value: 500
+    unit: shillings
+    description: Smallest instant fine for a minor traffic offence. Traffic (Minor Offences) Rules, as rolled out by NTSA in 2026.
+    last_verified: 2026-11-14
+    fail_on: 2027-06-30
+
+  INSTANT_FINE_MAX:
+    value: 10000
+    unit: shillings
+    description: Largest instant fine for a minor traffic offence. Traffic (Minor Offences) Rules, as rolled out by NTSA in 2026.
+    last_verified: 2026-11-14
+    fail_on: 2027-06-30
+
+  RESIDENTIAL_NOISE_DAY_DB:
+    value: 50
+    unit: integer
+    description: Maximum daytime noise in residential areas, in decibels. EMCA (Noise and Excessive Vibration Pollution) (Control) Regulations 2009.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14
+
+  RESIDENTIAL_NOISE_NIGHT_DB:
+    value: 35
+    unit: integer
+    description: Maximum night-time noise in residential areas, in decibels. EMCA (Noise and Excessive Vibration Pollution) (Control) Regulations 2009.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14
+
+  BLOOD_DONOR_MIN_AGE:
+    value: 16
+    unit: integer
+    description: Youngest age to give blood in Kenya. Kenya National Blood Transfusion Service, as reported.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14
+
+  BLOOD_DONOR_MAX_AGE:
+    value: 65
+    unit: integer
+    description: Oldest age to give blood in Kenya. Kenya National Blood Transfusion Service, as reported.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14
+
+  BLOOD_DONOR_MIN_WEIGHT_KG:
+    value: 50
+    unit: integer
+    description: Minimum weight to give blood in Kenya, in kilograms. Kenya National Blood Transfusion Service, as reported.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14

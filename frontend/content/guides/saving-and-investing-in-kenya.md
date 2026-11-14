@@ -65,7 +65,7 @@ Share prices go down as well as up, and dividends have withholding tax.
 
 ## Chamas
 
-Many Kenyans save through a [[chama]] - a group that pools money each month.
+Many Kenyans save through a [[chama]] - a group that pools money each month. See [Chamas in Kenya](/guides/chamas-in-kenya).
 They work on trust, so agree written rules, keep records, and bank the money in
 the group's account rather than with one person.
 

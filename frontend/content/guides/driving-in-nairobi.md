@@ -71,3 +71,6 @@ against drivers.
 - [Car insurance in Kenya](/guides/car-insurance-in-kenya)
 - [Getting around Nairobi](/guides/getting-around-nairobi)
 - [Safety in Nairobi](/guides/safety-in-nairobi)
+- [Parking in Nairobi](/guides/parking-in-nairobi)
+- [Traffic offences and fines](/guides/traffic-offences-and-fines-in-kenya)
+- [Buying a used car](/guides/buying-a-used-car-in-kenya)

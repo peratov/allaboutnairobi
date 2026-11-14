@@ -76,3 +76,4 @@ keep good records and get advice early.
 - [Life insurance](/guides/life-insurance-in-kenya)
 - [NSSF statement and benefits](/guides/checking-your-nssf-statement)
 - [Kenyans abroad](/guides/kenyans-abroad-managing-things-from-afar)
+- [Funerals in Kenya](/guides/funerals-in-kenya)

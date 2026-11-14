@@ -56,3 +56,4 @@ deducted, and interest on deposits is also taxed at source.
 - [Saving and investing in Kenya](/guides/saving-and-investing-in-kenya)
 - [Mobile loans and their true cost](/guides/mobile-loans-true-cost)
 - [Loan repayment calculator](/tools/loan-repayment-calculator)
+- [Chamas in Kenya](/guides/chamas-in-kenya)

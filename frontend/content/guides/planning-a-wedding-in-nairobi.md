@@ -68,3 +68,4 @@ and out, and thank contributors.
 - [Getting married in Kenya](/guides/getting-married-in-kenya)
 - [Culture and etiquette](/guides/culture-and-etiquette-in-kenya)
 - [Budget planner](/tools/budget-planner)
+- [Dowry and customary marriage](/guides/dowry-and-customary-marriage-in-kenya)

@@ -69,3 +69,5 @@ See [Moving to Nairobi](/guides/moving-to-nairobi#if-you-are-coming-to-work).
 - [UN and NGO jobs](/guides/un-and-ngo-jobs-in-nairobi)
 - [Working in Kenya - your rights](/guides/working-in-kenya)
 - [PAYE, NSSF, SHIF and the Housing Levy](/guides/paye-and-taxes)
+- [Government jobs in Kenya](/guides/government-jobs-in-kenya)
+- [Working in tech in Nairobi](/guides/working-in-tech-in-nairobi)

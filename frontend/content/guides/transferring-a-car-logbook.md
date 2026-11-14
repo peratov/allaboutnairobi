@@ -71,3 +71,4 @@ lender then starts or approves the transfer.
 - [Driving in Nairobi](/guides/driving-in-nairobi)
 - [Importing a car to Kenya](/guides/importing-a-car-to-kenya)
 - [Loan repayment calculator](/tools/loan-repayment-calculator)
+- [Buying a used car](/guides/buying-a-used-car-in-kenya)

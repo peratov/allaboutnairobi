@@ -95,3 +95,4 @@ details before treating anything non-critical.
 - [Pharmacies and medicines](/guides/pharmacies-and-medicines-in-nairobi)
 - [Vaccinations and malaria](/guides/vaccinations-and-malaria-in-kenya)
 - [Dentists and eye care](/guides/dentists-and-eye-care-in-nairobi)
+- [Donating blood](/guides/donating-blood-in-nairobi)

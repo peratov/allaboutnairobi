@@ -69,3 +69,4 @@ advice from a tax adviser who knows both countries before you arrive.
 - [The Class N digital nomad permit](/guides/class-n-digital-nomad-permit)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
+- [Working in tech in Nairobi](/guides/working-in-tech-in-nairobi)

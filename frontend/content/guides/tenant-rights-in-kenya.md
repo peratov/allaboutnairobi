@@ -90,3 +90,4 @@ the keys.
 - [Being a landlord in Kenya](/guides/being-a-landlord-in-kenya)
 - [Move-in cost calculator](/tools/move-in-cost-calculator)
 - [Tenancy agreements](/guides/tenancy-agreements-in-kenya)
+- [Noise and neighbours](/guides/noise-and-neighbours-in-nairobi)

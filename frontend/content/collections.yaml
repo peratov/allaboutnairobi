@@ -76,6 +76,7 @@
     - uri: guides/rental-scams-in-nairobi.md
     - uri: guides/tenant-rights-in-kenya.md
     - uri: guides/tenancy-agreements-in-kenya.md
+    - uri: guides/noise-and-neighbours-in-nairobi.md
     - uri: guides/utilities-in-nairobi.md
     - uri: guides/waste-and-recycling-in-nairobi.md
     - uri: guides/plugs-voltage-and-appliances-in-kenya.md
@@ -131,6 +132,7 @@
     - uri: guides/receiving-paypal-payoneer-and-wise-payments.md
     - uri: guides/investing-on-the-nse.md
     - uri: guides/saccos-in-nairobi.md
+    - uri: guides/chamas-in-kenya.md
     - uri: guides/mortgages-in-kenya.md
     - uri: guides/mobile-loans-true-cost.md
     - uri: guides/checking-a-financial-firm-is-licensed-in-kenya.md
@@ -154,6 +156,8 @@
   description: Finding a job, your rights at work, employing people at home, and starting a business.
   entries:
     - uri: guides/finding-a-job-in-nairobi.md
+    - uri: guides/working-in-tech-in-nairobi.md
+    - uri: guides/government-jobs-in-kenya.md
     - uri: guides/working-in-kenya.md
     - uri: guides/understanding-a-salary-offer.md
     - uri: guides/un-and-ngo-jobs-in-nairobi.md
@@ -188,7 +192,11 @@
   entries:
     - uri: guides/getting-around-nairobi.md
     - uri: guides/matatus-in-nairobi.md
+    - uri: guides/ride-hailing-and-delivery-apps-in-nairobi.md
     - uri: guides/driving-in-nairobi.md
+    - uri: guides/parking-in-nairobi.md
+    - uri: guides/traffic-offences-and-fines-in-kenya.md
+    - uri: guides/buying-a-used-car-in-kenya.md
     - uri: guides/getting-a-kenyan-driving-licence.md
     - uri: guides/importing-a-car-to-kenya.md
     - uri: guides/transferring-a-car-logbook.md
@@ -207,6 +215,7 @@
     - uri: guides/healthcare-in-nairobi.md
     - uri: guides/pharmacies-and-medicines-in-nairobi.md
     - uri: guides/dentists-and-eye-care-in-nairobi.md
+    - uri: guides/donating-blood-in-nairobi.md
     - uri: guides/vaccinations-and-malaria-in-kenya.md
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
@@ -240,8 +249,10 @@
     - uri: guides/online-shopping-in-kenya.md
     - uri: guides/public-holidays-in-kenya.md
     - uri: guides/getting-married-in-kenya.md
+    - uri: guides/dowry-and-customary-marriage-in-kenya.md
     - uri: guides/planning-a-wedding-in-nairobi.md
     - uri: guides/death-and-succession-in-kenya.md
+    - uri: guides/funerals-in-kenya.md
     - uri: guides/affidavits-and-commissioners-for-oaths-in-kenya.md
 
 - id: exploring
@@ -261,6 +272,7 @@
     - uri: guides/is-nairobi-safe-for-tourists.md
     - uri: guides/kenyan-food-and-eating-out.md
     - uri: guides/street-food-in-nairobi.md
+    - uri: guides/tipping-in-kenya.md
     - uri: guides/nightlife-in-nairobi.md
     - uri: guides/history-of-nairobi.md
     - uri: guides/day-trips-from-nairobi.md
