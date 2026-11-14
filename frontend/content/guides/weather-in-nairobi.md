@@ -37,7 +37,8 @@ come as heavy afternoon or evening downpours rather than all-day drizzle.
 - **Traffic.** Rain slows the whole city. Allow much more time, and expect
   matatu fares to rise.
 - **Flooding.** Low-lying roads and estates flood in heavy downpours. Do not
-  drive or walk through moving water.
+  drive or walk through moving water. See
+  [Floods and the rainy season](/guides/floods-and-the-rainy-season-in-nairobi).
 - **Water and power.** Supply often improves in the rainy months, but storms
   can bring power cuts.
 - **Mosquitoes** increase after the rains, though Nairobi's altitude keeps

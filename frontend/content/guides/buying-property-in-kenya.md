@@ -98,3 +98,4 @@ total cost, not only the rate; see the
 - [Building a house in Kenya](/guides/building-a-house-in-kenya)
 - [Stamp duty calculator](/tools/stamp-duty-calculator)
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
+- [Finding a lawyer in Kenya](/guides/finding-a-lawyer-in-kenya)

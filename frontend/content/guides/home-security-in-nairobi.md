@@ -70,3 +70,4 @@ intruders. Report the crime and get an OB number. See
 - [Safety in Nairobi](/guides/safety-in-nairobi)
 - [Hiring household staff](/guides/hiring-household-staff)
 - [Setting up your home](/guides/setting-up-your-home)
+- [Fire safety at home](/guides/fire-safety-at-home-in-nairobi)

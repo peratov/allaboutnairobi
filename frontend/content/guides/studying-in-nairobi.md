@@ -60,3 +60,4 @@ through it. A student pass does not allow you to work.
 - [Schools in Nairobi](/guides/schools-in-nairobi)
 - [Finding a job in Nairobi](/guides/finding-a-job-in-nairobi)
 - [Applying to university](/guides/applying-to-university-in-kenya)
+- [Student accommodation in Nairobi](/guides/student-accommodation-in-nairobi)

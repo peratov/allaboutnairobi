@@ -76,3 +76,4 @@ they are in danger. Take photos and details, and report to the police. See
 - [Healthcare in Nairobi](/guides/healthcare-in-nairobi)
 - [Home security](/guides/home-security-in-nairobi)
 - [Domestic violence and protection orders](/guides/domestic-violence-and-protection-orders-in-kenya)
+- [Floods and the rainy season](/guides/floods-and-the-rainy-season-in-nairobi)

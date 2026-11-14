@@ -78,3 +78,4 @@ leave. See [Working in Kenya](/guides/working-in-kenya#leave) and the
 - [Hiring household staff](/guides/hiring-household-staff)
 - [Healthcare in Nairobi](/guides/healthcare-in-nairobi)
 - [Fertility and IVF in Nairobi](/guides/fertility-and-ivf-in-nairobi)
+- [Baby and child vaccinations](/guides/baby-vaccinations-in-kenya)

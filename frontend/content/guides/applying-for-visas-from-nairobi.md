@@ -77,3 +77,4 @@ See [M-Pesa fraud and scams](/guides/mpesa-fraud-and-scams-in-kenya).
 - [Applying for a Kenyan passport](/guides/applying-for-a-kenyan-passport)
 - [Travel insurance from Kenya](/guides/travel-insurance-from-kenya)
 - [Certificate of good conduct](/guides/certificate-of-good-conduct)
+- [Studying abroad from Kenya](/guides/studying-abroad-from-kenya)

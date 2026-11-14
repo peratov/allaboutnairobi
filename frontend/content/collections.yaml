@@ -29,6 +29,7 @@
     - uri: guides/your-first-weeks-in-nairobi.md
     - uri: guides/ecitizen-kra-pin-and-ids.md
     - uri: guides/weather-in-nairobi.md
+    - uri: guides/floods-and-the-rainy-season-in-nairobi.md
     - uri: guides/swahili-for-daily-life.md
     - uri: guides/culture-and-etiquette-in-kenya.md
     - uri: guides/kenyan-names-and-naming-customs.md
@@ -67,6 +68,7 @@
     - uri: guides/moving-house-in-nairobi.md
     - uri: guides/solar-and-backup-power.md
     - uri: guides/home-security-in-nairobi.md
+    - uri: guides/fire-safety-at-home-in-nairobi.md
     - uri: guides/water-tanks-and-boreholes.md
     - uri: guides/living-in-kilimani.md
     - uri: guides/living-in-westlands.md
@@ -81,6 +83,7 @@
     - uri: guides/living-in-syokimau-mlolongo-and-kitengela.md
     - uri: guides/living-in-rongai.md
     - uri: guides/finding-housing.md
+    - uri: guides/renting-a-room-and-flatmates-in-nairobi.md
     - uri: guides/rental-scams-in-nairobi.md
     - uri: guides/tenant-rights-in-kenya.md
     - uri: guides/tenancy-agreements-in-kenya.md
@@ -150,11 +153,14 @@
     - uri: guides/chamas-in-kenya.md
     - uri: guides/mortgages-in-kenya.md
     - uri: guides/mobile-loans-true-cost.md
+    - uri: guides/hustler-fund.md
+    - uri: guides/betting-and-gambling-in-kenya.md
     - uri: guides/checking-a-financial-firm-is-licensed-in-kenya.md
     - uri: guides/complaining-about-a-bank-in-kenya.md
     - uri: guides/consumer-rights-in-kenya.md
     - uri: guides/small-claims-court-in-kenya.md
     - uri: guides/free-legal-aid-in-kenya.md
+    - uri: guides/finding-a-lawyer-in-kenya.md
     - uri: guides/your-data-protection-rights-in-kenya.md
     - uri: guides/checking-your-crb-status.md
     - uri: guides/checking-your-nssf-statement.md
@@ -174,6 +180,7 @@
   description: Finding a job, your rights at work, employing people at home, and starting a business.
   entries:
     - uri: guides/finding-a-job-in-nairobi.md
+    - uri: guides/working-abroad-from-kenya.md
     - uri: guides/working-in-tech-in-nairobi.md
     - uri: guides/learning-to-code-in-nairobi.md
     - uri: guides/government-jobs-in-kenya.md
@@ -188,6 +195,7 @@
     - uri: guides/work-injury-insurance-wiba.md
     - uri: guides/business-insurance-in-kenya.md
     - uri: guides/registering-a-business-in-kenya.md
+    - uri: guides/trademarks-and-copyright-in-kenya.md
     - uri: guides/freelancing-in-kenya.md
     - uri: guides/clearance-certificates-for-jobs.md
     - uri: guides/helb-loans-repayment-and-clearance.md
@@ -248,6 +256,7 @@
     - uri: guides/donating-blood-in-nairobi.md
     - uri: guides/hiv-testing-and-sexual-health-in-nairobi.md
     - uri: guides/vaccinations-and-malaria-in-kenya.md
+    - uri: guides/baby-vaccinations-in-kenya.md
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
     - uri: guides/health-checks-and-screening-in-nairobi.md
@@ -279,6 +288,8 @@
     - uri: guides/adoption-in-kenya.md
     - uri: guides/daycare-and-preschool-in-nairobi.md
     - uri: guides/studying-in-nairobi.md
+    - uri: guides/studying-abroad-from-kenya.md
+    - uri: guides/student-accommodation-in-nairobi.md
     - uri: guides/applying-to-university-in-kenya.md
     - uri: guides/tvet-colleges-and-learning-a-trade.md
     - uri: guides/pets-in-nairobi.md
@@ -342,6 +353,7 @@
     - uri: guides/parks-and-green-spaces-in-nairobi.md
     - uri: guides/libraries-and-bookshops-in-nairobi.md
     - uri: guides/volunteering-in-nairobi.md
+    - uri: guides/registering-an-ngo-in-kenya.md
 
 - id: calculators
   type: tools

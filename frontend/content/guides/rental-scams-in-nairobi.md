@@ -64,3 +64,4 @@ and [Buying property in Kenya](/guides/buying-property-in-kenya).
 - [Finding housing](/guides/finding-housing)
 - [Tenant rights in Kenya](/guides/tenant-rights-in-kenya)
 - [Move-in cost calculator](/tools/move-in-cost-calculator)
+- [Renting a room and flatmates](/guides/renting-a-room-and-flatmates-in-nairobi)

@@ -74,3 +74,4 @@ often on land outside the city.
 - [Hiring your first employee](/guides/hiring-your-first-employee)
 - [Buying wholesale in Nairobi](/guides/buying-wholesale-in-nairobi)
 - [Becoming an M-Pesa agent](/guides/becoming-an-mpesa-agent)
+- [The Hustler Fund](/guides/hustler-fund)

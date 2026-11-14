@@ -112,3 +112,4 @@ claims up to KES 1 million without a lawyer.
 - [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)
 - [Rental scams in Nairobi](/guides/rental-scams-in-nairobi)
 - [Tenancy agreements](/guides/tenancy-agreements-in-kenya)
+- [Renting a room and flatmates](/guides/renting-a-room-and-flatmates-in-nairobi)

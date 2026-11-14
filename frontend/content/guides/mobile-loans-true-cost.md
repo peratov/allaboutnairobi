@@ -69,3 +69,4 @@ Office of the Data Protection Commissioner.
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [Budget planner](/tools/budget-planner)
 - [Your data protection rights](/guides/your-data-protection-rights-in-kenya)
+- [The Hustler Fund](/guides/hustler-fund)

@@ -72,3 +72,4 @@ staff come under separate arrangements. See
 - [Finding a job in Nairobi](/guides/finding-a-job-in-nairobi)
 - [Understanding a salary offer](/guides/understanding-a-salary-offer)
 - [Living in Runda, Gigiri and Muthaiga](/guides/living-in-runda-gigiri-and-muthaiga)
+- [Registering an NGO](/guides/registering-an-ngo-in-kenya)

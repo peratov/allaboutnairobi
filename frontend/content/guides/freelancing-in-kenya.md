@@ -66,3 +66,4 @@ Ask for a deposit on larger jobs, invoice promptly, and follow up in writing.
 
 - [Withholding tax calculator](/tools/withholding-tax-calculator)
 - [Working remotely from Nairobi](/guides/working-remotely-from-nairobi)
+- [Trademarks and copyright](/guides/trademarks-and-copyright-in-kenya)

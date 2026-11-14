@@ -57,3 +57,4 @@ organisation that your permit or pass covers what you will be doing.
 
 - [Culture and etiquette](/guides/culture-and-etiquette-in-kenya)
 - [Your first weeks in Nairobi](/guides/your-first-weeks-in-nairobi)
+- [Registering an NGO](/guides/registering-an-ngo-in-kenya)
