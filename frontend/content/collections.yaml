@@ -79,6 +79,7 @@
     - uri: guides/home-internet-in-nairobi.md
     - uri: guides/nairobi-county-services.md
     - uri: guides/setting-up-your-home.md
+    - uri: guides/finding-a-fundi-in-nairobi.md
     - uri: guides/buying-property-in-kenya.md
     - uri: guides/sectional-titles-for-apartments-in-kenya.md
     - uri: guides/land-rates-in-nairobi.md
@@ -102,6 +103,7 @@
   description: Money in Kenya - M-Pesa, banks, PAYE and payroll deductions, saving and investing, and what things cost in Nairobi.
   entries:
     - uri: guides/mpesa-and-mobile-money.md
+    - uri: guides/mpesa-fraud-and-scams-in-kenya.md
     - uri: guides/opening-a-bank-account.md
     - uri: guides/paye-and-taxes.md
     - uri: guides/cost-of-living-in-nairobi.md
@@ -126,6 +128,9 @@
     - uri: guides/saccos-in-nairobi.md
     - uri: guides/mortgages-in-kenya.md
     - uri: guides/mobile-loans-true-cost.md
+    - uri: guides/checking-a-financial-firm-is-licensed-in-kenya.md
+    - uri: guides/complaining-about-a-bank-in-kenya.md
+    - uri: guides/your-data-protection-rights-in-kenya.md
     - uri: guides/checking-your-crb-status.md
     - uri: guides/checking-your-nssf-statement.md
     - uri: guides/pensions-in-kenya.md
@@ -147,6 +152,8 @@
     - uri: guides/understanding-a-salary-offer.md
     - uri: guides/un-and-ngo-jobs-in-nairobi.md
     - uri: guides/minimum-wage-in-kenya.md
+    - uri: guides/leave-entitlements-in-kenya.md
+    - uri: guides/dismissal-and-redundancy-in-kenya.md
     - uri: guides/hiring-household-staff.md
     - uri: guides/work-injury-insurance-wiba.md
     - uri: guides/business-insurance-in-kenya.md
@@ -190,6 +197,8 @@
   description: Health and safety in Nairobi - SHA, hospitals and emergencies, and the everyday habits that keep you safe in Kenya.
   entries:
     - uri: guides/healthcare-in-nairobi.md
+    - uri: guides/pharmacies-and-medicines-in-nairobi.md
+    - uri: guides/vaccinations-and-malaria-in-kenya.md
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
     - uri: guides/health-checks-and-screening-in-nairobi.md
@@ -217,11 +226,14 @@
     - uri: guides/studying-in-nairobi.md
     - uri: guides/pets-in-nairobi.md
     - uri: guides/shopping-in-nairobi.md
+    - uri: guides/markets-in-nairobi.md
+    - uri: guides/buying-a-phone-or-laptop-in-nairobi.md
     - uri: guides/online-shopping-in-kenya.md
     - uri: guides/public-holidays-in-kenya.md
     - uri: guides/getting-married-in-kenya.md
     - uri: guides/planning-a-wedding-in-nairobi.md
     - uri: guides/death-and-succession-in-kenya.md
+    - uri: guides/affidavits-and-commissioners-for-oaths-in-kenya.md
 
 - id: exploring
   type: guides

@@ -76,3 +76,4 @@ it advises against visiting, and register with your embassy if it offers that.
 - [Is Nairobi safe for tourists?](/guides/is-nairobi-safe-for-tourists)
 - [Healthcare in Nairobi](/guides/healthcare-in-nairobi)
 - [Getting around Nairobi](/guides/getting-around-nairobi)
+- [M-Pesa fraud and scams](/guides/mpesa-fraud-and-scams-in-kenya)

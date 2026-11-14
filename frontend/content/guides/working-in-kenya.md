@@ -99,3 +99,5 @@ You need a work permit before you start. See
 - [Understanding a salary offer](/guides/understanding-a-salary-offer)
 - [PAYE, NSSF, SHIF and the Housing Levy](/guides/paye-and-taxes)
 - [Employment contract checklist](/docs/employment-contract-checklist)
+- [Leave entitlements in Kenya](/guides/leave-entitlements-in-kenya)
+- [Dismissal and redundancy in Kenya](/guides/dismissal-and-redundancy-in-kenya)

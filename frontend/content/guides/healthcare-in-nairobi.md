@@ -92,3 +92,5 @@ details before treating anything non-critical.
 - [Giving birth in Nairobi](/guides/giving-birth-in-nairobi)
 - [Safety in Nairobi](/guides/safety-in-nairobi)
 - [PAYE, NSSF, SHIF and the Housing Levy](/guides/paye-and-taxes)
+- [Pharmacies and medicines](/guides/pharmacies-and-medicines-in-nairobi)
+- [Vaccinations and malaria](/guides/vaccinations-and-malaria-in-kenya)

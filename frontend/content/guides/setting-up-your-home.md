@@ -65,3 +65,4 @@ See [Hiring household staff](/guides/hiring-household-staff).
 
 - [Finding a place to live](/guides/finding-housing)
 - [Move-in cost calculator](/tools/move-in-cost-calculator)
+- [Finding a fundi](/guides/finding-a-fundi-in-nairobi)
