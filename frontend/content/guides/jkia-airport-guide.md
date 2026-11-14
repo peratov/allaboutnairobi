@@ -74,3 +74,4 @@ layovers.
 - [Your first weeks in Nairobi](/guides/your-first-weeks-in-nairobi)
 - [Nairobi in 48 hours](/guides/nairobi-in-48-hours)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
+- [The Nairobi Expressway](/guides/using-the-nairobi-expressway)

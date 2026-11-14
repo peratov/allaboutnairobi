@@ -57,3 +57,4 @@ Apply on the HELB portal or through [[eCitizen]]. See
 - [Clearance certificates for jobs](/guides/clearance-certificates-for-jobs)
 - [Checking your CRB status](/guides/checking-your-crb-status)
 - [Studying in Nairobi](/guides/studying-in-nairobi)
+- [Applying to university](/guides/applying-to-university-in-kenya)

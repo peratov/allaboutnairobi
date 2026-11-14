@@ -61,3 +61,8 @@ memberships.
 - Use the forests' own paths and gates, and follow their opening hours.
 
 See [Staying safe in Nairobi](/guides/safety-in-nairobi).
+
+## More
+
+- [Cycling in Nairobi](/guides/cycling-in-nairobi)
+- [Golf in Nairobi](/guides/golf-in-nairobi)

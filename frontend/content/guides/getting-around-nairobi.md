@@ -82,3 +82,4 @@ See [Driving in Nairobi](/guides/driving-in-nairobi).
 - [Safety in Nairobi](/guides/safety-in-nairobi)
 - [Matatus in Nairobi](/guides/matatus-in-nairobi)
 - [Ride-hailing and delivery apps](/guides/ride-hailing-and-delivery-apps-in-nairobi)
+- [The Nairobi Expressway](/guides/using-the-nairobi-expressway)

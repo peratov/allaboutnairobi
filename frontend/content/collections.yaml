@@ -47,6 +47,7 @@
     - uri: guides/permanent-residence-and-citizenship.md
     - uri: guides/shipping-belongings-to-kenya.md
     - uri: guides/applying-for-a-kenyan-passport.md
+    - uri: guides/applying-for-visas-from-nairobi.md
     - uri: guides/certificate-of-good-conduct.md
     - uri: guides/getting-a-birth-certificate.md
     - uri: guides/changing-your-name-in-kenya.md
@@ -71,6 +72,9 @@
     - uri: guides/living-in-karen-and-langata.md
     - uri: guides/living-in-runda-gigiri-and-muthaiga.md
     - uri: guides/living-in-south-b-and-south-c.md
+    - uri: guides/living-in-eastlands.md
+    - uri: guides/living-in-upper-hill.md
+    - uri: guides/living-in-ngara-and-pangani.md
     - uri: guides/living-in-ruaka-and-thika-road.md
     - uri: guides/living-in-syokimau-mlolongo-and-kitengela.md
     - uri: guides/living-in-rongai.md
@@ -198,6 +202,7 @@
   entries:
     - uri: guides/getting-around-nairobi.md
     - uri: guides/matatus-in-nairobi.md
+    - uri: guides/using-the-nairobi-expressway.md
     - uri: guides/ride-hailing-and-delivery-apps-in-nairobi.md
     - uri: guides/driving-in-nairobi.md
     - uri: guides/parking-in-nairobi.md
@@ -208,6 +213,7 @@
     - uri: guides/transferring-a-car-logbook.md
     - uri: guides/car-insurance-in-kenya.md
     - uri: guides/travelling-around-kenya.md
+    - uri: guides/travelling-to-uganda-and-tanzania-from-nairobi.md
     - uri: guides/nairobi-to-mombasa.md
     - uri: guides/car-hire-in-nairobi.md
 
@@ -222,6 +228,7 @@
     - uri: guides/pharmacies-and-medicines-in-nairobi.md
     - uri: guides/dentists-and-eye-care-in-nairobi.md
     - uri: guides/donating-blood-in-nairobi.md
+    - uri: guides/hiv-testing-and-sexual-health-in-nairobi.md
     - uri: guides/vaccinations-and-malaria-in-kenya.md
     - uri: guides/registering-for-sha.md
     - uri: guides/health-insurance-in-kenya.md
@@ -248,6 +255,8 @@
     - uri: guides/nairobi-with-kids.md
     - uri: guides/daycare-and-preschool-in-nairobi.md
     - uri: guides/studying-in-nairobi.md
+    - uri: guides/applying-to-university-in-kenya.md
+    - uri: guides/tvet-colleges-and-learning-a-trade.md
     - uri: guides/pets-in-nairobi.md
     - uri: guides/shopping-in-nairobi.md
     - uri: guides/markets-in-nairobi.md
@@ -273,6 +282,7 @@
   entries:
     - uri: guides/things-to-do-in-nairobi.md
     - uri: guides/museums-and-galleries-in-nairobi.md
+    - uri: guides/places-of-worship-in-nairobi.md
     - uri: guides/nairobi-in-48-hours.md
     - uri: guides/nairobi-national-park.md
     - uri: guides/maasai-mara-from-nairobi.md
@@ -290,6 +300,8 @@
     - uri: guides/day-trips-from-nairobi.md
     - uri: guides/sport-and-fitness-in-nairobi.md
     - uri: guides/running-in-nairobi.md
+    - uri: guides/cycling-in-nairobi.md
+    - uri: guides/golf-in-nairobi.md
     - uri: guides/hiking-near-nairobi.md
     - uri: guides/parks-and-green-spaces-in-nairobi.md
     - uri: guides/libraries-and-bookshops-in-nairobi.md

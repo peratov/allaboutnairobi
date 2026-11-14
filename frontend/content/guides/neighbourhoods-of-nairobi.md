@@ -43,7 +43,8 @@ and [Living in Lavington and Kileleshwa](/guides/living-in-lavington-and-kileles
 ## Upper Hill
 
 Office towers, hospitals and a few apartment blocks on the ridge south-west of
-the CBD. A short commute for people who work there.
+the CBD. A short commute for people who work there. See
+[Living in Upper Hill](/guides/living-in-upper-hill).
 
 ## Gigiri, Runda, Muthaiga and Rosslyn
 
@@ -73,7 +74,14 @@ Embakasi and Utawala, across the five
 [Embakasi constituencies](/map#constituency/embakasi-east) and
 [Makadara](/map#constituency/makadara). This is where much of Nairobi lives.
 Rents are lower and life is busy and local. Commutes into the centre can be
-long. Utawala and Embakasi are handy for JKIA.
+long. Utawala and Embakasi are handy for JKIA. See
+[Living in Eastlands](/guides/living-in-eastlands).
+
+## Ngara and Pangani
+
+Just north of the CBD, with new apartment blocks at lower rents than
+Westlands, and markets close by. See
+[Living in Ngara and Pangani](/guides/living-in-ngara-and-pangani).
 
 ## Along Thika Road
 

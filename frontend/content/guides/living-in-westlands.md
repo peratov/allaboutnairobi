@@ -82,3 +82,4 @@ controlled access. See [Safety in Nairobi](/guides/safety-in-nairobi).
 - [Kilimani vs Westlands vs Lavington](/guides/kilimani-vs-westlands-vs-lavington)
 - [Living in Kilimani](/guides/living-in-kilimani)
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
+- [Living in Ngara and Pangani](/guides/living-in-ngara-and-pangani)

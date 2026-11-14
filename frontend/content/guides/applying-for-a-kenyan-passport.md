@@ -73,3 +73,4 @@ commission where they will submit biometrics and collect. See
 
 - [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids)
 - [Travelling around Kenya](/guides/travelling-around-kenya)
+- [Applying for visas](/guides/applying-for-visas-from-nairobi)

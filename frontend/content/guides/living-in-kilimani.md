@@ -90,3 +90,4 @@ rationed. Ask whether the building has a **borehole** or storage tanks, and a
 - [Kilimani vs Westlands vs Lavington](/guides/kilimani-vs-westlands-vs-lavington)
 - [Living in Westlands](/guides/living-in-westlands)
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
+- [Living in Upper Hill](/guides/living-in-upper-hill)

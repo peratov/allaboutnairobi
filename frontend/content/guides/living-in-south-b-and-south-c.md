@@ -62,3 +62,4 @@ and take care with phones on the main roads. See
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
 - [Finding housing](/guides/finding-housing)
 - [JKIA airport guide](/guides/jkia-airport-guide)
+- [Living in Eastlands](/guides/living-in-eastlands)

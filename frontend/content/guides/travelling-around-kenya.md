@@ -69,3 +69,4 @@ lowlands, unlike in Nairobi. See a travel clinic before you go. See
 - [Car hire in Nairobi](/guides/car-hire-in-nairobi)
 - [Day trips from Nairobi](/guides/day-trips-from-nairobi)
 - [Where you can fly nonstop from Nairobi](/flights)
+- [To Uganda and Tanzania](/guides/travelling-to-uganda-and-tanzania-from-nairobi)

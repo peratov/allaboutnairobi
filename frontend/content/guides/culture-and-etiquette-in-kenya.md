@@ -72,3 +72,4 @@ elections; follow the other person's lead.
 - [Swahili for daily life](/guides/swahili-for-daily-life)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Tipping in Kenya](/guides/tipping-in-kenya)
+- [Places of worship](/guides/places-of-worship-in-nairobi)

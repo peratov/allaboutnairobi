@@ -47,6 +47,15 @@ GUIDES = {
     "Muthaiga": "guides/living-in-runda-gigiri-and-muthaiga.md",
     "South B": "guides/living-in-south-b-and-south-c.md",
     "South C": "guides/living-in-south-b-and-south-c.md",
+    "Upper Hill": "guides/living-in-upper-hill.md",
+    "Ngara": "guides/living-in-ngara-and-pangani.md",
+    "Pangani": "guides/living-in-ngara-and-pangani.md",
+    "Buruburu": "guides/living-in-eastlands.md",
+    "Donholm": "guides/living-in-eastlands.md",
+    "Umoja": "guides/living-in-eastlands.md",
+    "Kayole": "guides/living-in-eastlands.md",
+    "Embakasi": "guides/living-in-eastlands.md",
+    "Utawala": "guides/living-in-eastlands.md",
 }
 
 CENSUS_FIELDS = (

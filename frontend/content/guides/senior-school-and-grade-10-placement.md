@@ -68,3 +68,4 @@ official guidance.
 - [Schools in Nairobi](/guides/schools-in-nairobi)
 - [International schools in Nairobi](/guides/international-schools-in-nairobi)
 - [Nairobi with kids](/guides/nairobi-with-kids)
+- [TVET and trades](/guides/tvet-colleges-and-learning-a-trade)
