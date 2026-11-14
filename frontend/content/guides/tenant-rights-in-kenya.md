@@ -91,3 +91,4 @@ the keys.
 - [Move-in cost calculator](/tools/move-in-cost-calculator)
 - [Tenancy agreements](/guides/tenancy-agreements-in-kenya)
 - [Noise and neighbours](/guides/noise-and-neighbours-in-nairobi)
+- [Small Claims Court](/guides/small-claims-court-in-kenya)

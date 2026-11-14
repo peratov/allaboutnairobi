@@ -71,3 +71,4 @@ When in doubt, pay on delivery or buy from an established shop.
 - [Shopping in Nairobi](/guides/shopping-in-nairobi)
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [Safety in Nairobi](/guides/safety-in-nairobi#scams)
+- [Consumer rights in Kenya](/guides/consumer-rights-in-kenya)

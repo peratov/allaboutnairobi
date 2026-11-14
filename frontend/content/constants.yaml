@@ -991,3 +991,24 @@ constants:
     description: Minimum weight to give blood in Kenya, in kilograms. Kenya National Blood Transfusion Service, as reported.
     last_verified: 2026-11-14
     fail_on: 2027-11-14
+
+  SMALL_CLAIMS_DECISION_DAYS:
+    value: 60
+    unit: integer
+    description: Days within which the Small Claims Court must decide a claim from filing. Small Claims Court Act 2016 s.34.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14
+
+  LEGAL_AID_INCOME_LIMIT:
+    value: 30000
+    unit: shillings
+    description: Highest net monthly income, after tax, to qualify for state legal aid in a court case. Legal Aid (General) Regulations 2020.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14
+
+  ALIEN_REGISTRATION_DAYS:
+    value: 90
+    unit: integer
+    description: Days after which a foreigner living in Kenya must register for a foreigner certificate (alien card). Kenya Citizenship and Immigration Act 2011 s.56.
+    last_verified: 2026-11-14
+    fail_on: 2027-11-14

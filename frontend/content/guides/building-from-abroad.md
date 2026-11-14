@@ -79,3 +79,4 @@ Investigations.
 - [Sending money to Kenya](/guides/sending-money-to-kenya)
 - [Kenyans abroad](/guides/kenyans-abroad-managing-things-from-afar)
 - [Building a house in Kenya](/guides/building-a-house-in-kenya)
+- [Power of attorney in Kenya](/guides/power-of-attorney-in-kenya)

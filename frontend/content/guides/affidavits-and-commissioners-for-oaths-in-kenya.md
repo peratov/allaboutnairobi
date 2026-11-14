@@ -70,3 +70,4 @@ before you start.
 - [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids)
 - [Reporting a crime and lost documents](/guides/reporting-a-crime-and-lost-documents)
 - [Kenyans abroad: managing things from afar](/guides/kenyans-abroad-managing-things-from-afar)
+- [Power of attorney](/guides/power-of-attorney-in-kenya)

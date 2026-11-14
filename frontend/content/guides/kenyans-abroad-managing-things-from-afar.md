@@ -32,7 +32,7 @@ deceived.
 - **For building projects**, pay a contractor in stages against progress that
   someone independent has checked, with photos and receipts.
 - **Use a power of attorney** only for a specific purpose and period, and
-  register it.
+  register it. See [Power of attorney in Kenya](/guides/power-of-attorney-in-kenya).
 
 See [Buying property in Kenya](/guides/buying-property-in-kenya).
 

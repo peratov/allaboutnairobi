@@ -61,3 +61,4 @@ to the **Independent Policing Oversight Authority (IPOA)**.
 
 - [Staying safe in Nairobi](/guides/safety-in-nairobi)
 - [eCitizen, KRA PIN and IDs](/guides/ecitizen-kra-pin-and-ids)
+- [Free legal aid](/guides/free-legal-aid-in-kenya)

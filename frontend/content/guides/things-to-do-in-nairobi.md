@@ -48,6 +48,8 @@ of the best of the city is outdoors. Every place below is on the [map](/map).
 - **[KICC](/map#place/kicc)** - go up to the rooftop for the best view of the
   city.
 
+More in [Museums and galleries](/guides/museums-and-galleries-in-nairobi).
+
 ## Markets
 
 The travelling Maasai Market for crafts, City Market in the CBD, and the huge

@@ -59,3 +59,4 @@ its speciality.
 - [Shopping in Nairobi](/guides/shopping-in-nairobi)
 - [Kenyan food and eating out](/guides/kenyan-food-and-eating-out)
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
+- [Fabric and tailors](/guides/fabric-and-tailors-in-nairobi)

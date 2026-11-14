@@ -45,7 +45,7 @@ employer before you start. The common classes are:
 Spouses and children come in on **dependant passes**. Once you have a permit
 you must also register as a foreign national, which gets you a **foreigner
 certificate** (the "alien ID"). You will need that card, or the permit, to get a
-[[KRA PIN]], a bank account and a long-term lease.
+[[KRA PIN]], a bank account and a long-term lease. See [The alien card](/guides/alien-card-for-foreigners-in-kenya).
 
 Permit fees are high and processing can take months, so start early and keep
 copies of everything you submit.

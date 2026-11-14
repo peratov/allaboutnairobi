@@ -65,3 +65,4 @@ arts - and it keeps growing.
 
 - [Map of Nairobi](/map)
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
+- [Museums and galleries](/guides/museums-and-galleries-in-nairobi)

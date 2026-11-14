@@ -78,3 +78,4 @@ need the right status. See [Volunteering in Nairobi](/guides/volunteering-in-nai
 - [Class D work permit](/guides/class-d-work-permit)
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Nairobi with kids](/guides/nairobi-with-kids)
+- [The alien card](/guides/alien-card-for-foreigners-in-kenya)

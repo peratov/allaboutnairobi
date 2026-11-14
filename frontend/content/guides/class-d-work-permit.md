@@ -84,3 +84,4 @@ the permit is approved - working on a visitor's entry is illegal.
 - [Moving to Nairobi](/guides/moving-to-nairobi)
 - [Working in Kenya](/guides/working-in-kenya)
 - [Salary calculator](/tools/salary-calculator)
+- [The alien card](/guides/alien-card-for-foreigners-in-kenya)
