@@ -18,13 +18,13 @@
 
 {# The calculators people reach for first. Titles and descriptions come from
    each tool's own front matter, so they cannot drift from its page. #}
+{# The salary calculator is drawn as the quick take-home box; these are the rest, with their symbols. #}
 {% set home_tools = [
-	'tools/salary-calculator.md',
-	'tools/move-in-cost-calculator.md',
-	'tools/rental-income-tax-calculator.md',
-	'tools/mortgage-affordability-calculator.md',
-	'tools/afcon-matchday-planner.md',
-	'tools/budget-planner.md',
+	('tools/move-in-cost-calculator.md', 'housing'),
+	('tools/budget-planner.md', 'shopping'),
+	('tools/rental-income-tax-calculator.md', 'accuracy'),
+	('tools/mortgage-affordability-calculator.md', 'money'),
+	('tools/afcon-matchday-planner.md', 'football'),
 ] %}
 
 {% block main %}
@@ -33,14 +33,32 @@
 			{% include "_blocks/homeNow.html" %}
 			<div class="hero-inner">
 			<div class="hero-text">
-			<h1>Everything nobody tells you about living in Nairobi</h1>
-			<p>
-				Free, independent guides to Kenyan paperwork, housing, money and daily
-				life, and an interactive map of the city. Written for anyone making
-				Nairobi home &mdash; new arrivals, returnees, and Nairobians who have
-				never had to file a KRA return before.
+			<p class="hero-eyebrow">
+				<span class="hero-eyebrow-dot" aria-hidden="true"></span>
+				<span class="hero-eyebrow-long">Free and independent &middot; </span>Updated {{ CONTENT_LAST_UPDATED.day }} {{ CONTENT_LAST_UPDATED.strftime('%B %Y') }}
 			</p>
+			<h1>Everything nobody tells you about living in <span class="hero-accent">Nairobi</span></h1>
+			<p class="hero-lede">
+				Free, independent guides to Kenyan paperwork, housing, money and daily
+				life &mdash; for new arrivals, returnees, and Nairobians who have never
+				had to file a KRA return before.
+			</p>
+			{% set search_label = "Search" %}
+			{% set search_placeholder = "Try “KRA PIN”" %}
 			{% include "_blocks/searchForm.html" %}
+
+			{# The pages most readers arrive needing, one tap from the front door. #}
+			<nav class="hero-quick" aria-label="Popular guides">
+				<span class="hero-quick-label">Popular</span>
+				<ul>
+					<li><a href="{{ SITE_URL }}/guides/ecitizen-kra-pin-and-ids">KRA PIN</a></li>
+					<li><a href="{{ SITE_URL }}/guides/finding-housing">Finding a flat</a></li>
+					<li><a href="{{ SITE_URL }}/guides/paye-and-taxes">PAYE and tax</a></li>
+					<li><a href="{{ SITE_URL }}/tools/salary-calculator">Salary calculator</a></li>
+					<li><a href="{{ SITE_URL }}/guides/mpesa-and-mobile-money">M-Pesa</a></li>
+					<li><a href="{{ SITE_URL }}/guides/getting-a-kenyan-driving-licence">Driving licence</a></li>
+				</ul>
+			</nav>
 			</div>
 
 			{% include "_blocks/heroMap.html" %}
@@ -56,8 +74,8 @@
 					<span class="stat-label">terms explained</span>
 				</li>
 				<li class="stat">
-					<span class="stat-value">{{ constituencies|length }}</span>
-					<span class="stat-label">constituencies mapped</span>
+					<span class="stat-value">{{ tools|length }}</span>
+					<span class="stat-label">calculators</span>
 				</li>
 				<li class="stat">
 					<span class="stat-value">KES 0</span>
@@ -125,22 +143,36 @@
 			{% endfor %}
 		</article>
 
-		{% if upcoming %}
 		{#
-			The next few dated events, drawn by the same card as /events and
-			checked by the same script: anything that has finished by the
-			reader's clock is removed, so a home page cached for a fortnight
-			still shows nothing past. Six are rendered and three shown, so the
-			list stays three long after expiry takes some away.
+			Coming up: the next real event large, the two after it as rows, and
+			public holidays apart in a strip underneath - a holiday says what is
+			shut, not what to go to. More are rendered than shown, because
+			events-filter.mjs removes any that have finished by the reader's
+			clock and the rest move up; the CSS counts children, so the first one
+			left is always the lead.
 		#}
+		{% set home_events = [] %}{% set home_holidays = [] %}
+		{% for event in upcoming %}{% set _ = (home_holidays if event.get('computed') else home_events).append(event) %}{% endfor %}
+		{% if home_events or home_holidays %}
 		<article class="section home-events" aria-labelledby="coming-up">
 			<div class="home-section-head">
 				<h2 id="coming-up">Coming up in Nairobi</h2>
 				<a class="home-more" href="{{ SITE_URL }}/events">All events &#10142;</a>
 			</div>
-			<ul class="event-list">
-				{% for event in upcoming[:6] %}{{ event_card(event) }}{% endfor %}
-			</ul>
+			{% if home_events %}
+				<ul class="event-list home-event-list">
+					{% for event in home_events[:6] %}{{ event_card(event) }}{% endfor %}
+				</ul>
+			{% endif %}
+			{% if home_holidays %}
+				<div class="home-holidays">
+					<h3 class="home-holidays-title">Public holidays <span>Banks, offices and most schools shut</span></h3>
+					<ul class="event-list home-holiday-list">
+						{% for event in home_holidays[:4] %}{{ event_card(event) }}{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+			<p class="home-events-foot"><a href="{{ SITE_URL }}/events/submit">Organising something? List it free &#10142;</a></p>
 		</article>
 		{% endif %}
 
@@ -150,76 +182,119 @@
 				<a class="home-more" href="{{ SITE_URL }}/tools">All {{ tools|length }} calculators &#10142;</a>
 			</div>
 			<p class="page-intro">The same figures as the guides, worked out on your own device. Nothing you type is sent anywhere.</p>
-			<ul class="tool-cards">
-				{% for uri in home_tools %}
-					{% set tool = entries.get(uri) %}
-					{% if tool %}
-						<li>
-							<a class="tool-card" href="{{ tool.url }}">
-								<span class="tool-card-title">{{ tool.short_title|default(tool.title) }}</span>
-								<span class="tool-card-text">{{ tool.description }}</span>
-							</a>
-						</li>
-					{% endif %}
-				{% endfor %}
-			</ul>
-		</article>
+			<div class="home-tools-grid">
+				{#
+					The question most people bring, answered on the home page.
+					home-quick-pay.mjs works it out with the salary calculator's own
+					payslip(), so the two cannot disagree; without scripting the form
+					is a plain GET to the calculator, which reads ?gross=.
+				#}
+				<form class="quick-pay" action="{{ SITE_URL }}/tools/salary-calculator" method="get" data-quick-pay>
+					<p class="quick-pay-kicker"><span class="icon-stamp">{% include "_icons/money.svg" %}</span> Salary calculator</p>
+					<h3 class="quick-pay-title">What will you take home?</h3>
+					<label class="quick-pay-label" for="quick-pay-gross">Your gross salary a month</label>
+					<div class="quick-pay-field">
+						<span aria-hidden="true">KES</span>
+						<input id="quick-pay-gross" name="gross" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 80,000" data-clarity-mask="true">
+					</div>
+					<div class="quick-pay-answer" data-quick-pay-answer hidden>
+						<p class="quick-pay-net"><span>You keep</span> <strong data-qp-net aria-live="polite">&mdash;</strong> <span>a month</span></p>
+						<span class="quick-pay-bar" aria-hidden="true"><span class="qp-net" data-qp-bar="net"></span><span class="qp-nssf" data-qp-bar="nssf"></span><span class="qp-levies" data-qp-bar="levies"></span><span class="qp-paye" data-qp-bar="paye"></span></span>
+						<p class="quick-pay-legend">
+							<span><i class="qp-net"></i>Take-home</span>
+							<span><i class="qp-nssf"></i>NSSF <b data-qp-nssf></b></span>
+							<span><i class="qp-levies"></i>SHIF and Housing Levy <b data-qp-levies></b></span>
+							<span><i class="qp-paye"></i>PAYE <b data-qp-paye></b></span>
+						</p>
+					</div>
+					<button type="submit" class="quick-pay-go">See the full breakdown &#10142;</button>
+					<p class="quick-pay-note">PAYE, NSSF, SHIF and the Housing Levy at this year's rates, worked out in your browser.</p>
+				</form>
 
-		<article class="section">
-			<h2 id="numbers">The numbers, today</h2>
-			<p class="page-intro">
-				Every figure on this site comes from one dated file, so a guide can never
-				quietly go stale.
-				<a href="{{ SITE_URL }}/about#how-this-site-stays-accurate">How that works &#10142;</a>
-			</p>
-
-			<div class="table-wrapper">
-				<table>
-					<thead>
-						<tr>
-							<th scope="col">What</th>
-							<th scope="col" class="numeric">How much</th>
-							<th scope="col">Where it bites</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">Minimum wage, Nairobi</th>
-							<td class="numeric">KES {{ NAIROBI_MIN_WAGE_GENERAL_LABOURER|shillings }}</td>
-							<td>A month, for a general labourer, from May 2026</td>
-						</tr>
-						<tr>
-							<th scope="row">Lowest PAYE rate</th>
-							<td class="numeric">{{ PAYE_RATE_1|percent }}%</td>
-							<td>On the first KES {{ PAYE_BAND_1_LIMIT|shillings }} a month, less KES {{ PERSONAL_RELIEF_MONTHLY|shillings }} relief</td>
-						</tr>
-						<tr>
-							<th scope="row">NSSF off your payslip</th>
-							<td class="numeric">{{ NSSF_RATE|percent }}%</td>
-							<td>Up to KES {{ NSSF_MAX_EMPLOYEE|shillings }} a month; your employer matches it</td>
-						</tr>
-						<tr>
-							<th scope="row">SHIF and Housing Levy</th>
-							<td class="numeric">{{ SHIF_RATE|percent }}% + {{ HOUSING_LEVY_RATE|percent }}%</td>
-							<td>Of gross pay, before PAYE is worked out</td>
-						</tr>
-						<tr>
-							<th scope="row">Largest M-Pesa payment</th>
-							<td class="numeric">KES {{ MPESA_MAX_TRANSACTION|shillings }}</td>
-							<td>Anything bigger goes through a bank</td>
-						</tr>
-						<tr>
-							<th scope="row">Nairobi's population</th>
-							<td class="numeric">{{ MAP.population|count }}</td>
-							<td>At the 2019 census, across {{ constituencies|length }} constituencies</td>
-						</tr>
-					</tbody>
-				</table>
+				<ul class="tool-cards home-tool-list">
+					{% for uri, icon in home_tools %}
+						{% set tool = entries.get(uri) %}
+						{% if tool %}
+							<li>
+								<a class="tool-card" href="{{ tool.url }}">
+									<span class="icon-stamp">{% include "_icons/" ~ icon ~ ".svg" %}</span>
+									<span class="tool-card-words">
+										<span class="tool-card-title">{{ tool.short_title|default(tool.title) }}</span>
+										<span class="tool-card-text">{{ tool.description }}</span>
+									</span>
+								</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
 			</div>
 		</article>
 
-		<article class="section">
-			<h2 id="browse">Browse everything</h2>
+		{#
+			The numbers, today: six figures people get wrong, each with what it
+			means in practice, the guide that explains it, and - from
+			constants.yaml, through CONSTANT_SOURCES - when it was last checked
+			and where. The date is the point: it is what makes the promise in
+			the intro something a reader can see.
+		#}
+		{% macro figure(key, href, label) %}
+			{% set src = CONSTANT_SOURCES[key] %}
+			<li class="figure-card">
+				<a class="figure-main" href="{{ SITE_URL }}{{ href }}">
+					<span class="figure-label">{{ label }}</span>
+					<span class="figure-value">{{ caller() }}</span>
+					<span class="figure-go" aria-hidden="true">&#10142;</span>
+				</a>
+				<p class="figure-source">
+					{% if src.checked %}<span>Checked {{ src.checked.day }} {{ src.checked.strftime('%b %Y') }}</span>{% endif %}
+					{% if src.url %}<a href="{{ src.url }}" rel="noopener">{{ src.host }}</a>{% elif src.act %}<b>{{ src.act }}</b>{% endif %}
+				</p>
+			</li>
+		{% endmacro %}
+		<article class="section home-numbers" aria-labelledby="numbers">
+			<div class="home-section-head">
+				<h2 id="numbers">The numbers, today</h2>
+				<a class="home-more" href="{{ SITE_URL }}/about#how-this-site-stays-accurate">How we keep them right &#10142;</a>
+			</div>
+			<p class="page-intro">
+				Every figure on this site comes from one file, with its source, the day
+				it was last checked and the day it must be checked again by.
+			</p>
+
+			<ul class="figure-grid">
+				{% call figure('NAIROBI_MIN_WAGE_GENERAL_LABOURER', '/guides/minimum-wage-in-kenya', 'Minimum wage, Nairobi') %}
+					<strong><span class="figure-cur">KES</span>&nbsp;{{ NAIROBI_MIN_WAGE_GENERAL_LABOURER|shillings }}</strong> <small>a month</small>
+					<em>For a general labourer, from May 2026</em>
+				{% endcall %}
+				{% call figure('PAYE_RATE_1', '/guides/paye-and-taxes', 'Lowest PAYE rate') %}
+					<strong>{{ PAYE_RATE_1|percent }}%</strong> <small>on the first KES {{ PAYE_BAND_1_LIMIT|shillings }}</small>
+					<em>A month, less KES {{ PERSONAL_RELIEF_MONTHLY|shillings }} personal relief</em>
+				{% endcall %}
+				{% call figure('NSSF_RATE', '/guides/pensions-in-kenya', 'NSSF off your payslip') %}
+					<strong>{{ NSSF_RATE|percent }}%</strong> <small>of pay</small>
+					<em>Up to KES {{ NSSF_MAX_EMPLOYEE|shillings }} a month; your employer matches it</em>
+				{% endcall %}
+				{% call figure('SHIF_RATE', '/guides/registering-for-sha', 'SHIF and Housing Levy') %}
+					<strong>{{ SHIF_RATE|percent }}% + {{ HOUSING_LEVY_RATE|percent }}%</strong> <small>of gross</small>
+					<em>Both taken before PAYE is worked out</em>
+				{% endcall %}
+				{% call figure('VAT_RATE', '/guides/registering-for-vat', 'Tax on what you buy') %}
+					<strong>{{ VAT_RATE|percent }}%</strong> <small>VAT</small>
+					<em>On most goods and services, already in the shelf price</em>
+				{% endcall %}
+				{% call figure('MPESA_MAX_TRANSACTION', '/guides/mpesa-and-mobile-money', 'Largest M-Pesa payment') %}
+					<strong><span class="figure-cur">KES</span>&nbsp;{{ MPESA_MAX_TRANSACTION|shillings }}</strong> <small>at once</small>
+					<em>Anything bigger goes through a bank</em>
+				{% endcall %}
+			</ul>
+		</article>
+
+		<article class="section home-browse" aria-labelledby="browse">
+			<div class="home-section-head">
+				<h2 id="browse">Browse everything</h2>
+				<a class="home-more" href="{{ SITE_URL }}/guides">All {{ guides|length }} guides &#10142;</a>
+			</div>
+			<p class="page-intro">Every guide, by subject, in the order you are likely to need them.</p>
 			<div class="browse-collections">
 				{% with collections=collections, browse=true %}
 					{% include "_blocks/collections.html" %}
@@ -231,7 +306,10 @@
 	<script type="module">
 		import '{{ SITE_URL }}/js/components/afcon-countdown.mjs';
 		import '{{ SITE_URL }}/js/components/home-now.mjs';
+		import '{{ SITE_URL }}/js/components/home-quick-pay.mjs';
 	</script>
+	{# The payroll figures for the take-home box, as the tool pages embed them. #}
+	<script type="application/json" id="site-constants">{{ TOOL_CONSTANTS|tojson }}</script>
 {% endblock %}
 
 {% block postFooter %}

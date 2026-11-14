@@ -26,26 +26,85 @@
 }
 
 // Home page
+//
+// The front door: a warm ground with a glow behind the map, a shuka stripe
+// along its foot (the red, black and blue of a Maasai blanket), and in order - what
+// this is, the promise, search, and the pages most people come for.
 .hero {
-	padding: var(--xxl) clamp(var(--m), 4vw, var(--xxl));
-	background: var(--c-bg-page);
+	position: relative;
+	overflow: hidden;
+	padding: var(--xxl) clamp(var(--m), 4vw, var(--xxl)) calc(var(--xxl) + 6px);
+	background:
+		radial-gradient(ellipse 55% 70% at 88% 30%, var(--c-highlight-soft), transparent 70%),
+		linear-gradient(180deg, var(--c-bg-page), var(--c-bg-page));
 	border: 1px solid var(--c-border);
 	border-radius: var(--b-radius);
 	box-shadow: var(--shadow-card);
 	margin-bottom: var(--xl);
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset: auto 0 0;
+		height: 6px;
+		background: repeating-linear-gradient(90deg, #b3261e 0 40px, #1c140e 40px 50px, #b3261e 50px 74px, #2f6690 74px 80px, #185c3c 80px 96px);
+		opacity: 0.9;
+	}
 }
 
-.hero h1 { margin-bottom: var(--m); max-width: 20ch; }
+.hero h1 {
+	margin-bottom: var(--m);
+	max-width: 17ch;
+	font-size: clamp(2.05rem, calc(1.4rem + 2.4vw), 3.15rem);
+	line-height: 1.08;
+	letter-spacing: -0.015em;
+}
 
-// A band on a phone, like every .section - see _main.scss.
+// "Nairobi", underlined in gold like a highlighter stroke rather than a link.
+.hero-accent {
+	color: var(--c-laterite);
+	background: linear-gradient(transparent 72%, var(--c-gold-soft, #d39a2a40) 72%, var(--c-gold-soft, #d39a2a40) 92%, transparent 92%);
+	padding: 0 0.04em;
+	white-space: nowrap;
+}
+
+.hero .hero-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55em;
+	margin: 0 0 var(--m);
+	padding: 0.3rem 0.8rem 0.3rem 0.65rem;
+	max-width: none;
+	font-size: var(--f-xs);
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	color: var(--c-text-heading);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: 999px;
+}
+
+.hero-eyebrow-dot {
+	flex: none;
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 50%;
+	background: var(--c-forest);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-forest) 22%, transparent);
+}
+
+// A phone: a band like every .section - see _main.scss.
 @media (max-width: 40rem) {
 	.hero {
 		margin-inline: calc(var(--m) * -1);
-		padding: var(--xl) var(--m);
-		border-width: 1px 0;
+		padding: var(--xl) var(--m) calc(var(--xl) + 6px);
+		border-width: 1px 0 0;
 		border-radius: 0;
 		box-shadow: none;
 		margin-bottom: var(--m);
+		background:
+			radial-gradient(ellipse 90% 45% at 100% 0%, var(--c-highlight-soft), transparent 70%),
+			var(--c-bg-page);
 	}
 }
 
@@ -53,6 +112,15 @@
 	font-size: 1.15rem;
 	color: var(--c-text-light);
 	max-width: 46ch;
+}
+
+@media (max-width: 40rem) {
+	.hero .hero-lede { font-size: 1.05rem; }
+}
+
+// One line on a phone: the date is the part that says the guides are kept up.
+@media (max-width: 26rem) {
+	.hero-eyebrow-long { display: none; }
 }
 
 .hero .search-form {
@@ -90,6 +158,100 @@
 	}
 
 	.line-icon { width: 1.3rem; height: 1.3rem; fill: currentColor; }
+}
+
+// The hero's button says what it does: the adinkra mark alone did not read as
+// search to anyone who did not already know it.
+.hero .search-form {
+	max-width: 33rem;
+	border-radius: var(--b-radius);
+	box-shadow: 0 10px 30px -18px rgba(60, 25, 5, 0.45);
+
+	input[type="search"] { min-height: 3.4rem; font-size: 1.02rem; }
+
+	button.has-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		flex: none;
+		min-height: 3.4rem;
+		padding: 0 1.15rem 0 0.95rem;
+		font: inherit;
+		font-weight: 700;
+	}
+}
+
+@media (max-width: 22rem) {
+	.hero .search-form button.has-label span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+}
+
+// The column must be allowed to be narrower than its contents, or a long
+// unbreakable row widens the whole hero past a phone screen.
+.hero-text { min-width: 0; }
+
+// The label sits above and the six links share an even grid: three across,
+// two on a narrow phone. A wrapping row beside the label left an orphan row
+// on a tablet, and a scrolled row on a phone showed two links and cut a third.
+.hero-quick {
+	min-width: 0;
+	display: grid;
+	gap: 0.45rem;
+	margin-top: var(--m);
+	max-width: 36rem;
+
+	ul {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.45rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li { margin: 0; min-width: 0; }
+
+	a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.5rem;
+		height: 100%;
+		padding: 0.3rem 0.7rem;
+		font-size: var(--f-s);
+		font-weight: 600;
+		line-height: 1.2;
+		text-align: center;
+		color: var(--c-text-heading);
+		text-decoration: none;
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border-strong, var(--c-border));
+		border-radius: 999px;
+		transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+
+		&:hover, &:focus-visible {
+			color: var(--c-laterite);
+			border-color: var(--c-laterite);
+			background: var(--c-highlight-soft);
+		}
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+	}
+}
+
+.hero-quick-label {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+@media (max-width: 30rem) {
+	.hero-quick ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.hero-quick a { padding-inline: 0.5rem; }
+}
+
+@supports not (color: color-mix(in srgb, red, red)) {
+	.hero-eyebrow-dot { box-shadow: none; }
 }
 
 .card-grid {
@@ -134,20 +296,24 @@
 	}
 }
 
+// The four figures are reassurance, not content: one quiet row with hairline
+// dividers at every size. As four boxes on a wide screen they read as empty
+// form fields.
 .stat-row {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-	gap: var(--m);
-	margin: var(--xl) 0;
-	padding: 0;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	margin: var(--xl) 0 0;
+	padding: var(--l) 0 0;
 	list-style: none;
+	border-top: 1px solid var(--c-border);
 }
 
 .stat {
-	padding: var(--m);
-	border: 1px solid var(--c-border);
-	border-radius: var(--b-radius);
-	background: var(--c-bg-widget);
+	padding: 0 var(--m);
+	margin: 0;
+
+	&:first-child { padding-inline-start: 0; }
+	& + .stat { border-inline-start: 1px solid var(--c-border); }
 }
 
 .stat-value {
@@ -167,28 +333,13 @@
 	margin-top: var(--xs);
 }
 
-// On a phone the four figures are one quiet row rather than four boxes: they
-// are reassurance, not content, and as boxes they took 230px of the first
-// screen.
 @media (max-width: 40rem) {
-	.stat-row {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-		gap: 0;
-		margin: var(--l) 0 0;
-		padding-top: var(--m);
-		border-top: 1px solid var(--c-border);
-	}
-
+	.stat-row { margin-top: var(--l); padding-top: var(--m); }
 	.stat {
 		padding: 0 var(--xs);
-		border: 0;
-		border-radius: 0;
-		background: none;
 		text-align: center;
-
-		& + .stat { border-inline-start: 1px solid var(--c-border); }
+		&:first-child { padding-inline-start: var(--xs); }
 	}
-
 	.stat-value { font-size: 1.25rem; }
 	.stat-label { font-size: 0.7rem; line-height: 1.25; }
 }

@@ -8,6 +8,7 @@ generates.
 """
 
 import json
+import re
 import logging
 import os
 import subprocess
@@ -26,6 +27,7 @@ from extensions.functions import (
     get_public_holidays,
     glossary_groups,
     load_constants_from_file,
+    load_constants_metadata,
     or_list,
     patched_slugify,
     random_id,
@@ -125,6 +127,29 @@ ctx["NEWSLETTER_PROVIDER"] = env_str("NEWSLETTER_PROVIDER", "the email service t
 ctx["now"] = datetime.now(ZoneInfo("Africa/Nairobi"))
 ctx["current_year"] = date.today().year
 ctx["CONTENT_LAST_UPDATED"] = date.today()
+
+
+# Where each constant comes from and when it was last checked, for the home
+# page's "The numbers, today": a link if the description carries one, else the
+# law it names ("VAT Act 2013"), printed unlinked.
+def _constant_sources() -> dict:
+    out = {}
+    for name, spec in load_constants_metadata(config.content_path / "constants.yaml").items():
+        text = str(spec.get("description", ""))
+        found = re.search(r"https://[^\s)>\]]+", text)
+        url = found.group(0).rstrip(".,;") if found else None
+        checked = spec.get("last_verified")
+        act = re.search(r"\b(?:[A-Z][A-Za-z()]* )+Act(?:,? \d{4})?", text)
+        out[name] = {
+            "checked": date.fromisoformat(str(checked)) if checked else None,
+            "url": url,
+            "host": url.split("/")[2].removeprefix("www.") if url else None,
+            "act": act.group(0) if act else None,
+        }
+    return out
+
+
+ctx["CONSTANT_SOURCES"] = _constant_sources()
 
 _today = date.today()
 ctx["UPCOMING_HOLIDAYS"] = [

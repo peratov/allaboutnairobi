@@ -10,6 +10,13 @@
 #}
 {% if HERO_MAP %}
 	<div class="hero-map">
+		{# What it is and the way in, on one line above the shapes. #}
+		<div class="hero-map-head">
+			<p class="hero-map-kicker" aria-hidden="true">Nairobi &middot; {{ HERO_MAP.districts|length }} constituencies</p>
+			<a class="hero-map-link" href="{{ SITE_URL }}/map">
+				Open the map <span aria-hidden="true">&#8594;</span>
+			</a>
+		</div>
 		<svg
 			class="hero-map-svg"
 			viewBox="{{ HERO_MAP.view_box }}"
@@ -32,9 +39,5 @@
 
 		{# aria-hidden: it changes every few seconds, and the names are already on the links. #}
 		<p class="hero-map-caption" data-hero-map-caption aria-hidden="true"></p>
-
-		<a class="hero-map-link" href="{{ SITE_URL }}/map">
-			Explore the map &#8594;
-		</a>
 	</div>
 {% endif %}

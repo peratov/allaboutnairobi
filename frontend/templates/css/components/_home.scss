@@ -493,25 +493,380 @@
 	.home-tools .tool-card-text { -webkit-line-clamp: 3; }
 }
 
-// --- Coming up -------------------------------------------------------------------------
+// --- Coming up (2026-11) -------------------------------------------------------------
 //
-// Six rendered, three shown: events-filter.mjs removes any that have finished
-// by the reader's clock, and the next ones move up into the three.
+// The next event large, the two after it as rows, holidays in a strip below.
+// events-filter.mjs removes finished events from the DOM, so :first-child is
+// always the next one still to come and :nth-child(n+4) the ones held back.
 
-.home-events .event-list { margin-top: var(--m); }
-.home-events .event-list > .event:nth-child(n+4) { display: none; }
+.home-event-list {
+	display: grid;
+	gap: var(--s);
+	margin-top: var(--m);
 
-// Three across on a wide screen, where stacked they were three tall rows.
-@media (min-width: 60rem) {
-	.home-events .event-list {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--m);
+	> .event:nth-child(n+4) { display: none; }
+
+	// The rows: what, when, where - the description and links are a tap away.
+	> .event:not(:first-child) {
+		.event-description,
+		.event-links { display: none; }
+		.event-title { font-size: 1.05rem; }
+		.event-where {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
+			overflow: hidden;
+			font-size: var(--f-s);
+		}
+	}
+
+	// The lead, dressed like /events' "Next up".
+	> .event:first-child {
+		padding: var(--l) var(--l) var(--l) calc(var(--l) + 5px);
+		background:
+			radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--event-accent) 14%, transparent), transparent 55%),
+			var(--c-bg-page);
+		border-color: color-mix(in srgb, var(--event-accent) 40%, var(--c-border));
+
+		&::before { width: 6px; }
+
+		.event-body::before {
+			content: "Next up";
+			display: block;
+			margin-bottom: var(--xs);
+			font-size: var(--f-xs);
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: var(--event-accent);
+		}
+
+		.event-title { font-size: 1.35rem; }
+		.event-description {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 4;
+			overflow: hidden;
+		}
 	}
 }
 
-.home-tools .tool-cards { margin-top: var(--m); }
+// A wide screen: the lead on the left, the two rows stacked beside it.
+@media (min-width: 60rem) {
+	.home-event-list {
+		grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+		grid-auto-rows: auto;
+		gap: var(--m);
+
+		> .event:first-child {
+			grid-row: span 2;
+
+			.event-side { flex-basis: 5rem; }
+			.event-day { font-size: 2.4rem; }
+			.event-weekday { font-size: 0.8rem; }
+			.event-month { font-size: 0.85rem; }
+			.event-title { font-size: 1.5rem; }
+		}
+
+		// Only one event left: it takes the whole width.
+		> .event:only-child { grid-column: 1 / -1; grid-row: auto; }
+	}
+}
+
+// A phone: three rows of description would push Work it out a screen down.
+@media (max-width: 40rem) {
+	.home-event-list > .event:first-child {
+		padding: var(--m) var(--m) var(--m) calc(var(--m) + 5px);
+		.event-title { font-size: 1.2rem; }
+		.event-description { -webkit-line-clamp: 3; }
+	}
+}
+
+.home-holidays { margin-top: var(--l); }
+
+.home-holidays-title {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.2rem 0.6rem;
+	margin: 0 0 var(--s);
+	font-family: var(--font-body);
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+
+	span {
+		font-size: var(--f-s);
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+}
+
+// Two holidays, side by side where there is room; the description is the
+// card's own tag again, so it goes.
+.home-holiday-list {
+	display: grid;
+	gap: var(--s);
+
+	> .event:nth-child(n+3) { display: none; }
+	.event-description,
+	.event-tag { display: none; }
+}
+
+@media (min-width: 40.01rem) {
+	.home-holiday-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.home-events-foot {
+	margin: var(--m) 0 0;
+	font-size: var(--f-s);
+
+	a { font-weight: 600; }
+}
+
+@supports not (color: color-mix(in srgb, red, red)) {
+	.home-event-list > .event:first-child { background: var(--c-bg-page); border-color: var(--c-border-strong); }
+}
+
+// --- Work it out (2026-11) ------------------------------------------------------------
+//
+// The question most readers bring - what will I take home - answered in a box
+// on the home page, beside the other five calculators as rows with their
+// icons. The box's answer is home-quick-pay.mjs, using the calculator's
+// own netPay().
+
 .home-tools .page-intro { margin: var(--s) 0 0; font-size: 1rem; }
+
+.home-tools-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+	gap: var(--m);
+	align-items: start;
+	margin-top: var(--m);
+}
+
+.quick-pay {
+	position: relative;
+	display: grid;
+	gap: var(--s);
+	padding: var(--l);
+	overflow: hidden;
+	background:
+		radial-gradient(ellipse 80% 60% at 100% 0%, color-mix(in srgb, var(--c-forest) 16%, transparent), transparent 70%),
+		var(--c-bg-page);
+	border: 1px solid color-mix(in srgb, var(--c-forest) 35%, var(--c-border));
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+
+	// The shuka stripe, as on the hero: this is the site's own tool.
+	&::after {
+		content: "";
+		position: absolute;
+		inset: auto 0 0;
+		height: 4px;
+		background: repeating-linear-gradient(90deg, #b3261e 0 40px, #1c140e 40px 50px, #b3261e 50px 74px, #2f6690 74px 80px, #185c3c 80px 96px);
+		opacity: 0.85;
+	}
+}
+
+.quick-pay-kicker {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	margin: 0;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-forest);
+
+	.icon-stamp { color: var(--c-forest); background: color-mix(in srgb, var(--c-forest) 14%, var(--c-bg-page)); }
+}
+
+.quick-pay-title {
+	margin: 0;
+	font-size: 1.45rem;
+	line-height: 1.2;
+}
+
+.quick-pay-label {
+	margin-top: var(--xs);
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-text-heading);
+}
+
+.quick-pay-field {
+	display: flex;
+	align-items: center;
+	gap: var(--xs);
+	min-height: 3.25rem;
+	padding: 0 var(--m);
+	background: var(--c-bg-page);
+	border: 1.5px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+
+	&:focus-within { border-color: var(--c-forest); outline: 2px solid color-mix(in srgb, var(--c-forest) 30%, transparent); }
+
+	span { font-size: 1.2rem; font-weight: 700; color: var(--c-text-light); }
+
+	// 16px or more, or iOS zooms the page on focus.
+	input {
+		flex: 1;
+		min-width: 0;
+		padding: 0;
+		font: inherit;
+		font-size: 1.2rem;
+		font-weight: 700;
+		color: var(--c-text-heading);
+		background: transparent;
+		border: 0;
+		outline: none;
+	}
+}
+
+.quick-pay-answer {
+	display: grid;
+	gap: var(--s);
+	padding-top: var(--xs);
+}
+
+.quick-pay-net {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.35rem;
+	margin: 0;
+	color: var(--c-text-light);
+
+	strong {
+		font-family: var(--font-heading);
+		font-size: 2.1rem;
+		line-height: 1;
+		font-variant-numeric: lining-nums tabular-nums;
+		color: var(--c-forest);
+	}
+}
+
+.quick-pay-bar {
+	display: flex;
+	height: 0.6rem;
+	overflow: hidden;
+	background: var(--c-bg-widget);
+	border-radius: 1rem;
+
+	span { display: block; height: 100%; transition: width 200ms ease-out; }
+}
+
+.qp-net { background: var(--c-forest); }
+.qp-nssf { background: var(--c-gold); }
+.qp-levies { background: var(--c-rain); }
+.qp-paye { background: var(--c-laterite); }
+
+.quick-pay-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem var(--m);
+	margin: 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+
+	span { display: inline-flex; align-items: center; gap: 0.35rem; }
+	i { display: inline-block; width: 0.6rem; height: 0.6rem; border-radius: 2px; }
+	b { color: var(--c-text-heading); }
+}
+
+.quick-pay-go {
+	justify-self: start;
+	min-height: 2.75rem;
+	margin-top: var(--xs);
+	padding: 0 var(--m);
+	font: inherit;
+	font-weight: 700;
+	color: var(--c-bg-on-accent);
+	background: var(--c-forest);
+	border: 0;
+	border-radius: var(--b-radius);
+	cursor: pointer;
+
+	&:hover { filter: brightness(1.08); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.quick-pay-note {
+	margin: 0 0 var(--xs);
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+}
+
+// The other five: rows, each with its symbol in its own tone.
+.home-tool-list {
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--s);
+
+	> li:nth-child(1) { --tone: var(--c-laterite); }
+	> li:nth-child(2) { --tone: var(--c-gold); }
+	> li:nth-child(3) { --tone: var(--c-rain); }
+	> li:nth-child(4) { --tone: var(--c-forest); }
+	> li:nth-child(5) { --tone: var(--c-laterite); }
+
+	.tool-card {
+		flex-direction: row;
+		align-items: center;
+		gap: var(--m);
+		padding-block: var(--m);
+		box-shadow: var(--shadow-card);
+		transition: border-color 160ms ease-out, transform 160ms ease-out;
+
+		&:hover { border-color: var(--tone); background: var(--c-bg-page); transform: translateY(-1px); }
+		&:hover::after { color: var(--tone); }
+		&::after { top: 50%; transform: translateY(-50%); }
+		&:hover::after { transform: translate(2px, -50%); }
+	}
+
+	.icon-stamp {
+		flex: none;
+		background: color-mix(in srgb, var(--tone) 14%, var(--c-bg-page));
+		color: var(--tone);
+	}
+
+	.tool-card-words { display: grid; gap: 0.15rem; min-width: 0; }
+	.tool-card-text { -webkit-line-clamp: 2; }
+}
+
+// A tablet and down: the box above, the rest below it.
+@media (max-width: 60rem) {
+	.home-tools-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+// A phone: the box full width, the other five a row you swipe (set above).
+@media (max-width: 40rem) {
+	.quick-pay { padding: var(--m) var(--m) calc(var(--m) + 4px); }
+	.quick-pay-title { font-size: 1.25rem; }
+	.quick-pay-go { justify-self: stretch; }
+
+	.home-tool-list .tool-card {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--s);
+		&::after { top: var(--m); transform: none; }
+		&:hover::after { transform: translateX(2px); }
+	}
+	.home-tool-list .tool-card-text { -webkit-line-clamp: 3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.quick-pay-bar span { transition: none; }
+	.home-tool-list .tool-card:hover { transform: none; }
+}
+
+@supports not (color: color-mix(in srgb, red, red)) {
+	.quick-pay { background: var(--c-bg-page); border-color: var(--c-border-strong); }
+	.home-tool-list .icon-stamp { background: var(--c-bg-widget); }
+}
 
 @media (prefers-reduced-motion: reduce) {
 	.explore-eq i { animation: none; }
@@ -1077,3 +1432,425 @@ a.now-link {
 	.start-step.is-done .start-card { border-color: var(--c-forest); }
 }
 
+// --- the cards' look (2026-11) ------------------------------------------------------
+//
+// Each card has a tone - one of the palette's own colours - that tints its
+// picture's ground and colours its label, so the grid reads as nine things
+// rather than nine copies of one grey box. The two map cards keep the cool
+// map ground: their districts are a laterite tint, and on a laterite ground
+// they would vanish (the same trap /map's palest rent band fell into).
+// Paper cards with a soft shadow; a hover lifts the card, tints its edge,
+// leans the picture in and nudges the arrow.
+
+.explore-card {
+	--tone: var(--c-laterite);
+	--tone-ground: color-mix(in srgb, var(--tone) 16%, var(--c-bg-page));
+}
+
+.explore-flights { --tone: var(--c-rain); }
+.explore-data { --tone: var(--c-forest); }
+.explore-radio { --tone: var(--c-gold); }
+.explore-events { --tone: var(--c-laterite); }
+.explore-seasons { --tone: var(--c-forest); }
+.explore-afcon { --tone: var(--c-forest); }
+.explore-lostfound { --tone: var(--c-rain); }
+.explore-map,
+.explore-pulse { --tone-ground: var(--c-map-void); }
+
+.explore-card > a {
+	background: var(--c-bg-page);
+	box-shadow: var(--shadow-card);
+	transition: border-color 160ms ease-out, transform 160ms ease-out, box-shadow 160ms ease-out;
+
+	&:hover {
+		border-color: var(--tone);
+		transform: translateY(-2px);
+		box-shadow: 0 2px 4px #0000000f, 0 16px 32px -18px #0000004d;
+	}
+	&:hover .explore-cta { text-decoration: none; transform: translateX(3px); }
+	&:hover .explore-visual > *,
+	&:hover .explore-burst,
+	&:hover .explore-road { transform: scale(1.03); }
+}
+
+.explore-visual,
+.explore-burst { background: var(--tone-ground); }
+
+.explore-visual > *,
+.explore-burst,
+.explore-road {
+	transition: transform 400ms cubic-bezier(.2, .8, .2, 1);
+}
+
+// The picture is cropped by its panel, so leaning in never spills over the words.
+.explore-visual { overflow: hidden; }
+.explore-drive > a,
+.explore-flights > a { isolation: isolate; }
+
+.explore-kicker {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	color: var(--tone);
+
+	&::before {
+		content: "";
+		flex: none;
+		width: 0.45rem;
+		height: 0.45rem;
+		border-radius: 2px;
+		background: currentColor;
+	}
+}
+
+// Pulse has its own live dot.
+.explore-pulse .explore-kicker::before { content: none; }
+
+.explore-cta {
+	display: inline-block;
+	align-self: flex-start;
+	color: var(--tone);
+	transition: transform 160ms ease-out;
+}
+
+.explore-text strong { letter-spacing: -0.005em; }
+
+// The radio's bars take the card's tone; anything cut out of the ground
+// (the flight labels' halo, the tags' holes) matches the new ground.
+.explore-eq i { background: var(--tone); }
+.explore-data .explore-spark-line,
+.explore-data .explore-spark-dot { stroke: var(--tone); }
+.explore-data .explore-spark-area { fill: color-mix(in srgb, var(--tone) 22%, transparent); }
+.explore-burst-label { stroke: var(--tone-ground); }
+.explore-tag-hole { fill: var(--tone-ground); }
+
+// The section's head: the way to everything else of the kind.
+.explore-head .home-more { margin-inline-start: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+	.explore-card > a:hover { transform: none; }
+	.explore-card > a:hover .explore-visual > *,
+	.explore-card > a:hover .explore-burst,
+	.explore-card > a:hover .explore-road,
+	.explore-card > a:hover .explore-cta { transform: none; }
+}
+
+// Older browsers without color-mix(): a plain ground. See _variables.scss.
+@supports not (color: color-mix(in srgb, red, red)) {
+	.explore-card { --tone-ground: var(--c-bg-widget); }
+	.explore-data .explore-spark-area { fill: var(--tone); fill-opacity: 0.22; }
+	.explore-map,
+	.explore-pulse { --tone-ground: var(--c-map-void); }
+}
+
+// --- The numbers, today (2026-11) -------------------------------------------------------
+//
+// Six figures as cards: the number large, what it means under it, and a foot
+// saying when it was checked and where - from constants.yaml, so the promise
+// in the intro is something the reader can see. Each card opens its guide.
+
+.home-numbers .page-intro { margin: var(--s) 0 0; font-size: 1rem; }
+
+.figure-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--m);
+	margin: var(--m) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.figure-card {
+	--tone: var(--c-laterite);
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	overflow: hidden;
+	transition: border-color 160ms ease-out, transform 160ms ease-out;
+
+	&:hover { border-color: var(--tone); transform: translateY(-2px); }
+	&:nth-child(2) { --tone: var(--c-forest); }
+	&:nth-child(3) { --tone: var(--c-gold); }
+	&:nth-child(4) { --tone: var(--c-rain); }
+	&:nth-child(5) { --tone: var(--c-laterite); }
+	&:nth-child(6) { --tone: var(--c-forest); }
+}
+
+.figure-main {
+	position: relative;
+	display: grid;
+	gap: var(--xs);
+	flex: 1;
+	padding: var(--l) var(--l) var(--m);
+	color: inherit;
+	text-decoration: none;
+	border-top: 4px solid var(--tone);
+
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: -2px; }
+	&:hover .figure-go { transform: translateX(3px); color: var(--tone); }
+}
+
+.figure-label {
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--tone);
+}
+
+.figure-value {
+	display: block;
+	color: var(--c-text-light);
+
+	strong {
+		font-family: var(--font-heading);
+		font-size: 2.3rem;
+		line-height: 1.05;
+		font-variant-numeric: lining-nums;
+		color: var(--c-text-heading);
+	}
+
+	small { font-size: 1rem; font-weight: 600; white-space: nowrap; }
+
+	// The currency as a small mark before the number, joined to it by a
+	// no-break space, so "KES 250,000" fits a phone's half-width card.
+	.figure-cur {
+		margin-right: 0.1em;
+		font-family: var(--font-body);
+		font-size: 0.5em;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		vertical-align: 0.55em;
+	}
+
+	em {
+		display: block;
+		margin-top: var(--xs);
+		font-style: normal;
+		font-size: var(--f-s);
+		line-height: 1.45;
+	}
+}
+
+.figure-go {
+	position: absolute;
+	top: var(--l);
+	right: var(--l);
+	color: var(--c-text-light);
+	transition: transform 160ms ease-out, color 160ms ease-out;
+}
+
+.figure-source {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 0.2rem var(--s);
+	margin: 0;
+	padding: var(--s) var(--l);
+	font-size: var(--f-xs);
+	color: var(--c-text-light);
+	background: var(--c-bg-widget);
+	border-top: 1px solid var(--c-border);
+
+	span::before {
+		content: "";
+		display: inline-block;
+		width: 0.45rem;
+		height: 0.45rem;
+		margin-right: 0.4rem;
+		border-radius: 50%;
+		background: var(--c-forest);
+		vertical-align: 0.05em;
+	}
+
+	a { color: inherit; font-weight: 600; }
+	a:hover { color: var(--tone); }
+}
+
+@media (max-width: 60rem) {
+	.figure-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+// A phone: two to a row, the meaning kept - it is why the number matters.
+@media (max-width: 40rem) {
+	.figure-grid { gap: var(--s); }
+	.figure-main { padding: var(--m) var(--m) var(--s); }
+	.figure-go { display: none; }
+	.figure-label { font-size: 0.68rem; letter-spacing: 0.05em; }
+	.figure-value {
+		strong { font-size: 1.65rem; }
+		small { font-size: 0.85rem; }
+		em { font-size: 0.82rem; }
+	}
+	.figure-source {
+		flex-direction: column;
+		padding: var(--xs) var(--m) var(--s);
+		font-size: 0.7rem;
+	}
+}
+
+@media (max-width: 22rem) {
+	.figure-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.figure-card, .figure-go { transition: none; }
+	.figure-card:hover { transform: none; }
+}
+
+// --- Browse everything (2026-11) -----------------------------------------------------
+//
+// Nineteen subjects as cards rather than one column of every guide, which ran
+// to about 9,000px on a wide screen. Each card shows its first three guides;
+// the rest are still in the HTML (hidden), so every guide stays linked from
+// the home page. On a phone: tiles, two to a row, title and count only.
+
+.home-browse .page-intro { margin: var(--s) 0 0; font-size: 1rem; }
+
+.browse-collections {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--m);
+	margin-top: var(--m);
+}
+
+.browse-card {
+	--tone: var(--c-laterite);
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: var(--m) var(--l) var(--l);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-top: 3px solid var(--tone);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
+	transition: border-color 160ms ease-out;
+
+	&:nth-child(4n+2) { --tone: var(--c-forest); }
+	&:nth-child(4n+3) { --tone: var(--c-gold); }
+	&:nth-child(4n+4) { --tone: var(--c-rain); }
+	&:hover { border-color: var(--tone); border-top-color: var(--tone); }
+
+	h3 { margin: 0; font-size: 1.08rem; }
+
+	.collection-description {
+		margin: var(--s) 0 var(--s);
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	// The first three guides; the rest stay in the page for crawlers.
+	> ol {
+		margin: 0 0 var(--s);
+		padding-top: var(--s);
+		border-top: 1px solid var(--c-border);
+
+		ol, > li:nth-child(n+4), > li.is-heading { display: none; }
+
+		> li { margin: 0; }
+
+		a {
+			display: block;
+			padding: 0.28rem 0;
+			font-size: var(--f-s);
+			color: var(--c-text);
+			text-decoration: none;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			&:hover { color: var(--tone); text-decoration: underline; }
+		}
+	}
+}
+
+.browse-card-head {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	grid-template-rows: auto auto;
+	column-gap: var(--s);
+	align-items: center;
+	color: var(--c-text-heading);
+	text-decoration: none;
+
+	.icon-stamp {
+		grid-row: 1 / span 2;
+		width: 2.5rem;
+		height: 2.5rem;
+		color: var(--tone);
+		background: color-mix(in srgb, var(--tone) 13%, var(--c-bg-page));
+
+		.line-icon { width: 1.45rem; height: 1.45rem; }
+	}
+
+	&:hover .browse-card-title { color: var(--tone); }
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 3px; border-radius: 4px; }
+}
+
+.browse-card-title { line-height: 1.25; }
+
+.browse-card-count {
+	font-family: var(--font-body);
+	font-size: var(--f-xs);
+	font-weight: 600;
+	color: var(--c-text-light);
+}
+
+.browse-card .collection-more {
+	display: inline-block;
+	margin-top: auto;
+	font-size: var(--f-s);
+	font-weight: 700;
+	color: var(--tone);
+}
+
+@media (min-width: 70rem) {
+	.browse-collections { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	.browse-card { padding-inline: var(--m); }
+}
+
+@media (max-width: 60rem) {
+	.browse-collections { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+// A phone: tiles. The title and count are the link; the description, the
+// guides and the "All" link stay in the HTML and out of the way.
+@media (max-width: 40rem) {
+	.browse-collections { gap: var(--s); }
+
+	.browse-card {
+		padding: var(--s) var(--s) var(--s) var(--s);
+		box-shadow: none;
+
+		.collection-description,
+		> ol,
+		.collection-more { display: none; }
+
+		h3 { font-size: 0.95rem; }
+	}
+
+	.browse-card-head {
+		row-gap: 0.1rem;
+
+		.icon-stamp { width: 2rem; height: 2rem; align-self: start; }
+		.icon-stamp .line-icon { width: 1.15rem; height: 1.15rem; }
+	}
+
+	.browse-card-title { font-size: 0.9rem; }
+	.browse-card-count { font-size: 0.72rem; }
+
+	// A card's whole tile is the link: stretch it.
+	.browse-card { position: relative; }
+	.browse-card-head::after { content: ""; position: absolute; inset: 0; }
+}
+
+@supports not (color: color-mix(in srgb, red, red)) {
+	.browse-card-head .icon-stamp { background: var(--c-bg-widget); }
+}

@@ -8,7 +8,9 @@ class SalaryCalculator extends HTMLElement {
 	connectedCallback() {
 		if (this.ready) return;
 		this.ready = true;
-		const state = { amount: 100000, mode: 'gross' };
+		// ?gross= carries a figure over from the home page's take-home box.
+		const handed = Number(new URLSearchParams(location.search).get('gross'));
+		const state = { amount: handed > 0 ? handed : 100000, mode: 'gross' };
 		const redraw = mount(this, 'Salary and take-home pay', () => [
 			choice({
 				label: 'What do you know?', value: state.mode,

@@ -1,4 +1,4 @@
-{% macro renderEntries(items, currentUrl, terms=false) %}
+{% macro renderEntries(items, currentUrl, terms=false, detailed=false) %}
 	<ol>
 		{% for item in items %}
 			{% set target = entries.get(item.uri) if item.uri|default else None %}
@@ -8,14 +8,15 @@
 				fall through to the heading branch and print its title as text.
 			#}
 			{% if target or not item.uri|default %}
-			<li>
+			<li{% if not target %} class="is-heading"{% endif %}>
 				{% if target %}
 					<a href="{{ target.url }}"{% if target.url == currentUrl %} aria-current="page"{% endif %}{% if terms %} data-terms="{{ target.title }} {{ target.description|default('') }}"{% endif %}>{{ item.title|default(target.short_title|default(target.title)) }}</a>
+					{% if detailed and target.description|default %}<p class="collection-entry-text">{{ target.description }}</p>{% endif %}
 				{% else %}
 					<span class="collection-heading">{{ item.title|default('') }}</span>
 				{% endif %}
 				{% if item.entries|default %}
-					{{ renderEntries(item.entries, currentUrl, terms) }}
+					{{ renderEntries(item.entries, currentUrl, terms, detailed) }}
 				{% endif %}
 			</li>
 			{% endif %}
@@ -35,33 +36,58 @@
 	{%- endfor -%}
 {%- endmacro %}
 
+{# Every linked guide in order, for a subject page's ItemList. #}
+{% macro flatten(items) -%}
+	{%- for item in items -%}
+		{%- set target = entries.get(item.uri) if item.uri|default else None -%}
+		{%- if target or not item.uri|default -%}
+			{%- if target %}{{ target.url }}|{% endif -%}
+			{%- if item.entries|default %}{{ flatten(item.entries) }}{% endif -%}
+		{%- endif -%}
+	{%- endfor -%}
+{%- endmacro %}
+
 {#
 	`bare` renders the list alone, for a caller that has already drawn its own
 	heading and description - the guides index, which puts each subject in a
 	card. Everything else gets the section with its heading, unchanged.
 #}
-{% for collection in collections %}
+{% for collection in collections|default([]) %}
 	{% if bare|default(false) %}
 		{#- The guides index filters on these: the full title and the description,
 		    since "tax" is in far more of them than in the short titles. -#}
 		{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '', terms=true) }}
+	{% elif browse|default(false) %}
+		{#
+			The home page: each subject a card - symbol, title and count as one
+			link, the description, the first few guides and a link to the rest.
+			Every guide's link stays in the HTML (the CSS shows the first few),
+			so the home page still links every guide, and check-crawl agrees.
+		#}
+		{% set count = tally(collection.entries)|trim|length %}
+		<section class="collection browse-card">
+			<h3>
+				<a class="browse-card-head" href="{{ collection.url }}">
+					{% if collection.symbol|default %}<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>{% endif %}
+					<span class="browse-card-title">{{ collection.title }}</span>
+					<span class="browse-card-count">{{ count }} guide{{ 's' if count != 1 }}</span>
+				</a>
+			</h3>
+			{% if collection.description|default %}<p class="collection-description">{{ collection.description }}</p>{% endif %}
+			{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '') }}
+			<a class="collection-more" href="{{ collection.url }}">All {{ count }} &#10142;<span class="visually-hidden"> {{ collection.title }} guides</span></a>
+		</section>
 	{% else %}
 		<section class="collection">
+			{#- A subject's own page has already drawn its heading and description. -#}
+			{% if not detailed|default(false) %}
 			<h3>
 				{% if collection.symbol|default %}<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>{% endif %}
 				<a href="{{ collection.url }}">{{ collection.title }}</a>
 			</h3>
 			{% if collection.description|default %}<p class="collection-description">{{ collection.description }}</p>{% endif %}
-			{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '') }}
-			{#
-				`browse` is the home page. On a phone it shows each subject's
-				heading and description with this link instead of the full list,
-				which was 175 links and ten screens; the list stays in the HTML.
-			#}
-			{% if browse|default(false) %}
-				{% set count = tally(collection.entries)|trim|length %}
-				<a class="collection-more" href="{{ collection.url }}">{{ count }} guide{{ 's' if count != 1 }} &#10142;</a>
 			{% endif %}
+			{{ renderEntries(collection.entries, currentEntry.url if currentEntry|default else '', detailed=detailed|default(false)) }}
 		</section>
 	{% endif %}
 {% endfor %}

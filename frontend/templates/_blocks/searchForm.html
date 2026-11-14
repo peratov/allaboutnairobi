@@ -9,7 +9,7 @@
 		id="site-search"
 		type="search"
 		name="q"
-		placeholder="Search guides and glossary"
+		placeholder="{{ search_placeholder if search_placeholder is defined else 'Search guides and glossary' }}"
 		autocomplete="off"
 		spellcheck="false"
 		data-search-input>
@@ -19,7 +19,14 @@
 		full-width field with autofocus and the results, so search works the same
 		with scripts off.
 	#}
-	<button type="submit" aria-label="Search" data-search-button>
-		{% include "_icons/search.svg" %}
-	</button>
+	{% if search_label is defined %}
+		<button type="submit" class="has-label" data-search-button>
+			{% include "_icons/search.svg" %}
+			<span>{{ search_label }}</span>
+		</button>
+	{% else %}
+		<button type="submit" aria-label="Search" data-search-button>
+			{% include "_icons/search.svg" %}
+		</button>
+	{% endif %}
 </form>

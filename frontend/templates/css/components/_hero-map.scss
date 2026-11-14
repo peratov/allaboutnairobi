@@ -141,3 +141,167 @@
 @supports not (color: color-mix(in srgb, red, red)) {
 	.hero-map-district.is-lit { fill: var(--c-laterite); fill-opacity: 0.72; }
 }
+
+// What the map is, above it.
+.hero .hero-map-kicker {
+	margin: 0;
+	max-width: none;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+// Lifted off the ground a little, so it reads as a thing you can touch.
+.hero-map-svg { filter: drop-shadow(0 16px 22px rgba(120, 45, 10, 0.16)); }
+
+// --- The hero, second pass (2026-11) ---------------------------------------
+//
+// The map was a faint shape floating in the right half of the hero with a
+// caption under it, and on a phone it was not there at all. It is now a
+// thing: a panel on map paper with its name and the way in along the top
+// and the lit constituency named at its foot. On a phone it is a watermark
+// behind the top corner of the hero, fading out before the words begin, so
+// the front door says "Nairobi" before a line is read and costs no height.
+// The search is one pill that lights as a whole when it is typed in.
+
+.hero {
+	padding-block: clamp(var(--xl), 5vw, 4.25rem) calc(clamp(var(--xl), 4vw, 3.5rem) + 6px);
+	background:
+		radial-gradient(ellipse 55% 70% at 88% 30%, var(--c-highlight-soft), transparent 70%),
+		radial-gradient(ellipse 45% 55% at 0% 100%, #d39a2a1c, transparent 70%),
+		var(--c-bg-page);
+}
+
+.hero h1 {
+	max-width: 15ch;
+	font-size: clamp(2.2rem, calc(1.25rem + 2.9vw), 3.5rem);
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+	text-wrap: balance;
+}
+
+.hero .hero-lede { max-width: 44ch; line-height: 1.55; }
+
+.hero .search-form {
+	gap: 0.3rem;
+	max-width: 34rem;
+	padding: 0.3rem;
+	background: var(--c-bg-page);
+	border: 1.5px solid var(--c-border-strong);
+	border-radius: 999px;
+	box-shadow: 0 16px 36px -22px rgba(60, 25, 5, 0.6);
+	transition: border-color 0.15s, box-shadow 0.15s;
+
+	&:focus-within {
+		border-color: var(--c-laterite);
+		box-shadow: 0 0 0 4px var(--c-highlight-soft), 0 16px 36px -22px rgba(60, 25, 5, 0.6);
+	}
+
+	input[type="search"] {
+		min-width: 0;
+		min-height: 3rem;
+		padding-inline: 1.1rem 0.4rem;
+		background: transparent;
+		border: 0;
+		border-radius: 999px;
+		box-shadow: none;
+		outline: none;
+	}
+
+	button.has-label {
+		min-height: 3rem;
+		padding: 0 1.3rem 0 1.05rem;
+		border-radius: 999px;
+	}
+}
+
+.hero-quick a {
+	background: var(--c-bg-widget);
+	border-color: var(--c-border);
+}
+
+// The panel, wherever the map is drawn as itself.
+@media (min-width: 30.01rem) {
+	.hero-map {
+		align-items: stretch;
+		gap: var(--s);
+		padding: var(--m) var(--l) var(--m);
+		// Map paper: a faint dot grid on the page's own ground, so the
+		// constituencies' outlines - stroked in that ground - still disappear.
+		background:
+			radial-gradient(var(--c-border) 1px, transparent 1.5px) 0 0 / 18px 18px,
+			var(--c-bg-page);
+		border: 1px solid var(--c-border);
+		border-radius: 22px;
+		box-shadow: var(--shadow-card), 0 30px 60px -40px rgba(60, 25, 5, 0.55);
+	}
+
+	.hero-map-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--m);
+	}
+
+	.hero-map-link {
+		flex: none;
+		padding: 0.35rem 0.85rem;
+		font-weight: 600;
+		color: var(--c-text-heading);
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border-strong);
+		border-radius: 999px;
+		transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+
+		&:hover, &:focus-visible {
+			color: var(--c-laterite);
+			text-decoration: none;
+			background: var(--c-highlight-soft);
+			border-color: var(--c-laterite);
+		}
+	}
+
+	.hero .hero-map-caption {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		text-align: start;
+
+		&::before {
+			content: "";
+			flex: none;
+			width: 0.55rem;
+			height: 0.55rem;
+			border-radius: 50%;
+			background: var(--c-laterite);
+		}
+	}
+}
+
+// A phone: the map is the hero's watermark, not a block in it.
+@media (max-width: 30rem) {
+	.hero-map {
+		display: block;
+		position: absolute;
+		z-index: 0;
+		top: 0.25rem;
+		right: -34%;
+		width: 112%;
+		max-width: none;
+		opacity: 0.45;
+		pointer-events: none;
+		-webkit-mask-image: linear-gradient(205deg, #000 12%, transparent 58%);
+		mask-image: linear-gradient(205deg, #000 12%, transparent 58%);
+	}
+
+	.hero-map-head,
+	.hero .hero-map-caption { display: none; }
+	.hero-map-svg { filter: none; }
+
+	.hero-text,
+	.stat-row { position: relative; z-index: 1; }
+
+	.hero .search-form button.has-label { padding: 0 1rem 0 0.85rem; }
+}

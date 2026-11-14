@@ -259,3 +259,44 @@ sup a { text-decoration: none; padding: 0 0.15em; }
 	color: var(--c-text-light);
 	margin: var(--m) 0 0;
 }
+
+// Long guides on a slow phone: the first layout of the whole article - every
+// paragraph's text shaped at once - was the page's longest task, 0.6 to 1.2s
+// at Lighthouse's throttling on paye-and-taxes, and most of it below the first
+// screen. content-visibility lets the browser skip blocks that are off screen
+// until they come near, and `auto` remembers each one's real height once seen,
+// so scrolling back does not jump. The first few blocks are always drawn.
+//
+// Only plain text blocks: content-visibility clips what spills out of a box
+// and makes the box the containing block for anything fixed inside it, so a
+// calculator, a document template or anything with a pinned bar must never
+// get it. The sidebar is left alone too - it holds the sticky contents bar.
+//
+// Guides only (`is-reading`, set in guides/entry.html.jinja): they are long
+// and mostly text. Tool and template pages are short, and their widgets
+// change size as they start, which content-visibility gains nothing from.
+@supports (content-visibility: auto) {
+	.article-body.is-reading > p:nth-child(n+6),
+	.article-body.is-reading > ul:nth-child(n+6),
+	.article-body.is-reading > ol:nth-child(n+6),
+	.article-body.is-reading > blockquote:nth-child(n+6),
+	.article-body.is-reading > .admonition:nth-child(n+6),
+	.article-body.is-reading > .table-wrapper:nth-child(n+6) {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 9em;
+		// Room for a focus ring on a link at the edge of the box.
+		overflow-clip-margin: 4px;
+	}
+
+	.article-body.is-reading > h2:nth-child(n+6),
+	.article-body.is-reading > h3:nth-child(n+6) {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 2.5em;
+		overflow-clip-margin: 4px;
+	}
+
+	main:has(.article-body.is-reading) ~ .site-footer {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 40rem;
+	}
+}
