@@ -1,0 +1,270 @@
+// =============================================================================
+// The /tools index (page style `tools-page`)
+//
+// Grouped by what the reader is trying to do, each tool a card with its
+// symbol, what kind of thing it is, and one line. A filter and a row of jumps
+// at the top. The home page's tool rows use .tool-card in _tool-index.scss;
+// nothing here touches them.
+// =============================================================================
+
+.tix-hero { margin-bottom: var(--l); }
+.tix-hero .page-intro { max-width: 46rem; }
+
+// The counts are reassurance, so they are one quiet row.
+.tix-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs) var(--l);
+	margin: var(--s) 0 var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+
+	strong {
+		font-size: 1.15rem;
+		color: var(--c-laterite);
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+.tix-find {
+	position: relative;
+	max-width: 34rem;
+	margin-bottom: var(--m);
+
+	&[hidden] { display: none; }
+
+	input,
+	input[type="search"] {
+		width: 100%;
+		min-height: 3rem;
+		padding: 0 var(--m) 0 2.9rem;
+		font: inherit;
+		font-size: 1rem; // under 16px, iOS zooms the page on focus
+		color: var(--c-text);
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border-strong, var(--c-border));
+		border-radius: 999px;
+
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 1px; }
+	}
+}
+
+.tix-find-icon {
+	position: absolute;
+	top: 50%;
+	left: var(--m);
+	display: flex;
+	width: 1.15rem;
+	height: 1.15rem;
+	color: var(--c-text-light);
+	transform: translateY(-50%);
+	pointer-events: none;
+
+	// Nairobi's icons are drawn in lines, not filled.
+	svg { width: 100%; height: 100%; fill: none; stroke: currentColor; }
+}
+
+// One row that wraps on a wide screen and scrolls sideways on a phone.
+.tix-jump {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--xs);
+
+	a {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		gap: 0.4rem;
+		min-height: 2.5rem;
+		padding: 0 var(--s);
+		font-size: var(--f-s);
+		font-weight: 600;
+		color: var(--c-text);
+		text-decoration: none;
+		white-space: nowrap;
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border);
+		border-radius: 999px;
+
+		&:hover { border-color: var(--c-laterite); color: var(--c-laterite); }
+		&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+	}
+
+	span {
+		min-width: 1.4rem;
+		padding: 0 0.35rem;
+		font-size: var(--f-xs);
+		text-align: center;
+		color: var(--c-text-light);
+		background: var(--c-bg-widget);
+		border-radius: 999px;
+	}
+}
+
+// While the filter has text the jumps point at groups that may be gone.
+.tix.is-filtering .tix-jump { display: none; }
+
+.tix-group {
+	margin-top: var(--xl);
+	padding-top: var(--l);
+	border-top: 1px solid var(--c-border);
+
+	&[hidden] { display: none; }
+}
+
+.tix-group-title {
+	display: flex;
+	align-items: center;
+	gap: var(--s);
+	margin: 0 0 var(--xs);
+	font-size: 1.35rem;
+}
+
+.tix-group-blurb {
+	margin: 0 0 var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.tix-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		margin: 0;
+
+		&[hidden] { display: none; }
+	}
+}
+
+.tix-card {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: var(--s);
+	height: 100%;
+	padding: var(--m) calc(var(--m) + 1.25rem) var(--m) var(--m);
+	color: inherit;
+	text-decoration: none;
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+	transition: border-color 120ms ease-out, transform 120ms ease-out, box-shadow 120ms ease-out;
+
+	&::after {
+		content: "\2192";
+		position: absolute;
+		top: var(--m);
+		right: var(--m);
+		color: var(--c-text-light);
+		transition: transform 120ms ease-out, color 120ms ease-out;
+	}
+
+	&:hover {
+		border-color: var(--c-laterite);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+		transform: translateY(-1px);
+
+		&::after { color: var(--c-laterite); transform: translateX(3px); }
+		.tix-title { color: var(--c-laterite); }
+	}
+
+	&:focus-visible { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+.tix-icon { flex: none; }
+
+.tix-words {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	min-width: 0;
+}
+
+// What kind of thing it is, in words, coloured by family.
+.tix-kind {
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--c-laterite);
+}
+
+.tix-kind-finder,
+.tix-kind-checker,
+.tix-kind-comparer,
+.tix-kind-planner,
+.tix-kind-phrasebook { color: var(--c-forest); }
+
+.tix-kind-template,
+.tix-kind-declaration,
+.tix-kind-checklist { color: var(--c-gold); }
+
+.tix-kind-map,
+.tix-kind-data,
+.tix-kind-live,
+.tix-kind-calendar { color: var(--c-text-light); }
+
+// Pulse and lost and found, listed before they open.
+.tix-kind-opening-soon { color: var(--c-laterite); }
+
+.tix-title {
+	font-family: var(--font-heading);
+	font-size: 1.08rem;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--c-text-heading);
+	transition: color 120ms ease-out;
+}
+
+.tix-text {
+	font-size: var(--f-s);
+	line-height: 1.45;
+	color: var(--c-text-light);
+}
+
+.tix-empty {
+	margin-top: var(--l);
+	padding: var(--m);
+	text-align: center;
+	background: var(--c-bg-widget);
+	border: 1px dashed var(--c-border);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+}
+
+@media (max-width: 40rem) {
+	.tix-stats { gap: var(--xs) var(--s); font-size: var(--f-xs); }
+	.tix-stats strong { font-size: 1rem; }
+
+	.tix-jump {
+		flex-wrap: nowrap;
+		margin-inline: calc(var(--m) * -1);
+		padding-inline: var(--m);
+		overflow-x: auto;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar { display: none; }
+	}
+
+	.tix-group { margin-top: var(--l); padding-top: var(--m); }
+	.tix-group-title { font-size: 1.15rem; }
+
+	// Rows to scan: symbol, kind, title, one line.
+	.tix-cards { grid-template-columns: 1fr; gap: var(--xs); }
+	.tix-card { padding-block: var(--s); align-items: center; }
+	.tix-card::after { top: 50%; transform: translateY(-50%); }
+	.tix-card:hover { transform: none; }
+	.tix-card:hover::after { transform: translate(3px, -50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.tix-card, .tix-card::after, .tix-title { transition: none; }
+	.tix-card:hover { transform: none; }
+}

@@ -32,12 +32,20 @@
 	border-top: 1px solid var(--c-border);
 }
 
+// The answer as a card with a forest edge, as All About Accra draws it: the
+// figure that matters set apart from the fields above and the table below.
 .tool-headline {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: baseline;
-	gap: var(--s);
-	margin-bottom: var(--m);
+	gap: 0.25rem var(--s);
+	margin: var(--s) 0 var(--m);
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--c-forest);
+	border-radius: var(--b-radius);
+	box-shadow: var(--shadow-card);
 }
 
 .tool-headline-value {

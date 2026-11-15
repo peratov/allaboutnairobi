@@ -1,7 +1,7 @@
 {% extends "_layout.html" %}
 {% set page_styles = ['guide-index'] %}
 {% set canonical_path = "/guides" %}
-{% set metatitle = "All guides" %}
+{% set metatitle = "Guides to living in Nairobi" %}
 {% set metadescription = "Every guide to living in Nairobi and Kenya, grouped by subject: arriving, housing, money and work, getting around, health, daily life and exploring." %}
 {% set collections = get_entries('collections')|selectattr('type', 'equalto', 'guides')|list %}
 {% set guides = get_entries('guides') %}

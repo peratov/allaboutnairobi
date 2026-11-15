@@ -1,122 +1,199 @@
 {% extends "_layout.html" %}
-{% set page_styles = ['tool-index'] %}
+{% set page_styles = ['tools-page'] %}
 {% set canonical_path = "/tools" %}
 {% set metatitle = "Calculators and templates" %}
 {% set metadescription = "Free Kenyan calculators - take-home pay, household staff, move-in costs, loans, stamp duty and VAT - plus tenancy, receipt and resignation templates." %}
-{% set docs = get_entries('docs', sort_by='title') %}
 {% set collections = get_entries('collections')|selectattr('type', 'equalto', 'tools')|list %}
 
 {#
-	The interactive pages that are not calculators. They are standalone
-	templates, so no collection lists them, and this page - where somebody
-	looking for something to use rather than read ends up - never linked to any
-	of them. Counts come from the same data the pages draw.
+	The page is grouped by what a reader is trying to do, not by the
+	collections - "Calculators" had grown to twenty-five things. Every tool
+	still comes from collections.yaml (plus the comparers, planner, phrasebook
+	and documents, which no collection lists); this only says which group it
+	sits in, its symbol, what kind of tool it is, and one line written for the
+	card (the front matter's description is written for a search result, and
+	was cut off mid-sentence here).
+
+	A tool added to a collection and not listed here lands in "More", so it is
+	never left off the page.
+#}
+{% set tool_groups = [
+	('money', 'Money, tax and banking', 'money', 'Pay, tax, savings, loans, and sending money in and out of Kenya.'),
+	('work', 'Work and employing people', 'services', 'What you are owed, what staff cost, and the leave and overtime the law sets.'),
+	('home', 'Home, property and where to live', 'housing', 'Moving in, a month in Nairobi, and buying, letting or selling property.'),
+	('trade', 'Importing and business', 'shopping', 'What goods and cars cost to land, and the tax on a small business.'),
+	('life', 'Swahili and AFCON 2027', 'culture', 'Everyday Swahili, and planning a match or a whole fan trip.'),
+	('docs', 'Paperwork and documents', 'identity', 'Step-by-step plans, and templates and checklists to copy, fill in and print.'),
+] %}
+{% set tool_meta = {
+	'tools/salary-calculator.md': ('money', 'money', 'Calculator', 'Take-home pay after PAYE, NSSF, SHIF and the Housing Levy, or the gross to ask for.'),
+	'tools/withholding-tax-calculator.md': ('money', 'accuracy', 'Calculator', 'What reaches you after a client withholds tax on your fees, and what to invoice.'),
+	'tools/vat-calculator.md': ('money', 'accuracy', 'Calculator', 'Add VAT to a price, or find the VAT inside one.'),
+	'tools/loan-repayment-calculator.md': ('money', 'money', 'Calculator', 'Monthly repayments, total interest, and what a flat rate really costs.'),
+	'tools/savings-calculator.md': ('money', 'money', 'Calculator', 'How savings grow in a money market fund, fixed deposit, T-bill or bond, after tax.'),
+	'tools/mmf-calculator.md': ('money', 'money', 'Calculator', 'What a money market fund pays a day, a month and a year on your balance.'),
+	'tools/mmf-comparer.md': ('money', 'accuracy', 'Comparer', "Kenya's money market funds side by side, by yield after tax, in shillings and dollars."),
+	'tools/rate-checker.md': ('money', 'money', 'Checker', 'What a transfer app, bank or bureau costs you against the mid-market rate.'),
+	'tools/final-dues-calculator.md': ('work', 'services', 'Calculator', 'What you are owed when a job ends: pay, leave, notice and severance.'),
+	'tools/household-staff-calculator.md': ('work', 'services', 'Calculator', 'What a house manager, nanny, gardener or askari takes home, and costs you.'),
+	'tools/leave-calculator.md': ('work', 'services', 'Calculator', 'The annual leave you have built up, and how much is left this year.'),
+	'tools/overtime-calculator.md': ('work', 'services', 'Calculator', 'Overtime pay on working days, rest days and public holidays.'),
+	'tools/move-in-cost-calculator.md': ('home', 'housing', 'Calculator', 'The cash you need before you get the keys: rent, deposit, agent and utilities.'),
+	'tools/neighbourhood-comparer.md': ('home', 'exploring', 'Comparer', 'Two neighbourhoods side by side: rent band, distance, crowding and the census.'),
+	'tools/budget-planner.md': ('home', 'shopping', 'Planner', 'A monthly budget for Nairobi - rent, tokens, food, fares, family - and what is left.'),
+	'tools/commute-cost-calculator.md': ('home', 'transport', 'Calculator', 'A month of commuting by matatu, ride-hailing or your own car.'),
+	'tools/mortgage-affordability-calculator.md': ('home', 'housing', 'Calculator', 'How big a mortgage your pay supports, and the deposit and stamp duty up front.'),
+	'tools/stamp-duty-calculator.md': ('home', 'housing', 'Calculator', 'Stamp duty on a house, flat or land, and the total cost of buying.'),
+	'tools/rental-income-tax-calculator.md': ('home', 'accuracy', 'Calculator', 'The monthly tax on rent you collect, filed on iTax.'),
+	'tools/rental-yield-calculator.md': ('home', 'housing', 'Calculator', 'Gross and net yield on a rental after empty months, fees, repairs and tax.'),
+	'tools/land-rates-calculator.md': ('home', 'housing', 'Calculator', 'Yearly Nairobi County land rates on a plot, and any unpaid years.'),
+	'tools/capital-gains-tax-calculator.md': ('home', 'accuracy', 'Calculator', 'The tax on selling land or a home, after costs and improvements.'),
+	'tools/import-duty-calculator.md': ('trade', 'shopping', 'Calculator', 'The landed cost of goods: duty by tariff band, excise, the levies and VAT.'),
+	'tools/car-import-duty-calculator.md': ('trade', 'transport', 'Calculator', 'What a used car costs to bring into Kenya, duty, excise and levies included.'),
+	'tools/turnover-tax-calculator.md': ('trade', 'services', 'Calculator', "A small business's monthly turnover tax, and whether you fall inside the regime."),
+	'tools/phrasebook.md': ('life', 'culture', 'Phrasebook', 'Swahili for greetings, matatus, the market and food, how to say it, and the Sheng.'),
+	'tools/afcon-matchday-planner.md': ('life', 'football', 'Planner', 'When to leave for a match at each stadium, how long it takes and what it costs.'),
+	'tools/afcon-trip-budget.md': ('life', 'football', 'Calculator', 'What a fan trip to Nairobi for AFCON costs, in shillings and dollars.'),
+	'tools/paperwork-planner.md': ('docs', 'identity', 'Planner', 'Every step, in order, for a KRA PIN, eTA, work permit, SHA, passport and more.'),
+	'docs/tenancy-agreement-template.md': ('docs', 'housing', 'Template', "A plain-English tenancy agreement that protects the tenant's deposit."),
+	'docs/rent-receipt.md': ('docs', 'housing', 'Template', 'A receipt for rent and deposits, naming the exact period and unit.'),
+	'docs/resignation-letter.md': ('docs', 'services', 'Template', 'A short resignation letter, with the notice the Employment Act requires.'),
+	'docs/employment-contract-checklist.md': ('docs', 'services', 'Checklist', 'What to check in a contract before you sign it.'),
+} %}
+{# The tools no collection lists, and the documents. #}
+{% set unlisted = ['tools/mmf-comparer.md', 'tools/neighbourhood-comparer.md', 'tools/paperwork-planner.md', 'tools/phrasebook.md'] %}
+{% set docs = get_entries('docs', sort_by='title') %}
+
+{#
+	The interactive pages that are not tools. They are standalone templates, so
+	no collection lists them. Counts come from the same data the pages draw.
+	Nairobi Pulse and lost and found are listed before they open, saying so.
 #}
 {% set live_pages = [
-	{'url': '/afcon', 'title': 'AFCON 2027 in Nairobi',
-	 'text': 'A live countdown, the three stadiums, key dates you can add to your calendar, and a fan phrasebook.'},
-	{'url': '/seasons', 'title': "What's in season in Nairobi",
-	 'text': AGRICULTURE['items']|length ~ ' foods month by month, from mangoes to omena: what is good now, what is coming, and where it is grown.'},
-	{'url': '/data', 'title': 'Nairobi and Kenya in numbers',
-	 'text': INDICATORS.series|length ~ ' series charted over sixty years - population, the economy, schooling and daily life - with Nairobi and Kenya kept apart.'},
-	{'url': '/map', 'title': 'Map of Nairobi',
+	{'url': '/map', 'title': 'Map of Nairobi', 'icon': 'exploring', 'kind': 'Map',
 	 'text': 'All ' ~ MAP.constituencies|length ~ ' constituencies and ' ~ MAP.landmarks|length ~ ' landmarks, shaded by population, wealth and rent.'},
-	{'url': '/tools/neighbourhood-comparer', 'title': 'Neighbourhood comparer',
-	 'text': 'Any two of ' ~ COMPARE.places|length ~ ' neighbourhoods side by side: rent band, distance to the CBD and JKIA, crowding and the 2019 census.'},
-	{'url': '/tools/paperwork-planner', 'title': 'Paperwork planner',
-	 'text': PAPERWORK.tasks|length ~ ' step-by-step plans - KRA PIN, eTA, work permit, good conduct, SHA, nil return, passport and more - with ticks that stay on your device.'},
-	{'url': '/tools/mmf-comparer', 'title': 'Money market fund comparer',
-	 'text': 'All ' ~ MMF.KES|length ~ ' shilling and ' ~ MMF.USD|length ~ ' dollar money market funds ranked by yield, with what your amount earns after tax.'},
-	{'url': '/tools/phrasebook', 'title': 'Swahili phrasebook',
-	 'text': PHRASEBOOK.count ~ ' everyday Swahili phrases for greetings, matatus, markets, food and Swahili time, with how to say each one and the Sheng.'},
-	{'url': '/flights', 'title': 'Nonstop flights from Nairobi',
-	 'text': 'All ' ~ FLIGHTS.destinations|length ~ ' destinations from JKIA on one map, with the airlines that fly each route.'},
-	{'url': '/radio', 'title': 'Nairobi radio, live',
-	 'text': 'Listen to ' ~ RADIO.stations|selectattr('stream')|list|length ~ ' Nairobi stations in your browser, with their frequencies.'},
-	{'url': '/events', 'title': 'Events in Nairobi',
+	{'url': '/flights', 'title': 'Nonstop flights from Nairobi', 'icon': 'transport', 'kind': 'Map',
+	 'text': 'All ' ~ FLIGHTS.destinations|length ~ ' destinations from JKIA, with the airlines that fly each route.'},
+	{'url': '/data', 'title': 'Nairobi and Kenya in numbers', 'icon': 'accuracy', 'kind': 'Data',
+	 'text': INDICATORS.series|length ~ ' series over sixty years - population, the economy and daily life - Nairobi and Kenya kept apart.'},
+	{'url': '/afcon', 'title': 'AFCON 2027 in Nairobi', 'icon': 'football', 'kind': 'Live',
+	 'text': 'A live countdown, the three stadiums, and key dates you can add to your calendar.'},
+	{'url': '/radio', 'title': 'Nairobi radio, live', 'icon': 'culture', 'kind': 'Live',
+	 'text': RADIO.stations|selectattr('stream')|list|length ~ ' Nairobi stations in your browser, with their frequencies.'},
+	{'url': '/events', 'title': 'Events in Nairobi', 'icon': 'culture', 'kind': 'Calendar',
 	 'text': 'Festivals, matches, public holidays and the fixtures that come round every year.'},
-] %}
-{# Nairobi Pulse and lost and found are listed before they open, saying so. #}
-{% set live_pages = live_pages + [
-	{'url': '/pulse', 'title': 'Nairobi Pulse' ~ ('' if PULSE_LIVE else ' (opening soon)'),
-	 'text': 'Vote on questions about the city from inside Nairobi, and see on a live map how each of the ' ~ MAP.constituencies|length ~ ' constituencies answers.'},
-	{'url': '/lost-and-found', 'title': 'Lost and found' ~ ('' if LOSTFOUND_LIVE else ' (opening soon)'),
+	{'url': '/seasons', 'title': "What's in season", 'icon': 'seasons', 'kind': 'Calendar',
+	 'text': AGRICULTURE['items']|length ~ ' foods month by month, from mangoes to omena, and where each is grown.'},
+	{'url': '/pulse', 'title': 'Nairobi Pulse', 'icon': 'exploring', 'kind': 'Live' if PULSE_LIVE else 'Opening soon',
+	 'text': 'Vote on questions about the city, and see how each of the ' ~ MAP.constituencies|length ~ ' constituencies answers.'},
+	{'url': '/lost-and-found', 'title': 'Lost and found', 'icon': 'help', 'kind': 'Live' if LOSTFOUND_LIVE else 'Opening soon',
 	 'text': 'List something you lost or found in Nairobi, free. Your number is never shown.'},
 ] %}
 
-{% macro toolCard(url, title, text) %}
-	<li>
-		<a class="tool-card" href="{{ url }}">
-			<span class="tool-card-title">{{ title }}</span>
-			{% if text %}<span class="tool-card-text">{{ text }}</span>{% endif %}
+{# Every tool and document, once. Within a group, in the order of tool_meta. #}
+{% set ns = namespace(items=[], seen=[]) %}
+{% set uris = [] %}
+{% for collection in collections %}{% for item in collection.entries %}{% if item.uri|default %}{% set _ = uris.append(item.uri) %}{% endif %}{% endfor %}{% endfor %}
+{% for uri in unlisted %}{% set _ = uris.append(uri) %}{% endfor %}
+{% for doc in docs %}{% set _ = uris.append(doc.uri|default('docs/' ~ doc.url.split('/')[-1] ~ '.md')) %}{% endfor %}
+{% for uri in uris %}
+	{% set target = entries.get(uri) %}
+	{# A uri with no entry is scheduled for later; see release.py. #}
+	{% if target and uri not in ns.seen %}
+		{% set meta = tool_meta.get(uri, ('more', 'tools', 'Tool', target.description)) %}
+		{% set ns.seen = ns.seen + [uri] %}
+		{% set ns.items = ns.items + [{
+			'rank': (tool_meta|list).index(uri) if uri in tool_meta else 999,
+			'group': meta[0], 'icon': meta[1], 'kind': meta[2], 'text': meta[3],
+			'url': target.url, 'title': target.short_title|default(target.title),
+			'terms': [target.short_title|default(target.title), target.title, meta[3], target.description|default('')]|join(' ')|lower,
+		}] %}
+	{% endif %}
+{% endfor %}
+{% if ns.items|selectattr('group', 'equalto', 'more')|list %}
+	{% set tool_groups = tool_groups + [('more', 'More tools', 'tools', 'Everything else that works things out for you.')] %}
+{% endif %}
+{% set doc_count = ns.items|selectattr('group', 'equalto', 'docs')|list|length %}
+
+{% macro toolCard(url, title, text, icon, kind, terms) %}
+	<li data-tix-item data-terms="{{ terms }}">
+		<a class="tix-card" href="{{ url }}">
+			<span class="icon-stamp tix-icon">{% include "_icons/" ~ icon ~ ".svg" %}</span>
+			<span class="tix-words">
+				<span class="tix-kind tix-kind-{{ kind|lower|replace(' ', '-') }}">{{ kind }}</span>
+				<span class="tix-title">{{ title }}</span>
+				<span class="tix-text">{{ text }}</span>
+			</span>
 		</a>
 	</li>
 {% endmacro %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
-		<article class="section">
-			<div class="section-heading">
-				<span class="icon-stamp">{% include "_icons/tools.svg" %}</span>
-				<h1>Calculators and templates</h1>
-			</div>
-			<p class="page-intro">
-				Calculators that use the same figures as the guides, and documents you
-				can copy and adapt. Nothing you type is sent anywhere &mdash; every sum
-				happens on your own device.
-			</p>
+		<article class="section tix" data-tool-index>
+			<header class="tix-hero">
+				<div class="section-heading">
+					<span class="icon-stamp">{% include "_icons/tools.svg" %}</span>
+					<h1>Tools and templates</h1>
+				</div>
+				<p class="page-intro">
+					Calculators that use the same figures as the guides, planners that put
+					the steps in order, and templates you can copy. Nothing you type is
+					sent anywhere &mdash; every calculation happens on your own device.
+				</p>
+				<p class="tix-stats">
+					<span><strong>{{ ns.items|length - doc_count }}</strong> tools</span>
+					<span><strong>{{ doc_count }}</strong> plans and templates</span>
+					<span><strong>{{ live_pages|length }}</strong> maps and live pages</span>
+				</p>
 
-			{#
-				Each tool says what it does. The list was sixteen bare names, and
-				"withholding tax calculator" means nothing to somebody who has not
-				yet been told they owe one.
-			#}
-			{% for collection in collections %}
-				<section class="tool-group" id="{{ collection.id }}">
-					<h2 class="tool-group-title">
-						<span class="icon-stamp">{% include "_icons/" + collection.symbol + ".svg" %}</span>
-						{{ collection.title }}
+				<div class="tix-find" data-tix-find hidden>
+					<label class="visually-hidden" for="tix-filter">Find a tool</label>
+					<span class="tix-find-icon" aria-hidden="true">{% include "_icons/search.svg" %}</span>
+					<input type="search" id="tix-filter" data-tix-filter placeholder="Find a tool: tax, rent, car, Swahili..." autocomplete="off" data-clarity-mask="true">
+				</div>
+
+				<nav class="tix-jump" aria-label="Groups">
+					{% for id, title, icon, blurb in tool_groups %}
+						{% set n = ns.items|selectattr('group', 'equalto', id)|list|length %}
+						{% if n %}<a href="#{{ id }}">{{ title }} <span>{{ n }}</span></a>{% endif %}
+					{% endfor %}
+					<a href="#maps-and-live-pages">Maps and live pages <span>{{ live_pages|length }}</span></a>
+				</nav>
+			</header>
+
+			{% for id, title, icon, blurb in tool_groups %}
+				{% set items = ns.items|selectattr('group', 'equalto', id)|sort(attribute='rank')|list %}
+				{% if items %}
+				<section class="tix-group" id="{{ id }}" data-tix-group>
+					<h2 class="tix-group-title">
+						<span class="icon-stamp">{% include "_icons/" ~ icon ~ ".svg" %}</span>
+						<span>{{ title }}</span>
 					</h2>
-					{% if collection.description|default %}<p class="tool-group-description">{{ collection.description }}</p>{% endif %}
-					<ul class="tool-cards">
-						{% for item in collection.entries %}
-							{% set target = entries.get(item.uri) if item.uri|default else None %}
-							{# A uri with no entry is scheduled for later; see release.py. #}
-							{% if target %}
-								{{ toolCard(target.url, item.title|default(target.short_title|default(target.title)), target.description) }}
-							{% endif %}
-						{% endfor %}
+					<p class="tix-group-blurb">{{ blurb }}</p>
+					<ul class="tix-cards">
+						{% for t in items %}{{ toolCard(t.url, t.title, t.text, t.icon, t.kind, t.terms) }}{% endfor %}
 					</ul>
 				</section>
+				{% endif %}
 			{% endfor %}
 
-			{% if docs %}
-			<section class="tool-group" id="templates">
-				<h2 class="tool-group-title">
-					<span class="icon-stamp">{% include "_icons/accuracy.svg" %}</span>
-					Templates and checklists
-				</h2>
-				<p class="tool-group-description">Documents to copy, adapt and use.</p>
-				<ul class="tool-cards">
-					{% for doc in docs %}
-						{{ toolCard(doc.url, doc.short_title|default(doc.title), doc.description) }}
-					{% endfor %}
-				</ul>
-			</section>
-			{% endif %}
-
-			<section class="tool-group" id="maps-and-live-pages">
-				<h2 class="tool-group-title">
+			<section class="tix-group" id="maps-and-live-pages" data-tix-group>
+				<h2 class="tix-group-title">
 					<span class="icon-stamp">{% include "_icons/exploring.svg" %}</span>
-					Maps, data and live pages
+					<span>Maps, data and live pages</span>
 				</h2>
-				<p class="tool-group-description">Things to explore rather than calculate.</p>
-				<ul class="tool-cards">
+				<p class="tix-group-blurb">Things to explore rather than work out.</p>
+				<ul class="tix-cards">
 					{% for page in live_pages %}
-						{{ toolCard(SITE_URL ~ page.url, page.title, page.text) }}
+						{{ toolCard(SITE_URL ~ page.url, page.title, page.text, page.icon, page.kind, [page.title, page.text, page.kind]|join(' ')|lower) }}
 					{% endfor %}
 				</ul>
 			</section>
+
+			<p class="tix-empty" data-tix-empty hidden>
+				No tool matches that. <a data-tix-search href="{{ SITE_URL }}/search">Search the guides &#10142;</a>
+			</p>
 		</article>
 	</main>
 {% endblock %}

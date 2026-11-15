@@ -1,6 +1,36 @@
 {% extends "_layout.html" %}
-{% set metatitle = entry.title %}
-{% set metadescription = entry.description %}
+{% from "_blocks/collections.html" import tally, flatten with context %}
+{#
+	A subject page is a hub, so its title says how much is under it, which
+	also keeps it apart from a page of the same name (/data and "Nairobi and
+	Kenya in numbers"). Each guide is listed with its description.
+#}
+{% set guide_count = tally(entry.entries)|trim|length %}
+{% set metatitle = entry.title ~ ": " ~ guide_count ~ " free guides" %}
+{# A short description leaves most of a result's two lines empty: say what is under it. #}
+{% set metadescription = entry.description if entry.description|length >= 100 else entry.description ~ " " ~ guide_count ~ " free guides, each sourced and dated." %}
+{% set guide_urls = flatten(entry.entries)|trim|trim('|') %}
+
+{% block postFooter %}
+	{{ super() }}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		"name": {{ entry.title|tojson }},
+		"description": {{ entry.description|tojson }},
+		"url": "{{ canonical_url }}",
+		"isPartOf": { "@id": "{{ CANONICAL_ORIGIN }}/#site" },
+		"mainEntity": {
+			"@type": "ItemList",
+			"numberOfItems": {{ guide_count }},
+			"itemListElement": [
+				{% for u in guide_urls.split('|') if u %}{ "@type": "ListItem", "position": {{ loop.index }}, "url": "{{ u if u.startswith('http') else CANONICAL_ORIGIN ~ (u if u.startswith('/') else '/' ~ u) }}" }{% if not loop.last %},{% endif %}{% endfor %}
+			]
+		}
+	}
+	</script>
+{% endblock %}
 
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
@@ -10,7 +40,7 @@
 				<h1>{{ entry.title }}</h1>
 			</div>
 			<p class="page-intro">{{ entry.description }}</p>
-			{% with collections=[entry] %}
+			{% with collections=[entry], detailed=true %}
 				{% include "_blocks/collections.html" %}
 			{% endwith %}
 		</article>

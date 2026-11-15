@@ -29,6 +29,7 @@
 @import "css/components/glossary";
 {% if 'tools' in styles %}@import "css/components/tools";{% endif %}
 {% if 'tool-index' in styles %}@import "css/components/tool-index";{% endif %}
+{% if 'tools-page' in styles %}@import "css/components/tools-page";{% endif %}
 @import "css/components/forms";
 @import "css/components/cards";
 @import "css/components/icons";
