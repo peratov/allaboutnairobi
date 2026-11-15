@@ -77,3 +77,4 @@ University, USIU-Africa and Aga Khan University, among others. Most are on the
 
 - [Nairobi's neighbourhoods](/guides/neighbourhoods-of-nairobi)
 - [Cost of living in Nairobi](/guides/cost-of-living-in-nairobi)
+- [Homeschooling in Kenya](/guides/homeschooling-in-kenya)

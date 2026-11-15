@@ -70,3 +70,4 @@ lowlands, unlike in Nairobi. See a travel clinic before you go. See
 - [Day trips from Nairobi](/guides/day-trips-from-nairobi)
 - [Where you can fly nonstop from Nairobi](/flights)
 - [To Uganda and Tanzania](/guides/travelling-to-uganda-and-tanzania-from-nairobi)
+- [Kisumu from Nairobi](/guides/kisumu-from-nairobi)

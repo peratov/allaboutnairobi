@@ -75,3 +75,4 @@ against drivers.
 - [Traffic offences and fines](/guides/traffic-offences-and-fines-in-kenya)
 - [Buying a used car](/guides/buying-a-used-car-in-kenya)
 - [How fuel prices are set in Kenya](/guides/how-fuel-prices-are-set-in-kenya)
+- [After a car accident](/guides/after-a-car-accident-in-kenya)

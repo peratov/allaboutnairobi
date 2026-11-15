@@ -95,6 +95,8 @@
     - uri: guides/noise-and-neighbours-in-nairobi.md
     - uri: guides/utilities-in-nairobi.md
     - uri: guides/waste-and-recycling-in-nairobi.md
+    - uri: guides/air-quality-in-nairobi.md
+    - uri: guides/plastic-bag-ban-in-kenya.md
     - uri: guides/plugs-voltage-and-appliances-in-kenya.md
     - uri: guides/kenya-power-tokens.md
     - uri: guides/home-internet-in-nairobi.md
@@ -102,6 +104,8 @@
     - uri: guides/saving-mobile-data-in-kenya.md
     - uri: guides/nairobi-county-services.md
     - uri: guides/setting-up-your-home.md
+    - uri: guides/pest-control-in-nairobi.md
+    - uri: guides/laundry-and-dry-cleaning-in-nairobi.md
     - uri: guides/buying-furniture-in-nairobi.md
     - uri: guides/finding-a-fundi-in-nairobi.md
     - uri: guides/buying-property-in-kenya.md
@@ -218,6 +222,8 @@
     - uri: guides/importing-goods-into-kenya.md
     - uri: guides/flying-drones-in-kenya.md
     - uri: guides/small-business-ideas-in-nairobi.md
+    - uri: guides/business-loans-in-kenya.md
+    - uri: guides/starting-a-food-business-in-nairobi.md
     - uri: guides/becoming-an-mpesa-agent.md
     - uri: guides/starting-a-mitumba-business.md
     - uri: guides/starting-a-poultry-farm-near-nairobi.md
@@ -245,7 +251,10 @@
     - uri: guides/importing-a-car-to-kenya.md
     - uri: guides/transferring-a-car-logbook.md
     - uri: guides/car-insurance-in-kenya.md
+    - uri: guides/after-a-car-accident-in-kenya.md
+    - uri: guides/logbook-loans-in-kenya.md
     - uri: guides/travelling-around-kenya.md
+    - uri: guides/kisumu-from-nairobi.md
     - uri: guides/travelling-to-uganda-and-tanzania-from-nairobi.md
     - uri: guides/nairobi-to-mombasa.md
     - uri: guides/car-hire-in-nairobi.md
@@ -291,6 +300,7 @@
   description: Family life in Nairobi - schools and daycare, shopping, births and marriages, and Kenya's public holiday calendar.
   entries:
     - uri: guides/schools-in-nairobi.md
+    - uri: guides/homeschooling-in-kenya.md
     - uri: guides/international-schools-in-nairobi.md
     - uri: guides/senior-school-and-grade-10-placement.md
     - uri: guides/kcse-results-and-certificates.md
@@ -332,6 +342,7 @@
   entries:
     - uri: guides/things-to-do-in-nairobi.md
     - uri: guides/festivals-and-events-in-nairobi.md
+    - uri: guides/christmas-and-new-year-in-nairobi.md
     - uri: guides/museums-and-galleries-in-nairobi.md
     - uri: guides/places-of-worship-in-nairobi.md
     - uri: guides/nairobi-in-48-hours.md
@@ -351,6 +362,7 @@
     - uri: guides/coffee-and-tea-in-nairobi.md
     - uri: guides/tipping-in-kenya.md
     - uri: guides/nightlife-in-nairobi.md
+    - uri: guides/alcohol-laws-in-kenya.md
     - uri: guides/smoking-and-shisha-laws-in-kenya.md
     - uri: guides/live-music-in-nairobi.md
     - uri: guides/history-of-nairobi.md

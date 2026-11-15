@@ -75,3 +75,4 @@ dhows, and a slow pace. Best for three nights or more.
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
 - [Climbing Mount Kenya](/guides/climbing-mount-kenya)
 - [Lamu from Nairobi](/guides/lamu-from-nairobi)
+- [Kisumu from Nairobi](/guides/kisumu-from-nairobi)

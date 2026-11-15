@@ -74,3 +74,4 @@ respond. Give a certificate of service.
 - [Household staff calculator](/tools/household-staff-calculator)
 - [Working in Kenya](/guides/working-in-kenya)
 - [Caring for elderly parents](/guides/caring-for-elderly-parents-in-kenya)
+- [Laundry and dry cleaning](/guides/laundry-and-dry-cleaning-in-nairobi)

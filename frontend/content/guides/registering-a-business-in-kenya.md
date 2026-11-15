@@ -87,3 +87,4 @@ permit - usually a **Class G** permit for investors. See
 - [VAT calculator](/tools/vat-calculator)
 - [Hiring household staff](/guides/hiring-household-staff)
 - [Trademarks and copyright](/guides/trademarks-and-copyright-in-kenya)
+- [Starting a food business](/guides/starting-a-food-business-in-nairobi)

@@ -70,3 +70,4 @@ Office of the Data Protection Commissioner.
 - [Budget planner](/tools/budget-planner)
 - [Your data protection rights](/guides/your-data-protection-rights-in-kenya)
 - [The Hustler Fund](/guides/hustler-fund)
+- [Logbook loans in Kenya](/guides/logbook-loans-in-kenya)

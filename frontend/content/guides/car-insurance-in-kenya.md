@@ -76,3 +76,4 @@ before driving it away. See [Transferring a logbook](/guides/transferring-a-car-
 - [Driving in Nairobi](/guides/driving-in-nairobi)
 - [Importing a car to Kenya](/guides/importing-a-car-to-kenya)
 - [Getting a Kenyan driving licence](/guides/getting-a-kenyan-driving-licence)
+- [After a car accident](/guides/after-a-car-accident-in-kenya)

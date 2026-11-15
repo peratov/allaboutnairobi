@@ -67,3 +67,4 @@ See [Hiring household staff](/guides/hiring-household-staff).
 - [Move-in cost calculator](/tools/move-in-cost-calculator)
 - [Finding a fundi](/guides/finding-a-fundi-in-nairobi)
 - [Buying furniture](/guides/buying-furniture-in-nairobi)
+- [Pest control in Nairobi](/guides/pest-control-in-nairobi)

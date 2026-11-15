@@ -62,3 +62,4 @@ and [Museums and galleries](/guides/museums-and-galleries-in-nairobi).
 - [Things to do in Nairobi](/guides/things-to-do-in-nairobi)
 - [Running in Nairobi](/guides/running-in-nairobi)
 - [Nightlife in Nairobi](/guides/nightlife-in-nairobi)
+- [Christmas and New Year in Nairobi](/guides/christmas-and-new-year-in-nairobi)

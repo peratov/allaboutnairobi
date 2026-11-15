@@ -1075,3 +1075,31 @@ constants:
     description: Share of each Hustler Fund loan set aside as savings for the borrower. Financial Inclusion Fund.
     last_verified: 2026-11-14
     fail_on: 2027-07-01
+
+  PLASTIC_BAG_FINE_MIN:
+    value: 2000000
+    unit: shillings
+    description: Lowest fine for making, selling or using a banned plastic carrier bag, under the 2017 ban. NEMA.
+    last_verified: 2026-11-15
+    fail_on: 2027-11-15
+
+  PLASTIC_BAG_FINE_MAX:
+    value: 4000000
+    unit: shillings
+    description: Highest fine for making, selling or using a banned plastic carrier bag, under the 2017 ban. NEMA.
+    last_verified: 2026-11-15
+    fail_on: 2027-11-15
+
+  PLASTIC_BAG_JAIL_MAX_YEARS:
+    value: 4
+    unit: integer
+    description: Longest jail term for breaking the 2017 plastic carrier bag ban. NEMA.
+    last_verified: 2026-11-15
+    fail_on: 2027-11-15
+
+  ALCOHOL_MINIMUM_AGE:
+    value: 18
+    unit: integer
+    description: Minimum age to buy or be sold alcohol in Kenya. Alcoholic Drinks Control Act 2010.
+    last_verified: 2026-11-15
+    fail_on: 2027-11-15

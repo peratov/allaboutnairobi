@@ -74,3 +74,4 @@ behind. See [Nairobi National Park](/guides/nairobi-national-park).
 - [Running in Nairobi](/guides/running-in-nairobi)
 - [Hiking near Nairobi](/guides/hiking-near-nairobi)
 - [Nairobi with kids](/guides/nairobi-with-kids)
+- [Air quality in Nairobi](/guides/air-quality-in-nairobi)

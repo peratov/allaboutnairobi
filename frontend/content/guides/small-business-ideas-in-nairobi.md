@@ -75,3 +75,4 @@ often on land outside the city.
 - [Buying wholesale in Nairobi](/guides/buying-wholesale-in-nairobi)
 - [Becoming an M-Pesa agent](/guides/becoming-an-mpesa-agent)
 - [The Hustler Fund](/guides/hustler-fund)
+- [Business loans in Kenya](/guides/business-loans-in-kenya)

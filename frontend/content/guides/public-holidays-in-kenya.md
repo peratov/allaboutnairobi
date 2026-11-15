@@ -54,3 +54,4 @@ businesses close until early January.
 
 - [Events in Nairobi](/events)
 - [Working in Kenya](/guides/working-in-kenya)
+- [Christmas and New Year in Nairobi](/guides/christmas-and-new-year-in-nairobi)

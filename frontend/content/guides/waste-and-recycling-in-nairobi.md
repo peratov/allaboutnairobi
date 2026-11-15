@@ -79,3 +79,4 @@ serious pollution to the **National Environment Management Authority**
 - [Utilities in Nairobi](/guides/utilities-in-nairobi)
 - [Nairobi county services](/guides/nairobi-county-services)
 - [Setting up your home](/guides/setting-up-your-home)
+- [The plastic bag ban](/guides/plastic-bag-ban-in-kenya)
