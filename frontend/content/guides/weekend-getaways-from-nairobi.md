@@ -1,5 +1,5 @@
 ---
-title: Weekend getaways from Nairobi - Naivasha, Nanyuki, the coast and more
+title: Weekend getaways from Nairobi
 short_title: Weekend getaways
 description: The best weekend trips from Nairobi - Lake Naivasha, Nanyuki and Mount Kenya, Amboseli, the coast at Diani and Watamu, and more - with how to get there.
 date_created: 2026-09-28

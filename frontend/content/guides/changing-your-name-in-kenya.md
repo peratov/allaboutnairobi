@@ -1,5 +1,5 @@
 ---
-title: Changing your name in Kenya - deed polls and updating your ID
+title: Changing your name in Kenya by deed poll
 short_title: Changing your name
 description: How to change your name legally in Kenya - the deed poll, registration and the Kenya Gazette, updating your ID, passport, KRA and bank accounts.
 date_created: 2026-09-28

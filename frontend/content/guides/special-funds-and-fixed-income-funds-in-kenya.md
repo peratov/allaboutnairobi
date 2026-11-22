@@ -1,5 +1,5 @@
 ---
-title: Special funds and fixed income funds in Kenya - how they differ from MMFs
+title: Special funds and fixed income funds in Kenya
 short_title: Special and fixed income funds
 description: Kenya's fast-growing special funds and fixed income funds explained - what they invest in, why they can pay more than money market funds, and the extra risks.
 date_created: 2026-11-10

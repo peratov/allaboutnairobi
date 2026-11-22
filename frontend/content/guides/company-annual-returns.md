@@ -1,5 +1,5 @@
 ---
-title: Company annual returns in Kenya - keeping your company compliant
+title: Company annual returns in Kenya
 short_title: Company annual returns
 description: How to file a Kenyan company's annual return (CR29) on eCitizen, what else a company must file every year, and how to avoid being struck off the register.
 date_created: 2026-09-28

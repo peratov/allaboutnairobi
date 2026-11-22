@@ -89,6 +89,10 @@ $width-desktop: 1180px;
 	// here.
 	--c-map-void: #d5dee1;
 
+	// The ground under an ad slot. Cool, so an advert never reads as part of
+	// the warm page it sits in.
+	--c-ad-ground: #e6ecee;
+
 	// The home page's small map of Nairobi. It needs its own token per
 	// scheme rather than one mix: 22% laterite reads well on the dark ground
 	// and washes out to almost nothing against the near-white card, which is
@@ -136,6 +140,7 @@ $width-desktop: 1180px;
 	--c-border: #524937;          // 1.91:1
 	--c-border-strong: #7f7563;   // 3.73:1
 	--c-map-void: #0c1013;
+	--c-ad-ground: #151b1e;
 	--c-hero-map-fill: color-mix(in srgb, var(--c-laterite) 22%, var(--c-bg-page));
 
 	--c-warning-bg: #3d3117;

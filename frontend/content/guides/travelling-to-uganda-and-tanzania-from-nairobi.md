@@ -1,5 +1,5 @@
 ---
-title: Travelling to Uganda and Tanzania from Nairobi - by road and air
+title: Nairobi to Uganda and Tanzania by road and air
 short_title: To Uganda and Tanzania
 description: Getting from Nairobi to Kampala, Arusha, Dar es Salaam and Zanzibar - buses, shuttles and flights, borders, documents for Kenyans and visitors, and money.
 date_created: 2026-11-14

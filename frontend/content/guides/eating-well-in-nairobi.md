@@ -1,5 +1,5 @@
 ---
-title: Eating well in Nairobi - markets, healthy Kenyan food and safe water
+title: Eating well and healthily in Nairobi
 short_title: Eating well
 description: Eating healthily in Nairobi - markets and the mama mboga, Kenyan dishes that are good for you, washing produce, drinking water and cooking cheaply.
 date_created: 2026-11-10

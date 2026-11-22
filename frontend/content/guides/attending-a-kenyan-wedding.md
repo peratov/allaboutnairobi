@@ -1,5 +1,5 @@
 ---
-title: Attending a Kenyan wedding - committees, contributions, dress and etiquette
+title: Attending a Kenyan wedding - what to give and wear
 short_title: Attending a wedding
 description: A guest's guide to weddings in Kenya - committee meetings and contributions, ruracio and other ceremonies, what to wear, gifts, timing and the reception.
 date_created: 2026-11-14

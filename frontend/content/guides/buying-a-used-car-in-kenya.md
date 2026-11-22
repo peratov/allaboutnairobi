@@ -1,5 +1,5 @@
 ---
-title: Buying a used car in Kenya - checks, the NTSA search and paying safely
+title: Buying a used car in Kenya - checks before you pay
 short_title: Buying a used car
 description: How to buy a second-hand car in Kenya - where to look, the NTSA vehicle search, checking for loans, inspection, paying safely and transferring ownership.
 date_created: 2026-11-14

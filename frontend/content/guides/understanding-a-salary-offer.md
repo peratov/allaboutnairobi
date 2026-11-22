@@ -1,5 +1,5 @@
 ---
-title: Understanding a Nairobi salary offer - gross, net and benefits
+title: Understanding a salary offer in Nairobi
 short_title: Salary offers
 description: How to read and compare a job offer in Nairobi - gross vs take-home pay, allowances, medical cover, pension, and the questions to ask before you accept.
 date_created: 2026-09-28

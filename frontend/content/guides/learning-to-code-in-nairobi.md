@@ -1,5 +1,5 @@
 ---
-title: Learning to code in Nairobi - bootcamps, free courses and communities
+title: Learning to code in Nairobi - bootcamps and free courses
 short_title: Learning to code
 description: Ways to learn software development or data skills in Nairobi - paid bootcamps, free programmes, university and TVET courses, communities, and choosing well.
 date_created: 2026-11-14

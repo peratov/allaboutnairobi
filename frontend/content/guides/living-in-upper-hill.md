@@ -1,5 +1,5 @@
 ---
-title: Living in Upper Hill, Nairobi - rents, commutes and daily life
+title: Living in Upper Hill, Nairobi
 short_title: Living in Upper Hill
 description: What it is like to live in Upper Hill, Nairobi's office and hospital district - rents, serviced flats, walking to work, safety, quiet weekends and who it suits.
 date_created: 2026-11-14

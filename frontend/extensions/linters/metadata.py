@@ -11,6 +11,7 @@ from ursus.linters import Linter, LinterResult
 MAX_DESCRIPTION_LENGTH = 160
 MIN_DESCRIPTION_LENGTH = 50
 MAX_TITLE_LENGTH = 70
+SEARCH_TITLE_LENGTH = 60
 
 
 def _read_front_matter(file_path: Path) -> dict | None:
@@ -72,4 +73,16 @@ class TitleLengthLinter(Linter):
                 f"`title` is {len(title)} characters and there is no `short_title`. "
                 f"Menus and breadcrumbs will look bad.",
                 logging.WARNING,
+            )
+
+        # The title is also the page's <title>, and Google cuts it off at
+        # about 60 characters. Long "X - a, b and c" titles were one of the
+        # differences from All About Accra when search traffic fell
+        # (2026-11-22), so a guide title over 60 is an error now.
+        if file_path.parts[-2:-1] == ("guides",) and len(title) > SEARCH_TITLE_LENGTH:
+            yield (
+                None,
+                f"`title` is {len(title)} characters; keep guide titles to "
+                f"{SEARCH_TITLE_LENGTH} so search results show them whole.",
+                logging.ERROR,
             )

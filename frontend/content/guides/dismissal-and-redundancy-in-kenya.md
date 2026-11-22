@@ -1,5 +1,5 @@
 ---
-title: Dismissal and redundancy in Kenya - your rights and final dues
+title: Dismissal and redundancy in Kenya - your final dues
 short_title: Dismissal and redundancy
 description: When a Kenyan employer can dismiss you, the hearing you are owed, redundancy and severance, final dues, the certificate of service, and how to bring a claim.
 date_created: 2026-11-14

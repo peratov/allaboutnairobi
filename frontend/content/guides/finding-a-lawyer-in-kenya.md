@@ -1,5 +1,5 @@
 ---
-title: Finding a lawyer in Kenya - choosing an advocate and checking they're real
+title: Finding a lawyer in Kenya and checking they're real
 short_title: Finding a lawyer
 description: How to find and check an advocate in Kenya - the LSK practising certificate search, choosing a lawyer, fees and engagement letters, client money, complaints.
 date_created: 2026-11-14

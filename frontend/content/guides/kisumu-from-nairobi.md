@@ -1,5 +1,5 @@
 ---
-title: Kisumu from Nairobi - getting there and what to do by Lake Victoria
+title: Kisumu from Nairobi - a trip to Lake Victoria
 short_title: Kisumu from Nairobi
 description: A trip to Kisumu from Nairobi - by plane, bus, car or the overnight train - then Lake Victoria, fish on Dunga beach, Kit Mikayi and the Impala Sanctuary.
 date_created: 2026-11-15

@@ -1,5 +1,5 @@
 ---
-title: Home security in Nairobi - guards, alarms and response companies
+title: Home security in Nairobi - guards and alarms
 short_title: Home security
 description: How Nairobi homes are secured - guards, alarm and response companies, CCTV, electric fencing and everyday habits - and how to choose a security company.
 date_created: 2026-09-28

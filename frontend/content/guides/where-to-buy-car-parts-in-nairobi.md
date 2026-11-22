@@ -1,5 +1,5 @@
 ---
-title: Where to buy car parts in Nairobi - Kirinyaga Road and beyond
+title: Where to buy car parts in Nairobi
 short_title: Car parts
 description: Buying spare parts in Nairobi - Kirinyaga Road and Grogan, Industrial Area dealers, genuine and ex-Japan parts, and avoiding fakes and overcharging.
 date_created: 2026-11-14

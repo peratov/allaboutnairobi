@@ -1,5 +1,5 @@
 ---
-title: Student accommodation in Nairobi - halls, hostels and renting near campus
+title: Student accommodation in Nairobi
 short_title: Student accommodation
 description: Where university and college students live in Nairobi - campus halls, private hostels, student housing and shared rooms - with costs, checks and safety.
 date_created: 2026-11-14

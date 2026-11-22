@@ -1,5 +1,5 @@
 ---
-title: Registering to vote in Kenya - who can register, where and how
+title: How to register to vote in Kenya
 short_title: Registering to vote
 description: How to register as a voter in Kenya before the 2027 election - who qualifies, what to bring, IEBC offices and Huduma Centres, checking details, transfers.
 date_created: 2026-11-14

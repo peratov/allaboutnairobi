@@ -1,5 +1,5 @@
 ---
-title: Finding a fundi in Nairobi - plumbers, electricians and builders
+title: Finding a good fundi in Nairobi
 short_title: Finding a fundi
 description: How to find and hire a reliable plumber, electrician, mason, carpenter or painter in Nairobi - licences to ask for, agreeing a price, and paying safely.
 date_created: 2026-11-14

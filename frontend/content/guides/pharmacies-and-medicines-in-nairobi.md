@@ -1,5 +1,5 @@
 ---
-title: Pharmacies and medicines in Nairobi - prescriptions, prices and fakes
+title: Pharmacies in Nairobi and avoiding fake medicines
 short_title: Pharmacies and medicines
 description: Using pharmacies in Nairobi - checking one is registered, prescriptions and antibiotics, generics, late-night pharmacies and bringing medicines into Kenya.
 date_created: 2026-11-14

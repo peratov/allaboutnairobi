@@ -1,5 +1,5 @@
 ---
-title: Online shopping in Kenya - delivery, payment, returns and scams
+title: Online shopping in Kenya safely
 short_title: Online shopping
 description: How online shopping works in Kenya - marketplaces, supermarket and food delivery, paying safely, returns, buying from abroad, and avoiding social media scams.
 date_created: 2026-09-28

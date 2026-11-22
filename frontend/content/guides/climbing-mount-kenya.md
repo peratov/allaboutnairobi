@@ -1,5 +1,5 @@
 ---
-title: Climbing Mount Kenya from Nairobi - routes, guides and preparation
+title: Climbing Mount Kenya - routes, guides and kit
 short_title: Climbing Mount Kenya
 description: Planning a Mount Kenya climb to Point Lenana from Nairobi - the Sirimon, Chogoria and Naro Moru routes, guides and porters, park fees, kit and altitude.
 date_created: 2026-11-14

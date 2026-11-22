@@ -1,5 +1,5 @@
 ---
-title: Ride-hailing and delivery apps in Nairobi - Uber, Bolt, Little and more
+title: Uber, Bolt and delivery apps in Nairobi
 short_title: Ride-hailing and delivery
 description: Using Uber, Bolt and Little in Nairobi - fares, paying by cash or M-Pesa, safety checks, boda rides on the apps, and food, grocery and parcel delivery.
 date_created: 2026-11-14

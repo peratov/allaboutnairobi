@@ -1,5 +1,5 @@
 ---
-title: Buying off-plan in Kenya - the checks that protect your deposit
+title: Buying off-plan in Kenya - protecting your deposit
 short_title: Buying off-plan
 description: How to buy an off-plan apartment in Nairobi safely - checking the developer and approvals, the sale agreement, escrow and staged payments, and delays.
 date_created: 2026-09-28

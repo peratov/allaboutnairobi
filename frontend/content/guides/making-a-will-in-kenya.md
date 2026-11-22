@@ -1,5 +1,5 @@
 ---
-title: Making a will in Kenya - what makes it valid and how to do it
+title: How to make a valid will in Kenya
 short_title: Making a will
 description: How to make a valid will in Kenya - writing and witnessing it, choosing an executor, providing for dependants, keeping it safe, and dying without one.
 date_created: 2026-11-14

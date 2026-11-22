@@ -1,5 +1,5 @@
 ---
-title: Sending parcels in Kenya - couriers, Posta, buses and matatus
+title: Sending parcels in Kenya - couriers and buses
 short_title: Sending parcels
 description: How to send a parcel or documents within Kenya and abroad from Nairobi - couriers, Posta, bus and matatu parcel services, boda deliveries, and tips.
 date_created: 2026-11-14

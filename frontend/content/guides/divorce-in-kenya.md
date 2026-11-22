@@ -1,5 +1,5 @@
 ---
-title: Divorce in Kenya - grounds, the court process, property and children
+title: Divorce in Kenya - how it works in court
 short_title: Divorce
 description: How divorce works in Kenya under the Marriage Act - grounds, filing a petition, contested and uncontested cases, dividing matrimonial property, and children.
 date_created: 2026-11-14

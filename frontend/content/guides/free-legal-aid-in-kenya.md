@@ -1,5 +1,5 @@
 ---
-title: Free legal aid in Kenya - who qualifies and where to get help
+title: Free legal aid in Kenya - who qualifies
 short_title: Free legal aid
 description: Where to get free or low-cost legal help in Kenya - the National Legal Aid Service, who qualifies, legal aid clinics, the Law Society and other organisations.
 date_created: 2026-11-14

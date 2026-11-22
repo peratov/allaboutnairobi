@@ -1,5 +1,5 @@
 ---
-title: Watching football in Nairobi - Kenyan league, the Mashemeji derby and pubs
+title: Watching football in Nairobi
 short_title: Watching football
 description: Watching football in Nairobi - Kenyan Premier League clubs and stadiums, the Mashemeji derby, tickets, Harambee Stars, and pubs showing European games.
 date_created: 2026-11-14

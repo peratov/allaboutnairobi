@@ -1,5 +1,5 @@
 ---
-title: Your data protection rights in Kenya - and how to complain to the ODPC
+title: Your data protection rights in Kenya
 short_title: Data protection rights
 description: Your rights under Kenya's Data Protection Act - to see, correct and delete your data and stop marketing - and how to complain to the Data Commissioner.
 date_created: 2026-11-14

@@ -1,5 +1,5 @@
 ---
-title: International schools in Nairobi - curricula, fees and applying
+title: International schools in Nairobi - fees and curricula
 short_title: International schools
 description: A guide to Nairobi's international schools - British, IB and American curricula, what fees really cost, where the schools are, and how to apply.
 date_created: 2026-09-28

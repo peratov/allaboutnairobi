@@ -1,5 +1,5 @@
 ---
-title: Sexual harassment at work in Kenya - your rights and how to report it
+title: Sexual harassment at work in Kenya - reporting it
 short_title: Harassment at work
 description: What counts as sexual harassment at work under Kenya's Employment Act, employers' duty to have a policy, how to report it, evidence, and going further.
 date_created: 2026-11-14

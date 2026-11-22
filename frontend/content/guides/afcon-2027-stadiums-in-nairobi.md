@@ -1,5 +1,5 @@
 ---
-title: Nairobi's AFCON 2027 stadiums - Raila Odinga, Kasarani and Nyayo
+title: Nairobi's AFCON 2027 stadiums, Kasarani and Nyayo
 short_title: AFCON stadiums in Nairobi
 description: A fan's guide to Nairobi's three AFCON 2027 stadiums - Raila Odinga International, Kasarani and Nyayo - capacities, getting there, gates and what to bring.
 date_created: 2026-09-28

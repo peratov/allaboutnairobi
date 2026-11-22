@@ -1,5 +1,5 @@
 ---
-title: Homeschooling in Kenya - the law, the risks and how families do it
+title: "Homeschooling in Kenya - is it legal?"
 short_title: Homeschooling
 description: Homeschooling in Kenya explained - why its legal status is unclear, the Basic Education Act's school duty, how families homeschool anyway, curricula and exams.
 date_created: 2026-11-15

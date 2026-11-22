@@ -1,5 +1,5 @@
 ---
-title: Applying to university in Kenya - KUCCPS, self-sponsored places and funding
+title: Applying to university in Kenya through KUCCPS
 short_title: Applying to university
 description: How to get into a Kenyan university - KUCCPS placement, applying directly as a self-sponsored student, checking accreditation, and scholarships, loans and HELB.
 date_created: 2026-11-14

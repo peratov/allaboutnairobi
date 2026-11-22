@@ -1,5 +1,5 @@
 ---
-title: Laundry and dry cleaning in Nairobi - mama fua, laundromats and apps
+title: Laundry and dry cleaning in Nairobi
 short_title: Laundry and dry cleaning
 description: How Nairobi gets its washing done - mama fua by the day, washing machines, laundromats, pick-up laundry apps, dry cleaners, drying in the rains, and ironing.
 date_created: 2026-11-15

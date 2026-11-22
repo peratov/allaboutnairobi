@@ -1,5 +1,5 @@
 ---
-title: Kenyan names and naming customs - what names mean and how they're given
+title: Kenyan names and what they mean
 short_title: Kenyan names
 description: How Kenyans are named - after grandparents, Luo names for the time of birth, Kalenjin Kip- and Chep- names, Christian and Muslim names, and polite address.
 date_created: 2026-11-14

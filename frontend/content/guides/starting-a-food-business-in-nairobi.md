@@ -1,5 +1,5 @@
 ---
-title: Starting a food business in Nairobi - permits, hygiene and selling
+title: Starting a food business in Nairobi - permits
 short_title: Starting a food business
 description: The licences and checks a food business in Nairobi needs - business permit, food hygiene licence, food handlers' medical certificates, fire, KEBS and KRA.
 date_created: 2026-11-15

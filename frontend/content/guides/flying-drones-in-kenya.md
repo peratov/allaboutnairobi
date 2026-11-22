@@ -1,5 +1,5 @@
 ---
-title: Flying drones in Kenya - registration, permits and where you can fly
+title: Flying a drone in Kenya - permits and the rules
 short_title: Flying drones
 description: The rules for flying drones in Kenya - KCAA registration, import permits for visitors, national parks and no-fly areas, commercial use, and penalties.
 date_created: 2026-11-14

@@ -1,5 +1,5 @@
 ---
-title: Fundraising and harambees in Kenya - medical bills, fees and funerals
+title: Harambees and fundraising in Kenya
 short_title: Fundraising and harambees
 description: How Kenyans raise money together - harambees for medical bills, fees and funerals, online fundraising, running a transparent appeal, and fake appeals.
 date_created: 2026-11-14

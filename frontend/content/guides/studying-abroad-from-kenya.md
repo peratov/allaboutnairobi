@@ -1,5 +1,5 @@
 ---
-title: Studying abroad from Kenya - applications, scholarships and student visas
+title: Studying abroad from Kenya - scholarships and visas
 short_title: Studying abroad
 description: How Kenyan students apply to study abroad - choosing a country and course, scholarships, certificates, student visas, proof of funds, and agents.
 date_created: 2026-11-14

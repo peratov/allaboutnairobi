@@ -1,0 +1,144 @@
+// Ads without the mess. On every page, because any indexable page can carry
+// one - see "Ads without the mess" in CLAUDE.md.
+//
+// Two kinds arrive. The site's own slots (_blocks/adSlot.html) are placed by
+// the build between sections and hold their height from the first frame.
+// Auto ads are placed by Google wherever its model likes; the rules for them
+// below only make them sit well once they land.
+
+// ---------------------------------------------------------------- our slots
+
+.ad-slot {
+	// One fixed height for every slot: a 336x280 or 300x250 fills it, and a
+	// responsive unit given an exact height in CSS serves to it, so nothing
+	// below ever moves when the ad arrives.
+	--ad-h: 280px;
+	display: block;
+	clear: both;
+	// A clear gap above and below - nothing tappable within a thumb's reach
+	// of the ad, which AdSense's placement policy asks for.
+	margin: var(--xxl) 0;
+	text-align: center;
+	// Its own stacking context at the bottom, so the sticky header, the
+	// contents bar and every pinned answer pass over an ad's iframe rather
+	// than under it.
+	position: relative;
+	z-index: 0;
+}
+
+.ad-slot-label {
+	display: block;
+	margin-bottom: var(--xs);
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.ad-slot-box {
+	position: relative;
+	height: var(--ad-h);
+	background: var(--c-ad-ground);
+	border-radius: 6px;
+
+	ins.adsbygoogle {
+		display: block;
+		width: 100%;
+		height: var(--ad-h);
+	}
+
+	// Google marks a slot it has nothing for. Collapsing the <ins> is what its
+	// own help pages suggest; here the house card takes the same space.
+	ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
+}
+
+// The site's own card, shown when no ad comes: unfilled, blocked, or
+// nothing after ten seconds (the script in _layout.html sets is-house).
+.ad-house {
+	display: none;
+	position: absolute;
+	inset: 0;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: var(--xs);
+	padding: var(--l);
+	color: var(--c-text);
+	text-decoration: none;
+	text-align: center;
+
+	strong {
+		font-family: var(--font-heading);
+		font-size: 1.25rem;
+		color: var(--c-text-heading);
+	}
+
+	span { max-width: 26rem; color: var(--c-text-light); }
+
+	&:hover strong, &:focus-visible strong { color: var(--c-text-link); }
+}
+
+.ad-house-eyebrow {
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.ad-slot-box ins[data-ad-status="unfilled"] ~ .ad-house,
+.ad-slot.is-house .ad-house {
+	display: flex;
+}
+
+.ad-slot.is-house ins.adsbygoogle { display: none; }
+
+// The site's own card is not an advert, so it does not carry the label. The
+// line keeps its height, so the swap moves nothing.
+.ad-slot.is-house .ad-slot-label { visibility: hidden; }
+
+// ADS_PREVIEW=1, locally: where an ad would be, at its real size.
+.ad-slot-box[data-ad-preview]::before {
+	content: "Ad - 336 \00D7 280";
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	width: 336px;
+	max-width: 100%;
+	height: 280px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px dashed var(--c-border-strong);
+	color: var(--c-text-light);
+	font-size: 0.85rem;
+}
+
+// --------------------------------------------------------------- Auto ads
+
+// What Google inserts into the page. Its inline styles size the ad; these
+// only give it room, a label, and the bottom of the stacking order, so a
+// pinned answer or the contents bar is never drawn under an advert.
+.google-auto-placed {
+	clear: both;
+	position: relative;
+	z-index: 0;
+	margin-block: var(--xl) !important;
+	max-width: 100%;
+
+	&::before {
+		content: "Advertisement";
+		display: block;
+		margin-bottom: var(--xs);
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--c-text-light);
+		text-align: center;
+	}
+}
+
+@media print {
+	.ad-slot, .google-auto-placed, ins.adsbygoogle { display: none !important; }
+}

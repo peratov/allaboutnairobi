@@ -1,0 +1,49 @@
+{#
+	One of the site's own ad places. Rendered only on a page that may carry ads
+	at all - production, indexable, not private, the same test as the AdSense
+	script in _layout.html - and only once ADSENSE_SLOT names a display unit.
+	ADS_PREVIEW=1 draws it locally with a stand-in.
+
+	What keeps it from wrecking the page (CLAUDE.md, "Ads without the mess"):
+	- Its full height is held from the first frame, so an ad arriving never
+	  pushes the text the reader is on.
+	- It is labelled, sits on its own cool ground between sections, and keeps
+	  a clear margin from anything tappable.
+	- The <ins> is only created as the reader nears it (the script at the
+	  end of _layout.html), so a slot never seen costs no request.
+	- If Google sends nothing, or the script is blocked, the space shows one
+	  of the site's own pages rather than an empty box.
+
+	`ad_promo` picks that house card: "tools" (the default), "guides" or
+	"newsletter".
+#}
+{%- set ad_on = ADSENSE_CLIENT and ((ADSENSE_SLOT and IS_PRODUCTION) or ADS_PREVIEW)
+	and not private_page|default(false) and 'noindex' not in page_robots|default('') -%}
+{%- if ad_on -%}
+{%- set promo = ad_promo|default('tools') -%}
+{%- if promo == 'newsletter' and not NEWSLETTER_LIVE %}{% set promo = 'guides' %}{% endif -%}
+<aside class="ad-slot no-print" aria-label="Advertisement" data-nosnippet google-side-rail-overlap="false">
+	<span class="ad-slot-label" aria-hidden="true">Advertisement</span>
+	<div class="ad-slot-box"{% if ADSENSE_SLOT and IS_PRODUCTION %} data-ad-client="{{ ADSENSE_CLIENT }}" data-ad-unit="{{ ADSENSE_SLOT }}"{% else %} data-ad-preview{% endif %}>
+		{%- if promo == 'guides' %}
+		<a class="ad-house" href="{{ SITE_URL }}/guides">
+			<span class="ad-house-eyebrow">From All About Nairobi</span>
+			<strong>Every guide to living in Nairobi, free</strong>
+			<span>Papers, money, housing, work - sourced and dated. Browse them all &#10142;</span>
+		</a>
+		{%- elif promo == 'newsletter' %}
+		<a class="ad-house" href="{{ SITE_URL }}/newsletter">
+			<span class="ad-house-eyebrow">From All About Nairobi</span>
+			<strong>Hear when the rules change</strong>
+			<span>A short email when a fee, a tax or a law in these guides moves &#10142;</span>
+		</a>
+		{%- else %}
+		<a class="ad-house" href="{{ SITE_URL }}/tools">
+			<span class="ad-house-eyebrow">From All About Nairobi</span>
+			<strong>Work it out in seconds</strong>
+			<span>Take-home pay, rent deposits, import duty and more - free calculators &#10142;</span>
+		</a>
+		{%- endif %}
+	</div>
+</aside>
+{%- endif -%}

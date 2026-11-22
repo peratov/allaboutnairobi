@@ -1,5 +1,5 @@
 ---
-title: When someone dies in Kenya - certificates, burial and succession
+title: When someone dies in Kenya - burial and succession
 short_title: Death and succession
 description: What to do when someone dies in Kenya - the burial permit and death certificate, funerals and repatriation, and how succession works for the estate.
 date_created: 2026-09-28

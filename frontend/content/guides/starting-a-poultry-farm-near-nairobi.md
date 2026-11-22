@@ -1,5 +1,5 @@
 ---
-title: Starting a poultry farm near Nairobi - layers, broilers and kienyeji
+title: Starting a poultry farm near Nairobi
 short_title: Poultry farming
 description: Keeping chickens for eggs or meat around Nairobi - choosing layers, broilers or improved kienyeji, housing, feed, vaccination, selling, and the costs and risks.
 date_created: 2026-11-14

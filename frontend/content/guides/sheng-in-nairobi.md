@@ -1,5 +1,5 @@
 ---
-title: Sheng in Nairobi - a beginner's guide to the city's street slang
+title: Sheng - a beginner's guide to Nairobi slang
 short_title: Sheng
 description: What Sheng is and how it's used in Nairobi - common greetings, money, transport and everyday words - and when to stick to Swahili or English instead.
 date_created: 2026-11-14

@@ -1,5 +1,5 @@
 ---
-title: REITs in Kenya - investing in property without buying a building
+title: REITs in Kenya - property investing for less
 short_title: REITs
 description: How real estate investment trusts work in Kenya - income and development REITs, those on the NSE, buying units, the risks, and REITs vs a plot.
 date_created: 2026-11-10

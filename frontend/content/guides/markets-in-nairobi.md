@@ -1,5 +1,5 @@
 ---
-title: Markets in Nairobi - Marikiti, Gikomba, City Market, Toi and more
+title: Nairobi's markets, from Marikiti to Toi
 short_title: Markets in Nairobi
 description: Nairobi's main markets - Wakulima for fresh produce, Gikomba and Toi for mitumba, City Market, Kariokor, Eastleigh and the Maasai Market - with tips.
 date_created: 2026-11-14

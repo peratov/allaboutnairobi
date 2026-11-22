@@ -1,5 +1,5 @@
 ---
-title: M-Pesa fraud and phone scams in Kenya - how they work and what to do
+title: M-Pesa scams in Kenya and what to do
 short_title: M-Pesa fraud and scams
 description: The common M-Pesa and phone scams in Kenya - fake messages, wrong-number refunds, SIM swaps, fake jobs - and how to report fraud and reverse a transaction.
 date_created: 2026-11-14

@@ -1,0 +1,91 @@
+# Rebuild the site once a day so scheduled guides go live on their dates
+# (frontend/extensions/release.py), and dated pages age out on their own.
+# Without a working hook a scheduled guide waits for the next git push.
+#
+# The events page filters out anything that has finished, but a static site
+# only re-filters when it is rebuilt. Without this, a week with no commits is a
+# week of a page slowly going out of date. events-filter.mjs covers the reader
+# in the meantime; this is what fixes the HTML a crawler sees.
+#
+# It needs one secret, VERCEL_DEPLOY_HOOK_URL, created in the Vercel project
+# under Settings -> Git -> Deploy Hooks. Until that exists the job does nothing
+# and says so, rather than failing the repository's checks every morning.
+
+name: Daily rebuild
+
+on:
+  schedule:
+    # 02:30 UTC, which is 05:30 in Nairobi - Kenya is on EAT (UTC+3) all year
+    # with no daylight saving, so this stays put. Early enough that a date
+    # rolling over is reflected before most people are reading.
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+
+# One rebuild at a time. A queued second run would deploy identical output.
+concurrency:
+  group: daily-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Vercel deploy hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          # Windows clipboards and PowerShell pipes add invisible characters -
+          # a byte-order mark in front, a carriage return and newline behind,
+          # sometimes spaces. None can be part of a URL, so strip them.
+          HOOK="${HOOK#$'\xEF\xBB\xBF'}"
+          HOOK="${HOOK//[$'\r\n\t ']/}"
+
+          # Describe the secret without printing it, so an empty or mangled
+          # value is obvious from the log. It was saved empty three times while
+          # being set up, and every run still reported success. The structure
+          # line masks every letter and digit, so it shows the shape only.
+          if [ -n "$HOOK" ]; then
+            echo "Structure: $(printf '%s' "$HOOK" | sed -E 's/[A-Za-z0-9]/x/g')"
+            case "$HOOK" in
+              https://api.vercel.com/v1/integrations/deploy/prj_*/*) shape="looks like a Vercel deploy hook" ;;
+              *) shape="does NOT look like a Vercel deploy hook" ;;
+            esac
+            echo "VERCEL_DEPLOY_HOOK_URL: ${#HOOK} characters, $shape."
+            if [ "$shape" != "looks like a Vercel deploy hook" ]; then
+              echo "::error::The secret is set but is not a deploy hook URL. Expected https://api.vercel.com/v1/integrations/deploy/prj_.../..."
+              exit 1
+            fi
+          fi
+
+          if [ -z "$HOOK" ]; then
+            echo "::notice::VERCEL_DEPLOY_HOOK_URL is not set, so nothing was rebuilt."
+            echo "Create a deploy hook in Vercel (Settings -> Git -> Deploy Hooks)"
+            echo "and add the URL as a repository secret named VERCEL_DEPLOY_HOOK_URL."
+            exit 0
+          fi
+
+          # Not --fail: a bad status is diagnosed below instead of dying on
+          # curl's exit code with no explanation, which is how this failed
+          # every day for weeks on All About Accra until someone read the log.
+          status=$(curl --silent --show-error                         --output response.txt --write-out '%{http_code}'                         --request POST "$HOOK")
+
+          echo "Vercel responded $status"
+          cat response.txt; echo
+
+          case "$status" in
+            2??) exit 0 ;;
+            415)
+              echo "::error::415 from Vercel means the request did not reach a deploy hook."
+              echo "Vercel answers exactly this when the hook URL is incomplete - for example"
+              echo "https://api.vercel.com/v1/integrations/deploy/ with the project and hook IDs"
+              echo "missing. Copy the full URL again from Vercel (Settings -> Git -> Deploy Hooks)"
+              echo "into the VERCEL_DEPLOY_HOOK_URL secret. It looks like"
+              echo "https://api.vercel.com/v1/integrations/deploy/prj_XXXX/YYYY"
+              exit 1 ;;
+            404)
+              echo "::error::404 from Vercel: the hook was deleted, or the secret names another project."
+              exit 1 ;;
+            *)
+              echo "::error::Vercel answered $status."
+              exit 1 ;;
+          esac

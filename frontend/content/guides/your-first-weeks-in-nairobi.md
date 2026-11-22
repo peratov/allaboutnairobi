@@ -1,5 +1,5 @@
 ---
-title: Your first weeks in Nairobi - where to stay and what to do first
+title: Your first weeks in Nairobi
 short_title: First weeks
 description: Where to stay while you look for a flat - hotels, serviced apartments and short lets - and a day-by-day plan for your first fortnight in Nairobi.
 date_created: 2026-09-23

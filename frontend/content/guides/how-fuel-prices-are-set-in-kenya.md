@@ -1,5 +1,5 @@
 ---
-title: How fuel prices are set in Kenya - EPRA's monthly review explained
+title: How fuel prices are set in Kenya by EPRA
 short_title: How fuel prices are set
 description: Why petrol, diesel and kerosene prices in Kenya change on the 15th of each month - EPRA's review, the taxes and levies in a litre, and what moves the price.
 date_created: 2026-11-14

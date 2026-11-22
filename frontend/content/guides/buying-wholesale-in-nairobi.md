@@ -1,5 +1,5 @@
 ---
-title: Buying wholesale in Nairobi - Nyamakima, Eastleigh, Gikomba and more
+title: Buying wholesale in Nairobi - Nyamakima to Eastleigh
 short_title: Buying wholesale
 description: Where to buy in bulk in Nairobi - cereals at Nyamakima, clothes and household goods in Eastleigh, mitumba at Gikomba, stationery downtown - and how.
 date_created: 2026-11-14

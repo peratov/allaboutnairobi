@@ -1,5 +1,5 @@
 ---
-title: Betting and gambling in Kenya - the law, taxes, risks and getting help
+title: Betting in Kenya - the law, the tax and the risks
 short_title: Betting and gambling
 description: Sports betting in Kenya - age and licensing rules, taxes on stakes and winnings, the real odds, warning signs of problem gambling, and where to get help.
 date_created: 2026-11-14

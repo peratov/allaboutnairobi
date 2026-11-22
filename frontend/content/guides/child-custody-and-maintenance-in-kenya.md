@@ -1,5 +1,5 @@
 ---
-title: Child custody and maintenance in Kenya - the Children Act explained
+title: Child custody and maintenance in Kenya
 short_title: Custody and maintenance
 description: How custody, access and child support work in Kenya under the Children Act 2022 - shared parental responsibility, mediation, the Children's Court, enforcement.
 date_created: 2026-11-14

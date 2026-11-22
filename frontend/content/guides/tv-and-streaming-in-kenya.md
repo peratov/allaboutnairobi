@@ -1,5 +1,5 @@
 ---
-title: TV and streaming in Kenya - free-to-air, pay TV and streaming apps
+title: TV and streaming in Kenya
 short_title: TV and streaming
 description: Watching TV in Nairobi - free-to-air digital channels, satellite and terrestrial pay TV, streaming services, live sport, paying by M-Pesa, and data use.
 date_created: 2026-11-14

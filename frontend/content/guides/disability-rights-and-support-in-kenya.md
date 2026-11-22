@@ -1,5 +1,5 @@
 ---
-title: Disability rights and support in Kenya - NCPWD registration and tax relief
+title: Disability rights in Kenya - NCPWD and tax relief
 short_title: Disability rights and support
 description: Registering with the National Council for Persons with Disabilities, the income tax exemption, cash transfers, work rights, education and getting around.
 date_created: 2026-11-14

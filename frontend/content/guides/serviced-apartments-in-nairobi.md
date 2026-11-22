@@ -1,5 +1,5 @@
 ---
-title: Serviced apartments in Nairobi - where, what they cost, what to check
+title: Serviced apartments in Nairobi and their cost
 short_title: Serviced apartments
 description: Serviced apartments in Nairobi for a first month or a long stay - the best areas, what they cost compared with hotels and flats, and what to check.
 date_created: 2026-09-28

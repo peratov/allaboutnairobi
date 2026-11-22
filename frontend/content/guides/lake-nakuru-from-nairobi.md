@@ -1,5 +1,5 @@
 ---
-title: Lake Nakuru National Park from Nairobi - rhinos, flamingos and a day trip
+title: Lake Nakuru from Nairobi - a day trip
 short_title: Lake Nakuru
 description: Visiting Lake Nakuru National Park from Nairobi - getting there, rhinos, Rothschild's giraffes and flamingos, park fees, self-drive or tour, and where to stay.
 date_created: 2026-11-14

@@ -1,5 +1,5 @@
 ---
-title: Working in tech in Nairobi - jobs, skills, hubs and remote work
+title: Working in tech in Nairobi
 short_title: Working in tech
 description: Nairobi's tech scene - where the jobs are, learning to code, tech hubs and communities, working remotely for companies abroad, and tax for tech workers.
 date_created: 2026-11-14

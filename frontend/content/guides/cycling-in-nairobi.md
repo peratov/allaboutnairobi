@@ -1,5 +1,5 @@
 ---
-title: Cycling in Nairobi - where to ride, buying a bike and staying safe
+title: Cycling in Nairobi - routes, bikes and safety
 short_title: Cycling in Nairobi
 description: Cycling in Nairobi - forest trails, weekend road and gravel routes, group rides, commuting by bike, buying and hiring bikes, and staying safe in traffic.
 date_created: 2026-11-14

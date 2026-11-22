@@ -1,5 +1,5 @@
 ---
-title: Giving birth in Nairobi - maternity packages, costs and paperwork
+title: Giving birth in Nairobi - maternity costs
 short_title: Giving birth in Nairobi
 description: Having a baby in Nairobi - antenatal care, maternity packages and what they cost, SHA and insurance, choosing a hospital, and registering the birth.
 date_created: 2026-09-28

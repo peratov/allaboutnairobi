@@ -1,5 +1,5 @@
 ---
-title: Living in Eastlands, Nairobi - Buruburu, Donholm, Umoja, Embakasi
+title: Living in Eastlands, Nairobi - Buruburu to Embakasi
 short_title: Living in Eastlands
 description: What it is like to live in Nairobi's Eastlands - Buruburu, Donholm, Umoja, Kayole, Embakasi and Utawala - rents, commutes, safety, water and daily life.
 date_created: 2026-11-14

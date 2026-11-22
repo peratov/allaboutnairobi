@@ -1,5 +1,5 @@
 ---
-title: Pensions in Kenya - NSSF, employer schemes and personal plans
+title: Pensions in Kenya - NSSF and personal plans
 short_title: Pensions
 description: How retirement saving works in Kenya - NSSF, employer schemes, personal pension plans, tax relief on contributions, and retiring or changing jobs.
 date_created: 2026-09-28

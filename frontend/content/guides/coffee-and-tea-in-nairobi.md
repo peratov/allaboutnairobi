@@ -1,5 +1,5 @@
 ---
-title: Coffee and tea in Nairobi - cafés, chai and buying Kenyan beans
+title: Coffee and tea in Nairobi - cafés and chai
 short_title: Coffee and tea
 description: Kenyan coffee and tea in Nairobi - how Kenyans drink chai, the café scene, buying good Kenyan beans and loose tea, coffee farm visits near Nairobi, and gifts.
 date_created: 2026-11-14

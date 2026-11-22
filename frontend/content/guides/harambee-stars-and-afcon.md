@@ -1,5 +1,5 @@
 ---
-title: The Harambee Stars and AFCON - Kenya's history and road to 2027
+title: Harambee Stars and AFCON - Kenya's road to 2027
 short_title: Harambee Stars and AFCON
 description: Kenya's national team at the Africa Cup of Nations - six appearances, CHAN 2024, coach Benni McCarthy, the road to AFCON 2027 at home, and how to support.
 date_created: 2026-09-28

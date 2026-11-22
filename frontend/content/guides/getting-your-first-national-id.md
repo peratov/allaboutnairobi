@@ -1,5 +1,5 @@
 ---
-title: Getting your first national ID in Kenya - the Maisha Card at 18
+title: Getting your first national ID (Maisha Card) at 18
 short_title: First national ID
 description: How young Kenyans get their first ID - now the Maisha Card - at 18 - documents, the chief's letter, the registration office, fingerprints and collection.
 date_created: 2026-11-14

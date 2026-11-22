@@ -1,5 +1,5 @@
 ---
-title: Living in Ngara and Pangani, Nairobi - close to town, lower rents
+title: Living in Ngara and Pangani, Nairobi
 short_title: Living in Ngara and Pangani
 description: What it is like to live in Ngara and Pangani, just north of Nairobi's CBD - rents, new apartment blocks, walking to town, safety, markets and daily life.
 date_created: 2026-11-14

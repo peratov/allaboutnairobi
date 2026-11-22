@@ -1,5 +1,5 @@
 ---
-title: Alcohol laws in Kenya - drinking age, bar hours and drink-driving
+title: Alcohol laws in Kenya - drinking age and bar hours
 short_title: Alcohol laws
 description: Kenya's alcohol rules in plain English - the drinking age, when bars may sell, drinking in public, drink-driving checks, and fake or illicit drinks.
 date_created: 2026-11-15

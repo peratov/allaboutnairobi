@@ -1,5 +1,5 @@
 ---
-title: Fertility treatment and IVF in Nairobi - tests, options and costs
+title: IVF and fertility treatment in Nairobi
 short_title: Fertility and IVF
 description: Trying for a baby in Nairobi - when to seek help, fertility tests for both partners, treatments from medication to IVF, choosing a clinic, insurance and costs.
 date_created: 2026-11-14

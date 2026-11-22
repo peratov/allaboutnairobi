@@ -1,5 +1,5 @@
 ---
-title: Pest control in Nairobi - bedbugs, cockroaches, mosquitoes and rats
+title: Pest control in Nairobi - bedbugs to rats
 short_title: Pest control
 description: Dealing with pests at home in Nairobi - bedbugs, cockroaches, mosquitoes, rats, termites and safari ants - what to do yourself, and hiring a fumigator.
 date_created: 2026-11-15

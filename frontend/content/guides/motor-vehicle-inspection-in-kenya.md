@@ -1,5 +1,5 @@
 ---
-title: Motor vehicle inspection in Kenya - who needs it and the new rules
+title: Motor vehicle inspection in Kenya
 short_title: Vehicle inspection
 description: Which vehicles need NTSA inspection in Kenya - matatus, commercial vehicles and imports - the suspended rules for private cars, what is checked, preparing.
 date_created: 2026-11-14

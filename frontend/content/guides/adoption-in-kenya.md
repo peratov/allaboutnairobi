@@ -1,5 +1,5 @@
 ---
-title: Adopting a child in Kenya - the process under the Children Act
+title: Adopting a child in Kenya, step by step
 short_title: Adoption
 description: How adoption works in Kenya - who can adopt, licensed adoption societies, fostering first, the High Court process, kinship adoption, and rules for foreigners.
 date_created: 2026-11-14

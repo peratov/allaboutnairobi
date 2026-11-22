@@ -1,5 +1,5 @@
 ---
-title: Diabetes and high blood pressure in Nairobi - testing, treatment and care
+title: Diabetes and high blood pressure care in Nairobi
 short_title: Diabetes and blood pressure
 description: Getting checked for diabetes and high blood pressure in Nairobi, where to get treatment and medicines, what SHA covers, and living well with them.
 date_created: 2026-11-14

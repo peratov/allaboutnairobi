@@ -1,5 +1,5 @@
 ---
-title: Kenya's 2027 general election - what's being chosen and how voting works
+title: Kenya's 2027 general election explained
 short_title: The 2027 election
 description: A plain guide to Kenya's general election on 10 August 2027 - the six elective posts, voting day, results, and living in Nairobi during the election.
 date_created: 2026-11-14

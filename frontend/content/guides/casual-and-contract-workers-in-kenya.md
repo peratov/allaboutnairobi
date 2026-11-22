@@ -1,5 +1,5 @@
 ---
-title: Casual, contract and part-time workers in Kenya - your rights
+title: Casual and contract workers' rights in Kenya
 short_title: Casual and contract workers
 description: When a casual worker in Kenya becomes a regular employee, rights on fixed-term and part-time contracts, deductions, and what employers must get right.
 date_created: 2026-11-14

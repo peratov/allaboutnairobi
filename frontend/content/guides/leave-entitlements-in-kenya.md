@@ -1,5 +1,5 @@
 ---
-title: Leave in Kenya - annual, sick, maternity, paternity and adoption leave
+title: Leave in Kenya - annual, sick and maternity leave
 short_title: Leave entitlements
 description: The leave every employee in Kenya is owed under the Employment Act - annual, sick, maternity, paternity and pre-adoptive leave, public holidays and leave pay.
 date_created: 2026-11-14

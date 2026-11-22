@@ -1,5 +1,5 @@
 ---
-title: KCSE results and certificates - checking, collecting and replacing them
+title: KCSE results and certificates
 short_title: KCSE certificates
 description: Checking KCSE results, collecting certificates from your school, verifying them for jobs, and what to do about a lost KCPE or KCSE certificate through KNEC.
 date_created: 2026-11-14

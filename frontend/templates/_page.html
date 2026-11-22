@@ -3,7 +3,7 @@
 {% set metadescription = entry.description %}
 
 {% block main %}
-	<main id="main" class="single-column" aria-label="Main page">
+	<main id="main" google-side-rail-overlap="false" class="single-column" aria-label="Main page">
 		<article class="section">
 			<h1>{{ entry.title }}</h1>
 			{% include "_blocks/postMeta.html" %}

@@ -1,5 +1,5 @@
 ---
-title: Places of worship in Nairobi - churches, mosques, temples and more
+title: Places of worship in Nairobi
 short_title: Places of worship
 description: Finding a place of worship in Nairobi - churches, mosques, Hindu and Sikh temples and a synagogue - with landmark buildings and visiting etiquette.
 date_created: 2026-11-14

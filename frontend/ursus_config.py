@@ -21,6 +21,7 @@ from ursus.config import config
 
 from extensions.context_processors.compare import build_compare
 from extensions.release import is_released
+from extensions.ad_breaks import ad_breaks
 from extensions.context_processors.hero_map import build_hero_map
 from extensions.functions import (
     build_wikilinks_url,
@@ -116,6 +117,12 @@ ctx["IS_PRODUCTION"] = env_str("VERCEL_ENV") == "production" or env_str("FORCE_A
 # Google AdSense (Auto ads). The publisher id is public - it is in every
 # page's source and in /ads.txt. ADSENSE_CLIENT="" switches ads off.
 ctx["ADSENSE_CLIENT"] = env_str("ADSENSE_CLIENT", "ca-pub-4576059307781134")
+# The site's own ad places, between sections (extensions/ad_breaks.py and
+# _blocks/adSlot.html). Off until ADSENSE_SLOT names a display ad unit made
+# in the AdSense dashboard; with it empty, pages are exactly what they were.
+# ADS_PREVIEW=1 draws every slot locally with a stand-in box instead.
+ctx["ADSENSE_SLOT"] = env_str("ADSENSE_SLOT", "")
+ctx["ADS_PREVIEW"] = env_str("ADS_PREVIEW") == "1"
 ctx["GOOGLE_SITE_VERIFICATION"] = env_str("GOOGLE_SITE_VERIFICATION")
 ctx["BING_SITE_VERIFICATION"] = env_str("BING_SITE_VERIFICATION")
 
@@ -516,6 +523,7 @@ config.minify_css = True
 
 config.context_globals = ctx
 config.jinja_filters = {
+    "ad_breaks": ad_breaks,
     "shillings": to_shillings,
     "usd": to_usd,
     "percent": to_percent,
@@ -570,6 +578,14 @@ config.jinja_extensions.extend([
 
 # Must run before anything reads an entry URI. See the module docstring.
 config.context_processors.insert(0, "extensions.context_processors.portable_uris.PortableEntryUrisProcessor")
+# Scheduled publishing (extensions/release.py). Straight after Markdown, which
+# sets `publish_on` on an entry, and before anything indexes or links entries,
+# so a guide that is not out yet has no page, sitemap line or search result.
+# New guides go out a few a week this way, not in batches - see seo/README.md.
+config.context_processors.insert(
+    config.context_processors.index("ursus.context_processors.markdown.MarkdownProcessor") + 1,
+    "extensions.release.ReleaseProcessor",
+)
 config.context_processors.extend([
     "extensions.context_processors.portable_uris.PortableEntryUrlsProcessor",
     "extensions.context_processors.collections.CollectionsProcessor",
@@ -590,6 +606,7 @@ config.add_markdown_extension("markdown.extensions.attr_list")
 config.add_markdown_extension("markdown.extensions.def_list")
 config.add_markdown_extension("markdown.extensions.abbr")
 config.add_markdown_extension("extensions.markdown:WrappedTableExtension", {"wrapper_class": "table-wrapper"})
+config.add_markdown_extension("extensions.release:ReleaseBlockExtension")
 config.add_markdown_extension("extensions.markdown:ArrowLinkIconExtension")
 config.add_markdown_extension("markdown.extensions.admonition")
 config.add_markdown_extension("extensions.markdown:ExternalLinkExtension")
@@ -600,6 +617,7 @@ config.linters = [
     "extensions.linters.glossary.GlossaryLinksLinter",
     "extensions.linters.metadata.DescriptionLinter",
     "extensions.linters.metadata.TitleLengthLinter",
+    "extensions.linters.release.ReleaseScheduleLinter",
     "ursus.linters.markdown.MarkdownLinkTextsLinter",
 ]
 

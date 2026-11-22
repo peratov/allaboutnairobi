@@ -1,5 +1,5 @@
 ---
-title: Airbnb and short-term rentals in Nairobi - for guests and hosts
+title: Airbnb and short-term rentals in Nairobi
 short_title: Airbnb in Nairobi
 description: Staying in or running a short-term rental in Nairobi - what guests should check, and hosts' rules on registration, the tourism levy, tax and building consent.
 date_created: 2026-09-28

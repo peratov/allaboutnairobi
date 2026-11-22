@@ -1,5 +1,5 @@
 ---
-title: Mobile loans in Kenya - Fuliza, M-Shwari and apps, and their true cost
+title: The true cost of Fuliza and mobile loans in Kenya
 short_title: Mobile loans
 description: How Fuliza, M-Shwari, KCB M-Pesa and digital loan apps work, what they really cost as an annual rate, the effect on your CRB record, and cheaper options.
 date_created: 2026-09-28

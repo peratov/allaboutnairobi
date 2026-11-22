@@ -1,5 +1,5 @@
 ---
-title: Kenya's plastic bag ban - what is banned, the fines, and what to use
+title: Kenya's plastic bag ban and the fines
 short_title: Plastic bag ban
 description: Kenya's plastic bag ban explained - which bags are banned, plastics in parks and on beaches, the fines, packing for your trip, and what to use instead.
 date_created: 2026-11-15

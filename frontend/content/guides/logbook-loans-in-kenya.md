@@ -1,5 +1,5 @@
 ---
-title: Logbook loans in Kenya - borrowing against your car, and the risks
+title: Logbook loans in Kenya and their risks
 short_title: Logbook loans
 description: How logbook loans work in Kenya - borrowing against your car, joint registration with NTSA, the real cost, checking the lender is licensed, and repossession.
 date_created: 2026-11-15

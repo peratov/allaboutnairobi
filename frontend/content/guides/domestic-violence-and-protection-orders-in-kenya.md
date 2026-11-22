@@ -1,5 +1,5 @@
 ---
-title: Domestic violence in Kenya - getting help and protection orders
+title: Domestic violence in Kenya - help and protection
 short_title: Domestic violence
 description: Help for anyone facing abuse at home in Nairobi - emergency contacts, the GBV helpline 1195, shelters, reporting to police, and court protection orders.
 date_created: 2026-11-14

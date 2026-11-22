@@ -21,13 +21,21 @@
 {% endblock %}
 
 {% block main %}
-	<main id="main" aria-label="Main page">
+	<main id="main" google-side-rail-overlap="false" aria-label="Main page">
 		<article class="section">
 			<h1>{{ entry.title }}</h1>
 			{% include "_blocks/postMeta.html" %}
 
 			<div class="article-body is-reading">
-				{{ entry.body|render|safe }}
+				{#
+					Ad breaks between sections only, from the page's own structure
+					(extensions/ad_breaks.py). With no ad slot configured the parts
+					join back into exactly the body that was rendered.
+				#}
+				{% for part in (entry.body|render)|ad_breaks('guide') %}
+					{%- if not loop.first %}{% include "_blocks/adSlot.html" %}{% endif -%}
+					{{ part|safe }}
+				{%- endfor %}
 			</div>
 
 			{% include "_blocks/verifiedNotice.html" %}
@@ -42,6 +50,12 @@
 				{% with compact=true %}{% include "_blocks/subscribeForm.html" %}{% endwith %}
 			{% endif %}
 		</article>
+
+		{#
+			One slot after the article, before the related guides: the reader has
+			finished, and nothing interactive is within reach of it.
+		#}
+		{% include "_blocks/adSlot.html" %}
 
 		{% if entry.collections|default %}
 			<aside id="related" class="section no-print" aria-label="Related guides" data-nosnippet>

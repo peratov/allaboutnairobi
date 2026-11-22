@@ -1,5 +1,5 @@
 ---
-title: Caring for elderly parents in Kenya - health, money and support
+title: Caring for elderly parents in Kenya
 short_title: Caring for elderly parents
 description: Looking after ageing parents in Nairobi or upcountry - health cover, home carers and care homes, the Inua Jamii cash transfer, money and planning ahead.
 date_created: 2026-11-14

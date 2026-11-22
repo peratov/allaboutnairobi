@@ -1,5 +1,5 @@
 ---
-title: Complaining about a bank, lender or mobile money provider in Kenya
+title: How to complain about a bank or lender in Kenya
 short_title: Complaining about a bank
 description: How to complain to a Kenyan bank, escalate to the Central Bank of Kenya, and where to go about loan apps, M-Pesa, insurers and funds if you get no answer.
 date_created: 2026-11-14

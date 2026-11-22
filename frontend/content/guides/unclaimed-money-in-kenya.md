@@ -1,5 +1,5 @@
 ---
-title: Unclaimed money in Kenya - dormant accounts, shares and insurance
+title: Unclaimed money in Kenya - how to find yours
 short_title: Unclaimed money
 description: How to find and claim forgotten bank balances, shares, dividends, insurance payouts and pensions held by the Unclaimed Financial Assets Authority - for free.
 date_created: 2026-11-14

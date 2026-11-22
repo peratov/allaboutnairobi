@@ -1,5 +1,5 @@
 ---
-title: Nairobi City County services - parking, permits, rates and rubbish
+title: Nairobi County services - parking, permits and rates
 short_title: County services
 description: What Nairobi City County is responsible for and how to deal with it - parking, the Unified Business Permit, land rates, rubbish, markets and making a complaint.
 date_created: 2026-09-23

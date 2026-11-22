@@ -1,5 +1,5 @@
 ---
-title: Registering an NGO or community group in Kenya - PBOs, CBOs and self-help groups
+title: Registering an NGO, CBO or self-help group in Kenya
 short_title: Registering an NGO
 description: How to set up a non-profit in Kenya - public benefit organisations under the PBO Act, community-based and self-help groups, societies, trusts and compliance.
 date_created: 2026-11-14

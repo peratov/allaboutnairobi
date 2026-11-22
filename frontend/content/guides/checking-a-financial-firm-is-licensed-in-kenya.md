@@ -1,5 +1,5 @@
 ---
-title: How to check a bank, lender, fund or insurer is licensed in Kenya
+title: Is this lender or fund licensed in Kenya? How to check
 short_title: Checking a firm is licensed
 description: Which regulator licenses banks, loan apps, SACCOs, fund managers, insurers and pension schemes in Kenya, and how to check a firm before you hand over money.
 date_created: 2026-11-14

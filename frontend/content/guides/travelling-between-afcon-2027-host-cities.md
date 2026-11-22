@@ -1,5 +1,5 @@
 ---
-title: Travelling between AFCON 2027 host cities - Nairobi, Kampala, Dar es Salaam
+title: Travelling between AFCON 2027 host cities
 short_title: Between the host cities
 description: How to travel between AFCON 2027 host cities - Nairobi, Kampala, Dar es Salaam, Arusha, Zanzibar and more - by air and road, with visas and border tips.
 date_created: 2026-09-28

@@ -1,5 +1,5 @@
 ---
-title: Buying a phone or laptop in Nairobi - where to go and how to avoid fakes
+title: Buying a phone or laptop in Nairobi without fakes
 short_title: Buying a phone or laptop
 description: Where to buy phones and laptops in Nairobi, how to check an IMEI is genuine, refurbished and ex-UK devices, warranties and paying in instalments.
 date_created: 2026-11-14

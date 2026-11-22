@@ -1,5 +1,5 @@
 ---
-title: Street food in Nairobi - what to try and how to eat it safely
+title: Street food in Nairobi - what to try
 short_title: Street food
 description: Nairobi's best street food - mutura, smokie pasua, mahindi choma, mayai pasua, bhajia, mshikaki and fruit with chilli - where to find it and how to eat safely.
 date_created: 2026-11-14

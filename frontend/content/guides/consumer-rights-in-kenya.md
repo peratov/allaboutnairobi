@@ -1,5 +1,5 @@
 ---
-title: Consumer rights in Kenya - refunds, faulty goods and complaints
+title: Consumer rights in Kenya - refunds and complaints
 short_title: Consumer rights
 description: Your rights as a shopper in Kenya - faulty and fake goods, refunds, false adverts and unfair terms - and how to complain to the seller, CAK or KEBS.
 date_created: 2026-11-14

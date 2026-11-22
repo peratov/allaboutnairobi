@@ -1,5 +1,5 @@
 ---
-title: Buying furniture in Nairobi - roadside makers, markets and shops
+title: Where to buy furniture in Nairobi
 short_title: Buying furniture
 description: Where to buy furniture in Nairobi - roadside workshops, Gikomba and Kariokor, showrooms and malls, second-hand furniture - and checking quality before you pay.
 date_created: 2026-11-14

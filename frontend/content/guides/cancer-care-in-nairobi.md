@@ -1,5 +1,5 @@
 ---
-title: Cancer care in Nairobi - screening, treatment and paying for it
+title: Cancer screening and treatment in Nairobi
 short_title: Cancer care
 description: Facing cancer in Nairobi - screening and early signs, where to get diagnosis and treatment, what SHA's cancer package covers, help with costs, and support.
 date_created: 2026-11-14

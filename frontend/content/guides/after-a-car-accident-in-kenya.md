@@ -1,5 +1,5 @@
 ---
-title: After a car accident in Kenya - what to do at the scene and after
+title: What to do after a car accident in Kenya
 short_title: After a car accident
 description: What to do after a road accident in Kenya - safety at the scene, photos and details, reporting to the police, the police abstract, and your insurance claim.
 date_created: 2026-11-15

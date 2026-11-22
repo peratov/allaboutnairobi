@@ -1,5 +1,5 @@
 ---
-title: Parking in Nairobi - paying the county, seasonal tickets and clamping
+title: Parking in Nairobi - fees, seasonal tickets, clamping
 short_title: Parking in Nairobi
 description: How street parking works in Nairobi - paying Nairobi County by phone, seasonal parking, weekends, clamping and towing, and parking at malls and offices.
 date_created: 2026-11-14

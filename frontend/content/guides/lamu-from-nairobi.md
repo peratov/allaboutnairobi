@@ -1,5 +1,5 @@
 ---
-title: Lamu from Nairobi - flights, the old town, dhows and where to stay
+title: Lamu from Nairobi - getting there and staying
 short_title: Lamu
 description: Planning a trip to Lamu from Nairobi - flying to Manda, Lamu Old Town's Swahili architecture, Shela beach, dhow trips, the cultural festival, dress and safety.
 date_created: 2026-11-14

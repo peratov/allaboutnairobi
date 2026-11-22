@@ -1,5 +1,5 @@
 ---
-title: Coworking spaces in Nairobi - where, what they cost, what to check
+title: Coworking spaces in Nairobi and what they cost
 short_title: Coworking spaces
 description: Coworking in Nairobi - where the spaces are, day passes vs dedicated desks vs private offices, what's included, and what to check for reliable work.
 date_created: 2026-09-28

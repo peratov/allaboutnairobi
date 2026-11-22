@@ -1,5 +1,5 @@
 ---
-title: Nyama choma in Nairobi - how to order, where to go and what to eat with it
+title: Nyama choma in Nairobi - how to order it
 short_title: Nyama choma
 description: A guide to nyama choma in Nairobi - goat or beef, ordering by the kilo, kachumbari and ugali, local joints and famous names, and eating it the Kenyan way.
 date_created: 2026-11-14

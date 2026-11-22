@@ -1,5 +1,5 @@
 ---
-title: Starting a small business in Nairobi - common ideas and what they need
+title: Small business ideas in Nairobi
 short_title: Small business ideas
 description: Common small businesses in Nairobi - food, retail, services and online - with the licences each needs, questions to answer first, and costs people forget.
 date_created: 2026-09-28

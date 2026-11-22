@@ -1,5 +1,5 @@
 ---
-title: MMF vs SACCO vs Treasury bills vs fixed deposit - where to save in Kenya
+title: MMF, SACCO, T-bill or fixed deposit? Saving in Kenya
 short_title: MMF vs SACCO vs T-bills
 description: Money market funds, SACCOs, Treasury bills and fixed deposits compared - returns, how fast you can get money out, minimums, risk, tax, and which suits what.
 date_created: 2026-11-10

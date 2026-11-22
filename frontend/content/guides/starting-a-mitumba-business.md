@@ -1,5 +1,5 @@
 ---
-title: Starting a mitumba business in Nairobi - bales, selling and profit
+title: Starting a mitumba business in Nairobi
 short_title: Mitumba business
 description: How to start selling second-hand clothes in Nairobi - buying bales at Gikomba, grading, where and how to sell (stalls, online, door to door), costs and risks.
 date_created: 2026-11-14

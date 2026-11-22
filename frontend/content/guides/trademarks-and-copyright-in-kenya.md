@@ -1,5 +1,5 @@
 ---
-title: Trademarks and copyright in Kenya - protecting your brand and work
+title: Trademarks and copyright in Kenya
 short_title: Trademarks and copyright
 description: Protecting a business name, logo, music, writing or software in Kenya - registering a trademark with KIPI and copyright with KECOBO, and dealing with copying.
 date_created: 2026-11-14

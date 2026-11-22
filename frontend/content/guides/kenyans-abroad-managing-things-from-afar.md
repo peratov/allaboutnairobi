@@ -1,5 +1,5 @@
 ---
-title: Kenyans abroad - managing money, property and paperwork from afar
+title: Managing money and property in Kenya from abroad
 short_title: Kenyans abroad
 description: For Kenyans abroad - sending money home, buying or building safely from a distance, passports through embassies, tax, and planning a return.
 date_created: 2026-09-23

@@ -1,5 +1,5 @@
 ---
-title: Traffic offences and fines in Kenya - being stopped, instant fines and court
+title: Traffic offences and instant fines in Kenya
 short_title: Traffic offences and fines
 description: What happens when Kenyan traffic police stop you, instant fines for minor offences, going to court, paying officially, and avoiding the common offences.
 date_created: 2026-11-14

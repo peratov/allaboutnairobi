@@ -1,5 +1,5 @@
 ---
-title: Chamas in Kenya - how to start, run and protect a savings group
+title: Chamas in Kenya - starting and running one
 short_title: Chamas
 description: How Kenyan chamas work - merry-go-rounds, table banking and investment groups - writing a constitution, registering, banking, investing and avoiding disputes.
 date_created: 2026-11-14

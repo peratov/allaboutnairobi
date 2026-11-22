@@ -1,5 +1,5 @@
 ---
-title: The Small Claims Court in Kenya - recovering money without a lawyer
+title: The Small Claims Court in Kenya
 short_title: Small Claims Court
 description: How to use Kenya's Small Claims Court for claims up to KES 1 million - what it hears, filing a claim yourself, the 60-day timeline, hearings and getting paid.
 date_created: 2026-11-14

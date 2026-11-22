@@ -1,5 +1,5 @@
 ---
-title: Wilson Airport guide - safari flights, domestic airlines and luggage limits
+title: Wilson Airport guide - safari and domestic flights
 short_title: Wilson Airport
 description: Flying from Nairobi's Wilson Airport - safari and domestic flights to the Mara, Lamu and beyond, the 15 kg soft-bag rule, getting there, and check-in.
 date_created: 2026-11-14

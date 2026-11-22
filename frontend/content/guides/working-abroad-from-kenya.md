@@ -1,5 +1,5 @@
 ---
-title: Working abroad from Kenya - finding jobs safely and avoiding fake agents
+title: Working abroad from Kenya without fake agents
 short_title: Working abroad
 description: How Kenyans can find genuine jobs abroad - agencies licensed by the National Employment Authority, contracts, the Gulf, and avoiding fake job offers.
 date_created: 2026-11-14

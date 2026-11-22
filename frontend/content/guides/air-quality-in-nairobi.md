@@ -1,5 +1,5 @@
 ---
-title: Air quality in Nairobi - where pollution comes from and how to cut it
+title: Air pollution in Nairobi and how to cut your exposure
 short_title: Air quality
 description: Nairobi's air pollution explained - traffic, dust, burning rubbish and cooking fuels, the worst places and times, live readings, and protecting your family.
 date_created: 2026-11-15

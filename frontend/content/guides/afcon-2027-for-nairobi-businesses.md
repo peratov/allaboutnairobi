@@ -1,5 +1,5 @@
 ---
-title: AFCON 2027 for Nairobi businesses - opportunities and the rules
+title: AFCON 2027 for Nairobi businesses
 short_title: AFCON for businesses
 description: How Nairobi businesses can prepare for AFCON 2027 - rooms, food and drink, transport, merchandise and events - with the licences, tax and brand rules.
 date_created: 2026-09-28

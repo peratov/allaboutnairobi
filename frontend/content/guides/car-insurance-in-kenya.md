@@ -1,5 +1,5 @@
 ---
-title: Car insurance in Kenya - comprehensive vs third party, and costs
+title: "Car insurance in Kenya - comprehensive or third party?"
 short_title: Car insurance
 description: How car insurance works in Kenya - third party vs comprehensive, what it costs as a share of the car's value, excess protector, and how to make a claim.
 date_created: 2026-09-28

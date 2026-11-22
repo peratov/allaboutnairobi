@@ -1,5 +1,5 @@
 ---
-title: Noise and neighbour disputes in Nairobi - the rules and what to do
+title: Noisy neighbours in Nairobi - the rules
 short_title: Noise and neighbours
 description: Nairobi's noise limits, loud bars, churches and parties near homes, how to complain to the county, NEMA and the police, and settling disputes with neighbours.
 date_created: 2026-11-14

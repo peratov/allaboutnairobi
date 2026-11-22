@@ -1,5 +1,5 @@
 ---
-title: Daycare and preschool in Nairobi - options, costs and choosing well
+title: Daycare and preschool in Nairobi - costs and choosing
 short_title: Daycare and preschool
 description: Childcare in Nairobi for babies and young children - daycares, playgroups, preschools and nannies, what they cost, and what to check when choosing.
 date_created: 2026-09-28

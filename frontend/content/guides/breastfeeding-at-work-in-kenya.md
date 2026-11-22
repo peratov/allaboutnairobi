@@ -1,5 +1,5 @@
 ---
-title: Breastfeeding at work in Kenya - lactation rooms and nursing breaks
+title: Breastfeeding at work in Kenya - your rights
 short_title: Breastfeeding at work
 description: Your rights as a breastfeeding mother at work in Kenya - lactation stations, paid nursing breaks under the Health Act, returning to work, storing milk.
 date_created: 2026-11-14

@@ -1,5 +1,5 @@
 ---
-title: Protests and demonstrations in Nairobi - your rights and staying safe
+title: Protests in Nairobi - your rights and safety
 short_title: Protests and demonstrations
 description: The right to protest in Kenya, notifying the police, joining a protest safely, getting around when demonstrations disrupt Nairobi, and if you're arrested.
 date_created: 2026-11-14

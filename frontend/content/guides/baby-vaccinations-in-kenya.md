@@ -1,5 +1,5 @@
 ---
-title: Baby and child vaccinations in Kenya - the schedule and where to go
+title: Baby vaccinations in Kenya - the schedule
 short_title: Baby vaccinations
 description: The routine vaccines Kenyan babies and children get, from BCG at birth to measles-rubella and HPV, where to get them free in Nairobi, and the clinic card.
 date_created: 2026-11-14

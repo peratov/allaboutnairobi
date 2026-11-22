@@ -1,5 +1,5 @@
 ---
-title: Hiring your first employee in Kenya - registration, payroll and contracts
+title: Hiring your first employee in Kenya
 short_title: Hiring your first employee
 description: What a small business must do to hire its first employee in Kenya - registering as an employer, the contract, payroll deductions, deadlines and insurance.
 date_created: 2026-09-28

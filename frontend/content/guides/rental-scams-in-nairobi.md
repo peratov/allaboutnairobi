@@ -1,5 +1,5 @@
 ---
-title: Rental scams in Nairobi - how they work and how to avoid them
+title: Rental scams in Nairobi and how to avoid them
 short_title: Rental scams
 description: The rental scams Nairobi house hunters meet - fake listings, booking fees, fake landlords and double letting - and the checks to make before paying anything.
 date_created: 2026-11-14

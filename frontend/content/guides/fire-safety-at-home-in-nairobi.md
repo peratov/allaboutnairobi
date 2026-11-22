@@ -1,5 +1,5 @@
 ---
-title: Fire safety at home in Nairobi - gas, electrics and what to do in a fire
+title: Fire safety at home in Nairobi
 short_title: Fire safety at home
 description: Preventing fires at home in Nairobi - cooking gas cylinders, electrical safety and surges, candles and jikos, extinguishers, escape plans and what to do.
 date_created: 2026-11-14

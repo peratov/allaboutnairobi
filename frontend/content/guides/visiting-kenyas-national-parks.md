@@ -1,5 +1,5 @@
 ---
-title: Visiting Kenya's national parks - fees, cashless payment and park rules
+title: Visiting Kenya's national parks - fees and rules
 short_title: Visiting national parks
 description: How visiting a Kenya Wildlife Service park works - citizen and resident rates, paying cashless online or by M-Pesa, booking, park rules, and saving money.
 date_created: 2026-11-14

@@ -1,5 +1,5 @@
 ---
-title: Dual citizenship for Kenyans - declaring it and regaining citizenship
+title: Dual citizenship for Kenyans - how to declare it
 short_title: Dual citizenship
 description: How Kenyans abroad keep or regain Kenyan citizenship - declaring a second citizenship, the forms and deadline, and getting a Kenyan passport again.
 date_created: 2026-11-14
