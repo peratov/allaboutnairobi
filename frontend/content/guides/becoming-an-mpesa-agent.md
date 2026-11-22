@@ -66,6 +66,7 @@ and [eTIMS for small businesses](/guides/etims-for-small-businesses).
 
 ## Next
 
+- [Business viability checker - which part of Nairobi suits your trade](/tools/business-viability-checker)
 - [Small business ideas in Nairobi](/guides/small-business-ideas-in-nairobi)
 - [M-Pesa and mobile money](/guides/mpesa-and-mobile-money)
 - [Business insurance in Kenya](/guides/business-insurance-in-kenya)

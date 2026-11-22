@@ -69,6 +69,7 @@ often on land outside the city.
 
 ## Next
 
+- [Business viability checker - which part of Nairobi suits your trade](/tools/business-viability-checker)
 - [Registering a business](/guides/registering-a-business-in-kenya)
 - [SACCOs](/guides/saccos-in-nairobi)
 - [Hiring your first employee](/guides/hiring-your-first-employee)

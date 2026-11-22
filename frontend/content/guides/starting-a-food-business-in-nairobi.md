@@ -62,6 +62,7 @@ listing you. See [Ride-hailing and delivery apps](/guides/ride-hailing-and-deliv
 
 ## Next
 
+- [Business viability checker - which part of Nairobi suits your trade](/tools/business-viability-checker)
 - [Small business ideas in Nairobi](/guides/small-business-ideas-in-nairobi)
 - [Registering a business in Kenya](/guides/registering-a-business-in-kenya)
 - [Business loans in Kenya](/guides/business-loans-in-kenya)

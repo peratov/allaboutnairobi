@@ -1,0 +1,428 @@
+// The business viability checker.
+//
+// The score is the smallest part of this by area, on purpose. A big number
+// with nothing behind it reads as a verdict; the bars, the census figures and
+// the "what this cannot see" list are what make it a screening tool.
+
+.viability-controls {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: var(--m);
+}
+
+// The site's .form-group sets the label beside the input, which assumes a
+// full-width row. In a two-column filter bar it leaves each select about
+// 140px, and a select is at least as wide as its longest option - "Kenkey or
+// waakye seller" - so the first one overflowed its column and sat on top of
+// the second one's label. Stacked here, and allowed to shrink.
+.viability-controls .form-group {
+	display: block;
+	margin-bottom: 0;
+	min-width: 0;
+}
+
+.viability-controls .form-group > label {
+	display: block;
+	margin-bottom: var(--xs);
+}
+
+.viability-controls .input-group,
+.viability-controls select {
+	min-width: 0;
+	width: 100%;
+}
+
+.viability-controls select { min-height: 2.75rem; font-size: 1rem; }
+
+.viability-output { margin-top: var(--l); }
+
+.viability-score {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--l);
+	padding: var(--m) var(--l);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--c-border-strong);
+	border-radius: var(--b-radius);
+	background: var(--c-bg-widget);
+}
+
+// Five bands, and only the top two get the accent. A weak score should look
+// calm rather than alarming - it is a ranking, not a rejection.
+.viability-score.tone-strong { border-inline-start-color: var(--c-forest); }
+.viability-score.tone-good   { border-inline-start-color: var(--c-laterite); }
+.viability-score.tone-fair   { border-inline-start-color: var(--c-gold); }
+.viability-score.tone-weak,
+.viability-score.tone-poor   { border-inline-start-color: var(--c-border-strong); }
+
+.viability-number {
+	display: flex;
+	align-items: baseline;
+	flex: 0 0 auto;
+	font-variant-numeric: tabular-nums;
+}
+
+.viability-number strong {
+	font-size: 2.6rem;
+	line-height: 1;
+	color: var(--c-text-heading);
+}
+
+.viability-outof {
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.viability-band {
+	margin: 0;
+	font-weight: 600;
+	color: var(--c-text-heading);
+}
+
+.viability-rank,
+.viability-caveat {
+	margin: var(--xs) 0 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	max-width: 60ch;
+}
+
+.viability-section { margin-top: var(--xl); }
+
+.viability-section h5 {
+	margin: 0 0 var(--xs);
+	font-size: 1rem;
+	color: var(--c-text-heading);
+}
+
+.viability-hint {
+	margin: var(--xs) 0 var(--m);
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+	max-width: 66ch;
+}
+
+.viability-factors {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--m);
+}
+
+.viability-factor-head {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s);
+	font-size: var(--f-s);
+}
+
+.viability-factor-label { font-weight: 600; }
+
+.viability-factor-weight {
+	color: var(--c-text-light);
+	font-size: var(--f-xs);
+}
+
+.viability-factor-percent {
+	margin-inline-start: auto;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-light);
+}
+
+.viability-bar {
+	display: block;
+	height: 8px;
+	margin-top: var(--xs);
+	background: var(--c-bg-widget-opaque);
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.viability-bar-fill {
+	display: block;
+	height: 100%;
+	background: var(--c-laterite);
+	border-radius: 4px;
+}
+
+.viability-factor-reading {
+	margin: var(--xs) 0 0;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.viability-figures {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+	gap: var(--xs) var(--m);
+	margin: 0;
+}
+
+.viability-figures > div { min-width: 0; }
+
+.viability-figures dt {
+	font-size: var(--f-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--c-text-light);
+}
+
+.viability-figures dd {
+	margin: 0 0 var(--s);
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-heading);
+}
+
+.viability-blind ul {
+	margin: 0;
+	padding-inline-start: 1.1rem;
+	font-size: var(--f-s);
+	color: var(--c-text-light);
+}
+
+.viability-blind li { margin-bottom: var(--xs); }
+
+.viability-best {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.viability-best li { border-bottom: 1px solid var(--c-border); }
+
+.viability-best li.is-current { font-weight: 600; }
+
+.viability-best li.viability-gap {
+	padding: 0 0 0 1.75rem;
+	color: var(--c-text-light);
+	border-bottom: 0;
+}
+
+.viability-place {
+	flex: 0 0 1.5rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-light);
+	font-size: var(--f-s);
+}
+
+.viability-pick {
+	display: grid;
+	grid-template-columns: 1.5rem minmax(0, 1fr) 5rem 2rem;
+	align-items: center;
+	gap: var(--s);
+	width: 100%;
+	min-height: 2.75rem;
+	padding: 0;
+	font: inherit;
+	font-weight: inherit;
+	text-align: start;
+	color: inherit;
+	background: none;
+	border: 0;
+	cursor: pointer;
+}
+
+.viability-pick-name {
+	color: var(--c-text-link);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+}
+
+.is-current .viability-pick-name { color: var(--c-text-heading); text-decoration: none; }
+.viability-pick:hover .viability-pick-name { color: var(--c-laterite); }
+
+.viability-pick-bar {
+	display: block;
+	height: 6px;
+	background: var(--c-bg-widget-opaque);
+	border-radius: 3px;
+	overflow: hidden;
+
+	span { display: block; height: 100%; background: var(--c-laterite); border-radius: 3px; }
+}
+
+.viability-place-score { text-align: end; }
+
+.viability-place-score {
+	font-variant-numeric: tabular-nums;
+	color: var(--c-text-light);
+}
+
+.viability-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--m);
+	margin-top: var(--xl);
+	padding-top: var(--m);
+	border-top: 1px solid var(--c-border);
+}
+
+.viability-download {
+	min-height: 2.75rem;
+	padding: var(--s) var(--l);
+	font: inherit;
+	font-weight: 600;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border: 1px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+	cursor: pointer;
+}
+
+.viability-download:hover {
+	background: var(--c-laterite-dark);
+	border-color: var(--c-laterite-dark);
+}
+
+.viability-download:focus-visible,
+.viability-pick:focus-visible {
+	outline: 2px solid var(--c-laterite);
+	outline-offset: 2px;
+}
+
+// The article's own list, paragraph and definition rules reach into the tool
+// and beat the class rules above: the factor bars sat 40px in, and every
+// census figure was indented by the browser's default dd margin. Element plus
+// class outranks them - the same fix as the night out planner.
+business-viability ul.viability-factors,
+business-viability ol.viability-best { padding-inline-start: 0; }
+business-viability .viability-figures dd { margin-inline-start: 0; }
+business-viability p.viability-factor-reading { margin-bottom: 0; }
+
+// Every district as a tick, best on the left, this one marked. Built in
+// business-viability.mjs.
+.viability-strip {
+	display: flex;
+	gap: 2px;
+	max-width: 22rem;
+	margin-top: var(--s);
+
+	span {
+		flex: 1 1 0;
+		height: 10px;
+		background: var(--c-border);
+		border-radius: 1px;
+	}
+
+	.is-here {
+		height: 18px;
+		margin-top: -4px;
+		background: var(--c-laterite);
+		border-radius: 2px;
+	}
+}
+
+// What is being checked, and the way to change it, pinned to the bottom of a
+// phone screen while the menus are scrolled away. See watchBar().
+.viability-bar-sticky {
+	position: fixed;
+	left: var(--s);
+	right: var(--s);
+	bottom: calc(var(--s) + env(safe-area-inset-bottom));
+	z-index: 30;
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+	padding: var(--s) var(--s) var(--s) var(--m);
+	color: var(--c-bg-page);
+	background: var(--c-text-heading);
+	border-radius: var(--b-radius);
+	box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.25);
+}
+
+.viability-bar-text {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	min-width: 0;
+	line-height: 1.25;
+}
+
+.viability-bar-score {
+	color: inherit;
+	font-size: 1.1rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.viability-bar-what {
+	overflow: hidden;
+	font-size: var(--f-xs);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	opacity: 0.8;
+}
+
+.viability-bar-change {
+	flex: 0 0 auto;
+	min-height: 2.75rem;
+	padding: 0 var(--m);
+	font: inherit;
+	font-size: var(--f-s);
+	font-weight: 600;
+	color: var(--c-bg-on-accent);
+	background: var(--c-laterite);
+	border: 0;
+	border-radius: var(--b-radius);
+	cursor: pointer;
+
+	&:focus-visible { outline: 2px solid var(--c-bg-page); outline-offset: 2px; }
+}
+
+// =============================================================================
+// A phone
+//
+// Measured at 393x851: 7.6 screens, the score at 795px, the eight census
+// figures one to a row over 617px, and the top five districts as 28px
+// underlined names.
+// =============================================================================
+
+@media (max-width: 40rem) {
+	.viability-output { margin-top: var(--m); }
+
+	// Number and verdict on one row, then the sentence, the strip and the
+	// caveat at full width. Beside the number they were a column 230px wide
+	// and the card was 297px tall.
+	.viability-score {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: center;
+		gap: var(--xs) var(--m);
+		padding: var(--m);
+
+		> div:last-child { display: contents; }
+	}
+
+	.viability-rank,
+	.viability-strip,
+	.viability-caveat { grid-column: 1 / -1; }
+
+	.viability-strip { max-width: none; }
+
+	.viability-number strong { font-size: 2.2rem; }
+	.viability-caveat { font-size: var(--f-xs); }
+
+	.viability-section { margin-top: var(--l); }
+
+	// The figures two by two.
+	.viability-figures {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--s) var(--m);
+
+		dd { margin-bottom: 0; }
+	}
+
+	.viability-factors { gap: var(--s); }
+
+	.viability-pick { grid-template-columns: 1.25rem minmax(0, 1fr) 3.5rem 1.75rem; }
+
+	.viability-actions {
+		flex-direction: column;
+		align-items: stretch;
+		text-align: center;
+	}
+}

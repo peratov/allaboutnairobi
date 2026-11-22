@@ -58,6 +58,7 @@ traders buy them to sell piece by piece. See
 
 ## Next
 
+- [Business viability checker - which part of Nairobi suits your trade](/tools/business-viability-checker)
 - [Small business ideas in Nairobi](/guides/small-business-ideas-in-nairobi)
 - [Registering a business in Kenya](/guides/registering-a-business-in-kenya)
 - [Markets in Nairobi](/guides/markets-in-nairobi)

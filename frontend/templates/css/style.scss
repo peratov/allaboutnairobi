@@ -31,6 +31,7 @@
 {% if 'tools' in styles %}@import "css/components/tools";{% endif %}
 {% if 'tool-index' in styles %}@import "css/components/tool-index";{% endif %}
 {% if 'tools-page' in styles %}@import "css/components/tools-page";{% endif %}
+{% if 'viability' in styles %}@import "css/components/viability";{% endif %}
 {% if 'bankfinder' in styles %}@import "css/components/bankfinder";{% endif %}
 {% if 'insurance' in styles %}@import "css/components/insurance";{% endif %}
 @import "css/components/forms";
