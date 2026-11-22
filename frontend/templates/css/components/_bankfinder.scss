@@ -1,0 +1,233 @@
+// --- The bank account finder (/tools/bank-account-finder) ------------------------------
+//
+// Without scripting: every account with its own documents. With it
+// (.is-enhanced): the questions, the answer, one list to bring, and only the
+// accounts that fit, each saying why.
+
+.baf { margin-top: var(--l); }
+
+// With scripting, paint the questions and the answer from the first frame, as
+// the module will, and not each account's own documents. Painting the
+// no-script list first and rebuilding it was layout shift 0.30 on a phone
+// (2026-11). !important to beat the reset's [hidden] rule, which has it too.
+.js .baf:not(.is-enhanced) {
+	.baf-questions { display: grid !important; }
+	.baf-result { display: block !important; }
+	.baf-own-docs { display: none; }
+}
+
+.baf-questions {
+	display: grid;
+	gap: var(--m);
+	padding: var(--m);
+	background: var(--c-bg-widget);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+}
+
+.baf-question {
+	margin: 0;
+	padding: 0;
+	border: 0;
+
+	&[hidden] { display: none; }
+
+	legend {
+		padding: 0;
+		margin-bottom: var(--xs);
+		font-weight: 700;
+		color: var(--c-text-heading);
+	}
+}
+
+.baf-options {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--xs);
+	max-width: 34rem;
+}
+
+// The input is hidden and the span is the whole button, coloured from the
+// input with a sibling rule - :has() is missing from older Android browsers.
+.baf-option {
+	position: relative;
+	display: flex;
+	margin: 0;
+	cursor: pointer;
+
+	input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	span {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		min-height: 2.75rem;
+		padding: 0.35rem var(--s);
+		font-size: var(--f-s);
+		font-weight: 600;
+		line-height: 1.25;
+		text-align: center;
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border-strong, var(--c-border));
+		border-radius: var(--b-radius);
+		transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+	}
+
+	&:hover span { border-color: var(--c-forest); }
+	input:checked + span { color: var(--c-bg-on-accent); background: var(--c-forest); border-color: var(--c-forest); }
+	input:focus-visible + span { outline: 2px solid var(--c-highlight); outline-offset: 2px; }
+}
+
+// A tick list reads as one: options start at the left, each with a box.
+.baf-question.is-multiple .baf-option span {
+	justify-content: flex-start;
+	text-align: start;
+
+	&::before {
+		content: "";
+		flex: none;
+		width: 1rem;
+		height: 1rem;
+		margin-inline-end: var(--s);
+		border: 1.5px solid currentColor;
+		border-radius: 3px;
+	}
+}
+
+.baf-question.is-multiple .baf-option input:checked + span::before {
+	background: currentColor;
+	box-shadow: inset 0 0 0 2px var(--c-forest);
+}
+
+.baf-result {
+	margin-top: var(--l);
+
+	&[hidden] { display: none; }
+}
+
+.baf-answer {
+	display: grid;
+	gap: 0.1rem;
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--c-forest);
+	border-radius: var(--b-radius);
+}
+
+.baf-answer-label {
+	font-size: var(--f-xs);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.baf-answer-value {
+	font-family: var(--font-heading);
+	font-size: clamp(1.4rem, calc(1.1rem + 1.4vw), 1.9rem);
+	line-height: 1.2;
+	color: var(--c-text-heading);
+}
+
+.baf-warning {
+	margin-top: var(--m);
+	padding: var(--s) var(--m);
+	font-size: var(--f-s);
+	background: var(--c-highlight-soft);
+	border-inline-start: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+	a { display: inline-block; margin-top: var(--xs); font-weight: 700; }
+}
+
+.baf-heading { margin: var(--l) 0 var(--s); }
+
+article .baf ul.baf-docs {
+	display: grid;
+	gap: var(--xs);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--f-s);
+
+	li {
+		position: relative;
+		margin: 0;
+		padding: var(--s) var(--m) var(--s) 2.4rem;
+		background: var(--c-bg-page);
+		border: 1px solid var(--c-border);
+		border-radius: var(--b-radius);
+
+		&[hidden] { display: none; }
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: calc(var(--s) + 0.2rem);
+			left: var(--m);
+			width: 0.9rem;
+			height: 0.9rem;
+			border: 1.5px solid var(--c-forest);
+			border-radius: 3px;
+		}
+	}
+}
+
+// Without scripting the merged list has nothing to merge.
+.baf:not(.is-enhanced) .baf-result { display: none; }
+
+.baf-online { margin: var(--s) 0 0; font-size: var(--f-s); }
+.baf-online:empty { display: none; }
+
+article .baf ul.baf-accounts {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.baf-account {
+	display: flex;
+	flex-direction: column;
+	gap: var(--xs);
+	margin: 0;
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+
+	h4 { margin: 0; font-size: 1.1rem; }
+	p { margin: 0; font-size: var(--f-s); line-height: 1.5; }
+	ul { margin: 0; padding-left: 1.1rem; font-size: var(--f-s); }
+	li { margin: 0.1rem 0; }
+}
+
+.baf-reason { font-weight: 600; color: var(--c-forest); }
+.baf-watch { color: var(--c-text-light); }
+.baf-bring-label { font-weight: 700; color: var(--c-text-light); }
+.baf-more { margin-top: auto; padding-top: var(--xs); font-size: var(--f-s); font-weight: 700; }
+
+// With the questions answered, the merged list does the work of each card's own.
+.baf.is-enhanced .baf-own-docs { display: none; }
+
+@media (max-width: 40rem) {
+	.baf-questions { padding: var(--s); }
+	.baf-question.is-multiple .baf-options { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.baf-option span { transition: none; }
+}

@@ -393,3 +393,13 @@
 	.nbc-swap { transition: none; }
 	.nbc-swap:hover { transform: none; }
 }
+
+// With scripting, hold the comparer's place from the first paint: the menus,
+// and a screen's height for the comparison. It used to paint the bare table,
+// then push it down when the module ran (after All About Accra, 2026-11).
+// `.js` is set in <head>.
+.js .nbc:not(.is-enhanced) {
+	// !important, more specific than the reset's [hidden] rule, which is too.
+	.nbc-pick { display: grid !important; }
+	.nbc-out { display: block; min-height: 100vh; }
+}

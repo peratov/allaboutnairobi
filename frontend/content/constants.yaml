@@ -1103,3 +1103,22 @@ constants:
     description: Minimum age to buy or be sold alcohol in Kenya. Alcoholic Drinks Control Act 2010.
     last_verified: 2026-11-15
     fail_on: 2027-11-15
+
+  KCSE_SUBJECTS_COUNTED:
+    value: 7
+    unit: integer
+    description: >-
+      Subjects in the KCSE mean grade since the 2023 exam - Mathematics, the
+      best language (English, Kiswahili or Kenyan Sign Language) and the best
+      five others. KNEC.
+    last_verified: 2026-11-23
+    fail_on: 2027-11-23
+
+  KCSE_UNIVERSITY_ENTRY_GRADE:
+    value: C+
+    unit: text
+    description: >-
+      KCSE mean grade that typically qualifies a candidate for a university
+      degree place through KUCCPS.
+    last_verified: 2026-11-23
+    fail_on: 2027-11-23

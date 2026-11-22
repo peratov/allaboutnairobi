@@ -53,6 +53,7 @@ better price than buying each alone.
 
 ## Next
 
+- [Insurance checker - what the law requires of you](/tools/insurance-checker)
 - [Registering a business in Kenya](/guides/registering-a-business-in-kenya)
 - [Nairobi business permit](/guides/nairobi-business-permit)
 - [Making an insurance claim](/guides/insurance-claims-and-complaints-in-kenya)

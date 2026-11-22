@@ -58,6 +58,7 @@ compensation personally, and failing to insure is an offence.
 
 ## Next
 
+- [Insurance checker](/tools/insurance-checker)
 - [Hiring household staff](/guides/hiring-household-staff)
 - [Hiring your first employee](/guides/hiring-your-first-employee)
 - [Insurance for small businesses](/guides/business-insurance-in-kenya)

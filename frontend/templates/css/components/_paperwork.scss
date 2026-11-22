@@ -712,3 +712,11 @@ article .pw-step ul.pw-bring {
 		.pw-detail { background: none; border: 1px solid #ccc; }
 	}
 }
+
+// With scripting, paint the chooser from the first frame, as the module will,
+// rather than every plan in full and then folding them away - which made
+// everything below jump. A reader without scripting still gets every plan.
+.js .pw:not(.is-enhanced) {
+	.pw-choose { display: block !important; }
+	.pw-plan { display: none; }
+}

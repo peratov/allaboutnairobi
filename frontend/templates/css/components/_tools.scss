@@ -640,3 +640,39 @@ rate-checker select { width: 100%; max-width: 22rem; min-height: 3rem; font-size
 	&.is-good { border-inline-start-color: var(--c-forest); }
 	&.is-over { border-inline-start-color: var(--c-laterite); }
 }
+
+// Until its module has drawn it, a calculator is a two-line placeholder, and
+// drawing itself pushed everything below it down by a screen. So the
+// placeholder holds the calculator's own height - measured at 1350px wide, its
+// shortest - or a screen's height, whichever is less. Re-measure a calculator
+// whose height changes by much.
+.tool:not(:defined), .tool.is-loading {
+	min-height: #{"min(100vh, var(--tool-reserve, 40rem))"};
+}
+// Measured 2026-11-23.
+vat-calculator { --tool-reserve: 494px; }
+turnover-tax-calculator { --tool-reserve: 550px; }
+land-rates-calculator { --tool-reserve: 567px; }
+rental-income-tax-calculator { --tool-reserve: 585px; }
+loan-repayment-calculator { --tool-reserve: 603px; }
+withholding-tax-calculator { --tool-reserve: 623px; }
+rate-checker { --tool-reserve: 667px; }
+leave-calculator { --tool-reserve: 698px; }
+stamp-duty-calculator { --tool-reserve: 707px; }
+savings-calculator { --tool-reserve: 726px; }
+overtime-calculator { --tool-reserve: 772px; }
+mmf-calculator { --tool-reserve: 782px; }
+commute-cost-calculator { --tool-reserve: 879px; }
+rental-yield-calculator { --tool-reserve: 906px; }
+capital-gains-tax-calculator { --tool-reserve: 914px; }
+mortgage-affordability-calculator { --tool-reserve: 949px; }
+car-import-duty-calculator { --tool-reserve: 966px; }
+move-in-cost-calculator { --tool-reserve: 1000px; }
+final-dues-calculator { --tool-reserve: 1007px; }
+salary-calculator { --tool-reserve: 1090px; }
+household-staff-calculator { --tool-reserve: 1091px; }
+kcse-mean-grade-calculator { --tool-reserve: 1230px; }
+import-duty-calculator { --tool-reserve: 1291px; }
+budget-planner { --tool-reserve: 1357px; }
+afcon-matchday-planner { --tool-reserve: 1458px; }
+afcon-trip-budget { --tool-reserve: 1671px; }

@@ -254,3 +254,10 @@
 
 	&[hidden] { display: none; }
 }
+
+// With scripting, paint the controls and the room for each star from the first
+// frame, as the module will: added afterwards they pushed the phrases down.
+.js .pb:not(.is-enhanced) {
+	.pb-controls { display: grid !important; }
+	.pb-phrase { padding-inline-end: 3.6rem; }
+}

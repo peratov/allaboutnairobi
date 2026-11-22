@@ -11,6 +11,7 @@
 {% if '_blocks/phrasebook.html' in entry.body %}{% set page_styles = page_styles + ['phrasebook'] %}{% endif %}
 {% if 'paperworkPlanner' in entry.body %}{% set page_styles = page_styles + ['paperwork'] %}{% endif %}
 {% if 'mmfComparer' in entry.body %}{% set page_styles = page_styles + ['mmf'] %}{% endif %}
+{% if 'insuranceChecker' in entry.body %}{% set page_styles = page_styles + ['bankfinder', 'insurance'] %}{% endif %}
 {% if NEWSLETTER_LIVE %}{% set page_styles = page_styles + ['subscribe'] %}{% endif %}
 {% set metatitle = entry.title %}
 {% set metadescription = entry.description %}
@@ -22,17 +23,28 @@
 
 {% block main %}
 	<main id="main" google-side-rail-overlap="false" aria-label="Main page">
+		{#
+			The sidebar comes first in the HTML though it sits on the right on a
+			wide screen. Below 1100px its contents bar sits above the article,
+			and coming last it arrived after the article had painted on a slow
+			connection, pushing the page down (after All About Accra, 2026-11).
+		#}
+		{% with entry=entry, showRelatedEntriesLink=entry.collections|default(false) %}
+			{% include "_blocks/sidebar.html" %}
+		{% endwith %}
+
 		<article class="section">
 			<h1>{{ entry.title }}</h1>
 			{% include "_blocks/postMeta.html" %}
 
-			<div class="article-body is-reading">
+			<div class="article-body{% if entry.rating_slug.startswith('guides/') %} is-reading{% endif %}">
 				{#
 					Ad breaks between sections only, from the page's own structure
 					(extensions/ad_breaks.py). With no ad slot configured the parts
 					join back into exactly the body that was rendered.
 				#}
-				{% for part in (entry.body|render)|ad_breaks('guide') %}
+				{% set ad_kind = 'tool' if entry.rating_slug.startswith('tools/') else ('doc' if entry.rating_slug.startswith('docs/') else 'guide') %}
+				{% for part in (entry.body|render)|ad_breaks(ad_kind) %}
 					{%- if not loop.first %}{% include "_blocks/adSlot.html" %}{% endif -%}
 					{{ part|safe }}
 				{%- endfor %}
@@ -66,9 +78,6 @@
 			</aside>
 		{% endif %}
 
-		{% with entry=entry, showRelatedEntriesLink=entry.collections|default(false) %}
-			{% include "_blocks/sidebar.html" %}
-		{% endwith %}
 	</main>
 {% endblock %}
 

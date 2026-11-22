@@ -1,0 +1,226 @@
+# The insurance checker (/tools/insurance-checker).
+#
+# Every cover and rule here comes from the insurance guides:
+# car-insurance-in-kenya, business-insurance-in-kenya,
+# work-injury-insurance-wiba, importing-goods-into-kenya, registering-for-sha,
+# health-insurance-in-kenya, home-and-contents-insurance-in-kenya,
+# life-insurance-in-kenya, travel-insurance-from-kenya and mortgages-in-kenya.
+# It says no more than they do. If you change a guide, change this file with it.
+# No insurer, premium or sum is named.
+#
+# A cover shows when any answer in its `when` list is ticked. An empty list
+# means it always shows.
+# `kind` is what the law says about the cover:
+#   required  - an Act makes it compulsory in the reader's situation
+#   check     - someone other than the Act may require it: a lender, a
+#               regulator, a lease or an embassy. The reader is told to ask.
+#   consider  - optional, and worth weighing up
+# `short` is the cover's name in the answer's list, for example "motor third
+# party and work injury (WIBA) insurance".
+# `notes` adds a line when a particular answer brought the cover in.
+
+meta:
+  last_verified: 2026-11-23
+  fail_on: 2027-11-23
+
+kinds:
+  required: { heading: "The law requires", short: "Required by law" }
+  check: { heading: "Ask whether you need it", short: "Ask if it applies" }
+  consider: { heading: "Worth considering", short: "Optional" }
+
+questions:
+  - id: road
+    text: On the road
+    options:
+      - { value: drive, label: "I own or drive a car or motorbike" }
+      - { value: hire, label: "It carries passengers or goods for pay - matatu, taxi, Uber, Bolt or boda boda" }
+      - { value: loan, label: "It is on a loan or hire purchase" }
+  - id: work
+    text: Work, business and property
+    options:
+      - { value: employ, label: "I employ someone - staff, a house help, a guard, a driver" }
+      - { value: shop, label: "I run a shop, salon, restaurant or office" }
+      - { value: professional, label: "I give professional advice - accountant, engineer, architect, consultant" }
+      - { value: import, label: "I import goods into Kenya" }
+      - { value: home, label: "I own my home, or I'm buying it with a mortgage" }
+      - { value: renter, label: "I rent my home and have things worth insuring" }
+  - id: family
+    text: Family, health and travel
+    options:
+      - { value: dependants, label: "Someone depends on my income" }
+      - { value: private, label: "I want to use private hospitals" }
+      - { value: travel, label: "I'm travelling abroad, especially to Europe" }
+
+covers:
+  - id: sha
+    name: Social Health Insurance (SHA)
+    short: SHA
+    kind: required
+    when: []
+    law: Social Health Insurance Act, 2023
+    text: >-
+      The Social Health Authority replaced NHIF in October 2024. Every Kenyan
+      resident is expected to register, and hospitals check your SHA status
+      before treating you under the scheme. Employees pay through their
+      payslip.
+    ask: >-
+      Register free by *147# or online, add your family, and check your status
+      before you need a hospital.
+    guide: guides/registering-for-sha.md
+
+  - id: motor-third-party
+    name: Motor third party insurance
+    short: motor third party
+    kind: required
+    when: [drive, hire, loan]
+    law: Insurance (Motor Vehicles Third Party Risks) Act, Cap. 405
+    text: >-
+      Every vehicle on a Kenyan road must be insured for at least third party
+      liability: injury to other people and damage to their property. It pays
+      nothing towards your own car. Driving without it is an offence.
+    ask: >-
+      Buy from a licensed insurer or agent, and check the digital certificate
+      online. The police can verify it on the road.
+    notes:
+      hire: >-
+        A vehicle that carries passengers or goods for pay needs commercial
+        cover, not private. A private policy on a car used for Uber, Bolt or
+        a matatu route may not pay out after a crash.
+    guide: guides/car-insurance-in-kenya.md
+
+  - id: wiba
+    name: Work injury insurance (WIBA)
+    short: work injury (WIBA)
+    kind: required
+    when: [employ]
+    law: Work Injury Benefits Act, 2007, section 7
+    text: >-
+      Every employer must hold a policy, with an approved insurer, for
+      injuries and illness their employees suffer at work. This covers anyone
+      employed under a contract of service, full or part time, including a
+      house help, a guard or a driver.
+    ask: >-
+      Ask a licensed insurer for a WIBA policy. A domestic package often
+      includes it for household staff.
+    guide: guides/work-injury-insurance-wiba.md
+
+  - id: marine-cargo
+    name: Marine cargo insurance with a Kenyan insurer
+    short: local marine cargo
+    kind: required
+    when: [import]
+    law: Marine Insurance Act, section 16A, and Insurance Act, section 20
+    text: >-
+      Imports must be insured with an insurer licensed in Kenya, not one
+      abroad. Since 1 July 2026 the Insurance Regulatory Authority has
+      enforced this before customs clearance.
+    ask: >-
+      Buy cargo cover from a Kenyan insurer before the goods ship, and give
+      the policy details to your clearing agent.
+    guide: guides/importing-goods-into-kenya.md
+
+  - id: comprehensive-motor
+    name: Comprehensive motor insurance
+    kind: check
+    when: [loan]
+    law: Required by the bank or lender, not by an Act
+    text: >-
+      A bank or hire-purchase company will want comprehensive cover on a car
+      it finances, because the car is its security for the loan.
+    ask: >-
+      Check what the loan agreement requires, and whether you have to use the
+      lender's insurer or can pick your own.
+    guide: guides/car-insurance-in-kenya.md
+
+  - id: mortgage-cover
+    name: Building insurance and mortgage protection
+    kind: check
+    when: [home]
+    law: Required by the lender on a mortgage, not by an Act
+    text: >-
+      A mortgage usually comes with building insurance and mortgage
+      protection: life cover that pays off the loan if you die.
+    ask: >-
+      Ask the lender what it requires, and compare its quote with others
+      before you accept it.
+    guide: guides/mortgages-in-kenya.md
+
+  - id: business-cover
+    name: Fire, public liability and the covers a lease or licence asks for
+    kind: check
+    when: [shop]
+    law: A licence, a lease or a lender may require it
+    text: >-
+      Beyond WIBA and motor cover, some sectors need more. A lease may require
+      fire cover, a licence may require public liability, and banks require
+      cover on anything they finance.
+    ask: >-
+      Read your lease and licence conditions, then ask about an SME package
+      that combines fire, burglary, money and public liability.
+    guide: guides/business-insurance-in-kenya.md
+
+  - id: professional-indemnity
+    name: Professional indemnity
+    kind: check
+    when: [professional]
+    law: Your professional body or client contracts may require it
+    text: >-
+      Professional indemnity pays if your advice costs a client money.
+      Consultants, accountants, engineers and architects often need it, and
+      many client contracts ask for it.
+    ask: >-
+      Check your professional body's rules and your contracts, then ask a
+      broker for cover that matches the size of your work.
+    guide: guides/business-insurance-in-kenya.md
+
+  - id: travel
+    name: Travel medical insurance
+    kind: check
+    when: [travel]
+    law: Required by some countries' visa rules
+    text: >-
+      A Schengen visa needs travel medical insurance for the whole stay
+      across the Schengen area, and embassies check the certificate. Several
+      other countries ask for it too.
+    ask: >-
+      Read the embassy's own requirements, and buy the policy before your
+      appointment with matching dates.
+    guide: guides/travel-insurance-from-kenya.md
+
+  - id: private-health
+    name: Private health insurance on top of SHA
+    kind: consider
+    when: [private]
+    text: >-
+      SHA does not cover everything at every hospital. A private policy,
+      inpatient first and outpatient if you can afford it, opens more of
+      Nairobi's private hospitals and cuts what you pay yourself.
+    ask: >-
+      Compare the inpatient limit, the waiting periods and the hospital panel
+      before the price.
+    guide: guides/health-insurance-in-kenya.md
+
+  - id: home-contents
+    name: Home and contents insurance
+    kind: consider
+    when: [home, renter]
+    text: >-
+      Buildings cover is for the owner. Contents cover protects what you own
+      against burglary, fire and damage, and a domestic package can add your
+      household staff's WIBA cover.
+    ask: >-
+      Value your things at what it would cost to replace them, and check the
+      security conditions on the policy.
+    guide: guides/home-and-contents-insurance-in-kenya.md
+
+  - id: life
+    name: Life insurance
+    kind: consider
+    when: [dependants]
+    text: >-
+      If someone depends on your income, term life cover pays them if you die.
+      Premiums on some policies qualify for insurance relief on your tax.
+    ask: >-
+      Work out what your family would need, and compare term cover with
+      savings policies before you sign.
+    guide: guides/life-insurance-in-kenya.md

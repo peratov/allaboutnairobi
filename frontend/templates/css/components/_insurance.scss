@@ -1,0 +1,135 @@
+// --- The insurance checker (/tools/insurance-checker) ----------------------------------
+//
+// The ticks are the bank finder's (.baf-*, page style `bankfinder`, always
+// included with this one). This is the answer and the covers: grouped by what
+// the law says, each group with its own edge colour and a badge in words, so
+// nothing rests on colour. Without scripting every cover shows with the
+// situations that bring it in; with it (.is-enhanced) only those that fit.
+
+.ins { margin-top: var(--l); }
+
+.ins-intro { margin: 0; font-size: var(--f-s); color: var(--c-text-light); }
+
+.ins-answer {
+	display: grid;
+	gap: 0.1rem;
+	margin-bottom: var(--m);
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-inline-start: 4px solid var(--c-laterite);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+	&.is-none { border-inline-start-color: var(--c-forest); }
+}
+
+.ins-answer-label {
+	font-size: var(--f-xs);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--c-text-light);
+}
+
+.ins-answer-value {
+	font-family: var(--font-heading);
+	font-size: clamp(1.3rem, calc(1.05rem + 1.2vw), 1.75rem);
+	line-height: 1.2;
+	color: var(--c-text-heading);
+}
+
+.ins-answer-detail { font-size: var(--f-s); color: var(--c-text-light); }
+.ins-answer-detail:empty { display: none; }
+
+.ins-group {
+	--ins-tone: var(--c-gold);
+	margin-top: var(--l);
+
+	&[hidden] { display: none; }
+	&.is-required { --ins-tone: var(--c-laterite); }
+	&.is-consider { --ins-tone: var(--c-forest); }
+}
+
+.ins-group-heading { margin: 0 0 var(--s); }
+
+article .ins ul.ins-covers {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	gap: var(--s);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ins-cover {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--xs);
+	margin: 0;
+	padding: var(--m);
+	background: var(--c-bg-page);
+	border: 1px solid var(--c-border);
+	border-top: 4px solid var(--ins-tone);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+
+	h4 { margin: 0; font-size: 1.1rem; }
+	p { margin: 0; font-size: var(--f-s); line-height: 1.5; }
+}
+
+.ins-badge {
+	padding: 0.1rem 0.5rem;
+	font-size: var(--f-xs);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--ins-tone);
+	border: 1px solid currentColor;
+	border-radius: 999px;
+}
+
+.ins-law { font-weight: 600; color: var(--ins-tone); }
+
+.ins-note {
+	padding: var(--xs) var(--s);
+	background: var(--c-highlight-soft);
+	border-radius: var(--b-radius);
+
+	&[hidden] { display: none; }
+}
+
+.ins-for { color: var(--c-text-light); }
+.ins-more { margin-top: auto; padding-top: var(--xs); font-size: var(--f-s); font-weight: 700; }
+
+// With the ticks answered, the cover is already the reader's; the list of
+// situations is for the page without scripting.
+.ins.is-enhanced .ins-for { display: none; }
+
+@media (max-width: 40rem) {
+	// Pinned under the header while the ticks are worked through, like a
+	// calculator's answer, so each tick visibly changes it.
+	.ins-answer {
+		position: sticky;
+		top: calc(var(--h-header) + var(--toc-bar-h, 0px));
+		z-index: 4;
+		margin-inline: calc(var(--m) * -1);
+		padding: var(--s) var(--m);
+		border-width: 0 0 1px;
+		border-radius: 0;
+		border-inline-start-width: 4px;
+		box-shadow: 0 0.5rem 1rem -0.75rem rgba(0, 0, 0, 0.35);
+	}
+
+	.ins-answer-value {
+		display: -webkit-box;
+		overflow: hidden;
+		font-size: 1.15rem;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+	}
+
+	.ins-answer-detail { font-size: var(--f-xs); }
+}

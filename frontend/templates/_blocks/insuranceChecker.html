@@ -1,0 +1,54 @@
+{#
+	The insurance checker (/tools/insurance-checker). Every cover is rendered in
+	full, grouped by what the law says about it and saying which situations
+	bring it in, so without scripting the page is the whole list - and that is
+	what a crawler reads. insurance-checker.mjs asks the questions and keeps the
+	covers that fit. The questions borrow the bank finder's styles (.baf-*);
+	the result is _insurance.scss. Data in content/geo/insurance-checker.yaml.
+#}
+<div class="ins" data-insurance-checker>
+	<div class="ins-answer" data-ins-answer aria-live="polite" hidden>
+		<span class="ins-answer-label" data-ins-label>The law requires you to have</span>
+		<strong class="ins-answer-value" data-ins-required></strong>
+		<span class="ins-answer-detail" data-ins-detail></span>
+	</div>
+
+	<form class="baf-questions" data-ins-form hidden>
+		<p class="ins-intro">Tick everything that applies. Leave a section blank if none of it does.</p>
+		{% for q in INSURANCE_CHECKER.questions %}
+		<fieldset class="baf-question is-multiple" data-ins-question="{{ q.id }}">
+			<legend>{{ q.text }}</legend>
+			<div class="baf-options">
+				{% for o in q.options %}
+				<label class="baf-option">
+					<input type="checkbox" name="ins-{{ q.id }}" value="{{ o.value }}">
+					<span>{{ o.label }}</span>
+				</label>
+				{% endfor %}
+			</div>
+		</fieldset>
+		{% endfor %}
+	</form>
+
+	{% for g in INSURANCE_CHECKER.groups %}
+	<section class="ins-group is-{{ g.kind }}" data-ins-group="{{ g.kind }}">
+		<h3 class="ins-group-heading">{{ g.heading }}</h3>
+		<ul class="ins-covers">
+			{% for c in g.covers %}
+			<li class="ins-cover is-{{ c.kind }}" data-cover="{{ c.id }}" data-when='{{ c.when|tojson }}' data-short="{{ c.short }}">
+				<span class="ins-badge">{{ g.short }}</span>
+				<h4>{{ c.name }}</h4>
+				{% if c.law %}<p class="ins-law">{{ c.law }}</p>{% endif %}
+				<p>{{ c.text }}</p>
+				{% for value, note in c.notes.items() %}
+				<p class="ins-note" data-note="{{ value }}">{{ note }}</p>
+				{% endfor %}
+				<p class="ins-ask"><strong>What to do:</strong> {{ c.ask }}</p>
+				<p class="ins-for">{% if c.for %}<strong>Applies if:</strong> {{ c.for|join('; ') }}{% else %}<strong>Applies to:</strong> everyone{% endif %}</p>
+				<a class="ins-more" href="{{ SITE_URL }}{{ c.guide_url }}">The guide &#10142;</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</section>
+	{% endfor %}
+</div>

@@ -40,6 +40,16 @@ insurance to Kenya. KRA can challenge undervalued invoices.
 
 **[Work out the duty, VAT and levies on a shipment with the import duty calculator ➞](/tools/import-duty-calculator)**
 
+## Insuring the cargo in Kenya
+
+Kenyan law requires imports to be insured with an insurer **licensed in
+Kenya**, not one abroad. The rule comes from section 16A of the Marine
+Insurance Act and section 20 of the Insurance Act. In May 2026 the Insurance
+Regulatory Authority said it would enforce this for all imports before customs
+clearance, from **1 July 2026**. Buy cargo cover from a Kenyan insurer before
+the goods ship, and give the details to your clearing agent. See the
+[insurance checker](/tools/insurance-checker).
+
 ## Clearing agents
 
 Almost all importers use a **licensed clearing and forwarding agent**. They

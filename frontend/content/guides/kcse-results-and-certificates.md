@@ -64,6 +64,7 @@ see [Senior school and Grade 10 placement](/guides/senior-school-and-grade-10-pl
 
 ## Next
 
+- [KCSE mean grade calculator](/tools/kcse-mean-grade-calculator)
 - [Applying to university in Kenya](/guides/applying-to-university-in-kenya)
 - [Certificate of good conduct](/guides/certificate-of-good-conduct)
 - [Finding a job in Nairobi](/guides/finding-a-job-in-nairobi)

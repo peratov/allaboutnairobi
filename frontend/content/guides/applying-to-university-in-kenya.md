@@ -71,6 +71,7 @@ pass** from the Department of Immigration. See [Studying in Nairobi](/guides/stu
 
 ## Next
 
+- [KCSE mean grade calculator](/tools/kcse-mean-grade-calculator)
 - [Studying in Nairobi](/guides/studying-in-nairobi)
 - [Senior school and Grade 10 placement](/guides/senior-school-and-grade-10-placement)
 - [HELB loans, repayment and clearance](/guides/helb-loans-repayment-and-clearance)

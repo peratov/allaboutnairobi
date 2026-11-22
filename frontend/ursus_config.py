@@ -494,6 +494,52 @@ ctx["PULSE_DISTRICTS"] = {
 # The site's own newsletter list (api/news.mjs, sending through Resend, managed
 # in the admin). A build-time switch like LOSTFOUND_LIVE; while it is off, the
 # NEWSLETTER_ACTION / mailto: sign-up is used instead.
+# The insurance checker (/tools/insurance-checker): covers, what the law says
+# about each, and the ticks that bring each in, worded from the insurance
+# guides. Checked here so a typo is a build error rather than a cover that can
+# never be shown.
+def _insurance_checker():
+    data = yaml.safe_load(
+        (config.content_path / "geo" / "insurance-checker.yaml").read_text(encoding="utf-8")
+    )
+    answers = {}
+    for q in data["questions"]:
+        for o in q["options"]:
+            assert set(o) == {"value", "label"}, f"insurance-checker.yaml: quote the label in {o}"
+            assert isinstance(o["value"], str), f"insurance-checker.yaml: quote the value in {o}"
+            assert o["value"] not in answers, f"insurance-checker.yaml: answer {o['value']} twice"
+            answers[o["value"]] = o["label"]
+    ids = set()
+    for cover in data["covers"]:
+        assert cover["id"] not in ids, f"insurance-checker.yaml: duplicate {cover['id']}"
+        ids.add(cover["id"])
+        assert cover["kind"] in data["kinds"], f"insurance-checker.yaml: kind of {cover['id']}"
+        assert cover["kind"] == "consider" or cover.get("law"), f"insurance-checker.yaml: {cover['id']} needs its law"
+        cover.setdefault("law", None)
+        assert cover["kind"] != "required" or cover.get("short"), f"insurance-checker.yaml: {cover['id']} needs a short name for the answer"
+        cover.setdefault("short", cover["name"])
+        cover.setdefault("notes", {})
+        for value in list(cover["when"]) + list(cover["notes"]):
+            assert value in answers, f"insurance-checker.yaml: {cover['id']} waits on unknown answer {value}"
+        for value in cover["notes"]:
+            assert value in cover["when"], f"insurance-checker.yaml: {cover['id']} has a note for {value}, which never shows it"
+        # Without scripting each cover says which ticks bring it in.
+        cover["for"] = [answers[v] for v in cover["when"]]
+        page, _, anchor = cover["guide"].partition("#")
+        assert (config.content_path / page).exists(), f"insurance-checker.yaml: no {page}"
+        cover["guide_url"] = "/" + page[: -len(".md")] + (f"#{anchor}" if anchor else "")
+    # Grouped in the order the kinds are declared, so the page reads
+    # compulsory first.
+    data["groups"] = [
+        {"kind": k, **v, "covers": [c for c in data["covers"] if c["kind"] == k]}
+        for k, v in data["kinds"].items()
+    ]
+    return data
+
+
+ctx["INSURANCE_CHECKER"] = _insurance_checker()
+
+
 ctx["NEWSLETTER_LIVE"] = env_str("NEWSLETTER_LIVE") == "1"
 ctx["API_URL"] = env_str("API_URL", "/api")
 
