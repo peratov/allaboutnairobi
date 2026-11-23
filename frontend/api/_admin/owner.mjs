@@ -5,6 +5,4 @@
 // environment variable is one more place somebody could quietly add a second
 // address. Changing it is a commit, with a name on it.
 
-// Empty until the site owner's Google account is chosen: an empty address
-// matches nobody, so the admin stays locked rather than open.
-export const OWNER_EMAIL = '';
+export const OWNER_EMAIL = 'allaboutaccra@gmail.com';
