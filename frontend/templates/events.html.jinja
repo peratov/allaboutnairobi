@@ -6,6 +6,54 @@
 
 {% from "_blocks/eventCard.html" import event_card %}
 
+{#
+	Event markup for the dated events, so Google can list them in its own
+	events results. Public holidays are left out (they are not events anyone
+	attends), and so are the yearly fixtures, which have no date by design.
+	No price is given: the calendar says "Paid entry", never a figure; nor a
+	performer, which the calendar does not record. An image is given when the
+	organiser's poster was approved, and the organiser's url is the event's
+	own link.
+#}
+{% block postHead %}
+	{{ super() }}
+	{% set marked = EVENTS.dated|rejectattr('computed')|list %}
+	{% if marked %}
+	<script type="application/ld+json">
+	[
+		{% for event in marked %}{
+			"@context": "https://schema.org",
+			"@type": "Event",
+			"name": {{ event.title|tojson }},
+			{% if event.get('description') %}"description": {{ event.description|trim|tojson }},{% endif %}
+			"startDate": "{{ event.starts.isoformat() }}",
+			"endDate": "{{ event.ends.isoformat() }}",
+			"eventStatus": "https://schema.org/EventScheduled",
+			"eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+			"location": {
+				"@type": "Place",
+				"name": {{ (event.get('venue') or event.get('area') or 'Nairobi')|tojson }},
+				"address": {
+					"@type": "PostalAddress",
+					"addressLocality": {{ (event.get('area') or 'Nairobi')|tojson }},
+					"addressRegion": "Nairobi",
+					"addressCountry": "KE"
+				}
+			},
+			{% if event.get('image') %}"image": [{{ (CANONICAL_ORIGIN ~ event.image)|tojson }}],{% endif %}
+			{#
+				The organiser's address on the web is the event's own link, where
+				there is one: that is their page for it, or their ticket seller.
+			#}
+			{% if event.get('organiser') %}"organizer": { "@type": "Organization", "name": {{ event.organiser|tojson }}{% if event.get('url') %}, "url": {{ event.url|tojson }}{% endif %} },{% endif %}
+			"url": {{ (event.get('url') or canonical_url)|tojson }}
+		}{% if not loop.last %},{% endif %}
+		{% endfor %}
+	]
+	</script>
+	{% endif %}
+{% endblock %}
+
 {% block main %}
 	<main id="main" class="wide-column" aria-label="Main page">
 		<article class="section events-page">
@@ -39,7 +87,7 @@
 				the list below says the same thing.
 			#}
 			<section class="event-next" data-event-next hidden aria-labelledby="event-next-label">
-				<p class="event-next-label" id="event-next-label">Next up</p>
+				<h2 class="event-next-label" id="event-next-label">Next up</h2>
 				<ul class="event-list" data-event-next-list></ul>
 			</section>
 

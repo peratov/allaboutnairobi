@@ -15,7 +15,7 @@ import { HttpError } from '../_lostfound/http.mjs';
 import { forgetSettings, issuePortal, rules, settingsOf } from '../_lostfound/handlers.mjs';
 import { OWNER_EMAIL } from './owner.mjs';
 import { guarded, live as liveVisitors, lostFoundStats, rangeOf, ratings, search, traffic } from './analytics.mjs';
-import { CATEGORIES as EVENT_CATEGORIES, applyChange, commitCalendar, readCalendar, validEvent } from './events.mjs';
+import { CATEGORIES as EVENT_CATEGORIES, applyChange, commitCalendar, commitFile, readCalendar, validEvent } from './events.mjs';
 import { pulseRoutes } from '../_pulse/admin.mjs';
 import { newsRoutes } from '../_news/admin.mjs';
 import { goalsAction, goalsView } from './goals.mjs';
@@ -27,7 +27,7 @@ const { pick, text, publicText, date, live, placesById, CATEGORIES, PLACE_KINDS,
 // An event an organiser sent in. Unlike a listing's, the organiser's contact
 // is shown here: checking that an event is real is the admin's job, as it is
 // for a place, and the outcome is emailed to them.
-const SUBMISSION_FIELDS = ['ref', 'title', 'starts', 'ends', 'time', 'venue', 'area', 'organiser', 'category', 'price', 'url', 'description', 'contact_name', 'contact_phone', 'contact_email', 'status', 'created_at', 'decided_at', 'reason', 'commit'];
+const SUBMISSION_FIELDS = ['ref', 'title', 'starts', 'ends', 'time', 'venue', 'area', 'organiser', 'category', 'price', 'url', 'description', 'poster', 'contact_name', 'contact_phone', 'contact_email', 'status', 'created_at', 'decided_at', 'reason', 'commit'];
 const SUBMISSION_STATUSES = new Set(['pending', 'approved', 'rejected']);
 
 /** The calendar entry a submission would become, before the admin's edits. */
@@ -425,7 +425,10 @@ export const routes = {
 		} catch (error) {
 			calendar = error.message;
 		}
-		return { submission: pick(row, SUBMISSION_FIELDS), event: asCalendarEvent(row), similar, calendar, categories: EVENT_CATEGORIES };
+		// The poster, as a data URL, only for the one submission being looked at.
+		const held = row.poster ? await store.get('ev_posters', row.ref) : null;
+		const poster = held?.data ? `data:${held.type};base64,${held.data}` : null;
+		return { submission: pick(row, SUBMISSION_FIELDS), event: asCalendarEvent(row), poster, similar, calendar, categories: EVENT_CATEGORIES };
 	},
 
 	async submissionAction({ store, env, body, notify, base }) {
@@ -437,13 +440,22 @@ export const routes = {
 				if (row.status !== 'pending') fail('Only a waiting event can be approved.');
 				// The admin's edits on top of what was sent, held to the calendar's
 				// own rules - and dated today, because today is when it was checked.
-				const event = validEvent({ ...asCalendarEvent(row), ...(body.event || {}), annual: false, last_verified: isoDay(0) });
+				// The poster, unless the admin left it out, goes into the site
+				// beside the calendar: staticimages/events/<ref>.jpg.
+				const held = row.poster && body.poster !== false ? await store.get('ev_posters', row.ref) : null;
+				const ext = held?.type === 'image/webp' ? 'webp' : 'jpg';
+				const image = held?.data ? `/staticimages/events/${row.ref.toLowerCase()}.${ext}` : '';
+				const event = validEvent({ ...asCalendarEvent(row), ...(body.event || {}), image, annual: false, last_verified: isoDay(0) });
 				if ((event.ends || event.starts) < isoDay(0)) fail('That event is over. Turn it down instead.');
 				const { text: current, sha } = await readCalendar(env);
 				const next = applyChange(current, { action: 'add', index: null, event });
+				// The picture first, so no build ever has the calendar naming a
+				// poster it does not hold.
+				if (image) await commitFile(env, { path: `frontend/templates${image}`, base64: held.data, message: `events: Add the poster for ${event.title}\n\nSent in by the organiser (${row.ref}).` });
 				const result = await commitCalendar(env, { text: next, sha, message: `events: Add ${event.title}\n\nSent in by the organiser (${row.ref}), checked and approved in the admin by ${OWNER_EMAIL}.` });
 				commit = result.commit;
-				await store.update('ev_submissions', [['id', 'eq', row.id]], { status: 'approved', decided_at: nowIso(), commit: commit.slice(0, 12), title: event.title, starts: event.starts });
+				await store.update('ev_submissions', [['id', 'eq', row.id]], { status: 'approved', decided_at: nowIso(), commit: commit.slice(0, 12), title: event.title, starts: event.starts, poster: false });
+				if (row.poster) await store.write([{ table: 'ev_posters', id: row.ref, remove: true }]);
 				if (row.contact_email && body.tell !== false) {
 					await notify({
 						to: row.contact_email,

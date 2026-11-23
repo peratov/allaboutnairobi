@@ -1,0 +1,8 @@
+{#
+	"Buy me a coffee" at the end of a guide, in the page rather than over it.
+	The moment someone finishes a guide that answered their question is the
+	moment they are most likely to say thanks, and on a phone - where most
+	readers are - the sidebar card is never seen.
+#}
+{% from "_blocks/supportAsk.html" import support_card with context %}
+{{ support_card('guide', 'Did this save you a trip?', 'All About Nairobi is free, with no paywall, and every figure in it is checked against its source. If this guide spared you a wasted morning at an office, buy me a coffee and keep it going.') }}

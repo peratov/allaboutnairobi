@@ -246,12 +246,6 @@
 // The now-playing bar. Hidden until a station is chosen; the site-wide
 // [hidden] rule in _reset.scss is what keeps display: flex below from showing it.
 
-// The floating support button sits bottom right, exactly where the bar's Pop
-// out button is. While the bar is up, lift it clear.
-body:has(.radio-bar:not([hidden])) .support-float {
-	bottom: 5.5rem;
-}
-
 .radio-bar {
 	position: fixed;
 	inset: auto 0 0;
@@ -441,10 +435,4 @@ radio-player.is-ready {
 
 	.radio-bar { gap: var(--xs); padding-inline: var(--s); }
 	.radio-bar-now { margin-inline-start: var(--xs); }
-
-	.support-float.is-yielding-radio {
-		opacity: 0;
-		pointer-events: none;
-		transform: translateY(0.5rem);
-	}
 }

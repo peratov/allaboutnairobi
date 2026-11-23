@@ -193,7 +193,10 @@ Organisers can send an event for the [events calendar](/events) from
 
 **What is public.** Nothing, until a person has checked it. Once approved, the
 event's name, dates, time, venue, area, organiser, price, link and description
-are published on the events page, because that is the point of sending it.
+are published on the events page, because that is the point of sending it -
+and the poster, if you sent one and it is approved with the event. A poster
+is made smaller on your device before it is sent, and only the person who
+checks the event sees it until then.
 
 **What is private.** The name, email and phone you leave are for checking the
 event and for telling you whether it was listed. They are never shown on the
@@ -204,7 +207,8 @@ until the decision; an approved event then becomes part of the events
 calendar, which is a file in this site's own code.
 
 **How long.** Thirty days after your event is approved or turned down, your
-name, email and phone on it are erased. To have them removed sooner, or the
+name, email and phone on it are erased, and so is the poster of an event that
+was turned down. To have them removed sooner, or the
 event taken down, [ask us](/contact).
 
 **Email.** If email is set up, you are sent a note that the event arrived, and

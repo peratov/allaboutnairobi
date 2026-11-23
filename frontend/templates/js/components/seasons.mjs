@@ -245,7 +245,7 @@ class FoodSeasons extends HTMLElement {
 				type: 'button',
 				className: 'seasons-peak-item',
 				onclick: () => this.openSheet(item.id),
-			}, element('img', { src: img.getAttribute('src'), alt: '', width: 56, height: 56, loading: 'lazy', decoding: 'async' }),
+			}, element('img', { src: img.getAttribute('src').replace('-card.webp', '-thumb.webp'), alt: '', width: 56, height: 56, loading: 'lazy', decoding: 'async' }),
 			element('span', { text: item.name })));
 		}));
 		parts.peak.hidden = !best.length;

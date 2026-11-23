@@ -122,6 +122,15 @@ class EventsProcessor(ContextProcessor):
             event.setdefault("category", "culture")
             event["category_label"] = CATEGORIES.get(event["category"], "Event")
 
+            # An organiser's poster, committed beside the calendar when their
+            # event was approved. A path to a file this site does not hold is
+            # dropped, loudly, rather than drawn as a broken picture.
+            image = event.get("image")
+            if image and not (config.templates_path / str(image).lstrip("/")).is_file():
+                logger.warning("Event %r names a poster the site does not hold (%s); left out",
+                               event.get("title"), image)
+                event.pop("image")
+
             starts = _as_date(event.get("starts"))
             if starts is None:
                 # No date at all. Only legitimate for an annual fixture; an

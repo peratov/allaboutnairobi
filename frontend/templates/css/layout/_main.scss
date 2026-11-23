@@ -84,7 +84,7 @@ main.wide-column { grid-template-columns: minmax(0, var(--w-page)); }
 		order: -1;
 	}
 
-	.sidebar .sidebar-card { display: none; }
+	.sidebar .sidebar-card, .sidebar .support-card-k { display: none; }
 }
 
 .post-meta {

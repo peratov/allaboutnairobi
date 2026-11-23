@@ -415,6 +415,31 @@ ctx["AGRICULTURE_SEASONS_JSON"] = json.dumps({
 }, separators=(",", ":")).replace("</", "<\\/")
 ctx["AGRICULTURE_ITEM"] = {i["id"]: i for i in ctx["AGRICULTURE"]["items"]}
 
+
+def _agri_build_month(m: int) -> dict:
+    """
+    The month the build runs in, in Nairobi, so /seasons paints its month
+    panel already filled. seasons.mjs redraws it for the reader's own month,
+    and changes nothing when the two agree - which the daily rebuild keeps
+    true. Painting it empty and filling it later shifted the page by 0.4 on a
+    phone (2026-11, after All About Accra).
+    """
+    names = ["January", "February", "March", "April", "May", "June", "July",
+             "August", "September", "October", "November", "December"]
+    known = [i for i in ctx["AGRICULTURE"]["items"] if i["basis"] != "unknown"]
+    rains = next(r for r in ctx["AGRICULTURE"]["rains"] if r["month"] == m)
+    stretch = next((c for c in ctx["AGRICULTURE"]["calendar"] if m in c["months"]), {})
+    return {
+        "name": names[m - 1],
+        "rains": rains,
+        "weather": stretch.get("weather", ""),
+        "activity": stretch.get("activity", ""),
+        "best": [i for i in known if m in i["peak"]],
+    }
+
+
+ctx["AGRICULTURE_BUILD_MONTH"] = _agri_build_month(datetime.now(ZoneInfo("Africa/Nairobi")).month)
+
 # The home page's seasons card: for each month, up to four foods to show as
 # photos - at their best, then in season, then coming within two months, then
 # year-round staples to fill the row. The page is built on one day and read on

@@ -22,7 +22,10 @@ export const CATEGORIES = ['culture', 'music', 'tech', 'business', 'sport', 'foo
 export const CATEGORY_LABELS = { culture: 'Culture', music: 'Music', tech: 'Tech', business: 'Business', sport: 'Sport', food: 'Food', family: 'Family', civic: 'Civic' };
 // `time` and `organiser` arrived with submissions from organisers: a start
 // time in words ("7pm", "Doors 6pm") and who runs it. Both optional.
-const FIELDS = ['title', 'starts', 'ends', 'time', 'annual', 'when', 'venue', 'area', 'organiser', 'category', 'price', 'url', 'description', 'source', 'last_verified'];
+// `image` is an organiser's poster, committed beside the calendar when their
+// submission is approved: always a path under /staticimages/events/.
+const FIELDS = ['title', 'starts', 'ends', 'time', 'annual', 'when', 'venue', 'area', 'organiser', 'category', 'price', 'url', 'image', 'description', 'source', 'last_verified'];
+export const POSTER_PATH = /^\/staticimages\/events\/[a-z0-9-]+\.(jpg|webp)$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 // --- reading ----------------------------------------------------------------------------
@@ -127,12 +130,14 @@ export function validEvent(input) {
 		category: CATEGORIES.includes(input.category) ? input.category : null,
 		price: clean(input.price, 60, 'The price note'),
 		url: clean(input.url, 300, 'The link'),
+		image: String(input.image || ''),
 		description: clean(input.description, 900, 'The description', true),
 		source: clean(input.source, 200, 'The source', true),
 		last_verified: String(input.last_verified || ''),
 	};
 	if (!e.category) throw new HttpError(400, 'Pick a category.', 'invalid');
 	if (e.url && !/^https:\/\/[^\s]+$/.test(e.url)) throw new HttpError(400, 'The link has to start with https://', 'invalid');
+	if (e.image && !POSTER_PATH.test(e.image)) throw new HttpError(400, 'The poster has to be one the site holds, under /staticimages/events/.', 'invalid');
 	if (!DATE.test(e.last_verified)) throw new HttpError(400, 'Say when the details were last checked.', 'invalid');
 	if (input.annual) {
 		// The rule the file states at the top: an annual fixture with no
@@ -208,6 +213,16 @@ export async function readCalendar(env) {
 	const file = await github(env, `contents/${PATH}?ref=master`);
 	const text = Buffer.from(file.content, 'base64').toString('utf8');
 	return { text, sha: file.sha, events: parseEvents(text).blocks.map((b) => b.event) };
+}
+
+/** A new file in the repository - an approved event's poster - as one commit. */
+export async function commitFile(env, { path, base64, message }) {
+	const answer = await github(env, `contents/${path}`, {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ message, content: base64, branch: 'master' }),
+	});
+	return { commit: answer.commit?.sha || '' };
 }
 
 export async function commitCalendar(env, { text, sha, message }) {

@@ -509,7 +509,8 @@
 	// The rows: what, when, where - the description and links are a tap away.
 	> .event:not(:first-child) {
 		.event-description,
-		.event-links { display: none; }
+		.event-links,
+		.event-poster { display: none; }
 		.event-title { font-size: 1.05rem; }
 		.event-where {
 			display: -webkit-box;
@@ -1853,4 +1854,24 @@ a.now-link {
 
 @supports not (color: color-mix(in srgb, red, red)) {
 	.browse-card-head .icon-stamp { background: var(--c-bg-widget); }
+}
+
+// The first layout of the home page shapes every section's text at once - on
+// All About Accra the longest task on the page (Lighthouse, 2026-11). The
+// sections after Explore are skipped until they near the screen. Nothing in
+// them is fixed or sticky, which content-visibility would break.
+@supports (content-visibility: auto) {
+	.start-here,
+	.home-events,
+	.home-tools,
+	.home-numbers,
+	.home-browse {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 40rem;
+	}
+
+	main:has(.home-browse) ~ .site-footer {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 40rem;
+	}
 }

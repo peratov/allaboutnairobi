@@ -39,7 +39,7 @@
 			<h1>{{ entry.title }}</h1>
 			{% include "_blocks/postMeta.html" %}
 
-			<div class="article-body{% if entry.rating_slug.startswith('guides/') %} is-reading{% endif %}">
+			<div class="article-body{% if entry.rating_slug.startswith('guides/') or entry.rating_slug.startswith('tools/') %} is-reading{% endif %}">
 				{#
 					Ad breaks between sections only, from the page's own structure
 					(extensions/ad_breaks.py). With no ad slot configured the parts
@@ -54,6 +54,7 @@
 
 			{% include "_blocks/verifiedNotice.html" %}
 			{% include "_blocks/guideRating.html" %}
+			{% include "_blocks/supportGuide.html" %}
 
 			{#
 				With the site's own list running, every guide ends with a way to

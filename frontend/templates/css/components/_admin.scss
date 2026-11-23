@@ -1484,3 +1484,27 @@ ul.pulse-starters {
 
 .goal-glance-label { font-weight: 600; font-size: 14px; flex: 1 1 12rem; }
 .goal-glance-value { font-size: 13px; color: var(--c-text-light); font-variant-numeric: tabular-nums; }
+
+// An event's poster, sent by its organiser: shown on the submission and in
+// the calendar editor, never larger than it needs to be to judge it.
+.admin-poster {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	max-height: 22rem;
+	border-radius: 10px;
+	border: 1px solid var(--c-border);
+	background: var(--c-bg-page);
+}
+
+.admin-poster-figure { margin: var(--m) 0 0; }
+.admin-poster-figure figcaption { margin-top: var(--xs); }
+
+.admin-poster-row {
+	display: flex;
+	align-items: center;
+	gap: var(--m);
+
+	.admin-poster { max-height: 7rem; flex: none; }
+	.admin-check span { font-weight: 400; font-size: var(--f-s); line-height: 1.45; }
+}

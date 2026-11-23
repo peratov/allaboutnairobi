@@ -20,7 +20,7 @@
 
 import constants from '/js/utils/constants.mjs';
 import { element, money, breakdown, note, headline } from '/js/utils/tool-ui.mjs';
-import { percent } from '/js/utils/format.mjs';
+import { fitHeadings, percent } from '/js/utils/format.mjs';
 
 const FX_KEY = 'aan:fx';
 // Short enough for a half-width menu on a phone.
@@ -96,6 +96,7 @@ export function assess({ direction, amount, fee, theirRate, mid }) {
 
 class RateChecker extends HTMLElement {
 	connectedCallback() {
+		fitHeadings(this);
 		if (this.ready) return;
 		this.ready = true;
 

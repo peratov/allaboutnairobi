@@ -360,9 +360,6 @@
 		</main>
 	{% endblock %}
 
-	{# A private page - the admin - asks nobody for a coffee. #}
-	{% if not private_page|default(false) %}{% include "_blocks/supportButton.html" %}{% endif %}
-
 	{% block footer %}
 		{% include "_blocks/installPrompt.html" %}
 
@@ -391,7 +388,8 @@
 					<a href="{{ SITE_URL }}/search">Search</a>
 					<a href="{{ CANONICAL_ORIGIN }}/feed.xml">Feed</a>
 					<a href="{{ X_URL }}" target="_blank" rel="noopener me">@{{ X_HANDLE }}</a>
-					<a href="{{ SUPPORT_URL }}" target="_blank" rel="noopener">Buy me a coffee</a>
+					{% from "_blocks/supportAsk.html" import cup with context %}
+					<a class="footer-cup" href="{{ SUPPORT_URL }}" target="_blank" rel="noopener">{{ cup(20)|safe }}Buy me a coffee</a>
 				</nav>
 				<p class="footer-meta">
 					Built in Nairobi. Last generated {{ now.strftime('%d %B %Y') }}.
@@ -411,34 +409,6 @@
 	shows the house card in the same space.
 #}
 {% if ADSENSE_CLIENT and (IS_PRODUCTION or ADS_PREVIEW) %}
-	<script>
-		// The support chip floats at the foot of the screen, where an ad scrolling
-		// past would be half under it - covered, which AdSense forbids and no
-		// reader wants. It steps aside while any ad, ours or Google's own Auto
-		// ads (which arrive later, hence the MutationObserver), is on screen.
-		(function () {
-			if (!("IntersectionObserver" in window)) return;
-			var chip = document.querySelector(".support-float");
-			if (!chip) return;
-			var showing = new Set();
-			var watch = new IntersectionObserver(function (entries) {
-				entries.forEach(function (entry) {
-					if (entry.isIntersecting) showing.add(entry.target); else showing.delete(entry.target);
-				});
-				chip.classList.toggle("is-yielding-ad", showing.size > 0);
-			});
-			document.querySelectorAll(".ad-slot").forEach(function (el) { watch.observe(el); });
-			// Only what was added is looked at, so a map or a dashboard redrawing
-			// itself costs a class check per new node and nothing more.
-			new MutationObserver(function (changes) {
-				changes.forEach(function (change) {
-					change.addedNodes.forEach(function (node) {
-						if (node.nodeType === 1 && node.classList.contains("google-auto-placed")) watch.observe(node);
-					});
-				});
-			}).observe(document.body, { childList: true, subtree: true });
-		})();
-	</script>
 {% endif %}
 {% if ADSENSE_CLIENT and ADSENSE_SLOT and IS_PRODUCTION %}
 	<script>
@@ -481,13 +451,11 @@
 		{% queueJs %}
 			import initializeTableOfContents from '/js/components/table-of-contents.mjs';
 			import initializeGlossaryTooltips from '/js/components/glossary-tooltip.mjs';
-			import initializeSupportButton from '/js/components/support.mjs';
 			import initializeThemeToggle from '/js/components/theme-toggle.mjs';
 			import initializeInstallPrompt from '/js/components/install-prompt.mjs';
 
 			initializeTableOfContents();
 			initializeGlossaryTooltips();
-			initializeSupportButton();
 			initializeThemeToggle();
 			initializeInstallPrompt();
 			{% if LOSTFOUND_LIVE or PULSE_LIVE or NEWSLETTER_LIVE %}

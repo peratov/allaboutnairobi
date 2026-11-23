@@ -129,8 +129,10 @@
 						<div class="seasons-ribbon" role="group" aria-label="Choose a month">
 							{% for r in A.rains %}
 								{% set name = MONTHS[r.month - 1] %}
-								<button type="button" class="seasons-month rain-{{ r.season }}" data-month="{{ r.month }}" aria-pressed="false" aria-label="{{ name }}">
-									<span class="m3" aria-hidden="true">{{ name[:3] }}</span><span class="m1" aria-hidden="true">{{ name[0] }}</span>
+								<button type="button" class="seasons-month rain-{{ r.season }}" data-month="{{ r.month }}" aria-pressed="false">
+									{#- The name is the visible "Jan" with "uary" hidden, not an aria-label:
+									    a label that is not the visible text fails voice control. -#}
+									<span class="m3">{{ name[:3] }}<span class="visually-hidden">{{ name[3:] }}</span></span><span class="m1" aria-hidden="true">{{ name[0] }}</span>
 									<small data-today hidden><span class="visually-hidden">, this month</span></small>
 								</button>
 							{% endfor %}
@@ -143,14 +145,20 @@
 						</p>
 
 						<div class="seasons-month-head">
-							<h2 class="seasons-month-title" data-title></h2>
-							<p class="seasons-rain" data-rain></p>
+							{# Painted for the build's month; the script redraws it for the reader's. #}
+							{% set bm = AGRICULTURE_BUILD_MONTH %}
+							<h2 class="seasons-month-title" data-title>{{ bm.name }}, this month</h2>
+							<p class="seasons-rain rain-{{ bm.rains.season }}" data-rain>{{ bm.rains.label }}</p>
 						</div>
 
 						{# The answer first: what is at its best, as pictures. #}
-						<div class="seasons-peak" data-peak hidden>
-							<p class="seasons-peak-label" data-peak-label>At their best</p>
-							<ul class="seasons-peak-list" data-peak-list></ul>
+						<div class="seasons-peak" data-peak{% if not bm.best %} hidden{% endif %}>
+							<p class="seasons-peak-label" data-peak-label>At their best in {{ bm.name }}</p>
+							<ul class="seasons-peak-list" data-peak-list>
+								{%- for item in bm.best %}
+								<li style="--i:{{ loop.index0 }}"><button type="button" class="seasons-peak-item"><img src="{{ SITE_URL }}/staticimages/food/{{ item.id }}-thumb.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span>{{ item.name }}</span></button></li>
+								{%- endfor %}
+							</ul>
 						</div>
 
 						{# Each count is also the way to see those items. #}
@@ -160,7 +168,7 @@
 							<li><button type="button" class="seasons-stat is-out" data-goto="out"><strong data-count="out">0</strong> out of season</button></li>
 						</ul>
 						<div class="seasons-farm" data-farm>
-							<p class="seasons-farm-text"><strong data-weather></strong> <span data-activity></span></p>
+							<p class="seasons-farm-text"><strong data-weather>{{ bm.weather }}</strong> <span data-activity>{{ bm.activity }}</span></p>
 							<button type="button" class="seasons-farm-more" data-farm-more aria-expanded="false" hidden>More</button>
 						</div>
 					</div>

@@ -386,3 +386,6 @@
 @supports not (color: color-mix(in srgb, red, red)) {
 	.flight-land path { fill: var(--c-text-light); fill-opacity: 0.2; }
 }
+
+// Hold the map's height until flight-map.mjs builds it, as /map does.
+.js .flight-map:empty { height: var(--map-stage-h); }

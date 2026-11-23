@@ -1153,3 +1153,10 @@ html.map-fullscreen-open {
 		.region:hover { fill: var(--c-laterite); fill-opacity: 0.45; }
 	}
 }
+
+// Hold the map's height from the first frame. The element is empty until
+// nairobi-map.mjs builds it, and the frame it builds is --map-stage-h tall;
+// without this the tables below paint first and are pushed down by the map
+// (on All About Accra, a layout shift of 0.38 on a phone). Only with
+// scripting: without it there is no map to hold room for.
+.js .city-map:empty { height: var(--map-stage-h); }

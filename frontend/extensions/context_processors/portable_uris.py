@@ -42,7 +42,7 @@ class PortableEntryUrlsProcessor(ContextProcessor):
     The same problem one layer up, plus escaping.
 
     Ursus builds each entry's public URL with `str(Path(...))` too, so on
-    Windows a glossary entry gets the URL "/glossary\TIN". That is not a
+    Windows a glossary entry gets the URL "/glossary\\TIN". That is not a
     broken path, it is a broken link in every rendered page, in the JSON-LD,
     and in the search index.
 

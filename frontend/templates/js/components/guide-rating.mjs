@@ -162,22 +162,10 @@ export default function initializeGuideRating() {
 	const story = { outcome: 'ignored', score: 0, contact: false, sent: false };
 	followUp?.addEventListener('click', (event) => { if (event.target.closest('a')) story.contact = true; });
 
-	/**
-	 * The floating "Buy me a coffee" button lives in the same corner, and
-	 * support.mjs already calls that out: two things in one corner is asking
-	 * twice. It has a class for yielding, so use it rather than inventing a
-	 * second stacking order and hoping.
-	 */
-	function yieldSupport(on) {
-		const float = document.querySelector('.support-float');
-		if (float) float.classList.toggle('is-yielding', on);
-	}
-
 	function close() {
 		closed = true;
 		if (shown) report(story);
 		panel.hidden = true;
-		yieldSupport(false);
 		document.removeEventListener('keydown', onKeydown);
 	}
 
@@ -193,7 +181,6 @@ export default function initializeGuideRating() {
 		if (shown || closed) return;
 		shown = true;
 		panel.hidden = false;
-		yieldSupport(true);
 		// Marks the whole-site quiet period the moment we ask, not when the
 		// reader answers, so an ignored prompt still buys them a month.
 		writeStore(LAST_ASKED_KEY, String(Date.now()));
@@ -211,9 +198,12 @@ export default function initializeGuideRating() {
 		// Two or below is the only answer worth acting on, and a reply needs a
 		// way to reach us that a GA4 event cannot provide.
 		if (score <= 2 && followUp) followUp.hidden = false;
+		// A good score is thanks; the ask to support the site goes with it.
+		const support = panel.querySelector('[data-rating-support]');
+		if (score >= 4 && support) support.hidden = false;
 		thanks.hidden = false;
 
-		window.setTimeout(close, score <= 2 ? 9000 : 2600);
+		window.setTimeout(close, score <= 2 || score >= 4 ? 9000 : 2600);
 	}
 
 	buttons.forEach((button) => {

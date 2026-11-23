@@ -15,7 +15,7 @@
 		A public holiday tells you what is shut, not what to go to, and there
 		are fifteen a year: drawn as a compact row, so the events stand out.
 	#}
-	<li class="event{% if not event.get('starts') %} event-annual{% endif %}{% if event.get('computed') %} event-holiday{% endif %}"
+	<li class="event{% if not event.get('starts') %} event-annual{% endif %}{% if event.get('computed') %} event-holiday{% endif %}{% if event.get('image') %} has-poster{% endif %}"
 		data-category="{{ event.category }}"
 		data-title="{{ event.title }}"
 		{% if event.get('venue') or event.get('area') %}data-place="{{ event.get('venue') or event.get('area') }}"{% endif %}
@@ -86,5 +86,15 @@
 			{% endif %}
 
 		</div>
+
+		{#
+			The organiser's poster, when they sent one and it was approved. It
+			opens full size; the card shows it small, beside the words.
+		#}
+		{% if event.get('image') %}
+			<a class="event-poster" href="{{ event.image }}" target="_blank" rel="noopener" aria-label="Poster for {{ event.title }}">
+				<img src="{{ event.image }}" alt="" loading="lazy" decoding="async" width="120" height="160">
+			</a>
+		{% endif %}
 	</li>
 {% endmacro %}

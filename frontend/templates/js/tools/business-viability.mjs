@@ -10,7 +10,7 @@
 // exactly what this site exists to refuse. Somebody who disagrees with the
 // weighting should be able to see which factor did it.
 
-import { element } from '/js/utils/format.mjs';
+import { element, fitHeadings } from '/js/utils/format.mjs';
 import { PdfDocument } from '/js/utils/pdf.mjs';
 import { BUSINESSES, findBusiness, rankDistricts, scoreDistrict } from '/js/utils/viability.mjs';
 
@@ -33,6 +33,7 @@ const FIGURES = [
 
 class BusinessViability extends HTMLElement {
 	async connectedCallback() {
+		fitHeadings(this);
 		if (this.rendered) return;
 		this.rendered = true;
 

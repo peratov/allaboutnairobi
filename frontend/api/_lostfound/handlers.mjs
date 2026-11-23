@@ -128,6 +128,23 @@ function noLinks(clean, label) {
 	return clean;
 }
 
+/**
+ * An event's poster, as the form made it in the browser: a JPEG or WebP no
+ * wider or taller than 1200px, as a data URL. Checked by its first bytes, not
+ * by what it says it is. Null when none was sent.
+ */
+export const POSTER_MAX_BYTES = 450000;
+export function cleanPoster(raw) {
+	if (!raw) return null;
+	const m = /^data:image\/(jpeg|webp);base64,([A-Za-z0-9+/=]+)$/.exec(String(raw));
+	if (!m) fail('The poster could not be read. Try a JPEG or PNG picture.', 'poster');
+	const bytes = Buffer.from(m[2], 'base64');
+	if (bytes.length > POSTER_MAX_BYTES) fail('The poster is too big. Try a smaller picture.', 'poster');
+	const ok = m[1] === 'webp' ? bytes.subarray(0, 4).toString() === 'RIFF' && bytes.subarray(8, 12).toString() === 'WEBP' : bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+	if (!ok) fail('The poster could not be read. Try a JPEG or PNG picture.', 'poster');
+	return { type: `image/${m[1]}`, data: m[2] };
+}
+
 function eventDay(value, label) {
 	const clean = String(value ?? '');
 	if (!/^\d{4}-\d{2}-\d{2}$/.test(clean) || Number.isNaN(new Date(`${clean}T12:00:00Z`).getTime())) fail(`Pick ${label}.`, 'date');
@@ -521,6 +538,7 @@ export const routes = {
 
 		// The outcome is emailed, so an email is the one contact that is required.
 		if (!String(body.contact_email ?? '').trim()) fail('Leave your email - it is how you hear that your event is on the site.', 'contact');
+		const poster = cleanPoster(body.poster);
 		const row = {
 			title,
 			starts,
@@ -533,6 +551,9 @@ export const routes = {
 			price: noLinks(text(body.price, { max: 60, label: 'The price' }), 'The price'),
 			url,
 			description,
+			// The poster itself waits in ev_posters, apart from the row, so the
+			// admin's lists never read it; this only says there is one.
+			poster: Boolean(poster),
 			...contact(body),
 		};
 
@@ -545,6 +566,7 @@ export const routes = {
 
 		await limit(store, ip, 'event', limits.eventsPerHour);
 		const saved = await store.insert('ev_submissions', { ...row, ref: eventRef(), ip_hash: ip });
+		if (poster) await store.write([{ table: 'ev_posters', id: saved.ref, set: { ...poster, created_at: new Date().toISOString() } }]);
 		await notify({
 			to: env.LOSTFOUND_ADMIN_EMAIL || OWNER_EMAIL,
 			subject: `Event to approve: ${title}`,
@@ -575,6 +597,13 @@ export const routes = {
 		const events = await store.update('lf_events', [['created_at', 'lt', cutoff]], { ip_hash: null });
 		// An event's organiser, thirty days after it was approved or turned down.
 		const submissions = await store.update('ev_submissions', [['status', 'in', ['approved', 'rejected']], ['decided_at', 'lt', cutoff]], { ...blank, ip_hash: null });
+		// A turned-down event's poster goes with its organiser's details. An
+		// approved one's went into the site, and was deleted here on approval.
+		const posters = submissions.filter((s) => s.poster && s.status === 'rejected');
+		if (posters.length) {
+			await store.write(posters.map((s) => ({ table: 'ev_posters', id: s.ref, remove: true })));
+			await store.update('ev_submissions', [['ref', 'in', posters.map((s) => s.ref)]], { poster: false });
+		}
 		return { ok: true, items: expired.length + ended.length, replies: replies.length, events: events.length, submissions: submissions.length };
 	},
 };

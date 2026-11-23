@@ -41,6 +41,43 @@ function quickDays() {
 	return [['This Saturday', ahead(6)], ['This Sunday', ahead(0)], ['Next Saturday', ahead(6, 1)]];
 }
 
+// A poster is made small here, on the phone, before it is sent: no wider or
+// taller than 1200px, WebP where the browser can write it, else JPEG, and
+// under the server's limit. A phone photo of a flyer is often 4MB; this is
+// usually 150KB.
+const POSTER_PX = 1200;
+const POSTER_BYTES = 420000;
+async function shrinkPoster(file) {
+	if (!/^image\//.test(file.type)) throw new Error('That is not a picture. Choose a JPEG or PNG.');
+	const url = URL.createObjectURL(file);
+	try {
+		const img = await new Promise((resolve, reject) => {
+			const i = new Image();
+			i.onload = () => resolve(i);
+			i.onerror = () => reject(new Error('That picture could not be opened. Try a JPEG or PNG.'));
+			i.src = url;
+		});
+		const scale = Math.min(1, POSTER_PX / Math.max(img.naturalWidth, img.naturalHeight));
+		const canvas = document.createElement('canvas');
+		canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+		canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+		const ctx = canvas.getContext('2d');
+		ctx.fillStyle = '#ffffff';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+		for (const type of ['image/webp', 'image/jpeg']) {
+			for (const q of [0.82, 0.7, 0.58, 0.46]) {
+				const data = canvas.toDataURL(type, q);
+				if (!data.startsWith(`data:${type}`)) break;
+				if ((data.length - data.indexOf(',') - 1) * 0.75 <= POSTER_BYTES) return data;
+			}
+		}
+		throw new Error('That picture is too detailed to send. Try a smaller one.');
+	} finally {
+		URL.revokeObjectURL(url);
+	}
+}
+
 const legend = (n, text) => element('legend', {}, [element('span', { class: 'event-submit-step', 'aria-hidden': 'true', text: String(n) }), text]);
 
 function build(meta) {
@@ -73,6 +110,48 @@ function build(meta) {
 	const url = field({ name: 'url', label: 'Link for tickets or details (optional)', type: 'url', max: 300, inputmode: 'url', placeholder: 'https://' });
 	const organiser = field({ name: 'organiser', label: 'Who is organising it?', required: true, max: 100, hint: 'Shown on the listing.' });
 
+	// The poster: optional, one picture, shown on the listing once approved.
+	let poster = null;
+	const posterInput = element('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp', class: 'event-poster-file', id: 'event-poster-file' });
+	const posterThumb = element('span', { class: 'event-poster-thumb', 'aria-hidden': 'true' });
+	const posterNote = element('span', { class: 'lf-hint', 'aria-live': 'polite', text: 'Optional. The flyer or a photo of it - made small on your phone before it is sent.' });
+	const posterRemove = element('button', { type: 'button', class: 'event-poster-remove', hidden: '', text: 'Remove' });
+	const drawPoster = () => {
+		posterThumb.replaceChildren(poster ? element('img', { src: poster, alt: '' }) : element('span', { text: '+' }));
+		posterRemove.hidden = !poster;
+	};
+	posterInput.addEventListener('change', async () => {
+		const file = posterInput.files?.[0];
+		if (!file) return;
+		posterNote.textContent = 'Getting it ready...';
+		try {
+			poster = await shrinkPoster(file);
+			posterNote.textContent = 'Your poster is in. It shows on the listing once the event is approved.';
+		} catch (error) {
+			poster = null;
+			posterNote.textContent = error.message;
+		}
+		posterInput.value = '';
+		drawPoster();
+		drawPreview();
+	});
+	posterRemove.addEventListener('click', () => {
+		poster = null;
+		posterNote.textContent = 'Poster removed.';
+		drawPoster();
+		drawPreview();
+	});
+	drawPoster();
+	const posterField = element('div', { class: 'lf-field event-poster-field' }, [
+		element('label', { for: 'event-poster-file', text: 'Poster (optional)' }),
+		element('div', { class: 'event-poster-pick' }, [
+			element('label', { class: 'event-poster-drop', for: 'event-poster-file' }, [posterThumb, element('span', { text: 'Choose a picture' })]),
+			posterInput,
+			posterRemove,
+		]),
+		posterNote,
+	]);
+
 	const person = field({ name: 'contact_name', label: 'Your name', max: 60, autocomplete: 'name' });
 	const email = field({ name: 'contact_email', label: 'Your email', type: 'email', required: true, autocomplete: 'email', inputmode: 'email', hint: 'You hear here when it is listed.' });
 	const phone = field({ name: 'contact_phone', label: 'Your phone (optional)', type: 'tel', inputmode: 'tel', autocomplete: 'tel', hint: 'In case we need to check something quickly.' });
@@ -99,7 +178,7 @@ function build(meta) {
 		const last = asDay(ends.input.value);
 		const where = [venue.input.value.trim() || area.input.value.trim(), price.input.value.trim(), organiser.input.value.trim() ? `By ${organiser.input.value.trim()}` : ''].filter(Boolean);
 		const cat = category.value() || 'culture';
-		preview.replaceChildren(element('li', { class: 'event', 'data-category': cat }, [
+		preview.replaceChildren(element('li', { class: `event${poster ? ' has-poster' : ''}`, 'data-category': cat }, [
 			element('div', { class: 'event-side' }, [
 				element('span', { class: 'event-date' }, first ? [
 					element('span', { class: 'event-weekday', text: weekday(first) }),
@@ -120,6 +199,7 @@ function build(meta) {
 				element('p', { class: 'event-description', text: description.input.value.trim() || 'What happens, and who it is for.' }),
 				url.input.value.trim() ? element('p', { class: 'event-links' }, [element('span', { text: 'Tickets and details ↗' })]) : null,
 			]),
+			poster ? element('span', { class: 'event-poster' }, [element('img', { src: poster, alt: '' })]) : null,
 		]));
 		const n = description.input.value.trim().length;
 		counter.textContent = n < DESCRIPTION_MIN ? `${DESCRIPTION_MIN - n} more characters needed` : `${900 - n} characters left`;
@@ -141,7 +221,7 @@ function build(meta) {
 		element('fieldset', { class: 'event-submit-group' }, [legend(1, 'The event'), title.node, category.node]),
 		element('fieldset', { class: 'event-submit-group' }, [legend(2, 'When'), element('div', { class: 'event-submit-pair' }, [starts.node, ends.node]), quick, time.node]),
 		element('fieldset', { class: 'event-submit-group' }, [legend(3, 'Where'), venue.node, area.node]),
-		element('fieldset', { class: 'event-submit-group' }, [legend(4, 'About it'), description.node, price.node, url.node, organiser.node]),
+		element('fieldset', { class: 'event-submit-group' }, [legend(4, 'About it'), description.node, price.node, url.node, organiser.node, posterField]),
 		element('fieldset', { class: 'event-submit-group lf-private' }, [
 			legend(5, 'You'),
 			element('p', { class: 'lf-hint', text: 'Private. Never shown on the site - only to the person who checks the event - and erased thirty days after the decision.' }),
@@ -186,7 +266,7 @@ function build(meta) {
 			const answer = await api('event', { body: {
 				title: title.input.value, category: category.value(), starts: starts.input.value, ends: ends.input.value, time: time.input.value,
 				venue: venue.input.value, area: area.input.value, description: description.input.value, price: price.input.value,
-				url: url.input.value.trim(), organiser: organiser.input.value,
+				url: url.input.value.trim(), organiser: organiser.input.value, poster,
 				contact_name: person.input.value, contact_email: email.input.value, contact_phone: phone.input.value,
 				website: trap.value,
 			} });

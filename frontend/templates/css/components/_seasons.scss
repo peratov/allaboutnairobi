@@ -379,6 +379,21 @@ food-seasons { display: block; }
 .seasons-section-title { margin-bottom: var(--m); }
 
 // Scripted, the tabs name the sections.
+// Before seasons.mjs runs, draw the month panel, tabs and filters in their
+// finished place, as the script will, with only the food list showing below
+// them. Adding them above the list when the script ran shifted the page by 0.4
+// on a phone (2026-11, as on All About Accra). The month panel is painted at
+// build time (AGRICULTURE_BUILD_MONTH), so no height needs guessing.
+// !important beats the reset's [hidden].
+.js food-seasons:not(.is-live) {
+	.seasons-now { display: block !important; }
+	.seasons-tabs { display: grid !important; }
+	.seasons-filters { display: grid !important; }
+	[data-panel="animals"], [data-panel="calendar"] { display: none; }
+	.seasons-section { margin-top: 0; }
+	.seasons-section-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
 food-seasons.is-live .seasons-section-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 food-seasons.is-live .seasons-section { margin-top: 0; }
 
@@ -1149,7 +1164,8 @@ html.has-season-sheet { overflow: hidden; }
 }
 
 @media (max-width: 22rem) {
-	.seasons-month .m3 { display: none; }
+	// Hidden from sight, not from screen readers: it carries the month's name.
+	.seasons-month .m3 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 	.seasons-month .m1 { display: inline; }
 }
 

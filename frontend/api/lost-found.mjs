@@ -57,7 +57,8 @@ export default async function handler(req, res, env = process.env) {
 		let body = {};
 		if (method === 'POST') {
 			guardWrite(req);
-			body = await readBody(req);
+			// An event may carry a poster, made small in the browser first.
+			body = await readBody(req, route === 'event' ? 700000 : 20000);
 		}
 
 		// Private keys travel in a header, never in the URL, so they stay out of

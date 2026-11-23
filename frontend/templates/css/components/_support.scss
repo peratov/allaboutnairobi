@@ -1,62 +1,54 @@
 // =============================================================================
-// The support button
+// "Buy me a coffee"
 //
-// Persistent, so it is reachable from anywhere on a 4,000-pixel guide without
-// scrolling back to the footer. Buy Me a Coffee's yellow, so it reads as what
-// it is at a glance.
+// No floating button (removed 2026-11-23, after All About Accra): the ask lives
+// in the page, where a reader meets it after something has been done for them -
+// the card at the end of a guide, the sidebar card, the thanks after a good
+// rating, and the footer.
 //
-// The hard part of a floating call to action is not making it visible. It is
-// making it visible without covering the thing the reader came for - which on
-// a phone, on a page full of checklists and calculators, is a real risk. So it
-// collapses to a single stamp on small screens, sits clear of the safe area,
-// and can be dismissed for good.
+// One look everywhere: Buy Me a Coffee's yellow on every button that goes
+// there, and a drawn cup of coffee (_blocks/supportAsk.html).
 // =============================================================================
 
-.support-float {
-	position: fixed;
-	right: #{"max(var(--m), env(safe-area-inset-right))"};
-	bottom: #{"max(var(--m), env(safe-area-inset-bottom))"};
-	z-index: 30;
-	display: flex;
-	align-items: center;
-	gap: var(--xs);
+:root {
+	--c-cup-ground: #fbf1e3;
+	--c-cup-edge: #e3cba8;
+	--c-cup-ink: #23170d;
+	--c-cup-soft: #5b4630;
 }
 
-// Set by support.mjs while the sidebar's own support card is on screen, so the
-// reader is never asked twice in the same corner.
-// is-yielding-map is set by nairobi-map.mjs while the map fills a phone screen or
-// is in full screen - the button sat on the zoom controls and on the sheet.
-// is-yielding is set by guide-rating.mjs while the rating prompt is open. It is
-// a separate class from is-superseded on purpose: support.mjs toggles that one
-// from an IntersectionObserver on the sidebar card, so anything else writing to
-// it would be wiped out the next time the card crossed the threshold.
-// is-yielding-glossary is set by glossary-tooltip.mjs while a definition card
-// is open at the bottom of a phone screen.
-// is-yielding-tool is set by a calculator that pins its answer to the bottom
-// of a phone screen - the night out planner's summary bar.
-// is-yielding-radio is set by radio-player.mjs once the now-playing bar is up;
-// it only hides the button on a phone (see _radio.scss), where it sat on the
-// station list above the bar.
-.support-float.is-superseded,
-.support-float.is-yielding,
-.support-float.is-yielding-map,
-.support-float.is-yielding-glossary,
-.support-float.is-yielding-tool,
-.support-float.is-yielding-ad {
-	opacity: 0;
-	pointer-events: none;
-	transform: translateY(0.5rem);
+@mixin cup-dark {
+	--c-cup-ground: #2a2018;
+	--c-cup-edge: #5a432c;
+	--c-cup-ink: var(--c-text-heading);
+	--c-cup-soft: var(--c-text-light);
 }
 
-.support-float {
-	transition: opacity 0.2s ease, transform 0.2s ease;
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) { @include cup-dark; }
 }
+
+:root[data-theme="dark"] { @include cup-dark; }
+
+// --- the cup ------------------------------------------------------------------
+
+.cup-art {
+	flex: none;
+	display: block;
+	border-radius: 50%;
+	// A white rim and a soft shadow, so it sits on any ground.
+	box-shadow: 0 0 0 2px #fff, 0 3px 10px -2px #0000004d;
+}
+
+// --- the button, wherever it is --------------------------------------------
 
 .support-button {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--s);
-	padding: 0.6rem 1rem;
+	justify-content: center;
+	gap: 0.55rem;
+	min-height: 3rem;
+	padding: 0 1.3rem;
 	border-radius: 999px;
 
 	// Buy Me a Coffee's brand yellow. Near-black text on it clears WCAG AA
@@ -67,77 +59,104 @@
 	box-shadow: 0 2px 6px #0000002e, 0 8px 24px -12px #00000040;
 
 	font-family: var(--font-body);
-	font-size: var(--f-s);
-	font-weight: 650;
+	font-size: 1rem;
+	font-weight: 700;
 	line-height: 1;
 	text-decoration: none;
 	white-space: nowrap;
 
 	transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+	// With the cup in it, the cup sits at the start of the pill.
+	&:has(.cup-art) { padding-left: 0.4rem; }
+	.cup-art { width: 2.1rem; height: 2.1rem; box-shadow: 0 0 0 2px #fff6c2; }
+
+	// The link colours in _elements.scss would otherwise repaint this on visit.
+	&:visited { color: #14100c; }
+
+	&:hover,
+	&:focus-visible {
+		color: #14100c;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 10px #00000036, 0 12px 28px -12px #0000004d;
+	}
+
+	&:focus-visible { outline: 3px solid var(--c-highlight); outline-offset: 2px; }
+
+	&.is-wide { display: flex; width: 100%; }
 }
 
-// The link colours in _elements.scss would otherwise repaint this on visit.
-.support-button:visited { color: #14100c; }
+// --- the card: end of a guide, the sidebar -------------------------------------
 
-.support-button:hover,
-.support-button:focus-visible {
-	color: #14100c;
-	transform: translateY(-2px);
-	box-shadow: 0 4px 10px #00000036, 0 12px 28px -12px #0000004d;
-}
-
-.support-button .line-icon {
-	width: 1.25rem;
-	height: 1.25rem;
-	color: #14100c;
-	vertical-align: 0;
-}
-
-.support-dismiss {
+.support-card-k {
 	display: grid;
-	place-items: center;
-	width: 1.6rem;
-	height: 1.6rem;
-	padding: 0;
-	border-radius: 50%;
-	border: 1px solid var(--c-border);
-	background: var(--c-bg-page);
-	color: var(--c-text-light);
-	font-size: 1rem;
-	line-height: 1;
-	opacity: 0;
-	transition: opacity 0.15s ease;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--m) var(--l);
+	max-width: var(--w-main-column);
+	margin: var(--l) 0 0;
+	padding: var(--l);
+	border-radius: var(--b-radius);
+	color: var(--c-cup-soft);
+
+	&.is-warm {
+		background: var(--c-cup-ground);
+		border: 1px solid var(--c-cup-edge);
+	}
+
+	.support-card-k-plate .cup-art { width: 88px; height: 88px; }
+
+	.support-card-k-title {
+		margin: 0 0 0.3rem;
+		font-size: 1.2rem;
+		line-height: 1.25;
+		color: var(--c-cup-ink);
+	}
+
+	p { margin: 0; font-size: var(--f-s); line-height: 1.5; }
 }
 
-// The dismiss control stays out of the way until the reader is clearly
-// interacting with the button, and is always available to the keyboard.
-.support-float:hover .support-dismiss,
-.support-float:focus-within .support-dismiss { opacity: 1; }
-.support-dismiss:focus-visible { opacity: 1; }
-.support-dismiss:hover { color: var(--c-text); border-color: var(--c-border-strong); }
+// The sidebar is narrow: cup and heading on a row, the words, then the
+// button the width of the card.
+.support-card-k.is-plain {
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: var(--s) var(--m);
+	margin: 0 0 var(--l);
+	padding: var(--m);
+	background: var(--c-bg-widget-opaque);
+	border: 1px solid var(--c-border);
 
-// On a phone the label is the first thing to go: the yellow stamp and the
-// symbol carry the meaning, and the tap target stays a comfortable 44px.
-@media (max-width: 640px) {
-	.support-button {
-		padding: 0;
-		width: 2.9rem;
-		height: 2.9rem;
-		justify-content: center;
-		border-radius: 50%;
+	.support-card-k-plate .cup-art { width: 56px; height: 56px; }
+	.support-card-k-text { display: contents; }
+	.support-card-k-title { align-self: center; margin: 0; font-size: 1.05rem; }
+	p { grid-column: 1 / -1; }
+	.support-button { grid-column: 1 / -1; width: 100%; }
+}
+
+@media (max-width: 40rem) {
+	.support-card-k.is-warm {
+		grid-template-columns: auto minmax(0, 1fr);
+		padding: var(--m);
+
+		.support-card-k-plate .cup-art { width: 68px; height: 68px; }
+		.support-button { grid-column: 1 / -1; width: 100%; }
 	}
+}
 
-	.support-button-label {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0 0 0 0);
-		white-space: nowrap;
-	}
+// --- the rating's thanks, the footer -------------------------------------------
 
-	.support-dismiss { opacity: 1; }
+.rating-prompt-support {
+	margin: 0.8rem 0 0;
+
+	.support-button { margin-top: 0.6rem; }
+}
+
+.footer-cup {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+
+	.cup-art { width: 20px; height: 20px; box-shadow: 0 0 0 1px #fff; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -145,30 +164,6 @@
 	.support-button:hover, .support-button:focus-visible { transform: none; }
 }
 
-// -----------------------------------------------------------------------------
-// The sidebar card, for readers who are already at the end of a guide.
-// -----------------------------------------------------------------------------
-
-.support-card .support-button {
-	display: flex;
-	justify-content: center;
-	margin-top: var(--s);
-}
-
-@media (max-width: 640px) {
-	.support-card .support-button {
-		width: auto;
-		height: auto;
-		padding: 0.6rem 1rem;
-		border-radius: 999px;
-	}
-
-	.support-card .support-button-label {
-		position: static;
-		width: auto;
-		height: auto;
-		margin: 0;
-		overflow: visible;
-		clip: auto;
-	}
+@media print {
+	.support-card-k { display: none; }
 }

@@ -64,6 +64,11 @@
 
 	<div data-rating-thanks role="status" hidden>
 		<p class="rating-prompt-question">Thank you.</p>
+		<div class="rating-prompt-support" data-rating-support hidden>
+			<p class="rating-prompt-note">Glad it helped. If it saved you a trip, buy me a coffee - it keeps the site free.</p>
+			{% from "_blocks/supportAsk.html" import support_button with context %}
+			{{ support_button('rating', wide=true) }}
+		</div>
 		<p class="rating-prompt-note" data-rating-followup hidden>
 			If something was missing or wrong, <a href="{{ SITE_URL }}/contact">tell us</a> &mdash;
 			corrections are made the day they arrive.

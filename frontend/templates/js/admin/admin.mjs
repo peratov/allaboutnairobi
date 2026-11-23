@@ -1047,6 +1047,18 @@ function eventForm(event, { categories, submitLabel, onSubmit, onCancel, allowAn
 	const when = field('when', 'When it usually happens', { max: 80, hint: 'For a yearly event whose dates are not announced. No invented dates.' });
 	const sync = () => { dates.hidden = annual.checked; time.hidden = annual.checked; when.hidden = !annual.checked; };
 	annual.addEventListener('change', sync);
+	// A poster an organiser sent travels through an edit in a hidden field;
+	// unticking "Keep the poster" drops it from the calendar (the file stays
+	// in the repository, unused).
+	const image = element('input', { type: 'hidden', name: 'image' });
+	image.value = e.image || '';
+	const keep = element('input', { type: 'checkbox' });
+	keep.checked = true;
+	keep.addEventListener('change', () => { image.value = keep.checked ? e.image : ''; });
+	const posterRow = e.image ? element('div', { class: 'admin-poster-row' }, [
+		element('img', { class: 'admin-poster', src: e.image, alt: '', loading: 'lazy' }),
+		element('label', { class: 'admin-check' }, [keep, element('span', { text: 'Keep the poster' })]),
+	]) : null;
 	const status = element('div', { 'aria-live': 'polite' });
 	const submit = element('button', { type: 'submit', class: 'admin-button is-primary', text: submitLabel });
 	const form = element('form', { class: 'admin-form' }, [
@@ -1058,6 +1070,7 @@ function eventForm(event, { categories, submitLabel, onSubmit, onCancel, allowAn
 		field('organiser', 'Organiser', { max: 100 }),
 		field('price', 'Price', { max: 60, hint: 'Words are fine: "Free", "Paid entry", "From GH₵100".' }),
 		field('url', 'Link', { type: 'url', max: 300 }),
+		image, posterRow,
 		field('description', 'Description', { type: 'textarea', max: 900 }),
 		element('div', { class: 'admin-filter-pair' }, [field('source', 'Source', { max: 200 }), field('last_verified', 'Checked on', { type: 'date' })]),
 		element('div', { class: 'admin-actions' }, [
@@ -1205,16 +1218,22 @@ async function showSubmission(ref) {
 	const draw = (d) => {
 		const s = d.submission;
 		const approving = element('div', { hidden: '' });
+		const withPoster = element('input', { type: 'checkbox' });
+		withPoster.checked = true;
 		const approve = () => {
 			approving.replaceChildren(section('Check it, then publish', [
 				element('p', { class: 'admin-hint', text: 'This is what will go in the calendar. Tidy the wording if it needs it - no capitals for emphasis, no prices in the description - then publish.' }),
+				d.poster ? element('div', { class: 'admin-poster-row' }, [
+					element('img', { class: 'admin-poster', src: d.poster, alt: '' }),
+					element('label', { class: 'admin-check' }, [withPoster, element('span', { text: 'Publish the poster with it. Leave it out if it is blurred, carries a phone number you would not print, or is not of this event.' })]),
+				]) : null,
 				eventForm(d.event, {
 					categories: d.categories,
 					allowAnnual: false,
 					submitLabel: 'Approve and publish',
 					onCancel: () => { approving.hidden = true; },
 					onSubmit: async (values) => {
-						const next = await api('submission', { body: { action: 'approve', ref: s.ref, event: values, tell: tell.checked } });
+						const next = await api('submission', { body: { action: 'approve', ref: s.ref, event: values, tell: tell.checked, poster: Boolean(d.poster) && withPoster.checked } });
 						toast(`Listed. Committed ${next.commit.slice(0, 7)} - live in about two minutes.`, 'good');
 						panel.replaceChildren(...draw(next).filter(Boolean));
 						refreshBadges();
@@ -1248,6 +1267,10 @@ async function showSubmission(ref) {
 					fact('Link', s.url ? element('a', { href: s.url, rel: 'noopener', target: '_blank', text: s.url }) : null),
 				]),
 				element('p', { class: 'admin-quote', text: s.description }),
+				d.poster ? element('figure', { class: 'admin-poster-figure' }, [
+					element('img', { class: 'admin-poster', src: d.poster, alt: `Poster for ${s.title}` }),
+					element('figcaption', { class: 'admin-hint', text: 'The poster they sent. It is published with the event only if you keep it ticked when approving.' }),
+				]) : null,
 			]),
 			section('Who sent it', [
 				element('dl', { class: 'admin-facts' }, [

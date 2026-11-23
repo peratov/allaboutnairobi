@@ -35,6 +35,8 @@ const anEvent = (extra = {}) => ({
 	description: 'Forty food stalls, a DJ and craft sellers on the last Friday of the month. Families welcome until nine.',
 	contact_name: 'Kofi', contact_email: 'kofi@organiser.example', contact_phone: '0722000111', ...extra,
 });
+// A poster as the form sends one: a real (if tiny) JPEG, as a data URL.
+const POSTER = 'data:image/jpeg;base64,' + Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01, 0xff, 0xd9]).toString('base64');
 const common = {
 	LOSTFOUND_SALT: 'check', LOSTFOUND_BASE_URL: 'http://localhost', CRON_SECRET: 'check-cron',
 	ADMIN_SESSION_SECRET: 'check-session-secret-that-is-long-enough', GOOGLE_CLIENT_ID: 'check-client.apps.googleusercontent.com', GOOGLE_CLIENT_SECRET: 'check-client-secret',
@@ -97,6 +99,12 @@ globalThis.fetch = async (url, init = {}) => {
 		gh.sha = `sha${gh.commits.length + 1}`;
 		gh.commits.push(body.message);
 		return json({ commit: { sha: `c0ffee${gh.commits.length}`, html_url: 'https://github.com/x/y/commit/c0ffee' } });
+	}
+	if (u.startsWith('https://api.github.com/') && u.includes('/contents/frontend/templates/staticimages/events/') && init.method === 'PUT') {
+		const body = JSON.parse(init.body);
+		gh.files = { ...(gh.files || {}), [u.split('/contents/')[1]]: body.content };
+		gh.commits.push(body.message);
+		return json({ commit: { sha: `c0ffee${gh.commits.length}` } });
 	}
 	if (u.startsWith('https://api.github.com/')) return new Response('{}', { status: 503 });
 	return realFetch(url, init);
@@ -320,6 +328,9 @@ async function suite(env) {
 	check('an event with no email is refused', (await post('event', anEvent({ title: 'Silent Fair', contact_email: '' }))).body.code === 'contact');
 	check('a one-line description is refused', (await post('event', anEvent({ title: 'Short Fair', description: 'A fair.' }))).status === 400);
 	check('the honeypot refuses a bot sending events', (await post('event', anEvent({ title: 'Bot Fair', website: 'spam' }))).status === 400);
+	check('a poster that is not a picture is refused', (await post('event', anEvent({ title: 'Fake Poster Fair', poster: 'data:image/jpeg;base64,' + Buffer.from('<script>no</script>').toString('base64') }))).body.code === 'poster');
+	check('a poster of the wrong kind is refused', (await post('event', anEvent({ title: 'Gif Poster Fair', poster: 'data:image/gif;base64,R0lGODlh' }))).body.code === 'poster');
+	check('a poster that is too big is refused', (await post('event', anEvent({ title: 'Huge Poster Fair', poster: 'data:image/jpeg;base64,' + Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(460000)]).toString('base64') }))).body.code === 'poster');
 	const waiting = await aget('submissions');
 	check('the admin sees what was sent, with who sent it', waiting.body.submissions.length === 1 && waiting.body.submissions[0].ref === sentIn.body.ref && waiting.body.submissions[0].contact_email === 'kofi@organiser.example');
 	check('and the overview counts it', (await aget('overview')).body.counts.eventsPending === 1);
@@ -329,7 +340,12 @@ async function suite(env) {
 	check('approving without GitHub set up fails and leaves it waiting', (await apost('submission', { action: 'approve', ref: sentIn.body.ref })).body.code === 'not-configured' && (await aget('submission', { ref: sentIn.body.ref })).body.submission.status === 'pending');
 	const turned = await apost('submission', { action: 'reject', ref: sentIn.body.ref, reason: 'We could not confirm the date with the venue.' });
 	check('the admin can turn one down, with a reason', turned.body.submission.status === 'rejected' && turned.body.submission.reason.startsWith('We could not') && Boolean(turned.body.submission.decided_at));
-	check('a turned-down event can be sent again', (await post('event', anEvent())).status === 200);
+	const again = await post('event', anEvent({ poster: POSTER }));
+	check('a turned-down event can be sent again, with a poster', again.status === 200);
+	const withPoster = await aget('submission', { ref: again.body.ref });
+	check('the admin sees the poster on the submission', withPoster.body.submission.poster === true && withPoster.body.poster === POSTER);
+	check('but not in the list of submissions', !JSON.stringify((await aget('submissions')).body).includes('base64'));
+	check('and nothing public carries it', !JSON.stringify([(await get('event-meta')).body, (await get('items')).body]).includes('base64'));
 	check('and reopened', (await apost('submission', { action: 'reopen', ref: sentIn.body.ref })).body.submission.status === 'pending');
 	await apost('settings', { what: 'events', events: { paused: true, message: 'Back on Monday.' } });
 	const evPaused = await post('event', anEvent({ title: 'Paused Fair' }));
@@ -448,6 +464,22 @@ console.log('\n--- analytics and the events calendar');
 	check('approving commits it to the calendar, as edited', listed.status === 200 && listed.body.submission.status === 'approved' && gh.text.includes('title: Accra Jazz Night at Alliance Francaise') && gh.text.includes('organiser: Osu Traders Collective') && gh.text.includes('time: 6pm to midnight') && gh.commits.at(-1).includes(sub.body.ref), JSON.stringify(listed.body).slice(0, 200));
 	check('and records the commit', listed.body.submission.commit === listed.body.commit.slice(0, 12));
 	check('it cannot be approved twice', (await apost('submission', { action: 'approve', ref: sub.body.ref })).status === 400);
+	check('an event with no poster names none', !/image:/.test(gh.text.split('Accra Jazz Night at Alliance Francaise')[1].split('\n  - ')[0]));
+
+	// With a poster: the picture is committed into the site first, then the
+	// calendar names it, and the copy held for checking is deleted.
+	const posted = await post('event', anEvent({ title: 'Labadi Kite Day', category: 'family', venue: 'Labadi Beach', description: 'Kites, music and food on the beach all afternoon, with a kite-making table for children.', poster: POSTER }));
+	const before = gh.commits.length;
+	const withIt = await apost('submission', { action: 'approve', ref: posted.body.ref, event: (await aget('submission', { ref: posted.body.ref })).body.event, poster: true });
+	const posterPath = `frontend/templates/staticimages/events/${posted.body.ref.toLowerCase()}.jpg`;
+	check('approving with a poster commits the picture, then the calendar', withIt.status === 200 && gh.files?.[posterPath] === POSTER.split(',')[1] && gh.commits.length === before + 2 && gh.commits[before].startsWith('events: Add the poster for Labadi Kite Day'), JSON.stringify(withIt.body).slice(0, 200));
+	check('and the calendar names the poster', gh.text.includes(`image: "/staticimages/events/${posted.body.ref.toLowerCase()}.jpg"`));
+	check('and the copy held for checking is gone', withIt.body.poster === null && withIt.body.submission.poster === false);
+	const leftOut = await post('event', anEvent({ title: 'Teshie Fishing Festival', category: 'culture', venue: 'Teshie beach', description: 'Boats, drumming and a fish market by the sea, from early morning until the afternoon.', poster: POSTER }));
+	const commitsBefore = gh.commits.length;
+	await apost('submission', { action: 'approve', ref: leftOut.body.ref, event: (await aget('submission', { ref: leftOut.body.ref })).body.event, poster: false });
+	check('a poster the admin leaves out is not committed', gh.commits.length === commitsBefore + 1 && !gh.files[`frontend/templates/staticimages/events/${leftOut.body.ref.toLowerCase()}.jpg`]);
+	check('an edit cannot point a poster outside the events folder', (await apost('event', { action: 'add', sha: gh.sha, event: { title: 'Sneaky Fair', starts: inDays(40), venue: 'Osu', category: 'food', description: 'Food stalls and music for the whole family on Oxford Street.', image: '/js/evil.svg', source: 'Check', last_verified: today } })).status === 400);
 	check('the calendar file still reads back whole', (await aget('events')).body.events.some((e) => e.title === 'Accra Jazz Night at Alliance Francaise' && e.time === '6pm to midnight'));
 	close();
 	await fakeDb.close();

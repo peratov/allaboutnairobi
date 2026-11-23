@@ -1,0 +1,46 @@
+{#
+	"Buy me a coffee": the cup, the button and the card, one look wherever
+	they appear. After All About Accra's "Buy me kenkey" (2026-11).
+
+	No floating button any more: the ask lives in the page, where a reader
+	meets it after something has been done for them - the card at the end of a
+	guide, the sidebar card, the thanks after a good rating, and the footer.
+
+	The cup is drawn here rather than photographed, so it needs no licence and
+	no request: a cup of Kenyan coffee on a saucer, on a round coffee-brown
+	ground. Decorative everywhere: whatever it sits in carries the words.
+#}
+
+{# The cup, `size` pixels across. #}
+{% macro cup(size=40) -%}
+<svg class="cup-art" width="{{ size }}" height="{{ size }}" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+	<circle cx="32" cy="32" r="32" fill="#6b3f22"/>
+	<path d="M24 14c-2 3 2 5 0 8M32 12c-2 3 2 5 0 8M40 14c-2 3 2 5 0 8" fill="none" stroke="#f3dfc4" stroke-width="2.2" stroke-linecap="round"/>
+	<ellipse cx="31" cy="47" rx="20" ry="4.5" fill="#f7efe3"/>
+	<path d="M15 26h32v6c0 9-7 15-16 15s-16-6-16-15z" fill="#fffaf2"/>
+	<path d="M47 29h2.5a5.5 5.5 0 0 1 0 11H45" fill="none" stroke="#fffaf2" stroke-width="3"/>
+	<ellipse cx="31" cy="26.5" rx="15" ry="2.6" fill="#3b2213"/>
+	<path d="M19 33h24" stroke="#2f7d5b" stroke-width="2.4"/>
+</svg>
+{%- endmacro %}
+
+{# The yellow button: the cup in it, then the words. #}
+{% macro support_button(where, label="Buy me a coffee", wide=false) -%}
+<a class="support-button{% if wide %} is-wide{% endif %}" href="{{ SUPPORT_URL }}" target="_blank" rel="noopener"
+	data-support-link data-support-where="{{ where }}">{{ cup(28) }}<span>{{ label }}</span></a>
+{%- endmacro %}
+
+{#
+	The card: the cup large, a heading, a line, the button. `tone` is "warm"
+	(the default, a pale coffee ground) or "plain" (the sidebar's own card).
+#}
+{% macro support_card(where, title, text, tone="warm", heading="h2", button="Buy me a coffee") -%}
+<aside class="support-card-k is-{{ tone }} no-print" aria-label="Support All About Nairobi">
+	<span class="support-card-k-plate">{{ cup(72) }}</span>
+	<div class="support-card-k-text">
+		<{{ heading }} class="support-card-k-title">{{ title }}</{{ heading }}>
+		<p>{{ text }}</p>
+	</div>
+	{{ support_button(where, button) }}
+</aside>
+{%- endmacro %}

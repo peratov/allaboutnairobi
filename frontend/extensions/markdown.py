@@ -15,6 +15,26 @@ from markdown.treeprocessors import Treeprocessor
 # ==============================================================================
 
 
+def row_headers(table):
+    """
+    A table whose top-left header is empty is a comparison: its first column
+    names each row. Those cells become row headers, or a screen reader reads a
+    value with no idea which row it is in - Lighthouse's td-has-header, on
+    every "| | A | B |" table (All About Accra, 2026-11). Only the tag
+    changes; the styles already treat a body th as a row label.
+    """
+    head = table.find("thead")
+    first = head.find("tr/th") if head is not None else None
+    if first is None or "".join(first.itertext()).strip():
+        return
+    body = table.find("tbody")
+    for row in (body if body is not None else []):
+        cell = row.find("td")
+        if cell is not None and len(row) and row[0] is cell:
+            cell.tag = "th"
+            cell.set("scope", "row")
+
+
 class WrappedTableProcessor(Treeprocessor):
     """
     Wrap every table in a scrollable div.
@@ -37,6 +57,7 @@ class WrappedTableProcessor(Treeprocessor):
                 continue
             for index, child in enumerate(list(parent)):
                 if child.tag == "table":
+                    row_headers(child)
                     wrapper = Element("div", {"class": self.wrapper_class})
                     parent.remove(child)
                     wrapper.append(child)

@@ -1,6 +1,6 @@
 // Small building blocks the calculators share, so they look and behave alike.
 
-import { element, shillings } from '/js/utils/format.mjs';
+import { element, fitHeadings, shillings } from '/js/utils/format.mjs';
 
 let counter = 0;
 const uid = () => `t${(counter += 1)}`;
@@ -77,6 +77,7 @@ export function mount(host, title, buildForm, render) {
 	form.addEventListener('submit', (event) => event.preventDefault());
 	const results = element('div', { class: 'tool-results', role: 'status', 'aria-live': 'polite' });
 	host.replaceChildren(form, results);
+	fitHeadings(host);
 	const redraw = () => results.replaceChildren(...render().filter(Boolean));
 	redraw();
 	return redraw;

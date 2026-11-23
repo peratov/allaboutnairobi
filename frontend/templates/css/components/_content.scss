@@ -272,9 +272,10 @@ sup a { text-decoration: none; padding: 0 0.15em; }
 // calculator, a document template or anything with a pinned bar must never
 // get it. The sidebar is left alone too - it holds the sticky contents bar.
 //
-// Guides only (`is-reading`, set in guides/entry.html.jinja): they are long
-// and mostly text. Tool and template pages are short, and their widgets
-// change size as they start, which content-visibility gains nothing from.
+// Guides and tools (`is-reading`, set in guides/entry.html.jinja). A tool page
+// is a guide's worth of text under the calculator, and its first layout was
+// the longest task on it (Lighthouse, 2026-11). Only plain text blocks match,
+// never the calculator itself.
 @supports (content-visibility: auto) {
 	.article-body.is-reading > p:nth-child(n+6),
 	.article-body.is-reading > ul:nth-child(n+6),

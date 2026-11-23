@@ -6,7 +6,7 @@
 // up all eight or nine subjects, or count both languages, and get the wrong
 // answer. This counts the way KNEC does and shows which subjects were dropped.
 
-import { element } from '/js/utils/format.mjs';
+import { element, fitHeadings } from '/js/utils/format.mjs';
 import constants from '/js/utils/constants.mjs';
 
 const GRADES = ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E'];
@@ -27,6 +27,7 @@ const DEFAULT_OTHERS = [
 
 class KcseMeanGradeCalculator extends HTMLElement {
 	connectedCallback() {
+		fitHeadings(this);
 		if (this.rendered) return;
 		this.rendered = true;
 		this.state = {

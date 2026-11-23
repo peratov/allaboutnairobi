@@ -31,3 +31,28 @@ export function element(tag, attributes = {}, children = []) {
 	}
 	return node;
 }
+
+// A calculator titles itself with an h4 and its parts with h5, wherever it is
+// mounted: under a guide's h2, or straight under a tool page's h1. Lighthouse
+// counts that as skipping levels (All About Accra, 2026-11). This sets each
+// heading's aria-level to follow the last heading before the calculator,
+// keeping the tags - and so every style - as they are, and re-applies as
+// results redraw.
+export function fitHeadings(host) {
+	const levelOf = (h) => Number(h.getAttribute('aria-level')) || Number(h.tagName.slice(1)) || 2;
+	let before = null;
+	for (const h of document.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
+		if (host.contains(h)) continue;
+		if (h.compareDocumentPosition(host) & Node.DOCUMENT_POSITION_FOLLOWING) before = h;
+		else break;
+	}
+	const title = Math.min(6, (before ? levelOf(before) : 1) + 1);
+	const apply = () => {
+		for (const h of host.querySelectorAll('h4, h5, h6')) {
+			const level = String(Math.min(6, title + Number(h.tagName.slice(1)) - 4));
+			if (h.getAttribute('aria-level') !== level) h.setAttribute('aria-level', level);
+		}
+	};
+	apply();
+	new MutationObserver(apply).observe(host, { childList: true, subtree: true });
+}
