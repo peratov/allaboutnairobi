@@ -63,6 +63,7 @@ Use only official NSSF channels. Nobody needs to be paid to "process" a claim.
 
 ## Next
 
+- [Pension calculator](/tools/pension-calculator)
 - [PAYE and taxes](/guides/paye-and-taxes)
 - [Saving and investing in Kenya](/guides/saving-and-investing-in-kenya)
 - [Salary calculator](/tools/salary-calculator)

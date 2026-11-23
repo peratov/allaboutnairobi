@@ -68,6 +68,7 @@ happens to benefits when you leave Kenya - NSSF has an emigration benefit.
 
 ## Next
 
+- [Pension calculator](/tools/pension-calculator)
 - [Saving and investing in Kenya](/guides/saving-and-investing-in-kenya)
 - [PAYE and taxes](/guides/paye-and-taxes)
 - [Savings calculator](/tools/savings-calculator)

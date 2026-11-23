@@ -1122,3 +1122,21 @@ constants:
       degree place through KUCCPS.
     last_verified: 2026-11-23
     fail_on: 2027-11-23
+
+  NSSF_PENSIONABLE_AGE:
+    value: 60
+    unit: integer
+    description: >-
+      Pensionable age under the NSSF Act 2013, section 2. Some benefits can be
+      taken earlier, from age 50 after leaving employment.
+    last_verified: 2026-11-23
+    fail_on: 2027-11-23
+
+  CBK_INFLATION_TARGET:
+    value: 5
+    unit: percent
+    description: >-
+      Central Bank of Kenya's inflation target, the midpoint of a 2.5% to
+      7.5% band. CBK Monetary Policy Statement, June 2026.
+    last_verified: 2026-11-23
+    fail_on: 2027-07-01
