@@ -52,6 +52,33 @@ branches.
 - **Foreign currency account** - US dollar, euro and sterling accounts are
   common, useful if you are paid or save in another currency.
 
+## Other kinds of account
+
+Each bank sets its own list of documents, so ask for it before you go. These
+are what banks typically ask for.
+
+- **Diaspora account** - for Kenyans living abroad, opened online or by post.
+  Banks typically ask for your national ID or passport, your [[KRA PIN]], and
+  proof of your address abroad, such as a utility bill. Some want copies
+  certified by a notary or a Kenyan embassy, and for a dollar account, proof
+  of where the money comes from. See
+  [Managing things from abroad](/guides/kenyans-abroad-managing-things-from-afar).
+- **Business account** - for a registered business or company. Expect the
+  certificate of registration or incorporation, the business's KRA PIN, and
+  the IDs and KRA PINs of the owners or directors. A company also needs a
+  recent CR12 and a board resolution saying who may sign. See
+  [Registering a business in Kenya](/guides/registering-a-business-in-kenya).
+- **Chama or group account** - for a registered chama or self-help group.
+  Banks typically ask for the group's registration certificate, its
+  constitution, minutes agreeing to open the account and naming the
+  signatories, and the officials' IDs and KRA PINs. See
+  [Chamas in Kenya](/guides/chamas-in-kenya).
+- **Junior or children's account** - opened by a parent or guardian, usually
+  with the child's birth certificate and the parent's ID and KRA PIN.
+
+The [bank account finder](/tools/bank-account-finder) puts the right list
+together for you.
+
 ## Moving money around
 
 - **PesaLink** - instant transfers between Kenyan banks from your bank app,

@@ -1,0 +1,66 @@
+{#
+	The bank account finder (/tools/bank-account-finder). Every account type is
+	rendered in full with its own documents, so without scripting the page is a
+	list of accounts and what each needs, and that is what a crawler reads.
+	bank-account-finder.mjs asks the questions, shows the accounts that fit,
+	and merges their documents into one list to bring. Data in
+	content/geo/bank-accounts.yaml.
+#}
+<div class="baf" data-bank-finder>
+	<form class="baf-questions" data-baf-form hidden>
+		{% for q in BANK_ACCOUNTS.questions %}
+		<fieldset class="baf-question{% if q.multiple %} is-multiple{% endif %}" data-baf-question="{{ q.id }}"{% if q.only %} data-only='{{ q.only|tojson }}'{% endif %}>
+			<legend>{{ q.text }}</legend>
+			<div class="baf-options">
+				{% for o in q.options %}
+				<label class="baf-option">
+					<input type="{{ 'checkbox' if q.multiple else 'radio' }}" name="baf-{{ q.id }}" value="{{ o.value }}"{% if q.default == o.value %} checked{% endif %}>
+					<span>{{ o.label }}</span>
+				</label>
+				{% endfor %}
+			</div>
+		</fieldset>
+		{% endfor %}
+	</form>
+
+	<div class="baf-result" data-baf-result hidden>
+		<div class="baf-answer" aria-live="polite">
+			<span class="baf-answer-label">Ask the bank for</span>
+			<strong class="baf-answer-value" data-baf-ask></strong>
+		</div>
+
+		<div class="baf-warning" data-baf-nocard hidden>
+			<strong>Get your KRA PIN first.</strong>
+			Banks in Kenya ask for it with your ID, and it is free and quick to get
+			online on iTax.
+			<a href="{{ SITE_URL }}/tools/paperwork-planner#plan=kra-pin">The steps for a KRA PIN &#10142;</a>
+		</div>
+
+		<h3 class="baf-heading">What to bring</h3>
+		<ul class="baf-docs">
+			{% for key, text in BANK_ACCOUNTS.documents.items() %}
+			<li data-doc="{{ key }}">{{ text }}</li>
+			{% endfor %}
+		</ul>
+		<p class="baf-online" data-baf-online></p>
+	</div>
+
+	<h3 class="baf-heading baf-accounts-heading" data-baf-accounts-heading>Every kind of account, and who it is for</h3>
+	<ul class="baf-accounts">
+		{% for a in BANK_ACCOUNTS.accounts %}
+		<li class="baf-account" data-account="{{ a.id }}" data-scope="{{ a.scope }}" data-when='{{ a.when|tojson }}' data-docs='{{ a.docs|tojson }}'{% if a.docs_abroad %} data-docs-abroad='{{ a.docs_abroad|tojson }}'{% endif %} data-ask="{{ a.ask }}" data-online="{{ a.online }}">
+			<h4>{{ a.name }}</h4>
+			<p class="baf-reason">{{ a.reason }}</p>
+			<p>{{ a.text }}</p>
+			<p class="baf-watch"><strong>Watch for:</strong> {{ a.watch }}</p>
+			<div class="baf-own-docs">
+				<p class="baf-bring-label">Bring</p>
+				<ul>
+					{% for key in a.docs %}<li>{{ BANK_ACCOUNTS.documents[key] }}</li>{% endfor %}
+				</ul>
+			</div>
+			<a class="baf-more" href="{{ SITE_URL }}{{ a.guide_url }}">More about this account &#10142;</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>

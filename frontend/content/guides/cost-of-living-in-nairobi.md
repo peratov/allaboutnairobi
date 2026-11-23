@@ -30,7 +30,9 @@ For a single person, in KES:
 Add health insurance, school fees, household staff and travel home if they
 apply to you.
 
-Plan your own with the [budget planner](/tools/budget-planner).
+Plan your own with the [budget planner](/tools/budget-planner), or see the
+salary a lifestyle needs with the
+[cost of living calculator](/tools/cost-of-living-calculator).
 
 ## Rent
 

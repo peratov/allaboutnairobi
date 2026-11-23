@@ -495,6 +495,40 @@ ctx["PULSE_DISTRICTS"] = {
 # The site's own newsletter list (api/news.mjs, sending through Resend, managed
 # in the admin). A build-time switch like LOSTFOUND_LIVE; while it is off, the
 # NEWSLETTER_ACTION / mailto: sign-up is used instead.
+# The bank account finder (/tools/bank-account-finder): accounts, documents
+# and the answers that bring each in. Checked here so a typo fails the build.
+def _bank_accounts():
+    data = yaml.safe_load(
+        (config.content_path / "geo" / "bank-accounts.yaml").read_text(encoding="utf-8")
+    )
+    answers = set()
+    for q in data["questions"]:
+        q.setdefault("multiple", False)
+        q.setdefault("only", {})
+        q["default"] = None if q["multiple"] else q["options"][0]["value"]
+        for o in q["options"]:
+            # An unquoted label with a comma in a flow mapping is split by YAML.
+            assert set(o) == {"value", "label"}, f"bank-accounts.yaml: quote the label in {o}"
+        answers |= {str(o["value"]) for o in q["options"]}
+    ids = set()
+    for account in data["accounts"]:
+        assert account["id"] not in ids, f"bank-accounts.yaml: duplicate {account['id']}"
+        ids.add(account["id"])
+        assert account["scope"] in ("kenya", "abroad", "both"), f"bank-accounts.yaml: scope of {account['id']}"
+        for value in account["when"]:
+            assert value in answers, f"bank-accounts.yaml: {account['id']} waits on unknown answer {value}"
+        account.setdefault("docs_abroad", None)
+        for key in account["docs"] + (account["docs_abroad"] or []):
+            assert key in data["documents"], f"bank-accounts.yaml: {account['id']} needs unknown document {key}"
+        page, _, anchor = account["guide"].partition("#")
+        assert (config.content_path / page).exists(), f"bank-accounts.yaml: no {page}"
+        account["guide_url"] = "/" + page[: -len(".md")] + (f"#{anchor}" if anchor else "")
+    return data
+
+
+ctx["BANK_ACCOUNTS"] = _bank_accounts()
+
+
 # The insurance checker (/tools/insurance-checker): covers, what the law says
 # about each, and the ticks that bring each in, worded from the insurance
 # guides. Checked here so a typo is a build error rather than a cover that can

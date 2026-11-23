@@ -413,5 +413,8 @@
     - uri: tools/afcon-matchday-planner.md
     - uri: tools/afcon-trip-budget.md
     - uri: tools/insurance-checker.md
+    - uri: tools/bank-account-finder.md
+    - uri: tools/cost-of-living-calculator.md
+    - uri: tools/night-out-planner.md
     - uri: tools/business-viability-checker.md
     - uri: tools/kcse-mean-grade-calculator.md

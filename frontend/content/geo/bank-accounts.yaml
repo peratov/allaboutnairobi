@@ -1,0 +1,174 @@
+# The bank account finder (/tools/bank-account-finder).
+#
+# Every account and document here comes from opening-a-bank-account.md, and
+# this file says no more than the guide does. If you change the guide, change
+# this file with it. No bank, fee or minimum balance is named, because they
+# differ between banks and change over time. The guide tells readers to ask
+# the bank for its own list.
+#
+# The answers decide which accounts show. An account is suggested when any
+# answer in its `when` list is given; an empty list means always. It is only
+# suggested where its `scope` matches where the reader is: kenya, abroad or
+# both. In Kenya with nothing ticked, the answer is a savings account. `docs`
+# names keys in `documents`, and the finder merges them into one list to
+# bring.
+
+meta:
+  last_verified: 2026-11-23
+  fail_on: 2027-11-23
+
+questions:
+  - id: where
+    text: Where are you now?
+    options:
+      - { value: kenya, label: "In Kenya" }
+      - { value: abroad, label: "Abroad" }
+  - id: card
+    text: Do you have a KRA PIN?
+    only: { where: kenya }
+    options:
+      - { value: "yes", label: "I have one" }
+      - { value: "no", label: "Not yet" }
+  - id: who
+    text: Are you Kenyan or a foreign resident?
+    only: { where: kenya }
+    options:
+      - { value: citizen, label: "Kenyan" }
+      - { value: resident, label: "Foreign resident" }
+  - id: uses
+    text: What is the account for? Tick all that apply.
+    multiple: true
+    options:
+      - { value: salary, label: "A salary, a card and paying bills" }
+      - { value: saving, label: "Saving" }
+      - { value: forex-here, label: "Dollars, euros or pounds" }
+      - { value: business, label: "A business or company" }
+      - { value: chama, label: "A chama or group" }
+      - { value: child, label: "A child" }
+
+documents:
+  id: "Your national ID or Maisha Card - or your passport if you are not Kenyan"
+  pin: Your KRA PIN certificate
+  photos: Passport photos, at some banks
+  permit: Your work permit, dependant pass or foreigner certificate
+  address: Proof of address - a lease, a utility bill, or a letter from your employer
+  income: An employment letter or payslip, for a salary account
+  source: Proof of where foreign currency comes from, at some banks
+  business: The certificate of registration or incorporation, and the business's KRA PIN
+  directors: The IDs and KRA PINs of the owners or directors - and for a company, a recent CR12 and a board resolution naming who may sign
+  chama: The group's registration certificate and constitution
+  minutes: Minutes agreeing to open the account and naming the signatories, with the officials' IDs and KRA PINs
+  birth: The child's birth certificate
+  address-abroad: Proof of your address abroad, such as a utility bill
+  certified: Copies certified by a notary or a Kenyan embassy, at some banks
+
+accounts:
+  - id: savings
+    name: Savings account
+    ask: a savings account
+    scope: kenya
+    when: [saving]
+    reason: For keeping money aside, and paying a little interest.
+    text: >-
+      Pays a little interest. For saving more seriously, money market funds,
+      Treasury bills and SACCOs usually pay more.
+    watch: >-
+      How little the interest is, compared with a money market fund.
+    online: Most big banks let you start in their app, but you may need one branch visit.
+    docs: [id, pin, photos]
+    guide: guides/opening-a-bank-account.md#types-of-account
+
+  - id: current
+    name: Current or salary account
+    ask: a current or salary account
+    scope: kenya
+    when: [salary]
+    reason: For your salary, a card and paying bills.
+    text: >-
+      The everyday account, with a debit card, the app and links to M-Pesa.
+      Some charge a monthly fee, and salary accounts often waive it.
+    watch: >-
+      Monthly fees, and charges for moving money to M-Pesa. Ask whether your
+      employer's bank waives them.
+    online: Many banks let you start in their app; a salary account may need your employer's letter.
+    docs: [id, pin, photos, income]
+    guide: guides/opening-a-bank-account.md#types-of-account
+
+  - id: forex
+    name: Foreign currency account
+    ask: a foreign currency account
+    scope: both
+    when: [forex-here]
+    reason: For money you earn, receive or save in dollars, euros or pounds.
+    text: >-
+      US dollar, euro and sterling accounts are common, and are useful if you
+      are paid or save in another currency.
+    watch: >-
+      The exchange rate the bank uses when you convert, compared with the
+      mid-market rate.
+    online: Usually at a branch, or through a diaspora account from abroad.
+    docs: [id, pin, source]
+    docs_abroad: [source]
+    guide: guides/opening-a-bank-account.md#types-of-account
+
+  - id: business
+    name: Business account
+    ask: a business account
+    scope: kenya
+    when: [business]
+    reason: For a registered business or company, kept apart from your own money.
+    text: >-
+      For a business's payments and records. Lenders, KRA and clients take a
+      business more seriously when its money goes through its own account.
+    watch: >-
+      Ask for the bank's full list first - a company's paperwork is the
+      longest, and a CR12 has to be recent.
+    online: Usually started at a branch, with every signatory.
+    docs: [business, directors]
+    guide: guides/opening-a-bank-account.md#other-kinds-of-account
+
+  - id: chama
+    name: Chama or group account
+    ask: a chama account
+    scope: kenya
+    when: [chama]
+    reason: For a registered chama or self-help group.
+    text: >-
+      Holds the group's money in the group's name, with more than one official
+      needed to sign, so no single member can take it.
+    watch: >-
+      How many signatories must approve a withdrawal. More is safer.
+    online: Usually at a branch, with the officials who will sign.
+    docs: [chama, minutes]
+    guide: guides/chamas-in-kenya.md
+
+  - id: junior
+    name: Junior or children's account
+    ask: a junior account
+    scope: kenya
+    when: [child]
+    reason: For saving for a child, opened by a parent or guardian.
+    text: >-
+      Opened and run by a parent or guardian in the child's name, often for
+      school fees or a first savings habit.
+    watch: >-
+      What happens when the child turns 18, and whether the account pays more
+      than a money market fund would.
+    online: Ask whether the bank lets you open it in its app.
+    docs: [birth, id, pin]
+    guide: guides/opening-a-bank-account.md#other-kinds-of-account
+
+  - id: diaspora
+    name: Diaspora account
+    ask: a diaspora account
+    scope: abroad
+    when: []
+    reason: For Kenyans living abroad - opened online or by post, without coming home.
+    text: >-
+      Lets you save, pay family, build or invest in Kenya from abroad, in
+      shillings or in a foreign currency.
+    watch: >-
+      Which documents need certifying, and the cost of sending money into it.
+    online: Usually online or by post. Some banks want certified copies sent by courier.
+    docs: [id, pin, address-abroad, certified]
+    guide: guides/opening-a-bank-account.md#other-kinds-of-account
